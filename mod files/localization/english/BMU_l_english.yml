@@ -1,0 +1,34 @@
+﻿l_english:
+
+# Succession Window
+
+  CLAIMANT_FACTION_WINDOW_TITLE: "Claim for the [SuccessionElectionWindow.GetTitle.GetName]"
+  CLAIMANT_FACTION_WINDOW_LAW: "Faction members use their influence to legitimize their favorite claimant"
+  CLAIMANT_FACTION_WINDOW_RULES_ELECTORS: "Independent ruler Claimants may try to intervene"
+  CLAIMANT_FACTION_WINDOW_RULES_CANDIDATES: "A Claimant with enough support might challenge the current ruler"
+  CLAIMANT_FACTION_WINDOW_CANDIDATES: "Claimants ([GetDataModelSize( SuccessionElectionWindow.GetCandidates.GetList )])"
+  CLAIMANT_FACTION_WINDOW_ELECTORS: "Supporters ([GetDataModelSize( SuccessionElectionWindow.GetElectors.GetList )])"
+
+  VANILLA_SUCCESSION_ELECTION_WINDOW_TITLE:1 "Election for the [title_heir|E]"
+  VANILLA_SUCCESSION_ELECTION_WINDOW_LAW:0 "Succession Law: [SuccessionElectionWindow.GetSuccessionLaw.GetName]"
+  VANILLA_SUCCESSION_ELECTION_WINDOW_RULES_ELECTORS:0 "Electors: #bold [SuccessionElectionWindow.GetElectorsGrouping|E]#!"
+  VANILLA_SUCCESSION_ELECTION_WINDOW_RULES_CANDIDATES:0 "Candidates: #bold [SuccessionElectionWindow.GetCandidatesGrouping|E]#!"
+  VANILLA_SUCCESSION_ELECTION_WINDOW_CANDIDATES:2 "Candidates ([GetDataModelSize( SuccessionElectionWindow.GetCandidates.GetList )])"
+  VANILLA_SUCCESSION_ELECTION_WINDOW_ELECTORS:2 "Electors ([GetDataModelSize( SuccessionElectionWindow.GetElectors.GetList )])"
+
+# Claimant Faction
+
+DEPOSE_FACTION_TITLE_NAME:0 "[claimed_title.GetBaseNameNoTierNoTooltip] Claimant Faction"
+DEPOSE_FACTION_DYNAMIC_NAME: "[Scope.Var('claimant_faction').Title.GetBaseName]"
+depose_faction_short_effect_desc: "This faction wants to install their claimant on the throne"
+feudal_claimant_elective_law: "Claimant Faction"
+feudal_claimant_elective_electors: "Faction members"
+feudal_claimant_elective_candidates: "Title claimants"
+
+claimant_faction_already_exists: "There is already a Claimant Faction against your Liege"
+
+# Claim Window
+
+BMU_CLAIM_WINDOW_TITLE: "Claim for the [Story.MakeScope.Var('claimed_title').Title.GetName]"
+BMU_CLAIM_WINDOW_CONTENDERS: "Contenders"
+BMU_CLAIM_WINDOW_SUPPORTERS: "Supporters"

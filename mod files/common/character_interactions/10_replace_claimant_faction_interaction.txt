@@ -1,0 +1,175 @@
+﻿create_claimant_faction_against_interaction = {
+	category = interaction_category_vassal
+	use_diplomatic_range = no
+
+	desc = create_claimant_faction_against_interaction_desc
+
+	special_interaction = create_claimant_faction_against_interaction
+	interface = create_claimant_faction_against
+
+	is_shown = {
+		NOT = { scope:actor = scope:secondary_actor }
+		scope:actor.liege = scope:secondary_actor
+		scope:actor = {
+			custom_description = {
+				text = "faction_can_join_create_in_another_faction"
+				is_a_faction_member = no
+			}
+			custom_description = {
+				text = "faction_can_join_already_supporting_claim"
+				is_a_faction_member = no
+			}
+			highest_held_title_tier > tier_barony
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		# [BMU]
+		# custom_tooltip = {
+		# 	text = "claimant_faction_already_exists"
+		# 	subject = scope:actor.liege
+		# 	scope:actor.liege = {
+		# 		any_targeting_faction = {
+		# 			faction_is_type = claimant_faction
+		# 			count = 0
+		# 		}
+		# 	}
+		# }
+		# [/BMU]
+		scope:actor = { NOT = { has_truce = scope:secondary_actor }}
+		scope:secondary_actor = {
+			trigger_if = {
+				limit = {
+					NOT = {
+						any_held_title = {
+							any_claimant = {}
+						}
+					}
+				}
+				custom_description = {
+					text = "basic_claimant_found"
+					always = no
+				}
+			}
+			trigger_else = {
+				custom_description = {
+					text = "basic_capable_claimant_found"
+					any_held_title = {
+						any_claimant = {
+							NOT = { has_trait = incapable }
+						}
+					}
+				}
+			}
+
+			trigger_if = {
+				limit = {
+					exists = scope:landed_title
+				}
+				custom_description = {
+					text = "claimant_faction_already_exists"
+					subject = scope:landed_title
+					NOT = {
+						scope:secondary_actor = {
+							any_owned_story = {
+								story_type = BMU_claim_story
+								var:claimed_title = scope:landed_title
+							}
+						}
+					}
+				}
+			}
+		}
+		scope:actor = {
+			can_join_or_create_faction_against = {
+				who = scope:secondary_actor
+				faction = claimant_faction
+				check_in_a_faction = no # already checked in is_shown. Via the faction interface we'd see this twice if it fails (TIT-11380)
+			}
+		}
+		trigger_if = {
+			limit = {
+				exists = scope:recipient
+			}
+			scope:recipient = {
+				NOT = { is_at_war_with = scope:actor }
+				NOT = { has_trait = incapable }
+			}
+		}
+		scope:secondary_actor = { NOT = { has_strong_hook = scope:actor } }
+	}
+
+	on_send = {
+		scope:actor = {
+			set_variable = {
+				name = claiming_title
+				value = scope:landed_title
+			}
+
+			if = {
+				limit = {
+					can_create_faction = {
+						type = claimant_faction
+						target = scope:secondary_actor
+					}
+				}
+
+				# [BMU]
+				scope:secondary_actor = {
+					set_variable = { name = claimed_title value = scope:landed_title }
+					create_story = {
+						type = BMU_claim_story
+						save_scope_as = BMU_claim_story
+					}
+				}
+
+				scope:BMU_claim_story = {
+					# set_variable = { name = claimed_title value = scope:landed_title }
+					# set_variable = { name = claim_target value = scope:secondary_actor }
+					add_to_variable_list = {
+						name = claimants
+						target = scope:secondary_actor
+					}
+					add_to_variable_list = {
+						name = claimants
+						target = scope:recipient
+					}
+					add_to_variable_list = {
+						name = supporters
+						target = scope:actor
+					}
+					add_to_variable_list = {
+						name = supporters
+						target = scope:secondary_actor
+					}
+					add_to_variable_list = {
+						name = supporters
+						target = scope:recipient
+					}
+				}
+				if = {
+					limit = { NOT = { scope:actor = scope:recipient }}
+					set_relation_supported_claimant = scope:recipient
+				}
+				# scope:secondary_actor = {
+				# 	set_relation_contender = scope:secondary_actor
+				# }
+				# [/BMU]
+				
+				# if = {
+				# 	limit = { NOT = { this = scope:recipient } }
+				# 	save_scope_as = faction_invite_from
+				# 	joined_faction = { save_scope_as = faction }
+				# 	scope:secondary_actor = { save_scope_as = faction_target }
+				# 	scope:recipient = {
+				# 		trigger_event = faction_invitation.0001
+				# 	}
+				# }
+			}
+
+			remove_variable = claiming_title
+		}
+	}
+
+	auto_accept = yes
+}

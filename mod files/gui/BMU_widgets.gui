@@ -1,0 +1,685 @@
+window = {
+	name = "BMU_claim_window"
+	widgetid = "BMU_claim"
+	parentanchor = center
+	size = { 1100 750 }
+	position = { 0 0 }
+	layer = top
+	filter_mouse = all
+	alwaystransparent = no
+
+	visible = "[GetVariableSystem.Exists('BMU_claim_window')]"
+	
+	using = Background_Fade
+	using = Window_Background_Popup
+
+
+	state = {
+		name = "_show"
+		on_start = "[GetVariableSystem.Set('BMU_claim_window_tab','contenders')]"
+	}
+
+	margin_widget = {
+		size = { 100% 100% }
+		margin = { 0 5 }
+		# # margin_right = 13
+
+		widget = {
+			size = { 100% 100% }
+			datamodel = "[GetGlobalList('BMU_claim_stories')]"
+			item = {
+				vbox = {
+					visible = "[EqualTo_string(Scope.Var('claimed_title').Title.GetKey,GetVariableSystem.Get('BMU_claim_window'))]"
+					datacontext = "[Scope.Story]"
+					margin_left = 10
+					margin_right = 10
+
+					header_pattern = {
+						layoutpolicy_horizontal = expanding
+
+						blockoverride "header_text"
+						{
+							text = "BMU_CLAIM_WINDOW_TITLE"
+							# text = "[Scope.Var('claimed_title').Title.GetName]"
+						}
+
+						blockoverride "button_close"
+						{
+							onclick = "[GetVariableSystem.Clear('BMU_claim_window')]"
+						}
+					}
+
+					hbox = {
+						layoutpolicy_horizontal = expanding
+
+						button_tab = {
+							name = "court_positions_tab_button_tutorial_uses_this"
+							layoutpolicy_horizontal = expanding
+							text = "BMU_CLAIM_WINDOW_CONTENDERS"
+
+							onclick = "[GetVariableSystem.SetOrToggle('BMU_claim_window_tab','contenders')]"
+							down = "[GetVariableSystem.HasValue('BMU_claim_window_tab','contenders')]"
+
+							text_single = {
+								parentanchor = vcenter|right
+								position = { -20 -2 }
+								text = "[GetDataModelSize(Story.MakeScope.GetList('claimants'))]"
+
+								default_format = "#low"
+
+								alpha = "[Select_float( GreaterThan_int32(GetDataModelSize(Story.MakeScope.GetList('claimants')), '(int32)0'), '(float)1.0', '(float)0.5' )]"
+							}
+						}
+
+						button_tab = {
+							layoutpolicy_horizontal = expanding
+							text = "BMU_CLAIM_WINDOW_SUPPORTERS"
+
+							onclick = "[GetVariableSystem.SetOrToggle('BMU_claim_window_tab','supporters')]"
+							down = "[GetVariableSystem.HasValue('BMU_claim_window_tab','supporters')]"
+
+							text_single = {
+								parentanchor = vcenter|right
+								position = { -20 -2 }
+								text = "[GetDataModelSize(Story.MakeScope.GetList('supporters'))]"
+
+								default_format = "#low"
+
+								alpha = "[Select_float( GreaterThan_int32(GetDataModelSize(Story.MakeScope.GetList('supporters')), '(int32)0'), '(float)1.0', '(float)0.5' )]"
+							}
+						}
+					}
+
+					vbox = {
+						visible = "[GetVariableSystem.HasValue('BMU_claim_window_tab','contenders')]"
+						margin_bottom = 10
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						scrollbox = {
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+							blockoverride "scrollbox_content" {
+								datamodel = "[Story.MakeScope.GetList('claimants')]"
+								item = {
+									hbox = {
+										datacontext = "[Scope.Char]"
+										layoutpolicy_horizontal = expanding
+										BMU_widget_character_list_item = {
+											minimumsize = { 850 0 }
+											
+										}
+										expand = {}
+									}
+								}
+							}
+						}
+					}
+
+					vbox = {
+						visible = "[GetVariableSystem.HasValue('BMU_claim_window_tab','supporters')]"
+						margin_bottom = 10
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						scrollbox = {
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+							blockoverride "scrollbox_content" {
+								datamodel = "[Story.MakeScope.GetList('supporters')]"
+								item = {
+									hbox = {
+										datacontext = "[Scope.Char]"
+										layoutpolicy_horizontal = expanding
+										BMU_widget_character_list_item = {
+											minimumsize = { 850 0 }
+											
+										}
+										expand = {}
+									}
+								}
+							}
+						}
+					}
+
+					expand = {}
+				}
+			}
+		}
+	}
+
+	# vbox = {
+	# 	datamodel = "[GetPlayer.MakeScope.GetList('claimed_titles')]"
+	# 	item = {
+	# 		widget = {
+	# 			datacontext = "[Scope.Var('claimed_title').Title]"
+	# 			visible = "[EqualTo_string(Title.GetKey,GetVariableSystem.Get('BMU_claim_window'))]"
+	# 			button_hud_character_bar = {
+	# 				# datacontext = "["
+	# 				name = "house_button"
+	# 				parentanchor = bottom
+			
+	# 				using = tooltip_ne
+			
+	# 				tooltipwidget = {
+	# 					using = LandedTitleTooltip
+	# 				}
+			
+	# 				coa_title_tiny_crown = {
+	# 					parentanchor = center
+	# 					position = { 0 3 }
+	# 					using = tooltip_ne
+	# 					scale = 0.92
+			
+	# 					blockoverride "coa_button"
+	# 					{
+	# 						alwaystransparent = yes
+	# 					}
+			
+	# 					blockoverride "coa_tooltip"
+	# 					{}
+	# 				}
+	# 			}
+	# 		}
+	# 	}
+	# }
+
+}
+
+window = {
+	name = "BMU_claim_icon"
+	widgetid = "BMU_claim_icon"
+	position = { 460 -40 }
+	layer = hud_layer
+	# filter_mouse = all
+	alwaystransparent = no
+	parentanchor = bottom|left
+	allow_outside = yes
+
+	# using = Window_Background_Sidebar
+	# using = Window_Decoration
+	using = Window_Movable
+
+	background = {
+        texture = "gfx/interface/skinned/button_hud_character_bar.dds"
+        spriteType = Corneredtiled
+        spriteborder = { 18 0 }
+        texture_density = 2
+
+        modify_texture = {
+            texture = "gfx/interface/component_overlay/overlay_effect.dds"
+            blend_mode = overlay
+        }
+
+        block "bg_margins"
+        {
+            margin = { -23 -17 }
+        }
+    }
+
+	hbox = {
+		
+		flowcontainer = {
+			ignoreinvisible = yes
+			datamodel = "[GetGlobalList('BMU_claim_stories')]"
+			item = {
+				widget = {
+					# allow_outside = yes
+					parentanchor = bottom
+					datacontext = "[Scope.Var('claimed_title').Title]"
+					visible = "[ObjectsEqual(Scope.Var('claim_target').Char,GetPlayer)]"
+					# visible = no
+					size = { 40 40 }
+					# coa_title_tiny_crown = {
+						
+					# 	parentanchor = bottom
+					# 	position = { 0 3 }
+					# 	using = tooltip_ne
+					# 	scale = 0.92
+			
+					# 	# blockoverride "coa_button"
+					# 	# {
+					# 	# 	alwaystransparent = yes
+					# 	# }
+			
+					# 	blockoverride "coa_tooltip"
+					# 	{}
+					# }
+					coa_title_tiny_crown = {
+						parentanchor = bottom
+						blockoverride "coa_button"
+						{
+							onclick = "[GetVariableSystem.SetOrToggle('BMU_claim_window',Scope.Var('claimed_title').Title.GetKey)]"
+						}
+					}
+				}
+			}
+		}
+
+		flowcontainer = {
+			ignoreinvisible = yes
+			datamodel = "[GetGlobalList('BMU_claim_stories')]"
+			item = {
+				widget = {
+					# allow_outside = yes
+					datacontext = "[Scope.Var('claimed_title').Title]"
+					# visible = "[And(Not(ObjectsEqual(Scope.Var('claim_target').Char,GetPlayer)),GetScriptedGui('BMU_claim_window').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('story',Scope.Self).End))]"
+					# visible = "[Not(ObjectsEqual(Scope.Var('claim_target').Char,GetPlayer))]"
+					visible = "[And(Not(ObjectsEqual(Scope.Var('claim_target').Char,GetPlayer)),GetScriptedGui('BMU_claim_player_involved').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('story',Scope.Story.MakeScope).End))]"
+					size = { 40 40 }
+					coa_title_tiny_crown = {
+						parentanchor = bottom
+						blockoverride "coa_button"
+						{
+							onclick = "[GetVariableSystem.SetOrToggle('BMU_claim_window',Scope.Var('claimed_title').Title.GetKey)]"
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+types BMU_Lists {
+	type BMU_widget_character_list_item = widget {
+		parentanchor = left
+		datacontext = "[Scope.Char]"
+		size = { 10 110 }
+
+		block "divider" {
+			divider = {
+				parentanchor = bottom|hcenter
+				size = { 100% 3 }
+			}
+		}
+
+		block "widget" {}
+
+		hbox = {
+			margin = { 0 5 }
+			spacing = 15
+
+			portrait_head_small = {}
+
+			button_standard = {
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+
+				# onclick = "[CharacterListItem.OnClick('character')]"
+				# enabled = "[CharacterListItem.IsSelectable]"
+				# tooltip = "[CharacterListItem.GetUnselectableReason]"
+
+				framesize = { 249 78 }
+				spriteType = Corneredtiled
+				spriteborder = { 20 20 }
+				texture = "gfx/interface/buttons/button_entry_characterlist.dds"
+
+				block "button" {}
+
+				character_list_arrow = {
+					name = "character_list_arrow"
+				}
+
+				block "overlay" {
+					using = default_character_list_overlay
+				}
+
+				block "button_content"
+				{
+					hbox = {
+						layoutpolicy_horizontal = expanding
+						vbox = {
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+
+							# Name and age
+							vbox = {
+								layoutpolicy_horizontal = expanding
+								layoutpolicy_vertical = expanding
+								margin_left = 10
+
+								text_single = {
+									layoutpolicy_horizontal = expanding
+									using = Font_Size_Medium
+									autoresize = no
+									alwaystransparent = yes
+
+									text = "[Character.GetUINameNoTooltip]"
+								}
+
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									layoutpolicy_vertical = expanding
+
+									using = character_age_or_death_text
+									blockoverride "list_layout" {}
+
+									block "character_relation"
+									{
+										text_single = {
+											name = "character_relation"
+											layoutpolicy_horizontal = expanding
+											raw_text = "|  [Character.GetRelationToString( GetPlayer )]"
+											tooltip = "EXTENDED_RELATIONS_TOOLTIP"
+											default_format = "#low"
+											autoresize = no
+											align = nobaseline
+											visible = "[Character.HasRelationTo( GetPlayer )]"
+											alwaystransparent = yes
+										}
+
+										expand = {
+											visible = "[Not(Character.HasRelationTo( GetPlayer ))]"
+										}
+									}
+								}
+							}
+
+							# Dynasty
+							hbox = {
+								layoutpolicy_horizontal = expanding
+								layoutpolicy_vertical = expanding
+								margin_left = 5
+
+								widget = {
+									size = { 45 60 }
+
+									coa_house_small = {
+										datacontext = "[Character.GetHouse]"
+										scale = 0.7
+									}
+								}
+
+								# Traits
+
+								# fixedgridbox = {
+								# 	name = "traits_grid"
+								# 	datamodel = "[CharacterListItem.GetTraits]"
+								# 	flipdirection = yes
+								# 	size = { 150 60 }
+								# 	addcolumn = 30
+								# 	addrow = 45
+								# 	maxhorizontalslots = 8
+								# 	maxverticalslots = 1
+
+								# 	item = {
+								# 		container = {
+								# 			visible = "[Trait.IsValid]"
+
+								# 			icon_trait = {
+								# 				blockoverride "icon_size"
+								# 				{
+								# 					size = { 30 30 }
+								# 				}
+
+								# 				blockoverride "tooltip_placement"
+								# 				{
+								# 					using = tooltip_se
+								# 				}
+
+								# 				blockoverride "glow_radius"
+								# 				{
+								# 					glow_radius = 3
+								# 				}
+								# 			}
+								# 		}
+								# 	}
+								# }
+
+								block "bottom_middle_box" {
+									expand  = {}
+								}
+
+							}
+						}
+
+						expand = {}
+
+						vbox = {
+							minimumsize = { 200 0 }
+							# datacontext = "[CharacterListItem.GetCharacter]"
+							layoutpolicy_vertical = expanding
+							margin_top = 5
+							margin_right = 5
+
+							# Skills
+							hbox = {
+								name = "skills_grid"
+								layoutpolicy_horizontal = expanding
+
+								expand = {}
+
+								hbox = {
+									widget = {
+										size = { 32 25 }
+
+										text_single = {
+											name = "value"
+											parentanchor = center
+											margin_bottom = 4
+											align = center
+											text = "[Character.MakeScope.ScriptValue('gui_diplomacy')]"
+											tooltip = "[SkillItem.GetName]"
+										}
+
+										background = {
+											name = "skill_icon_bg"
+											texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+											framesize = { 70 26 }
+											margin = { 5 0 }
+
+											block "bg"
+											{
+												frame = 1
+											}
+										}
+
+									}
+									widget = {
+										size = { 32 25 }
+
+										text_single = {
+											name = "value"
+											parentanchor = center
+											margin_bottom = 4
+											align = center
+											text = "[Character.MakeScope.ScriptValue('gui_martial')]"
+											tooltip = "[SkillItem.GetName]"
+										}
+
+										background = {
+											name = "skill_icon_bg"
+											texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+											framesize = { 70 26 }
+											margin = { 5 0 }
+
+											block "bg"
+											{
+												frame = 2
+											}
+										}
+
+									}
+									widget = {
+										size = { 32 25 }
+
+										text_single = {
+											name = "value"
+											parentanchor = center
+											margin_bottom = 4
+											align = center
+											text = "[Character.MakeScope.ScriptValue('gui_stewardship')]"
+											tooltip = "[SkillItem.GetName]"
+										}
+
+										background = {
+											name = "skill_icon_bg"
+											texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+											framesize = { 70 26 }
+											margin = { 5 0 }
+
+											block "bg"
+											{
+												frame = 3
+											}
+										}
+
+									}
+									widget = {
+										size = { 32 25 }
+
+										text_single = {
+											name = "value"
+											parentanchor = center
+											margin_bottom = 4
+											align = center
+											text = "[Character.MakeScope.ScriptValue('gui_intrigue')]"
+											tooltip = "[SkillItem.GetName]"
+										}
+
+										background = {
+											name = "skill_icon_bg"
+											texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+											framesize = { 70 26 }
+											margin = { 5 0 }
+
+											block "bg"
+											{
+												frame = 4
+											}
+										}
+
+									}
+									widget = {
+										size = { 32 25 }
+
+										text_single = {
+											name = "value"
+											parentanchor = center
+											margin_bottom = 4
+											align = center
+											text = "[Character.MakeScope.ScriptValue('gui_learning')]"
+											tooltip = "[SkillItem.GetName]"
+										}
+
+										background = {
+											name = "skill_icon_bg"
+											texture = "gfx/interface/window_character/character_view_skills_bg.dds"
+											framesize = { 70 26 }
+											margin = { 5 0 }
+
+											block "bg"
+											{
+												frame = 5
+											}
+										}
+
+									}
+								}
+							}
+
+							expand = {}
+
+							block "bottom_right_box"
+							{
+								hbox = {
+									layoutpolicy_horizontal = expanding
+									layoutpolicy_vertical = expanding
+
+									# Realm
+									widget = {
+										size = {55 58 }
+										# visible = "[Not( IsDataModelEmpty( Character.GetTitles ) )]"
+
+										block "claims_visibility" {}
+
+										datacontext = "[Story.MakeScope.Var('claimed_title').Title]"
+
+										coa_title_tiny_crown = {
+											using = tooltip_ne
+											
+
+											highlight_icon = {
+												name = "pressed_claim"
+												visible = "[GetScriptedGui('BMU_has_strong_claim').IsShown(GuiScope.SetRoot(Character.MakeScope).AddScope('title',Title.MakeScope).End)]"
+												texture = "gfx/interface/icons/title_status/icon_claim_pressed.dds"
+												size = { 24 24 }
+												parentanchor = bottom|right
+											}
+
+											highlight_icon = {
+												name = "unpressed_claim"
+												visible = "[GetScriptedGui('BMU_has_weak_claim').IsShown(GuiScope.SetRoot(Character.MakeScope).AddScope('title',Title.MakeScope).End)]"
+												texture = "gfx/interface/icons/title_status/icon_claim_unpressed.dds"
+												size = { 24 24 }
+												parentanchor = bottom|right
+											}
+
+											highlight_icon = {
+												name = "implicit_claim"
+												visible = "[GetScriptedGui('BMU_has_implicit_claim').IsShown(GuiScope.SetRoot(Character.MakeScope).AddScope('title',Title.MakeScope).End)]"
+												texture = "gfx/interface/icons/title_status/icon_claim_implicit.dds"
+												size = { 24 24 }
+												parentanchor = bottom|right
+											}
+
+											blockoverride "coa_tooltip"
+											{
+												
+											}
+										}
+
+										# text_single = {
+										# 	align = right
+										# 	minimumsize = { 15 0 }
+										# 	parentanchor = vcenter|right
+										# 	text = "[CharacterListItem.GetTitleItemCount]"
+										# 	tooltip = "CHARACTER_LIST_CLAIM_TOOLTIP"
+										# }
+									}
+
+									expand = {}
+
+									# Religion
+									icon = {
+										name = "faith_button"
+										size = { 35 35 }
+										datacontext = "[Character.GetFaith]"
+										tooltipwidget = { faith_tooltip = {} }
+										texture = "[Faith.GetIcon]"
+									}
+
+									widget = {
+										datacontext = "[Character.GetCulture]"
+										size = { 120 24 }
+
+										tooltipwidget = {
+											culture_tooltip = {}
+										}
+										using = tooltip_se
+
+										hbox = {
+											spacing = 3
+
+											icon = {
+												name = "culture"
+												texture = "gfx/interface/icons/icon_culture.dds"
+												size = { 24 24 }
+											}
+
+											text_multi = {
+												layoutpolicy_horizontal = expanding
+												min_width = 95
+												max_width = 95
+												autoresize = yes
+												text = "CULTURE_LISTS_WINDOW"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

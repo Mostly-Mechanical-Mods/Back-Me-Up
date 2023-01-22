@@ -1,0 +1,17 @@
+﻿l_english:
+
+# gui/successsion_election_window_l_english.yml
+
+  SUCCESSION_ELECTION_WINDOW_TITLE: "[Select_CString(SuccessionElectionWindow.GetTitle.MakeScope.Var('claimed_title').IsSet,Localize('CLAIMANT_FACTION_WINDOW_TITLE'),Localize('VANILLA_SUCCESSION_ELECTION_WINDOW_TITLE'))]"
+  SUCCESSION_ELECTION_WINDOW_LAW: "[Select_CString(SuccessionElectionWindow.GetTitle.MakeScope.Var('claimed_title').IsSet,Localize('CLAIMANT_FACTION_WINDOW_LAW'),Localize('VANILLA_SUCCESSION_ELECTION_WINDOW_LAW'))]"
+  SUCCESSION_ELECTION_WINDOW_RULES_ELECTORS: "[Select_CString(SuccessionElectionWindow.GetTitle.MakeScope.Var('claimed_title').IsSet,Localize('CLAIMANT_FACTION_WINDOW_RULES_ELECTORS'),Localize('VANILLA_SUCCESSION_ELECTION_WINDOW_RULES_ELECTORS'))]"
+  SUCCESSION_ELECTION_WINDOW_RULES_CANDIDATES: "[Select_CString(SuccessionElectionWindow.GetTitle.MakeScope.Var('claimed_title').IsSet,Localize('CLAIMANT_FACTION_WINDOW_RULES_CANDIDATES'),Localize('VANILLA_SUCCESSION_ELECTION_WINDOW_RULES_CANDIDATES'))]"
+  SUCCESSION_ELECTION_WINDOW_CANDIDATES: "[Select_CString(SuccessionElectionWindow.GetTitle.MakeScope.Var('claimed_title').IsSet,Localize('CLAIMANT_FACTION_WINDOW_CANDIDATES'),Localize('VANILLA_SUCCESSION_ELECTION_WINDOW_CANDIDATES'))]"
+  SUCCESSION_ELECTION_WINDOW_ELECTORS: "[Select_CString(SuccessionElectionWindow.GetTitle.MakeScope.Var('claimed_title').IsSet,Localize('CLAIMANT_FACTION_WINDOW_ELECTORS'),Localize('VANILLA_SUCCESSION_ELECTION_WINDOW_ELECTORS'))]"
+
+
+# claimant_faction_short_effect_desc: "claimant_faction_short_effect_desc"
+ FACTION_CLAMAINT_DYNAMIC_NAME:0 "Faction for a claim on the [ROOT.Faction.GetSpecialTitle.GetAdjective] Throne"
+
+
+ NOT_claimant_faction_already_exists:0 "A [claim|E] on [TITLE.GetName] is already being pressed."

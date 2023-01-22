@@ -1,0 +1,48 @@
+﻿BMU_claim_player_involved = {
+	scope = character
+	saved_scopes = {
+		story
+	}
+	is_shown = {
+		# always = no
+		scope:story = {
+			is_target_in_variable_list = {
+				name = supporters
+				target = root
+			}
+		}
+	}
+}
+
+BMU_has_strong_claim = {
+	scope = character
+	saved_scopes = {
+		title
+	}
+	is_shown = {
+		has_strong_claim_on = scope:title
+	}
+}
+
+BMU_has_weak_claim = {
+	scope = character
+	saved_scopes = {
+		title
+	}
+	is_shown = {
+		has_weak_claim_on = scope:title
+	}
+}
+
+BMU_has_implicit_claim = {
+	scope = character
+	saved_scopes = {
+		title
+	}
+	is_shown = {
+		NOR = {
+			has_claim_on = scope:title
+			has_title = scope:title
+		}
+	}
+}

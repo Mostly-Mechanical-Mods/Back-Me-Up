@@ -1,0 +1,13 @@
+﻿on_claimant_faction_created = {
+	trigger = {
+		# exists = scope:pressed_claim
+	}
+	effect = {
+		# scope:claimant_faction.faction_leader = {
+		# 	create_story = {
+		# 		type = BMU_claimant_faction_story
+		# 		save_scope_as = BMU_claimant_faction_story
+		# 	}
+		# }
+	}
+}
