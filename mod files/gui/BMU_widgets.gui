@@ -53,11 +53,10 @@ window = {
 						layoutpolicy_horizontal = expanding
 
 						button_tab = {
-							name = "court_positions_tab_button_tutorial_uses_this"
 							layoutpolicy_horizontal = expanding
-							text = "BMU_CLAIM_WINDOW_CONTENDERS"
+							text = "BMU_CLAIM_WINDOW_CLAIMANTS"
 
-							onclick = "[GetVariableSystem.SetOrToggle('BMU_claim_window_tab','contenders')]"
+							onclick = "[GetVariableSystem.SetOrToggle('BMU_claim_window_tab','claimants')]"
 							down = "[GetVariableSystem.HasValue('BMU_claim_window_tab','contenders')]"
 
 							text_single = {
@@ -68,6 +67,42 @@ window = {
 								default_format = "#low"
 
 								alpha = "[Select_float( GreaterThan_int32(GetDataModelSize(Story.MakeScope.GetList('claimants')), '(int32)0'), '(float)1.0', '(float)0.5' )]"
+							}
+						}
+
+						button_tab = {
+							layoutpolicy_horizontal = expanding
+							text = "BMU_CLAIM_WINDOW_CONTENDERS"
+
+							onclick = "[GetVariableSystem.SetOrToggle('BMU_claim_window_tab','contenders')]"
+							down = "[GetVariableSystem.HasValue('BMU_claim_window_tab','contenders')]"
+
+							text_single = {
+								parentanchor = vcenter|right
+								position = { -20 -2 }
+								text = "[GetDataModelSize(Story.MakeScope.GetList('contenders'))]"
+
+								default_format = "#low"
+
+								alpha = "[Select_float( GreaterThan_int32(GetDataModelSize(Story.MakeScope.GetList('contenders')), '(int32)0'), '(float)1.0', '(float)0.5' )]"
+							}
+						}
+
+						button_tab = {
+							layoutpolicy_horizontal = expanding
+							text = "BMU_CLAIM_WINDOW_STAKEHOLDERS"
+
+							onclick = "[GetVariableSystem.SetOrToggle('BMU_claim_window_tab','stakeholders')]"
+							down = "[GetVariableSystem.HasValue('BMU_claim_window_tab','stakeholders')]"
+
+							text_single = {
+								parentanchor = vcenter|right
+								position = { -20 -2 }
+								text = "[GetDataModelSize(Story.MakeScope.GetList('stakeholders'))]"
+
+								default_format = "#low"
+
+								alpha = "[Select_float( GreaterThan_int32(GetDataModelSize(Story.MakeScope.GetList('stakeholders')), '(int32)0'), '(float)1.0', '(float)0.5' )]"
 							}
 						}
 
@@ -91,7 +126,7 @@ window = {
 					}
 
 					vbox = {
-						visible = "[GetVariableSystem.HasValue('BMU_claim_window_tab','contenders')]"
+						visible = "[GetVariableSystem.HasValue('BMU_claim_window_tab','claimants')]"
 						margin_bottom = 10
 						layoutpolicy_horizontal = expanding
 						layoutpolicy_vertical = expanding
@@ -100,6 +135,56 @@ window = {
 							layoutpolicy_vertical = expanding
 							blockoverride "scrollbox_content" {
 								datamodel = "[Story.MakeScope.GetList('claimants')]"
+								item = {
+									hbox = {
+										datacontext = "[Scope.Char]"
+										layoutpolicy_horizontal = expanding
+										BMU_widget_character_list_item = {
+											minimumsize = { 850 0 }
+											
+										}
+										expand = {}
+									}
+								}
+							}
+						}
+					}
+
+					vbox = {
+						visible = "[GetVariableSystem.HasValue('BMU_claim_window_tab','contenders')]"
+						margin_bottom = 10
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						scrollbox = {
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+							blockoverride "scrollbox_content" {
+								datamodel = "[Story.MakeScope.GetList('contenders')]"
+								item = {
+									hbox = {
+										datacontext = "[Scope.Char]"
+										layoutpolicy_horizontal = expanding
+										BMU_widget_character_list_item = {
+											minimumsize = { 850 0 }
+											
+										}
+										expand = {}
+									}
+								}
+							}
+						}
+					}
+
+					vbox = {
+						visible = "[GetVariableSystem.HasValue('BMU_claim_window_tab','stakeholders')]"
+						margin_bottom = 10
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+						scrollbox = {
+							layoutpolicy_horizontal = expanding
+							layoutpolicy_vertical = expanding
+							blockoverride "scrollbox_content" {
+								datamodel = "[Story.MakeScope.GetList('stakeholders')]"
 								item = {
 									hbox = {
 										datacontext = "[Scope.Char]"
@@ -428,6 +513,19 @@ types BMU_Lists {
 									expand  = {}
 								}
 
+								text_single = {
+									text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Story.MakeScope.Var('claimed_title').Title.GetHolder.MakeScope).AddScope('story',Story.MakeScope).ScriptValue('candidate_score')]"
+									tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Story.MakeScope.Var('claimed_title').Title.GetHolder.MakeScope).AddScope('story',Story.MakeScope).GetScriptValueDesc('candidate_score')]"
+								}
+
+								spacer = {
+									size = { 10 0 }
+								}
+
+								text_single = {
+									text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Character.MakeScope).AddScope('story',Story.MakeScope).ScriptValue('candidate_score')]"
+									tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Character.MakeScope).AddScope('story',Story.MakeScope).GetScriptValueDesc('candidate_score')]"
+								}
 							}
 						}
 
@@ -680,6 +778,7 @@ types BMU_Lists {
 					}
 				}
 			}
+
 		}
 	}
 }

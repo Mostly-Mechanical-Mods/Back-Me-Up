@@ -12,6 +12,7 @@
 			name = BMU_claim_stories
 			target = scope:story
 		}
+		set_variable = contention_phase
 		set_variable = { name = claimed_title value = story_owner.var:claimed_title }
 		set_variable = { name = claim_target value = story_owner }
 		story_owner = {
@@ -23,57 +24,142 @@
 		var:claimed_title = {
 			every_claimant = {
 				explicit = all
-				scope:story = {
-					add_to_variable_list = {
-						name = claimants
-						target = prev
-					}
-				}
-				scope:story = {
-					add_to_variable_list = {
-						name = supporters
-						target = prev
-					}
-				}
-				if = {
-					limit = { NOT = { this = scope:story.story_owner }}
-					add_to_variable_list = {
-						name = claim_support
-						target = scope:story
-					}
-				}
+				add_to_list = claimants
 			}
 		}
-		story_owner = {
-			every_vassal = {
-				scope:story = { add_to_variable_list = { name = supporters target = prev }}
+		ordered_in_list = {
+			list = claimants
+			order_by = {
+				value = 0
+				if = {
+					limit = { has_title = scope:story.var:claimed_title }
+					add = 10000
+				}
+				if = {
+					limit = { has_strong_claim_on = scope:story.var:claimed_title }
+					add = 1000
+				}
+				else_if = {
+					limit = { has_weak_claim_on = scope:story.var:claimed_title }
+					add = 900
+				}
+				else = {
+					add = 800
+				}
+				add = highest_held_title_tier
 			}
-			every_realm_county = {
-				every_de_jure_top_liege = {
-					scope:story = { add_to_variable_list = { name = supporters target = prev }}
+			prev = {
+				add_to_variable_list = {
+					name = claimants
+					target = prev
+				}
+			}
+			trigger_event = {
+				id = BMU_claim_story.0010
+				days = 1
+			}
+		}
+	}
+	
+	on_end = {
+	}
+
+	on_owner_death = {
+	}
+
+	effect_group = {
+		# months = 1
+		days = 1
+		first_valid = {
+			triggered_effect = {
+				trigger = {
+					has_variable = rallying_phase
+				}
+				effect = {
 					if = {
-						limit = { NOT = { this = scope:story.story_owner }}
-						add_to_variable_list = {
-							name = claim_support
-							target = scope:story
+						limit = { var:rallying_phase = 5 }
+						remove_variable = rallying_phase
+						set_variable = {
+							name = declaration_phase
+							value = 0
+						}
+					}
+					else = {
+						change_variable = {
+							name = rallying_phase
+							add = 1
 						}
 					}
 				}
 			}
-		}
-	}
-	on_end = {
-	}
-	on_owner_death = {
-	}
-	effect_group = {
-		months = 1
-		triggered_effect = {
-			trigger = {
-				
+			triggered_effect = {
+				trigger = {
+					has_variable = contention_phase
+					has_variable = stakeholders_added
+				}
+				effect = {
+					remove_variable = contention_phase
+					set_variable = {
+						name = rallying_phase
+						value = 0
+					}
+				}
 			}
-			effect = {
-				
+			triggered_effect = {
+				trigger = {
+					has_variable = contention_phase
+					NOT = { has_variable = stakeholders_added }
+				}
+				effect = {
+					set_variable = stakeholders_added
+					story_owner = {
+						every_vassal = {
+							add_to_list = stakeholders
+						}
+						every_realm_county = {
+							every_de_jure_top_liege = {
+								add_to_list = stakeholders
+							}
+						}
+						if = {
+							limit = { exists = faith.religious_head }
+							faith.religious_head = {
+								add_to_list = stakeholders
+							}
+						}
+					}
+					every_in_list = {
+						variable = contenders
+						every_ally = {
+							add_to_list = stakeholders
+						}
+						every_relation = {
+							type = friend
+							add_to_list = stakeholders
+						}
+						every_relation = {
+							type = rival
+							add_to_list = stakeholders
+						}
+						house.house_head = {
+							add_to_list = stakeholders
+						}
+					}
+					ordered_in_list = {
+						list = stakeholders
+						order_by = highest_held_title_tier
+						prev = {
+							add_to_variable_list = {
+								name = stakeholders
+								target = prev
+							}
+						}
+						trigger_event = {
+							id = BMU_claim_story.0011
+							days = 1
+						}
+					}
+				}
 			}
 		}
 	}
