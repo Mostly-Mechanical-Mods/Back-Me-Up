@@ -17,5 +17,14 @@ BMU_error_suppression.0001 = {
 		fix_variable_error = { X = claim_target }
 		fix_variable_error = { X = claimed_titles }
 		fix_variable_error = { X = claim_support }
+		fix_variable_error = { X = contender }
+		fix_variable_error = { X = stakeholder }
+		fix_variable_error = { X = supporter }
+		fix_variable_error = { X = dropout }
+		fix_variable_error = { X = declaration_phase }
+		fix_variable_error = { X = claimant_refused }
+		fix_variable_error = { X = status }
+		fix_variable_error = { X = BMU_vote_stories }
+		fix_variable_error = { X = supporters }
 	}
 }

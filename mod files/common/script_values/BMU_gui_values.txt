@@ -1,5 +1,0 @@
-﻿gui_diplomacy = { value = diplomacy }
-gui_martial = { value = martial }
-gui_stewardship = { value = stewardship }
-gui_intrigue = { value = intrigue }
-gui_learning = { value = learning }

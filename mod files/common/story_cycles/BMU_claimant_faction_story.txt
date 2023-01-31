@@ -1,64 +1,6 @@
-﻿BMU_claim_story = {
+﻿BMU_press_claim_story = {
 	on_setup = {
-		if = {
-			limit = {
-				debug_only = yes
-				NOT = { exists = story_owner.var:claimed_title }
-			}
-			debug_log = "BMU_claim_story - no claimed title"
-			debug_log_scopes = yes
-		}
-		add_to_global_variable_list = {
-			name = BMU_claim_stories
-			target = scope:story
-		}
-		set_variable = contention_phase
-		set_variable = { name = claimed_title value = story_owner.var:claimed_title }
-		set_variable = { name = claim_target value = story_owner }
-		story_owner = {
-			add_to_variable_list = {
-				name = claimed_titles
-				target = scope:story
-			}
-		}
-		var:claimed_title = {
-			every_claimant = {
-				explicit = all
-				add_to_list = claimants
-			}
-		}
-		ordered_in_list = {
-			list = claimants
-			order_by = {
-				value = 0
-				if = {
-					limit = { has_title = scope:story.var:claimed_title }
-					add = 10000
-				}
-				if = {
-					limit = { has_strong_claim_on = scope:story.var:claimed_title }
-					add = 1000
-				}
-				else_if = {
-					limit = { has_weak_claim_on = scope:story.var:claimed_title }
-					add = 900
-				}
-				else = {
-					add = 800
-				}
-				add = highest_held_title_tier
-			}
-			prev = {
-				add_to_variable_list = {
-					name = claimants
-					target = prev
-				}
-			}
-			trigger_event = {
-				id = BMU_claim_story.0010
-				days = 1
-			}
-		}
+		# handled in BMU_create_claim_press effect
 	}
 	
 	on_end = {
@@ -73,6 +15,7 @@
 		first_valid = {
 			triggered_effect = {
 				trigger = {
+					always = no
 					has_variable = rallying_phase
 				}
 				effect = {
@@ -94,6 +37,7 @@
 			}
 			triggered_effect = {
 				trigger = {
+					always = no
 					has_variable = contention_phase
 					has_variable = stakeholders_added
 				}
@@ -111,55 +55,98 @@
 					NOT = { has_variable = stakeholders_added }
 				}
 				effect = {
-					set_variable = stakeholders_added
+					debug_log = "BMU_press_claim_story triggered_effect"
+					debug_log_scopes = no
+
+
+					story_owner = {
+						save_scope_as = claim_target
+						every_ally = {
+							limit = {
+								any_owned_story = {
+									story_type = BMU_vote_story
+									var:claim_story = scope:story
+									count = 0
+								}
+								is_landed = yes
+							}
+							trigger_event = {
+								id = BMU_claim_story.0011
+							}
+						}
+					}
+
+					every_in_list = {
+						variable = BMU_vote_stories
+						limit = {
+							var:claim_story = scope:story
+							NOT = { story_owner = scope:claim_target }
+							has_variable = status
+							var:status = flag:contender
+						}
+						save_scope_as = contender
+						story_owner = {
+							every_ally = {
+								limit = {
+									NOT = { is_in_list = stakeholders }
+									is_landed = yes
+								}
+								trigger_event = {
+									id = BMU_claim_story.0012
+									days = 1
+								}
+							}
+						}
+					}
+
 					story_owner = {
 						every_vassal = {
-							add_to_list = stakeholders
+							limit = { NOT = { is_in_list = stakeholders }}
+							trigger_event = {
+								id = BMU_claim_story.0013
+								days = 2
+							}
 						}
 						every_realm_county = {
 							every_de_jure_top_liege = {
-								add_to_list = stakeholders
-							}
-						}
-						if = {
-							limit = { exists = faith.religious_head }
-							faith.religious_head = {
-								add_to_list = stakeholders
+								limit = { NOT = { is_in_list = stakeholders }}
+								trigger_event = {
+									id = BMU_claim_story.0014
+									days = 3
+								}
 							}
 						}
 					}
-					every_in_list = {
-						variable = contenders
-						every_ally = {
-							add_to_list = stakeholders
-						}
-						every_relation = {
-							type = friend
-							add_to_list = stakeholders
-						}
-						every_relation = {
-							type = rival
-							add_to_list = stakeholders
-						}
-						house.house_head = {
-							add_to_list = stakeholders
-						}
-					}
-					ordered_in_list = {
-						list = stakeholders
-						order_by = highest_held_title_tier
-						prev = {
-							add_to_variable_list = {
-								name = stakeholders
-								target = prev
-							}
-						}
-						trigger_event = {
-							id = BMU_claim_story.0011
-							days = 1
-						}
-					}
+					
+					set_variable = stakeholders_added
 				}
+			}
+		}
+	}
+}
+
+BMU_vote_story = {
+	on_setup = {
+		story_owner = {
+			add_to_variable_list = {
+				name = BMU_vote_stories
+				target = prev
+			}
+		}
+		set_variable = {
+			name = stakeholder
+			value = story_owner
+		}
+		set_variable = {
+			name = supporter_count
+			value = 0
+		}
+	}
+	on_end = {
+		story_owner = {
+			remove_list_variable = {
+				name = BMU_vote_stories
+				target = prev
 			}
 		}
 	}

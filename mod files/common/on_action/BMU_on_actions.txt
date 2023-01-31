@@ -1,0 +1,5 @@
+﻿on_war_invalidated = {
+	trigger = {
+		NOT = { war = { using_cb = claim_cb }}
+	}
+}

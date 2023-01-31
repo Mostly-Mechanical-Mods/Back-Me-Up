@@ -1,0 +1,6 @@
+﻿vote_story = {
+	base = owned_story
+	conditions = {
+		story_type = BMU_vote_story
+	}
+}

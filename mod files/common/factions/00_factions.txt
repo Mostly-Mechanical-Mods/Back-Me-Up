@@ -491,47 +491,24 @@ claimant_faction = {
 
 	on_creation = {
 		save_scope_as = claimant_faction
-		trigger_event = {
-			on_action = on_claimant_faction_created
-			delayed = yes
-		}
+		# trigger_event = {
+		# 	on_action = on_claimant_faction_created
+		# 	delayed = yes
+		# }
 	}
 
 	demand = { # The effect of pressing demand
-		save_scope_as = faction
+		#[BMU]
+		debug_log = "[BMU] claimant faction pressed"
+		debug_log_scopes = yes
 
-		faction_leader = {
-			save_scope_as = faction_leader
+		BMU_create_claim_press = {
+			TARGET = faction_target
+			TARGET_TITLE = special_title
+			CONTENDER = faction_leader
+			UNWILLING_CONTENDER = special_character
 		}
-
-		faction_target = {
-			save_scope_as = faction_target
-		}
-
-		special_character = {
-			save_scope_as = faction_claimant
-		}
-
-		special_title = {
-			save_scope_as = faction_targeted_title
-		}
-
-		# Let the human players in the faction know that the demand will be sent
-		every_faction_member = {
-			limit = {
-				is_ai = no
-				NOT = { this = scope:faction.faction_leader }
-			}
-			trigger_event = faction_demand.2005
-		}
-
-		# Send the actual demand in 5 days
-		faction_target = {
-			trigger_event = {
-				id = faction_demand.2001
-				days = 5
-			}
-		}
+		#[/BMU]
 	}
 
 	ai_demand_chance = {
@@ -616,21 +593,50 @@ claimant_faction = {
 				exists = special_title
 				special_title.holder = scope:target
 			}
+			NOT = {
+				scope:target = {
+					any_owned_story = {
+						story_type = BMU_press_claim_story
+						has_variable = claimed_title
+						var:claimed_title = root.joined_faction.special_title
+					}
+				}
+			}
 		}
 		trigger_else_if = {
 			limit = {
 				has_variable = claiming_title
 			}
 			var:claiming_title.holder = scope:target
+			NOT = {
+				scope:target = {
+					any_owned_story = {
+						story_type = BMU_press_claim_story
+						has_variable = claimed_title
+						var:claimed_title = root.var:claiming_title
+					}
+				}
+			}
 		}
 		trigger_else = {
 			always = no
 		}
+
 	}
 
 	can_character_join = { # Can a character join an existing faction?
 		common_can_character_join_trigger = {
 			FACTION_TARGET = scope:faction.faction_target
+		}
+
+		NOT = {
+			scope:faction.faction_target = {
+				any_owned_story = {
+					story_type = BMU_press_claim_story
+					has_variable = claimed_title
+					var:claimed_title = scope:faction.special_title
+				}
+			}
 		}
 	}
 

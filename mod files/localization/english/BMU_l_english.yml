@@ -29,6 +29,68 @@ claimant_faction_already_exists: "There is already a Claimant Faction against yo
 
 # Claim Window
 
-BMU_CLAIM_WINDOW_TITLE: "Claim for the [Story.MakeScope.Var('claimed_title').Title.GetName]"
+BMU_CLAIM_WINDOW_TITLE: "Claim for the [Title.GetName]"
 BMU_CLAIM_WINDOW_CONTENDERS: "Contenders"
+BMU_CLAIM_WINDOW_CONTENDER: "[contender|E]"
 BMU_CLAIM_WINDOW_SUPPORTERS: "Supporters"
+BMU_CLAIM_WINDOW_CLAIMANTS: "Claimants"
+BMU_CLAIM_WINDOW_STAKEHOLDERS: "Stakeholders"
+BMU_CLAIM_WINDOW_SUPPORTER_COUNT: "Supporters: #high [GuiScope.SetRoot(Character.MakeScope).AddScope('story',Scope.Var('claim_story').Story.MakeScope).ScriptValue('FF_BMU_contender_supporter_count')|0] #!"
+
+BMU_CLAIM_WINDOW_TARGET: "Claim Target"
+BMU_CLAIM_WINDOW_STRONGEST_CONTENDER: "Strongest Contender"
+
+# Events
+
+BMU_CLAIMANT_INVITE: "[contender.Custom2('AppropriateGreeting',ROOT.Char)]"
+BMU_CLAIMANT_INVITE_DESC: "The right to rule [story.MakeScope.Var('claimed_title').Title.GetNameNoTier] belongs to me by divine right, and I finally have the means to make it so. Accept this fact peacefully or I will make you do so by force!"
+
+BMU_CLAIMANT_INVITE_CONTENDER: "I will press my own claim on [story.MakeScope.Var('claimed_title').Title.GetNameNoTierNoTooltip]!"
+BMU_CLAIMANT_INVITE_CONTENDER_TARGET: "I will defend my title!"
+BMU_CLAIMANT_INVITE_CONTENDER_TOOLTIP: "You become [contender|E] in the [BMU_pressed_claim|E] for [story.MakeScope.Var('claimed_title').Title.GetNameNoTierNoTooltip]"
+
+BMU_CLAIMANT_INVITE_STAKEHOLDER: "Let's see how this plays out..."
+BMU_CLAIMANT_INVITE_STAKEHOLDER_TOOLTIP: "You become [stakeholder|E] in the [BMU_pressed_claim|E] for [story.MakeScope.Var('claimed_title').Title.GetNameNoTierNoTooltip]"
+
+BMU_CLAIMANT_INVITE_DROPOUT: "I could care less about the fate of [story.MakeScope.Var('claimed_title').Title.GetNameNoTierNoTooltip]"
+BMU_CLAIMANT_INVITE_CONTENDER_UNWILLING_CONTENDER: "I don't want the [story.MakeScope.Var('claimed_title').Title.GetNameNoTooltip]!"
+
+BMU_TARGET_INVITE_ALLIES: "BMU_TARGET_INVITE_ALLIES"
+BMU_TARGET_INVITE_ALLIES_DESC: "BMU_TARGET_INVITE_ALLIES_DESC"
+BMU_TARGET_INVITE_ALLIES_SUPPORTER: "BMU_TARGET_INVITE_ALLIES_SUPPORTER"
+BMU_TARGET_INVITE_ALLIES_STAKEHOLDER: "BMU_TARGET_INVITE_ALLIES_STAKEHOLDER"
+BMU_TARGET_INVITE_ALLIES_DROPOUT: "BMU_TARGET_INVITE_ALLIES_DROPOUT"
+BMU_CONTENDER_INVITE_ALLIES: "BMU_CONTENDER_INVITE_ALLIES"
+BMU_CONTENDER_INVITE_ALLIES_DESC: "BMU_CONTENDER_INVITE_ALLIES_DESC"
+BMU_CONTENDER_INVITE_ALLIES_SUPPORTER: "BMU_CONTENDER_INVITE_ALLIES_SUPPORTER"
+BMU_CONTENDER_INVITE_ALLIES_STAKEHOLDER: "BMU_CONTENDER_INVITE_ALLIES_STAKEHOLDER"
+BMU_TARGET_INVITE_VASSALS: "BMU_TARGET_INVITE_VASSALS"
+BMU_TARGET_INVITE_VASSALS_DESC: "BMU_TARGET_INVITE_VASSALS_DESC"
+BMU_TARGET_INVITE_VASSALS_SUPPORTER: "BMU_TARGET_INVITE_VASSALS_SUPPORTER"
+BMU_TARGET_INVITE_VASSALS_STAKEHOLDER: "BMU_TARGET_INVITE_VASSALS_STAKEHOLDER"
+BMU_TARGET_INVITE_VASSALS_DROPOUT: "BMU_TARGET_INVITE_VASSALS_DROPOUT"
+
+# Game Concepts
+
+game_concept_stakeholder: "Stakeholder"
+game_concept_stakeholders: "Stakeholders"
+game_concept_stakeholder_desc: "A $game_concept_stakeholder$ in a [BMU_pressed_claim|E] can chose to become [supporter|E] of a [contender|E] to help them assert their right to the title - by any means necessary."
+
+game_concept_contender: "Contender"
+game_concept_contenders: "Contenders"
+game_concept_contender_desc: "A $game_concept_contender$ in a [BMU_pressed_claim|E] is trying to gather support in order to get the upper hand - either diplomatically or militarily."
+
+game_concept_supporter: "Supporter"
+game_concept_supporters: "Supporters"
+game_concept_supporter_desc: "A $game_concept_supporter$ on a [BMU_pressed_claim|E] has chosen a [contender|E] that they will back until the end - for better or for worse."
+
+game_concept_BMU_pressed_claim: "Pressed Claim"
+game_concept_BMU_pressed_claim_desc: "When a [contender|E] asserts their right to a title, other [claimants|E] to the title can press their own [claim|E].\n\n[contenders|E] will try to gather support in the hope of getting other [contenders|E] to back down - or to help in the inevitable war to come, should diplomacy fail."
+
+
+
+# Misc
+
+BMU_msg_claim_war_invalidated_claimant_unavailable_dead_message: "BMU_msg_claim_war_invalidated_claimant_unavailable_dead_message"
+BMU_msg_claim_war_invalidated_claimant_unavailable_not_vassal_message: "BMU_msg_claim_war_invalidated_claimant_unavailable_not_vassal_message"
+BMU_msg_claim_war_invalidated_message: "BMU_msg_claim_war_invalidated_message"

@@ -15,3 +15,8 @@
 
 
  NOT_claimant_faction_already_exists:0 "A [claim|E] on [TITLE.GetName] is already being pressed."
+
+game_concept_pressed_claim: "Strong Claim"
+game_concept_pressed_claims: "Strong Claims"
+game_concept_unpressed_claim: "Weak Claim"
+game_concept_unpressed_claims: "Weak Claims"
