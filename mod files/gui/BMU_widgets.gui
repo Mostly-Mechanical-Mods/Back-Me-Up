@@ -1566,7 +1566,7 @@ template BMU_stakeholder_ambition_tooltip {
 							hbox = {
 								visible = "[EqualTo_string(Scope.Var('ambition').GetFlagName,'FF_ambition_get_child_title')]"
 								datacontext = "[Scope.Var('child').Char]"
-								portrait_head_small ={}
+								portrait_head_small = {}
 								text_single = {
 									text = "[Scope.Var('ambition_score').GetValue|0]"
 								}
@@ -1585,7 +1585,7 @@ template BMU_stakeholder_ambition_tooltip {
 							}
 							hbox = {
 								visible = "[EqualTo_string(Scope.Var('ambition').GetFlagName,'FF_ambition_get_council_position')]"
-								datacontext = "[Scope.Var('child').Char]"
+								# datacontext = "[Scope.Var('child').Char]"
 								icon = {
 									visible = "[EqualTo_string(Scope.Var('council_position').GetFlagName,'chancellor')]"
 									size = { 30 30 }

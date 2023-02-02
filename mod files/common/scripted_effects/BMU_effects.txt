@@ -613,7 +613,7 @@ BMU_create_pressed_claim_stakeholder_story = {
 								value = story_owner
 							}
 							set_variable = {
-								name = FF_ambition_get_council_position
+								name = ambition
 								value = flag:FF_ambition_get_council_position
 							}
 							set_variable = {
