@@ -31,7 +31,7 @@ BMU_pressed_claim.0010 = {
 		}
 		save_scope_value_as = {
 			name = target_score
-			value = candidate_score
+			value = BMU_candidate_score
 		}
 
 		scope:story.var:claimed_title = {
@@ -58,7 +58,7 @@ BMU_pressed_claim.0010 = {
 						}
 						order_by = {
 							if = { limit = { story_owner = { save_temporary_scope_as = candidate }}}
-							root = { add = candidate_score }
+							root = { add = BMU_candidate_score }
 						}
 						story_owner = {
 							save_scope_as = best_other_candidate
@@ -69,7 +69,7 @@ BMU_pressed_claim.0010 = {
 						root = {
 							save_scope_value_as = {
 								name = best_other_candidate_score
-								value = candidate_score
+								value = BMU_candidate_score
 							}
 						}
 					}
@@ -408,7 +408,7 @@ BMU_pressed_claim.0013 = {
 		scope:claim_target = { save_scope_as = candidate }
 		save_scope_value_as = {
 			name = target_score
-			value = candidate_score
+			value = BMU_candidate_score
 		}
 		set_variable = { name = claim_target value = scope:claim_target }
 		set_variable = { name = claim_target_score value = scope:target_score }
@@ -424,7 +424,7 @@ BMU_pressed_claim.0013 = {
 				order_by = {
 					if = { limit = { story_owner = { save_temporary_scope_as = candidate }}}
 					root = {
-						add = candidate_score
+						add = BMU_candidate_score
 					}
 				}
 				story_owner = {
@@ -434,7 +434,7 @@ BMU_pressed_claim.0013 = {
 				root = {
 					save_scope_value_as = {
 						name = top_candidate_score
-						value = candidate_score
+						value = BMU_candidate_score
 					}
 				}
 			}

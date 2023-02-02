@@ -86,7 +86,7 @@ feudal_claimant_elective = {
 		}
 	}
 
-	candidate_score = {
+	BMU_candidate_score = {
 		base = 0
 		######################	Elector self-voting pattern	##########################
 		elector_self_voting_pattern_feudal_elective_modifier = yes

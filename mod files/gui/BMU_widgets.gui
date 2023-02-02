@@ -584,8 +584,8 @@ window = {
 										}
 
 										text_single = {
-											text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Scope.Var('pressed_claim').Var('claimed_title').Title.GetHolder.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).ScriptValue('candidate_score')]"
-											tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Scope.Var('pressed_claim').Var('claimed_title').Title.GetHolder.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).GetScriptValueDesc('candidate_score')]"
+											text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Scope.Var('pressed_claim').Var('claimed_title').Title.GetHolder.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).ScriptValue('BMU_candidate_score')]"
+											tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Scope.Var('pressed_claim').Var('claimed_title').Title.GetHolder.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).GetScriptValueDesc('BMU_candidate_score')]"
 										}
 
 										spacer = {
@@ -593,8 +593,8 @@ window = {
 										}
 
 										text_single = {
-											text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',GetPlayer.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).ScriptValue('candidate_score')]"
-											tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',GetPlayer.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).GetScriptValueDesc('candidate_score')]"
+											text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',GetPlayer.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).ScriptValue('BMU_candidate_score')]"
+											tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',GetPlayer.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).GetScriptValueDesc('BMU_candidate_score')]"
 										}
 										
 										# vbox = {
@@ -718,12 +718,12 @@ window = {
 														tooltip = "[Character.MakeScope.GetScriptValueDesc('FF_loyalty')|0]"
 													}
 													text_single = {
-														raw_text = "Claim Target [GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Story.MakeScope.Var('pressed_claim').Story.MakeScope.Var('claim_target').Char.MakeScope).ScriptValue('candidate_score')|0]"
+														raw_text = "Claim Target [GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Story.MakeScope.Var('pressed_claim').Story.MakeScope.Var('claim_target').Char.MakeScope).ScriptValue('BMU_candidate_score')|0]"
 														tooltipwidget = BMU_support_score_tooltip
 													}
 													text_single = {
-														raw_text = "Top Contender [GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Story.MakeScope.Var('pressed_claim').Story.MakeScope.Var('top_contender').Char.MakeScope).ScriptValue('candidate_score')|0]"
-														tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Story.MakeScope.Var('pressed_claim').Story.MakeScope.Var('top_contender').Char.MakeScope).GetScriptValueDesc('candidate_score')|0]"
+														raw_text = "Top Contender [GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Story.MakeScope.Var('pressed_claim').Story.MakeScope.Var('top_contender').Char.MakeScope).ScriptValue('BMU_candidate_score')|0]"
+														tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Story.MakeScope.Var('pressed_claim').Story.MakeScope.Var('top_contender').Char.MakeScope).GetScriptValueDesc('BMU_candidate_score')|0]"
 													}
 												}
 												icon = {
@@ -997,8 +997,8 @@ types BMU_Lists {
 								}
 
 								# text_single = {
-								# 	text = "[Character.MakeScope.ScriptValue('candidate_score')]"
-								# 	tooltip = "[Character.MakeScope.GetScriptValueDesc('candidate_score')]"
+								# 	text = "[Character.MakeScope.ScriptValue('BMU_candidate_score')]"
+								# 	tooltip = "[Character.MakeScope.GetScriptValueDesc('BMU_candidate_score')]"
 								# }
 
 								# spacer = {
@@ -1010,8 +1010,8 @@ types BMU_Lists {
 								# }
 
 								# text_single = {
-								# 	text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Character.MakeScope).AddScope('story',Story.MakeScope).ScriptValue('candidate_score')]"
-								# 	tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Character.MakeScope).AddScope('story',Story.MakeScope).GetScriptValueDesc('candidate_score')]"
+								# 	text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Character.MakeScope).AddScope('story',Story.MakeScope).ScriptValue('BMU_candidate_score')]"
+								# 	tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Character.MakeScope).AddScope('story',Story.MakeScope).GetScriptValueDesc('BMU_candidate_score')]"
 								# }
 							}
 						}
@@ -1412,7 +1412,7 @@ template BMU_support_score_tooltip {
 							maximumsize = { 250 -1 }
 							multiline = yes
 							fonttintcolor = "[TooltipInfo.GetTintColor]"
-							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Story.MakeScope.Var('pressed_claim').Story.MakeScope.Var('claim_target').Char.MakeScope).GetScriptValueDesc('candidate_score')|0]"
+							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Story.MakeScope.Var('pressed_claim').Story.MakeScope.Var('claim_target').Char.MakeScope).GetScriptValueDesc('BMU_candidate_score')|0]"
 						}
 					}
 
@@ -1445,7 +1445,7 @@ template BMU_support_score_tooltip {
 							maximumsize = { 250 -1 }
 							multiline = yes
 							fonttintcolor = "[TooltipInfo.GetTintColor]"
-							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Scope.Var('top_candidate').Char.MakeScope).GetScriptValueDesc('candidate_score')|0]"
+							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Scope.Var('top_candidate').Char.MakeScope).GetScriptValueDesc('BMU_candidate_score')|0]"
 						}
 					}
 
@@ -1473,7 +1473,7 @@ template BMU_support_score_tooltip {
 							maximumsize = { 250 -1 }
 							multiline = yes
 							fonttintcolor = "[TooltipInfo.GetTintColor]"
-							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Story.MakeScope.Var('top_candidate').Char.MakeScope).GetScriptValueDesc('candidate_score')|0]"
+							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Story.MakeScope.Var('top_candidate').Char.MakeScope).GetScriptValueDesc('BMU_candidate_score')|0]"
 						}
 					}
 				}

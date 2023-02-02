@@ -596,7 +596,7 @@ claimant_faction = {
 			NOT = {
 				scope:target = {
 					any_owned_story = {
-						story_type = BMU_press_pressed_claim
+						story_type = BMU_pressed_claim
 						has_variable = claimed_title
 						var:claimed_title = root.joined_faction.special_title
 					}
@@ -611,7 +611,7 @@ claimant_faction = {
 			NOT = {
 				scope:target = {
 					any_owned_story = {
-						story_type = BMU_press_pressed_claim
+						story_type = BMU_pressed_claim
 						has_variable = claimed_title
 						var:claimed_title = root.var:claiming_title
 					}
@@ -632,7 +632,7 @@ claimant_faction = {
 		NOT = {
 			scope:faction.faction_target = {
 				any_owned_story = {
-					story_type = BMU_press_pressed_claim
+					story_type = BMU_pressed_claim
 					has_variable = claimed_title
 					var:claimed_title = scope:faction.special_title
 				}

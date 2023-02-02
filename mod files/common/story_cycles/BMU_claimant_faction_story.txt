@@ -1,4 +1,4 @@
-﻿BMU_press_pressed_claim = {
+﻿BMU_pressed_claim = {
 	on_setup = {
 		# handled in BMU_create_claim_press effect
 	}
@@ -55,7 +55,7 @@
 					NOT = { has_variable = stakeholders_added }
 				}
 				effect = {
-					debug_log = "BMU_press_pressed_claim triggered_effect"
+					debug_log = "BMU_pressed_claim triggered_effect"
 					debug_log_scopes = no
 
 

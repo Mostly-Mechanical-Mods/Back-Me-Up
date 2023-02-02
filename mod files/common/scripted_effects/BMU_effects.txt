@@ -20,7 +20,7 @@
 
 	scope:claim_target = {
 		create_story = {
-			type = BMU_press_pressed_claim
+			type = BMU_pressed_claim
 			save_scope_as = story
 		}
 	}

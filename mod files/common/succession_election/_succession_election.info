@@ -30,7 +30,7 @@ feudal_elective = {
 	# MTTH to calculate the AI voting behavior. AI electors will choose the candidate with the highest score.
 	# Scope: root = elector, scope:candidate = the considered candidate, scope:title = the title under election, scope:holder = current title holder, scope:holder_candidate = the title holder's candidate
 	# default: base = 1
-	candidate_score = {}
+	BMU_candidate_score = {}
 }
 
 == Candidate Set Types ==
