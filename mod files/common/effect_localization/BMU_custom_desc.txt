@@ -1,0 +1,5 @@
+﻿BMU_pressed_claim_suppporter = {
+	first = I_BECOME_SUPPORTER
+	third = CHARACTER_BECOMES_SUPPORTER
+}
+

@@ -197,8 +197,8 @@
 	#target_title_tier = all
 
 	on_declaration = {
-		#[BMU]
-		debug_log = "[BMU] claim_cb on_invalidated"
+		#BMU
+		debug_log = "BMU claim_cb on_invalidated"
 		debug_log_scopes = yes
 		debug_log = "set target title"
 		ordered_in_list = {
@@ -216,7 +216,7 @@
 	}
 
 	should_invalidate = {
-		#[BMU]
+		#BMU
 		always = yes
 		#[/BMU]
 	}

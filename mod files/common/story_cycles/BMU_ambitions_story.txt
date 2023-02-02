@@ -1,0 +1,13 @@
+﻿BMU_stakeholder_ambition = {
+	on_setup = {
+	}
+	
+	on_end = {
+	}
+
+	on_owner_death = {
+	}
+
+	effect_group = {
+	}
+}

@@ -24,7 +24,29 @@ BMU_error_suppression.0001 = {
 		fix_variable_error = { X = declaration_phase }
 		fix_variable_error = { X = claimant_refused }
 		fix_variable_error = { X = status }
-		fix_variable_error = { X = BMU_vote_stories }
+		fix_variable_error = { X = BMU_pressed_claim_stakeholders }
 		fix_variable_error = { X = supporters }
+		fix_variable_error = { X = supporter_count }
+		fix_variable_error = { X = top_contender }
+		fix_variable_error = { X = FF_ambition_get_title }
+		fix_variable_error = { X = FF_ambition_get_child_title }
+		fix_variable_error = { X = FF_ambition_get_gold }
+		fix_variable_error = { X = FF_ambition_screw_rival }
+		fix_variable_error = { X = FF_ambition_help_friend }
+		fix_variable_error = { X = FF_ambition_get_council_position }
+		fix_variable_error = { X = marshall }
+		fix_variable_error = { X = claim_target_score }
+		fix_variable_error = { X = top_candidate_score }
+		fix_variable_error = { X = story_owner }
+		fix_variable_error = { X = BMU_stakeholder_ambitions }
+		fix_variable_error = { X = BMU_pressed_claim }
+		fix_variable_error = { X = BMU_stakeholder }
+		fix_variable_error = { X = ambition }
+		fix_variable_error = { X = coveted_title }
+		fix_variable_error = { X = ambition_score }
+		fix_variable_error = { X = rival }
+		fix_variable_error = { X = BMU_vote_stories }
+		fix_variable_error = { X = claim_story }
+		fix_variable_error = { X = FF_council_position_datamodel }
 	}
 }

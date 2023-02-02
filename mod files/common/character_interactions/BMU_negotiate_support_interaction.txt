@@ -1,0 +1,85 @@
+﻿BMU_contender_negotiate_support_interaction = {
+	category = interaction_category_diplomacy
+	use_diplomatic_range = no
+	common_interaction = yes
+	ignores_pending_interaction_block = yes
+	interface_priority = -1
+	icon = hook_strong
+
+	desc = BMU_contender_negotiate_support_interaction_desc
+
+
+
+
+	is_shown = {
+		NOT = { scope:recipient = scope:actor }
+	}
+
+	is_valid_showing_failures_only = {
+		# debug_log_details = yes
+		scope:actor = {
+			any_owned_story = {
+				story_type = BMU_stakeholder
+				has_variable = status
+				var:status = flag:contender
+				var:pressed_claim = {
+					any_in_list = {
+						variable = BMU_pressed_claim_stakeholders
+						story_owner = scope:recipient
+						has_variable = status
+						OR = {
+							var:status = flag:supporter
+							var:status = flag:stakeholder
+						}
+					}
+				}
+			}
+		}
+	}
+
+	on_send = {
+		debug_log = "BMU_contender_negotiate_support_interaction on_send"
+		debug_log_scopes = yes
+		scope:actor = {
+			random_owned_story = {
+				limit = {
+					story_type = BMU_stakeholder
+					var:pressed_claim = { save_temporary_scope_as = pressed_claim }
+					scope:recipient = {
+						any_owned_story = {
+							story_type = BMU_stakeholder
+							var:pressed_claim = scope:pressed_claim
+						}
+					}
+				}
+				var:pressed_claim = {
+					save_scope_as = pressed_claim
+					debug_log_scopes = no
+				}
+			}
+		}
+		if = {
+			limit = {
+				exists = scope:recipient
+				exists = scope:actor
+			}
+			
+			scope:recipient = {
+				debug_log_scopes = no
+
+				custom_description = {
+					text = "BMU_pressed_claim_suppporter"
+					subject = scope:actor
+					object = scope:recipient
+					BMU_pressed_claim_supporter = {
+						TITLE = scope:pressed_claim.var:claimed_title
+						TARGET = scope:pressed_claim.var:claim_target
+						CONTENDER = scope:actor
+					}
+				}
+			}
+		}
+	}
+
+	auto_accept = yes
+}

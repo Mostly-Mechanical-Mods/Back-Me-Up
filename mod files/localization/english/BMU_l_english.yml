@@ -35,10 +35,19 @@ BMU_CLAIM_WINDOW_CONTENDER: "[contender|E]"
 BMU_CLAIM_WINDOW_SUPPORTERS: "Supporters"
 BMU_CLAIM_WINDOW_CLAIMANTS: "Claimants"
 BMU_CLAIM_WINDOW_STAKEHOLDERS: "Stakeholders"
-BMU_CLAIM_WINDOW_SUPPORTER_COUNT: "Supporters: #high [GuiScope.SetRoot(Character.MakeScope).AddScope('story',Scope.Var('claim_story').Story.MakeScope).ScriptValue('FF_BMU_contender_supporter_count')|0] #!"
+BMU_CLAIM_WINDOW_SUPPORTER_COUNT: "Supporters: #high [GuiScope.SetRoot(Character.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).ScriptValue('FF_BMU_contender_supporter_count')|0] #!"
 
 BMU_CLAIM_WINDOW_TARGET: "Claim Target"
 BMU_CLAIM_WINDOW_STRONGEST_CONTENDER: "Strongest Contender"
+
+BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_TARGET_TT:1 "#T Not supporting [Story.MakeScope.Var('pressed_claim').Var('claim_target').Char.GetShortUINameNoTooltip]#!"
+BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_PLAYER_CANDIDATE_TT: "#T Not supporting [Story.MakeScope.Var('top_candidate').Char.GetShortUINameNoTooltip]#!"
+BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_SUPPORTER_TT: "#T Supporting [Scope.Var('top_candidate').Char.GetShortUINameNoTooltip]#!"
+
+# Interactions
+
+BMU_RECIPIENT_BECOMES_SUPPORTER: "BMU_RECIPIENT_BECOMES_SUPPORTER"
+BMU_contender_negotiate_support_interaction_desc: "BMU_contender_negotiate_support_interaction_desc"
 
 # Events
 
@@ -94,3 +103,9 @@ game_concept_BMU_pressed_claim_desc: "When a [contender|E] asserts their right t
 BMU_msg_claim_war_invalidated_claimant_unavailable_dead_message: "BMU_msg_claim_war_invalidated_claimant_unavailable_dead_message"
 BMU_msg_claim_war_invalidated_claimant_unavailable_not_vassal_message: "BMU_msg_claim_war_invalidated_claimant_unavailable_not_vassal_message"
 BMU_msg_claim_war_invalidated_message: "BMU_msg_claim_war_invalidated_message"
+
+
+
+
+
+FF_VALUE_FORMAT: "$KEY$: $VALUE|+=0$"

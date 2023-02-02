@@ -1,7 +1,7 @@
-﻿namespace = BMU_claim_story
+﻿namespace = BMU_pressed_claim
 
 #First Contender informs target + claimants that they are pressing their claim
-BMU_claim_story.0010 = {
+BMU_pressed_claim.0010 = {
 	type = letter_event
 	opening = BMU_CLAIMANT_INVITE
 	desc = BMU_CLAIMANT_INVITE_DESC
@@ -13,15 +13,15 @@ BMU_claim_story.0010 = {
 	}
 
 	immediate = {
-		debug_log = "BMU_claim_story.0010"
+		debug_log = "BMU_pressed_claim.0010"
 		debug_log_scopes = no
 
-		random_vote_story = {
+		random_BMU_stakeholder = {
 			limit = {
-				exists = var:claim_story
-				var:claim_story = scope:story
+				exists = var:pressed_claim
+				var:pressed_claim = scope:story
 			}
-			save_scope_as = vote_story
+			save_scope_as = BMU_stakeholder
 		}
 		
 		scope:claim_target = {
@@ -49,7 +49,7 @@ BMU_claim_story.0010 = {
 				limit = { scope:wants_target_title_score <= 0 }
 				scope:story = {
 					ordered_in_list = {
-						variable = BMU_vote_stories
+						variable = BMU_pressed_claim_stakeholders
 						limit = {
 							NOR = {
 								story_owner = scope:claim_target
@@ -58,18 +58,20 @@ BMU_claim_story.0010 = {
 						}
 						order_by = {
 							if = { limit = { story_owner = { save_temporary_scope_as = candidate }}}
-							add = story_owner.candidate_score
+							root = { add = candidate_score }
 						}
 						story_owner = {
 							save_scope_as = best_other_candidate
 							save_scope_as = candidate
+							debug_log = "best_other_candidate"
+							debug_log_scopes = no
 						}
-						save_scope_value_as = {
-							name = best_other_candidate_score
-							value = story_owner.candidate_score
+						root = {
+							save_scope_value_as = {
+								name = best_other_candidate_score
+								value = candidate_score
+							}
 						}
-						debug_log = "best_other_candidate"
-						debug_log_scopes = no
 					}
 				}
 			}
@@ -114,29 +116,19 @@ BMU_claim_story.0010 = {
 		}
 		custom_tooltip = BMU_CLAIMANT_INVITE_CONTENDER_TOOLTIP
 
-		BMU_support_claim_contender = {
+		BMU_pressed_claim_supporter = {
 			TITLE = scope:story.var:claimed_title
 			TARGET = scope:claim_target
 			CONTENDER = root
 		}
 
 		if = {
-			limit = { this = scope:unwilling_contender }
+			limit = { root = scope:unwilling_contender }
 			scope:contender = {
-				random_vote_story = {
-					limit = {
-						exists = var:claim_story
-						var:claim_story = scope:story
-					}
-					set_variable = supporter
-					set_variable = {
-						name = status
-						value = flag:supporter
-					}
-					set_variable = {
-						name = top_candidate
-						value = root
-					}
+				BMU_pressed_claim_supporter = {
+					TITLE = scope:story.var:claimed_title
+					TARGET = scope:claim_target
+					CONTENDER = root
 				}
 			}
 		}
@@ -158,34 +150,23 @@ BMU_claim_story.0010 = {
 			is_landed = yes
 		}
 		custom_tooltip = BMU_CLAIMANT_INVITE_STAKEHOLDER_TOOLTIP
-		scope:story = {
-			add_to_variable_list = {
-				name = claimant_refused
-				target = root
-			}
-			add_to_variable_list = {
-				name = stakeholders
-				target = root
-			}
-		}
 		if = {
 			limit = {
 				exists = scope:best_other_candidate_score
 				scope:best_other_candidate_score > scope:target_score
 			}
-			BMU_support_claim_contender = {
+			BMU_pressed_claim_supporter = {
 				TITLE = scope:story.var:claimed_title
 				TARGET = scope:claim_target
 				CONTENDER = scope:best_other_candidate
 			}
 		}
 		else = {
-			scope:vote_story = {
-				set_variable = {
-					name = status
-					value = flag:stakeholder
-				}
+			BMU_pressed_claim_stakeholder = {
+				TITLE = scope:story.var:claimed_title
+				TARGET = scope:claim_target
 			}
+			
 		}
 
 		ai_chance = {
@@ -205,11 +186,9 @@ BMU_claim_story.0010 = {
 	option = {
 		name = "BMU_CLAIMANT_INVITE_DROPOUT"
 		trigger = { NOT = { this = scope:claim_target }}
-		scope:vote_story = {
-			set_variable = {
-				name = status
-				value = flag:dropout
-			}
+		BMU_pressed_claim_dropout = {
+			TITLE = scope:story.var:claimed_title
+			TARGET = scope:claim_target
 		}
 		ai_chance = {
 			base = 0
@@ -231,37 +210,37 @@ BMU_claim_story.0010 = {
 }
 
 #Claim Target calls in allies
-BMU_claim_story.0011 = {
+BMU_pressed_claim.0011 = {
 	type = letter_event
 	sender = scope:claim_target
 	opening = BMU_TARGET_INVITE_ALLIES
 	desc = BMU_TARGET_INVITE_ALLIES_DESC
 
 	immediate = {
-		debug_log = "BMU_claim_story.0011"
+		debug_log = "BMU_pressed_claim.0011"
 		debug_log_scopes = no
 
 		create_story = {
-			type = BMU_vote_story
-			save_scope_as = vote_story
+			type = BMU_stakeholder
+			save_scope_as = BMU_stakeholder
 		}
-		scope:vote_story = {
+		scope:BMU_stakeholder = {
 			set_variable = {
-				name = claim_story
+				name = pressed_claim
 				value = scope:story
 			}
 		}
 		scope:story = {
 			add_to_variable_list = {
-				name = BMU_vote_stories
-				target = scope:vote_story
+				name = BMU_pressed_claim_stakeholders
+				target = scope:BMU_stakeholder
 			}
 		}
 	}
 
 	option = {
 		name = "BMU_TARGET_INVITE_ALLIES_SUPPORTER"
-		BMU_support_claim_contender = {
+		BMU_pressed_claim_supporter = {
 			TITLE = scope:story.var:claimed_title
 			TARGET = scope:claim_target
 			CONTENDER = scope:claim_target
@@ -273,7 +252,7 @@ BMU_claim_story.0011 = {
 
 	option = {
 		name = "BMU_TARGET_INVITE_ALLIES_STAKEHOLDER"
-		scope:vote_story = {
+		scope:BMU_stakeholder = {
 			set_variable = {
 				name = status
 				value = flag:stakeholder
@@ -286,7 +265,7 @@ BMU_claim_story.0011 = {
 
 	option = {
 		name = "BMU_TARGET_INVITE_ALLIES_DROPOUT"
-		scope:vote_story = {
+		scope:BMU_stakeholder = {
 			set_variable = {
 				name = status
 				value = flag:dropout
@@ -307,30 +286,30 @@ BMU_claim_story.0011 = {
 }
 
 #Contenders call in allies
-BMU_claim_story.0012 = {
+BMU_pressed_claim.0012 = {
 	type = letter_event
 	sender = scope:contender
 	opening = BMU_CONTENDER_INVITE_ALLIES
 	desc = BMU_CONTENDER_INVITE_ALLIES_DESC
 
 	immediate = {
-		debug_log = "BMU_claim_story.0012"
+		debug_log = "BMU_pressed_claim.0012"
 		debug_log_scopes = no
 
 		create_story = {
-			type = BMU_vote_story
-			save_scope_as = vote_story
+			type = BMU_stakeholder
+			save_scope_as = BMU_stakeholder
 		}
-		scope:vote_story = {
+		scope:BMU_stakeholder = {
 			set_variable = {
-				name = claim_story
+				name = pressed_claim
 				value = scope:story
 			}
 		}
 		scope:story = {
 			add_to_variable_list = {
-				name = BMU_vote_stories
-				target = scope:vote_story
+				name = BMU_pressed_claim_stakeholders
+				target = scope:BMU_stakeholder
 			}
 		}
 	}
@@ -342,8 +321,8 @@ BMU_claim_story.0012 = {
 			modifier = {
 				any_ally = {
 					any_owned_story = {
-						story_type = BMU_vote_story
-						var:claim_story = scope:story
+						story_type = BMU_stakeholder
+						var:pressed_claim = scope:story
 						has_variable = status
 						var:status = flag:contender
 					}
@@ -353,7 +332,7 @@ BMU_claim_story.0012 = {
 				add = 100
 			}
 		}
-		BMU_support_claim_contender = {
+		BMU_pressed_claim_supporter = {
 			TITLE = scope:story.var:claimed_title
 			TARGET = scope:claim_target
 			CONTENDER = scope:contender
@@ -367,8 +346,8 @@ BMU_claim_story.0012 = {
 			modifier = {
 				any_ally = {
 					any_owned_story = {
-						story_type = BMU_vote_story
-						var:claim_story = scope:story
+						story_type = BMU_stakeholder
+						var:pressed_claim = scope:story
 						has_variable = status
 						var:status = flag:contender
 					}
@@ -377,7 +356,7 @@ BMU_claim_story.0012 = {
 				add = 100
 			}
 		}
-		scope:vote_story = {
+		scope:BMU_stakeholder = {
 			set_variable = {
 				name = status
 				value = flag:stakeholder
@@ -387,7 +366,7 @@ BMU_claim_story.0012 = {
 
 	option = {
 		name = "BMU_TARGET_INVITE_ALLIES_DROPOUT"
-		scope:vote_story = {
+		scope:BMU_stakeholder = {
 			set_variable = {
 				name = status
 				value = flag:dropout
@@ -404,7 +383,7 @@ BMU_claim_story.0012 = {
 }
 
 #Claim Target calls in vassals
-BMU_claim_story.0013 = {
+BMU_pressed_claim.0013 = {
 	type = letter_event
 	sender = scope:claim_target
 	opening = BMU_TARGET_INVITE_VASSALS
@@ -413,88 +392,172 @@ BMU_claim_story.0013 = {
 	trigger = {
 		liege = scope:claim_target
 		any_owned_story = {
-			story_type = BMU_vote_story
-			has_variable = claim_story
-			var:claim_story = scope:story
+			story_type = BMU_stakeholder
+			has_variable = pressed_claim
+			var:pressed_claim = scope:story
 			count = 0
 		}
 	}
 
 	immediate = {
-		debug_log = "BMU_claim_story.0013"
+		debug_log = "BMU_pressed_claim.0013"
 		debug_log_scopes = no
 
-		create_story = {
-			type = BMU_vote_story
-			save_scope_as = vote_story
-		}
-		scope:vote_story = {
-			set_variable = {
-				name = claim_story
-				value = scope:story
-			}
-		}
-		scope:story = {
-			add_to_variable_list = {
-				name = BMU_vote_stories
-				target = scope:vote_story
-			}
-		}
+		BMU_create_pressed_claim_stakeholder_story = { PRESSED_CLAIM = scope:story }
 
 		scope:claim_target = { save_scope_as = candidate }
 		save_scope_value_as = {
 			name = target_score
 			value = candidate_score
 		}
+		set_variable = { name = claim_target value = scope:claim_target }
+		set_variable = { name = claim_target_score value = scope:target_score }
 
 		scope:story = {
 			ordered_in_list = {
-				variable = BMU_vote_stories
+				variable = BMU_pressed_claim_stakeholders
 				limit = {
 					has_variable = status
 					var:status = flag:contender
+					NOT = { story_owner = scope:claim_target }
 				}
 				order_by = {
 					if = { limit = { story_owner = { save_temporary_scope_as = candidate }}}
-					add = story_owner.candidate_score
+					root = {
+						add = candidate_score
+					}
 				}
-				story_owner = { save_scope_as = top_candidate }
-				save_scope_value_as = {
-					name = top_candidate_score
-					value = story_owner.candidate_score
+				story_owner = {
+					save_scope_as = top_candidate
+					save_scope_as = candidate
+				}
+				root = {
+					save_scope_value_as = {
+						name = top_candidate_score
+						value = candidate_score
+					}
 				}
 			}
+		}
+		set_variable = { name = top_candidate value = scope:top_candidate }
+		set_variable = { name = top_candidate_score value = scope:top_candidate_score }
+
+		if = {
+			limit = { is_ai = yes }
+			if = {
+				limit = { scope:target_score > 0 }
+				if = {
+					limit = {
+						ai_greed < {
+							add = scope:target_score
+							add = FF_loyalty
+							subtract = {
+								add = scope:top_candidate_score
+								min = 0
+							}
+						}
+					}
+					set_variable = {
+						name = status
+						value = flag:supporter_liege
+					}
+				}
+				else = {
+					set_variable = {
+						name = status
+						value = flag:stakeholder
+					}
+				}
+			}
+			else_if = {
+				limit = { scope:top_candidate_score > 0 }
+				if = {
+					limit = { ai_greed < scope:top_candidate_score }
+					set_variable = {
+						name = status
+						value = flag:supporter_top_candidate
+					}
+				}
+				else = {
+					set_variable = {
+						name = status
+						value = flag:stakeholder
+					}
+				}
+			}
+			else = {
+				set_variable = {
+					name = status
+					value = flag:dropout
+				}
+			}
+		}
+	}
+
+	option = {
+		name = "BMU_TARGET_INVITE_VASSALS_SUPPORT_LIEGE"
+		trigger = { is_ai = no }
+		BMU_pressed_claim_supporter = {
+			TARGET = scope:claim_target
+			TITLE = scope:story.var:claimed_title
+			CONTENDER = scope:claim_target
 		}
 	}
 
 	option = {
 		name = "BMU_TARGET_INVITE_VASSALS_STAKEHOLDER"
-		ai_chance = {
-			base = 100
-		}
-		scope:vote_story = {
-			set_variable = {
-				name = status
-				value = flag:stakeholder
-			}
+		trigger = { is_ai = no }
+		BMU_pressed_claim_stakeholder = {
+			TARGET = scope:claim_target
+			TITLE = scope:story.var:claimed_title
 		}
 	}
 
 	option = {
 		name = "BMU_TARGET_INVITE_VASSALS_DROPOUT"
-		ai_chance = {
-			base = 0
+		trigger = { is_ai = no }
+		BMU_pressed_claim_dropout = {
+			TARGET = scope:claim_target
+			TITLE = scope:story.var:claimed_title
 		}
-		scope:vote_story = {
-			set_variable = {
-				name = status
-				value = flag:dropout
+	}
+
+	option = {
+		name = "BMU_TARGET_INVITE_VASSAL_AI"
+		trigger = { is_ai = yes }
+		switch = {
+			trigger = var:status
+			flag:supporter_liege = {
+				BMU_pressed_claim_supporter = {
+					TARGET = scope:claim_target
+					TITLE = scope:story.var:claimed_title
+					CONTENDER = scope:claim_target
+				}
+			}
+			flag:supporter_top_candidate = {
+				BMU_pressed_claim_supporter = {
+					TARGET = scope:claim_target
+					TITLE = scope:story.var:claimed_title
+					CONTENDER = scope:top_candidate
+				}
+			}
+			flag:stakeholder = {
+				BMU_pressed_claim_stakeholder = {
+					TARGET = scope:claim_target
+					TITLE = scope:story.var:claimed_title
+				}
+			}
+			flag:dropout = {
+				BMU_pressed_claim_dropout = {
+					TARGET = scope:claim_target
+					TITLE = scope:story.var:claimed_title
+				}
 			}
 		}
 	}
 }
 
-BMU_claim_story.0014 = {
+BMU_pressed_claim.0014 = {
 	type = letter_event
 	sender = scope:chancellor
 	opening = BMU_TARGET_INVITE_VASSALS
@@ -509,16 +572,16 @@ BMU_claim_story.0014 = {
 			}
 		}
 		any_owned_story = {
-			story_type = BMU_vote_story
-			has_variable = claim_story
-			var:claim_story = scope:story
+			story_type = BMU_stakeholder
+			has_variable = pressed_claim
+			var:pressed_claim = scope:story
 			count = 0
 		}
 		any_councillor = { has_council_position = councillor_chancellor }
 	}
 
 	immediate = {
-		debug_log = "BMU_claim_story.0014"
+		debug_log = "BMU_pressed_claim.0014"
 		debug_log_scopes = no
 
 		random_councillor = {
@@ -526,19 +589,19 @@ BMU_claim_story.0014 = {
 			save_scope_as = chancellor
 		}
 		create_story = {
-			type = BMU_vote_story
-			save_scope_as = vote_story
+			type = BMU_stakeholder
+			save_scope_as = BMU_stakeholder
 		}
-		scope:vote_story = {
+		scope:BMU_stakeholder = {
 			set_variable = {
-				name = claim_story
+				name = pressed_claim
 				value = scope:story
 			}
 		}
 		scope:story = {
 			add_to_variable_list = {
-				name = BMU_vote_stories
-				target = scope:vote_story
+				name = BMU_pressed_claim_stakeholders
+				target = scope:BMU_stakeholder
 			}
 		}
 	}
@@ -548,7 +611,7 @@ BMU_claim_story.0014 = {
 		ai_chance = {
 			base = 100
 		}
-		scope:vote_story = {
+		scope:BMU_stakeholder = {
 			set_variable = {
 				name = status
 				value = flag:stakeholder
@@ -561,7 +624,7 @@ BMU_claim_story.0014 = {
 		ai_chance = {
 			base = 0
 		}
-		scope:vote_story = {
+		scope:BMU_stakeholder = {
 			set_variable = {
 				name = status
 				value = flag:dropout

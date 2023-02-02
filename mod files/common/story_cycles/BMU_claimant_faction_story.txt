@@ -1,4 +1,4 @@
-﻿BMU_press_claim_story = {
+﻿BMU_press_pressed_claim = {
 	on_setup = {
 		# handled in BMU_create_claim_press effect
 	}
@@ -55,7 +55,7 @@
 					NOT = { has_variable = stakeholders_added }
 				}
 				effect = {
-					debug_log = "BMU_press_claim_story triggered_effect"
+					debug_log = "BMU_press_pressed_claim triggered_effect"
 					debug_log_scopes = no
 
 
@@ -64,22 +64,22 @@
 						every_ally = {
 							limit = {
 								any_owned_story = {
-									story_type = BMU_vote_story
-									var:claim_story = scope:story
+									story_type = BMU_stakeholder
+									var:pressed_claim = scope:story
 									count = 0
 								}
 								is_landed = yes
 							}
 							trigger_event = {
-								id = BMU_claim_story.0011
+								id = BMU_pressed_claim.0011
 							}
 						}
 					}
 
 					every_in_list = {
-						variable = BMU_vote_stories
+						variable = BMU_pressed_claim_stakeholders
 						limit = {
-							var:claim_story = scope:story
+							var:pressed_claim = scope:story
 							NOT = { story_owner = scope:claim_target }
 							has_variable = status
 							var:status = flag:contender
@@ -88,11 +88,15 @@
 						story_owner = {
 							every_ally = {
 								limit = {
-									NOT = { is_in_list = stakeholders }
+									any_owned_story = {
+										story_type = BMU_stakeholder
+										var:pressed_claim = scope:story
+										count = 0
+									}
 									is_landed = yes
 								}
 								trigger_event = {
-									id = BMU_claim_story.0012
+									id = BMU_pressed_claim.0012
 									days = 1
 								}
 							}
@@ -101,17 +105,29 @@
 
 					story_owner = {
 						every_vassal = {
-							limit = { NOT = { is_in_list = stakeholders }}
+							limit = {
+								any_owned_story = {
+									story_type = BMU_stakeholder
+									var:pressed_claim = scope:story
+									count = 0
+								}
+							}
 							trigger_event = {
-								id = BMU_claim_story.0013
+								id = BMU_pressed_claim.0013
 								days = 2
 							}
 						}
 						every_realm_county = {
 							every_de_jure_top_liege = {
-								limit = { NOT = { is_in_list = stakeholders }}
+								limit = {
+									any_owned_story = {
+										story_type = BMU_stakeholder
+										var:pressed_claim = scope:story
+										count = 0
+									}
+								}
 								trigger_event = {
-									id = BMU_claim_story.0014
+									id = BMU_pressed_claim.0014
 									days = 3
 								}
 							}
@@ -125,11 +141,11 @@
 	}
 }
 
-BMU_vote_story = {
+BMU_stakeholder = {
 	on_setup = {
 		story_owner = {
 			add_to_variable_list = {
-				name = BMU_vote_stories
+				name = BMU_pressed_claim_stakeholders
 				target = prev
 			}
 		}
@@ -145,7 +161,7 @@ BMU_vote_story = {
 	on_end = {
 		story_owner = {
 			remove_list_variable = {
-				name = BMU_vote_stories
+				name = BMU_pressed_claim_stakeholders
 				target = prev
 			}
 		}
