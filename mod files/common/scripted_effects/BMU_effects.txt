@@ -293,68 +293,156 @@ BMU_create_pressed_claim_stakeholder_story = {
 		}
 	}
 	# Ambition Get Title
-	scope:pressed_claim = {
-		every_in_list = {
-			variable = BMU_pressed_claim_stakeholders
-			limit = {
-				has_variable = status
-				var:status = flag:contender
+	every_held_title = {
+		every_this_title_or_de_jure_above = {
+			limit = { NOT = { holder = scope:stakeholder }}
+			add_to_list = coveted_titles
+		}
+	}
+	every_claim = {
+		limit = { NOT = { holder = scope:stakeholder }}
+		add_to_list = coveted_titles
+	}
+	every_held_title = {
+		limit = { tier > tier_barony }
+		if = {
+			limit = { tier >= tier_duchy }
+			every_in_de_jure_hierarchy = {
+				limit = {
+					tier = tier_county
+					NOT = { holder = scope:stakeholder }
+				}
+				add_to_list = coveted_titles
 			}
-			story_owner = {
-				every_held_title = {
-					limit = {
-						tier >= tier_county
-						NOT = { this = prev.primary_title }
-					}
-					save_scope_as = coveted_title
-					scope:stakeholder = {
-						save_scope_value_as = {
-							name = FF_ambition_get_title
-							value = FF_ambition_get_title
-						}
-						if = {
-							limit = { scope:FF_ambition_get_title > 0 }
-							create_story = {
-								type = BMU_stakeholder_ambition
-								save_scope_as = BMU_stakeholder_ambition
-							}
-							scope:BMU_stakeholder = {
-								add_to_variable_list = {
-									name = BMU_stakeholder_ambitions
-									target = scope:BMU_stakeholder_ambition
-								}
-							}
-							scope:BMU_stakeholder_ambition = {
-								set_variable = {
-									name = BMU_pressed_claim
-									value = scope:pressed_claim
-								}
-								set_variable = {
-									name = BMU_stakeholder
-									value = scope:BMU_stakeholder
-								}
-								set_variable = {
-									name = story_owner
-									value = story_owner
-								}
-								set_variable = {
-									name = ambition
-									value = flag:FF_ambition_get_title
-								}
-								set_variable = {
-									name = coveted_title
-									value = scope:coveted_title
-								}
-								set_variable = {
-									name = ambition_score
-									value = scope:FF_ambition_get_title
-								}
-							}
-						}
+		}
+		else = {
+			every_neighboring_county = {
+				limit = { NOT = { holder = scope:stakeholder }}
+				add_to_list = coveted_titles
+			}
+		}
+	}
+	every_in_list = {
+		list = coveted_titles
+		limit = {
+			save_temporary_scope_as = temp_coveted_title
+			exists = holder
+			holder = {
+				any_owned_story = {
+					story_type = BMU_stakeholder
+					var:pressed_claim = scope:pressed_claim
+					has_variable = status
+					OR = {
+						var:status = flag:contender
+						var:status = flag:supporter
 					}
 				}
 			}
+			scope:stakeholder = { FF_ambition_get_title > 0 }
 		}
+		save_scope_as = coveted_title
+		scope:stakeholder = {
+			create_story = {
+				type = BMU_stakeholder_ambition
+				save_scope_as = BMU_stakeholder_ambition
+			}
+			scope:BMU_stakeholder = {
+				add_to_variable_list = {
+					name = BMU_stakeholder_ambitions
+					target = scope:BMU_stakeholder_ambition
+				}
+			}
+			scope:BMU_stakeholder_ambition = {
+				set_variable = {
+					name = BMU_pressed_claim
+					value = scope:pressed_claim
+				}
+				set_variable = {
+					name = BMU_stakeholder
+					value = scope:BMU_stakeholder
+				}
+				set_variable = {
+					name = story_owner
+					value = story_owner
+				}
+				set_variable = {
+					name = ambition
+					value = flag:FF_ambition_get_title
+				}
+				set_variable = {
+					name = coveted_title
+					value = scope:coveted_title
+				}
+				set_variable = {
+					name = ambition_score
+					value = { scope:stakeholder = { add = FF_ambition_get_title }}
+				}
+			}
+		}
+	}
+
+	scope:pressed_claim = {
+		# every_in_list = {
+		# 	variable = BMU_pressed_claim_stakeholders
+		# 	limit = {
+		# 		has_variable = status
+		# 		var:status = flag:contender
+		# 	}
+		# 	story_owner = {
+		# 		every_held_title = {
+		# 			limit = {
+		# 				tier >= tier_county
+		# 				NOT = { this = prev.primary_title }
+		# 			}
+		# 			save_scope_as = coveted_title
+		# 			scope:stakeholder = {
+		# 				save_scope_value_as = {
+		# 					name = FF_ambition_get_title
+		# 					value = FF_ambition_get_title
+		# 				}
+		# 				if = {
+		# 					limit = { scope:FF_ambition_get_title > 0 }
+		# 					create_story = {
+		# 						type = BMU_stakeholder_ambition
+		# 						save_scope_as = BMU_stakeholder_ambition
+		# 					}
+		# 					scope:BMU_stakeholder = {
+		# 						add_to_variable_list = {
+		# 							name = BMU_stakeholder_ambitions
+		# 							target = scope:BMU_stakeholder_ambition
+		# 						}
+		# 					}
+		# 					scope:BMU_stakeholder_ambition = {
+		# 						set_variable = {
+		# 							name = BMU_pressed_claim
+		# 							value = scope:pressed_claim
+		# 						}
+		# 						set_variable = {
+		# 							name = BMU_stakeholder
+		# 							value = scope:BMU_stakeholder
+		# 						}
+		# 						set_variable = {
+		# 							name = story_owner
+		# 							value = story_owner
+		# 						}
+		# 						set_variable = {
+		# 							name = ambition
+		# 							value = flag:FF_ambition_get_title
+		# 						}
+		# 						set_variable = {
+		# 							name = coveted_title
+		# 							value = scope:coveted_title
+		# 						}
+		# 						set_variable = {
+		# 							name = ambition_score
+		# 							value = scope:FF_ambition_get_title
+		# 						}
+		# 					}
+		# 				}
+		# 			}
+		# 		}
+		# 	}
+		# }
 	}
 	# Ambition Get Title for child
 	every_child = {

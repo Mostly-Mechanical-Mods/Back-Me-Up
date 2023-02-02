@@ -84,7 +84,7 @@
 	auto_accept = yes
 }
 
-BMU_negotiate_support_grant_titles_interaction = {
+BMU_negotiate_support_promise_owned_title_interaction = {
 
 	category = interaction_category_vassal
 	common_interaction = yes
