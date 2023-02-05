@@ -2,7 +2,7 @@ window = {
 	name = "BMU_claim_window"
 	widgetid = "BMU_claim"
 	parentanchor = center
-	size = { 1100 750 }
+	size = { 1085 750 }
 	position = { 0 0 }
 	layer = top
 	filter_mouse = all
@@ -49,7 +49,7 @@ window = {
 							onclick = "[GetVariableSystem.Clear('BMU_claim_window')]"
 						}
 					}
-
+					# Top Candidate
 					hbox = {
 						layoutpolicy_horizontal = expanding
 						hbox = {
@@ -96,11 +96,71 @@ window = {
 								duration = 0.2
 								using = Animation_Curve_Default
 							}
-							
+							# Claim Target
 							hbox = {
+								
+								# background = {
+								# 	using = Background_Area
+								# 	margin_left = 0
+								# }
+								background = {
+
+									spriteType = Corneredstretched
+									spriteborder = { 15 15 }
+									using = Color_Blue
+									alpha = 0.6
+									texture = "gfx/interface/component_masks/mask_frame.dds"
+									
+									margin = { 0 4 }
+									margin_right = 50
+
+									modify_texture = {
+										blend_mode = alphamultiply
+										alpha = 0.9
+										mirror = horizontal
+										texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+									}
+
+									modify_texture = {
+										mirror = vertical
+										blend_mode = alphamultiply
+										texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+									}
+								}
+								background = {
+									spriteType = Corneredtiled
+									using = Color_Blue
+									alpha = 0.6
+									texture = "gfx/interface/component_masks/patterns/mask_pattern_02.dds"
+									
+									margin = { 0 4 }
+									margin_left = 0
+									margin_right = 50
+
+									modify_texture = {
+										blend_mode = alphamultiply
+										alpha = 0.9
+										mirror = horizontal
+										texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+									}
+
+									modify_texture = {
+										spriteType = Corneredtiled
+										spriteborder = { 15 15 }
+										blend_mode = alphamultiply
+										texture = "gfx/interface/component_masks/mask_texture_01.dds"
+									}
+
+									modify_texture = {
+										mirror = vertical
+										blend_mode = alphamultiply
+										texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+									}
+								}
 								datacontext = "[Scope.Var('pressed_claim').Var('claim_target').Char]"
 								margin_left = 20
 								portrait_torso = {
+									
 									state = {
 										name = "on_player_election_nomination"
 										next = "nomination_shown"
@@ -119,9 +179,10 @@ window = {
 								}
 								vbox = {
 									layoutpolicy_vertical = expanding
-		
+									
 									vbox = {
-										min_width = 200
+										layoutpolicy_horizontal = expanding
+										min_width = 300
 										spacing = 5
 		
 										text_label_center = {
@@ -152,7 +213,9 @@ window = {
 												size = { 30 30 }
 												texture = "gfx/interface/icons/icon_soldier.dds"
 											}
-	
+											spacer = {
+												size = { 10 0 }
+											}
 											text_single = {
 												default_format = "#high"
 												text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).ScriptValue('FF_BMU_contender_mil_strength')|0]"
@@ -165,7 +228,7 @@ window = {
 							}
 
 							expand = {}
-
+							# Player Contender choice
 							hbox = {
 								visible = "[And(EqualTo_string(Scope.Var('status').GetFlagName,'contender'),Not(ObjectsEqual(Scope.Var('pressed_claim').Var('claim_target').Char,GetPlayer.Self)))]"
 								datacontext = "[GetPlayer]"
@@ -203,7 +266,9 @@ window = {
 												size = { 30 30 }
 												texture = "gfx/interface/icons/icon_soldier.dds"
 											}
-	
+											spacer = {
+												size = { 10 0 }
+											}
 											text_single = {
 												default_format = "#high"
 												text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).ScriptValue('FF_BMU_contender_mil_strength')|0]"
@@ -232,8 +297,62 @@ window = {
 	
 								
 							}
-
+							# Top Contender (Player Target, Player Supporter)
 							hbox = {
+								background = {
+
+									spriteType = Corneredstretched
+									spriteborder = { 15 15 }
+									using = Color_Blue
+									alpha = 0.6
+									texture = "gfx/interface/component_masks/mask_frame.dds"
+									
+									margin = { 0 4 }
+									margin_left = 50
+
+									modify_texture = {
+										blend_mode = alphamultiply
+										alpha = 0.9
+										# mirror = horizontal
+										texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+									}
+
+									modify_texture = {
+										mirror = vertical
+										blend_mode = alphamultiply
+										texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+									}
+								}
+								background = {
+									spriteType = Corneredtiled
+									using = Color_Blue
+									alpha = 0.6
+									texture = "gfx/interface/component_masks/patterns/mask_pattern_02.dds"
+									
+									margin = { 0 4 }
+									margin_left = 50
+									margin_right = 0
+
+									modify_texture = {
+										blend_mode = alphamultiply
+										alpha = 0.9
+										# mirror = horizontal
+										texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+									}
+
+									modify_texture = {
+										spriteType = Corneredtiled
+										spriteborder = { 15 15 }
+										blend_mode = alphamultiply
+										texture = "gfx/interface/component_masks/mask_texture_01.dds"
+									}
+
+									modify_texture = {
+										mirror = vertical
+										blend_mode = alphamultiply
+										texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+									}
+								}
 								visible = "[Or(Not(EqualTo_string(Scope.Var('status').GetFlagName,'contender')),ObjectsEqual(Scope.Var('pressed_claim').Var('claim_target').Char,GetPlayer.Self))]"
 								datacontext = "[Scope.Var('pressed_claim').Var('top_contender').Char]"
 								margin_right = 20
@@ -241,12 +360,13 @@ window = {
 									layoutpolicy_vertical = expanding
 									
 									vbox = {
-										min_width = 200
+										layoutpolicy_horizontal = expanding
+										min_width = 300
 										spacing = 5
 		
 										text_label_center = {
 											layoutpolicy_horizontal = expanding
-											text = "BMU_CLAIM_WINDOW_CONTENDER"
+											text = "BMU_CLAIM_WINDOW_STRONGEST_CONTENDER"
 										}
 		
 										text_single = {
@@ -270,7 +390,9 @@ window = {
 												size = { 30 30 }
 												texture = "gfx/interface/icons/icon_soldier.dds"
 											}
-	
+											spacer = {
+												size = { 10 0 }
+											}
 											text_single = {
 												default_format = "#high"
 												text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).ScriptValue('FF_BMU_contender_mil_strength')|0]"
@@ -584,8 +706,8 @@ window = {
 										}
 
 										text_single = {
-											text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Scope.Var('pressed_claim').Var('claimed_title').Title.GetHolder.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).ScriptValue('BMU_candidate_score')]"
-											tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Scope.Var('pressed_claim').Var('claimed_title').Title.GetHolder.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).GetScriptValueDesc('BMU_candidate_score')]"
+											text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Scope.Var('pressed_claim').Var('claimed_title').Title.GetHolder.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).ScriptValue('gui_BMU_candidate_score')]"
+											tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Scope.Var('pressed_claim').Var('claimed_title').Title.GetHolder.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).GetScriptValueDesc('gui_BMU_candidate_score')]"
 										}
 
 										spacer = {
@@ -593,8 +715,8 @@ window = {
 										}
 
 										text_single = {
-											text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',GetPlayer.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).ScriptValue('BMU_candidate_score')]"
-											tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',GetPlayer.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).GetScriptValueDesc('BMU_candidate_score')]"
+											text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',GetPlayer.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).ScriptValue('gui_BMU_candidate_score')]"
+											tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',GetPlayer.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).GetScriptValueDesc('gui_BMU_candidate_score')]"
 										}
 										
 										# vbox = {
@@ -696,9 +818,11 @@ window = {
 												text_single = {
 													layoutpolicy_horizontal = expanding
 													text = "[Character.GetNameNoTooltip]"
-													align = nobaseline
+													align = left
 													max_width = 535
 												}
+
+												expand = {}
 
 												background = {
 													using = Background_Area
@@ -709,27 +833,81 @@ window = {
 												portrait_head_small = {
 												}
 												portrait_head_small = {
-													datacontext = "[Scope.Var('top_candidate').Char]"
+													datacontext = "[Scope.Var('contender').Var('stakeholder').Char]"
 												}
 												vbox = {
-													text_single = {
-														visible = "[ObjectsEqual(Character.GetLiege,Story.MakeScope.Var('pressed_claim').Var('claim_target').Char)]"
-														raw_text = "Loyalty [Character.MakeScope.ScriptValue('FF_loyalty')|0]"
-														tooltip = "[Character.MakeScope.GetScriptValueDesc('FF_loyalty')|0]"
+													hbox = {
+														layoutpolicy_horizontal = expanding
+														icon = {
+															name = "icon_combat_strength"
+															size = { 30 30 }
+															texture = "gfx/interface/icons/icon_soldier.dds"
+														}
+														spacer = { size = { 10 0 }}
+														expand = {}
+														text_single = {
+															text = "[Character.GetMaxMilitaryStrength|0V]"
+														}
 													}
-													text_single = {
-														raw_text = "Claim Target [GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Story.MakeScope.Var('pressed_claim').Story.MakeScope.Var('claim_target').Char.MakeScope).ScriptValue('BMU_candidate_score')|0]"
+													hbox = {
+														layoutpolicy_horizontal = expanding
+														visible = "[Or(Not(Story.MakeScope.Var('contender').IsSet),ObjectsEqual(Scope.Var('contender').Var('stakeholder').Char,Story.MakeScope.Var('contender').Var('stakeholder').Char))]"
+														vote_chance_icon = {}
+														spacer = { size = { 10 0 }}
+														expand = {}
+													}
+													hbox = {
+														layoutpolicy_horizontal = expanding
+														visible = "[And(Story.MakeScope.Var('contender').IsSet,Not(ObjectsEqual(Scope.Var('contender').Var('stakeholder').Char,Story.MakeScope.Var('contender').Var('stakeholder').Char)))]"
 														tooltipwidget = BMU_support_score_tooltip
-													}
-													text_single = {
-														raw_text = "Top Contender [GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Story.MakeScope.Var('pressed_claim').Story.MakeScope.Var('top_contender').Char.MakeScope).ScriptValue('BMU_candidate_score')|0]"
-														tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Story.MakeScope.Var('pressed_claim').Story.MakeScope.Var('top_contender').Char.MakeScope).GetScriptValueDesc('BMU_candidate_score')|0]"
+														vote_chance_icon = {}
+														spacer = { size = { 10 0 }}
+														expand = {}
+														text_single = {
+															text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).AddScope('claim_target',Scope.Var('pressed_claim').Var('claim_target').Char.MakeScope).AddScope('claimed_title',Scope.Var('pressed_claim').Var('claimed_title').Title.MakeScope).AddScope('score_to_beat',Scope.Var('contender').Var('stakeholder').Char.MakeScope).AddScope('player_score',Story.MakeScope.Var('contender').Var('stakeholder').Char.MakeScope).ScriptValue('FF_BMU_supporter_diff')|0+V]"
+														}
 													}
 												}
-												icon = {
-													texture = "gfx/interface/icons/icon_domain.dds"
-													size = { 50 50 }
-													tooltipwidget = BMU_stakeholder_ambition_tooltip
+												# vbox = {
+												# 	text_single = {
+												# 		visible = "[ObjectsEqual(Character.GetLiege,Story.MakeScope.Var('pressed_claim').Var('claim_target').Char)]"
+												# 		raw_text = "Loyalty [Character.MakeScope.ScriptValue('FF_loyalty')|0]"
+												# 		tooltip = "[Character.MakeScope.GetScriptValueDesc('FF_loyalty')|0]"
+												# 	}
+												# 	text_single = {
+												# 		raw_text = "Claim Target [GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Story.MakeScope.Var('pressed_claim').Var('claim_target').Char.MakeScope).ScriptValue('gui_BMU_candidate_score')|0]"
+												# 		tooltipwidget = BMU_support_score_tooltip
+												# 	}
+												# 	text_single = {
+												# 		visible = "[Scope.Var('pressed_claim').Var('claimed_title').IsSet]"
+												# 		raw_text = "Top Contender [GuiScope.SetRoot(Character.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Scope.Var('pressed_claim').Story.MakeScope.Var('top_contender').Char.MakeScope).ScriptValue('gui_BMU_candidate_score')|0]"
+												# 		tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Scope.Var('pressed_claim').Story.MakeScope).AddScope('claim_target',Scope.Var('pressed_claim').Var('claim_target').Char.MakeScope).AddScope('claimed_title',Scope.Var('pressed_claim').Var('claimed_title').Title.MakeScope).AddScope('candidate',Scope.Var('pressed_claim').Story.MakeScope.Var('top_contender').Char.MakeScope).GetScriptValueDesc('gui_BMU_candidate_score')]"
+												# 	}													
+												# }
+												spacer = { size = { 20 0 }}
+												hbox = {
+													icon = {
+														texture = "gfx/interface/icons/message_feed/titles.dds"
+														size = { 50 50 }
+														tooltipwidget = BMU_stakeholder_ambition_tooltip
+													}
+													icon = {
+														texture = "gfx/interface/icons/ambition_get_child_title.dds"
+														size = { 50 50 }
+														tooltipwidget = BMU_stakeholder_ambition_tooltip
+													}
+													icon = {
+														texture = "gfx/interface/icons/message_feed/council.dds"
+														size = { 50 50 }
+														tooltipwidget = BMU_stakeholder_ambition_tooltip
+													}
+													icon = {
+														texture = "gfx/interface/icons/icon_gold.dds"
+														size = { 50 50 }
+														tooltipwidget = BMU_stakeholder_ambition_tooltip
+													}
+													
+													
 												}
 												expand = {}
 											}
@@ -997,8 +1175,8 @@ types BMU_Lists {
 								}
 
 								# text_single = {
-								# 	text = "[Character.MakeScope.ScriptValue('BMU_candidate_score')]"
-								# 	tooltip = "[Character.MakeScope.GetScriptValueDesc('BMU_candidate_score')]"
+								# 	text = "[Character.MakeScope.ScriptValue('gui_BMU_candidate_score')]"
+								# 	tooltip = "[Character.MakeScope.GetScriptValueDesc('gui_BMU_candidate_score')]"
 								# }
 
 								# spacer = {
@@ -1010,8 +1188,8 @@ types BMU_Lists {
 								# }
 
 								# text_single = {
-								# 	text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Character.MakeScope).AddScope('story',Story.MakeScope).ScriptValue('BMU_candidate_score')]"
-								# 	tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Character.MakeScope).AddScope('story',Story.MakeScope).GetScriptValueDesc('BMU_candidate_score')]"
+								# 	text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Character.MakeScope).AddScope('story',Story.MakeScope).ScriptValue('gui_BMU_candidate_score')]"
+								# 	tooltip = "[GuiScope.SetRoot(Character.MakeScope).AddScope('candidate',Character.MakeScope).AddScope('story',Story.MakeScope).GetScriptValueDesc('gui_BMU_candidate_score')]"
 								# }
 							}
 						}
@@ -1387,9 +1565,9 @@ template BMU_support_score_tooltip {
 				flowcontainer = {
 					direction = horizontal
 					ignoreinvisible = yes
-					
+					#Claim Target
 					flowcontainer = {
-						visible = "[Not(ObjectsEqual(Scope.Var('top_candidate').Char,Story.MakeScope.Var('pressed_claim').Var('claim_target').Char))]"
+						visible = "[Not(ObjectsEqual(Scope.Var('contender').Var('stakeholder').Char,Story.MakeScope.Var('pressed_claim').Var('claim_target').Char))]"
 						margin = { 10 5 }
 						direction = vertical
 
@@ -1403,16 +1581,17 @@ template BMU_support_score_tooltip {
 							maximumsize = { 250 -1 }
 							multiline = yes
 							text = "BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_TARGET_TT"
+							# text = "[Story.MakeScope.Var('pressed_claim').Var('claim_target').Char.GetShortUIName]"
 							fonttintcolor = "[TooltipInfo.GetTintColor]"
 						}
 
 						text_multi = {
 							autoresize = yes
 							minimumsize = { 250 -1 }
-							maximumsize = { 250 -1 }
-							multiline = yes
+							maximumsize = { 350 -1 }
+							multiline = no
 							fonttintcolor = "[TooltipInfo.GetTintColor]"
-							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Story.MakeScope.Var('pressed_claim').Story.MakeScope.Var('claim_target').Char.MakeScope).GetScriptValueDesc('BMU_candidate_score')|0]"
+							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('claim_target',Story.MakeScope.Var('pressed_claim').Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('pressed_claim').Var('claimed_title').Title.MakeScope).AddScope('candidate',Story.MakeScope.Var('pressed_claim').Var('claim_target').Char.MakeScope).GetScriptValueDesc('gui_BMU_candidate_score')]"
 						}
 					}
 
@@ -1420,9 +1599,9 @@ template BMU_support_score_tooltip {
 					# 	visible = "[Not( SuccessionElectionWindowElector.IsVoteForPlayer )]"
 					# 	size = { 5 0 }
 					# }
-
+					#Contender
 					flowcontainer = {
-						visible = "[Scope.Var('top_candidate').IsSet]"
+						visible = "[Scope.Var('contender').IsSet]"
 						margin = { 10 5 }
 						direction = vertical
 
@@ -1442,15 +1621,15 @@ template BMU_support_score_tooltip {
 						text_multi = {
 							autoresize = yes
 							minimumsize = { 250 -1 }
-							maximumsize = { 250 -1 }
+							maximumsize = { 350 -1 }
 							multiline = yes
 							fonttintcolor = "[TooltipInfo.GetTintColor]"
-							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Scope.Var('top_candidate').Char.MakeScope).GetScriptValueDesc('BMU_candidate_score')|0]"
+							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('claim_target',Story.MakeScope.Var('pressed_claim').Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('pressed_claim').Var('claimed_title').Title.MakeScope).AddScope('candidate',Scope.Var('contender').Var('stakeholder').Char.MakeScope).GetScriptValueDesc('gui_BMU_candidate_score')]"
 						}
 					}
-
+					#Player Pick
 					flowcontainer = {
-						visible = "[And(Not(ObjectsEqual(Scope.Var('top_candidate').Char,Story.MakeScope.Var('top_candidate').Char)),Not(ObjectsEqual(Story.MakeScope.Var('pressed_claim').Var('claim_target').Char,GetPlayer.Self)))]"
+						visible = "[And(Not(ObjectsEqual(Scope.Var('contender').Var('stakeholder').Char,Story.MakeScope.Var('contender').Var('stakeholder').Char)),Not(ObjectsEqual(Story.MakeScope.Var('pressed_claim').Var('claim_target').Char,GetPlayer.Self)))]"
 						margin = { 10 5 }
 						direction = vertical
 
@@ -1470,12 +1649,13 @@ template BMU_support_score_tooltip {
 						text_multi = {
 							autoresize = yes
 							minimumsize = { 250 -1 }
-							maximumsize = { 250 -1 }
+							maximumsize = { 350 -1 }
 							multiline = yes
 							fonttintcolor = "[TooltipInfo.GetTintColor]"
-							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('candidate',Story.MakeScope.Var('top_candidate').Char.MakeScope).GetScriptValueDesc('BMU_candidate_score')|0]"
+							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Story.MakeScope.Var('pressed_claim').Story.MakeScope).AddScope('claim_target',Story.MakeScope.Var('pressed_claim').Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('pressed_claim').Var('claimed_title').Title.MakeScope).AddScope('candidate',Story.MakeScope.Var('contender').Var('stakeholder').Char.MakeScope).GetScriptValueDesc('gui_BMU_candidate_score')]"
 						}
 					}
+					#Top Candidate
 				}
 
 				# text_multi = {

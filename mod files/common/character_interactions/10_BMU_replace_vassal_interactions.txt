@@ -26,12 +26,12 @@
 			limit = {
 				exists = scope:recipient
 				exists = scope:landed_title
-				scope:recipient = { save_temporary_scope_as = candidate }
-				scope:actor.liege = { save_temporary_scope_as = claim_target }
-				scope:landed_title = {
-					save_temporary_scope_as = claimed_title
-					save_temporary_scope_as = coveted_title
-				}
+			}
+			# scope:recipient = { save_temporary_scope_as = candidate }
+			scope:actor.liege = { save_temporary_scope_as = claim_target }
+			scope:landed_title = {
+				save_temporary_scope_as = claimed_title
+				save_temporary_scope_as = coveted_title
 			}
 			scope:secondary_actor = {
 				NOT = {
@@ -39,11 +39,11 @@
 						text = BMU_candidate_score_trigger
 						subject = scope:recipient
 						object = scope:claim_target
-						BMU_candidate_score > 0
+						scope:recipient = { BMU_candidate_score > 0 }
 					}
 				}
 				trigger_if = {
-					limit = { BMU_candidate_score > 0 }
+					limit = { scope:recipient = { BMU_candidate_score > 0 }}
 					custom_description = {
 						text = BMU_ambition_get_title_trigger
 						subject = scope:recipient

@@ -105,28 +105,18 @@ BMU_negotiate_support_promise_owned_title_interaction = {
 		scope:actor = {
 			any_owned_story = {
 				story_type = BMU_stakeholder
-				trigger_if = {
-					limit = { has_variable = status }
-					var:status = flag:contender
-				}
-				trigger_else = { always = no }
+				has_variable = status
+				var:status = flag:contender
+				var:pressed_claim = { save_temporary_scope_as = pressed_claim }
 				scope:recipient = {
 					any_owned_story = {
 						story_type = BMU_stakeholder
-						trigger_if = {
-							limit = { has_variable = status }
-							OR = {
-								var:status = flag:stakeholder
-								var:status = flag:contender
-							}
+						has_variable = status
+						OR = {
+							var:status = flag:stakeholder
+							var:status = flag:contender
 						}
-						trigger_else = { always = no }
-						var:pressed_claim = {
-							any_in_list = {
-								variable = BMU_pressed_claim_stakeholders
-								story_owner = scope:actor
-							}
-						}
+						var:pressed_claim = scope:pressed_claim
 					}
 				}
 			}
@@ -138,7 +128,22 @@ BMU_negotiate_support_promise_owned_title_interaction = {
 	}
 	
 	is_valid_showing_failures_only = {
-		
+		scope:actor = {
+			any_owned_story = {
+				story_type = BMU_stakeholder
+				has_variable = status
+				var:status = flag:contender
+				var:pressed_claim = { save_temporary_scope_as = pressed_claim }
+				scope:recipient = {
+					any_owned_story = {
+						story_type = BMU_stakeholder_ambition
+						var:BMU_pressed_claim = scope:pressed_claim
+						var:ambition = flag:FF_ambition_get_title
+						var:coveted_title.holder = scope:actor
+					}
+				}
+			}
+		}
 	}
 
 	can_be_picked_title = {
@@ -166,8 +171,6 @@ BMU_negotiate_support_promise_owned_title_interaction = {
 				NOT = { scope:target = title:k_fashion }
 			}
 		}
-
-
 
 		custom_description = {
 			text = grant_titles_interaction_children_not_allowed_temple
@@ -202,6 +205,17 @@ BMU_negotiate_support_promise_owned_title_interaction = {
 			text = grant_titles_interaction_title_being_wagered
 			NOT = {
 				scope:target = { has_variable = wagered_county }
+			}
+		}
+
+		custom_description = {
+			text = grant_titles_interaction_title_being_wagered
+			scope:recipient = {
+				any_owned_story = {
+					story_type = BMU_stakeholder_ambition
+					var:ambition = flag:FF_ambition_get_title
+					var:coveted_title = scope:target
+				}
 			}
 		}
 	}

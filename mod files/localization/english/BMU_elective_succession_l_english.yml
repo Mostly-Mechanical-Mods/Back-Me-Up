@@ -73,7 +73,7 @@
  BMU_tooltip_feudal_elector_vote_genius_diplomat:0 "[Character.MakeScope.Var('top_candidate').Char.GetSheHe|U] is a brilliant [Character.MakeScope.Var('top_candidate').Char.GetWomanMan]"
  BMU_tooltip_feudal_elector_vote_genius:0 "[Character.MakeScope.Var('top_candidate').Char.GetSheHe|U] is a brilliant [Character.MakeScope.Var('top_candidate').Char.GetWomanMan]"
  BMU_tooltip_feudal_elector_vote_strong_warrior:0 "[Character.MakeScope.Var('top_candidate').Char.GetSheHe|U] is a strong [Character.MakeScope.Var('top_candidate').Char.GetWomanMan]"
- BMU_tooltip_feudal_elector_vote_strong:0 "[Character.MakeScope.Var('top_candidate').Char.GetSheHe|U] is a brilliant [Character.MakeScope.Var('top_candidate').Char.GetWomanMan]"
+ BMU_tooltip_feudal_elector_vote_strong:0 "[Character.MakeScope.Var('top_candidate').Char.GetSheHe|U] is a strong [Character.MakeScope.Var('top_candidate').Char.GetWomanMan]"
  BMU_tooltip_feudal_elector_vote_imbecile:0 "[Character.MakeScope.Var('top_candidate').Char.GetSheHe|U] is slow-minded"
  BMU_tooltip_feudal_elector_vote_imbecile_diplomat:0 "[Character.MakeScope.Var('top_candidate').Char.GetSheHe|U] is a doddering fool"
  BMU_tooltip_feudal_elector_vote_clubfooted:0 "[Character.MakeScope.Var('top_candidate').Char.GetSheHe|U] is [GetTrait('clubfooted').GetName( candidate.Self )]"

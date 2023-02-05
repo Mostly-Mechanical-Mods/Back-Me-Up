@@ -160,9 +160,21 @@ BMU_pressed_claim_supporter = {
 				var:claimed_title = scope:claimed_title
 			}
 		}
-		set_variable = {
-			name = top_candidate
-			value = scope:contender
+		save_scope_as = BMU_stakeholder
+		scope:contender = {
+			random_owned_story = {
+				limit = {
+					story_type = BMU_stakeholder
+					has_variable = pressed_claim
+					var:pressed_claim.var:claimed_title = scope:claimed_title
+				}
+				scope:BMU_stakeholder = {
+					set_variable = {
+						name = contender
+						value = prev
+					}
+				}
+			}
 		}
 		if = {
 			limit = { NOT = { scope:contender = scope:supporter }}
@@ -197,7 +209,7 @@ BMU_pressed_claim_stakeholder = {
 				var:claimed_title = scope:claimed_title
 			}
 		}
-		remove_variable = top_candidate
+		remove_variable = contender
 		set_variable = {
 			name = status
 			value = flag:stakeholder
@@ -223,6 +235,7 @@ BMU_pressed_claim_dropout = {
 			}
 		}
 		remove_variable = top_candidate
+		remove_variable = contender
 		set_variable = {
 			name = status
 			value = flag:dropout
@@ -243,7 +256,7 @@ BMU_pressed_claim_update_top_contender = {
 			NOT = { var:stakeholder = scope:claim_target }
 		}
 		order_by = {
-			if = { limit = { save_temporary_scope_as = temp_contender }}
+			if = { limit = { story_owner = { save_temporary_scope_as = temp_contender }}}
 			prev = {
 				every_in_list = {
 					variable = BMU_claim_stories
@@ -253,8 +266,8 @@ BMU_pressed_claim_update_top_contender = {
 							var:status = flag:contender
 							var:status = flag:supporter
 						}
-						has_variable = top_candidate
-						var:top_candidate = scope:temp_contender
+						has_variable = contender
+						var:contender = scope:temp_contender
 					}
 					add = max_military_strength
 				}
