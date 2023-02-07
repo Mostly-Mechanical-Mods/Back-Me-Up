@@ -1,4 +1,4 @@
-﻿BMU_stakeholder_ambition = {
+﻿BMU_ambition_story = {
 	on_setup = {
 	}
 	

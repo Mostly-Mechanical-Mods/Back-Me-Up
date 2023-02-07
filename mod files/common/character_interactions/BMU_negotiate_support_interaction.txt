@@ -19,10 +19,10 @@
 		# debug_log_details = yes
 		scope:actor = {
 			any_owned_story = {
-				story_type = BMU_stakeholder
+				story_type = BMU_stakeholder_story
 				has_variable = status
 				var:status = flag:contender
-				var:pressed_claim = {
+				var:pressed_claim_story = {
 					any_in_list = {
 						variable = BMU_pressed_claim_stakeholders
 						story_owner = scope:recipient
@@ -43,17 +43,17 @@
 		scope:actor = {
 			random_owned_story = {
 				limit = {
-					story_type = BMU_stakeholder
-					var:pressed_claim = { save_temporary_scope_as = pressed_claim }
+					story_type = BMU_stakeholder_story
+					var:pressed_claim_story = { save_temporary_scope_as = pressed_claim }
 					scope:recipient = {
 						any_owned_story = {
-							story_type = BMU_stakeholder
-							var:pressed_claim = scope:pressed_claim
+							story_type = BMU_stakeholder_story
+							var:pressed_claim_story = scope:pressed_claim_story
 						}
 					}
 				}
-				var:pressed_claim = {
-					save_scope_as = pressed_claim
+				var:pressed_claim_story = {
+					save_scope_as = pressed_claim_story
 					debug_log_scopes = no
 				}
 			}
@@ -72,8 +72,8 @@
 					subject = scope:actor
 					object = scope:recipient
 					BMU_pressed_claim_supporter = {
-						TITLE = scope:pressed_claim.var:claimed_title
-						TARGET = scope:pressed_claim.var:claim_target
+						TITLE = scope:pressed_claim_story.var:claimed_title
+						TARGET = scope:pressed_claim_story.var:claim_target
 						CONTENDER = scope:actor
 					}
 				}
@@ -104,19 +104,19 @@ BMU_negotiate_support_promise_owned_title_interaction = {
 		NOT = { scope:actor = scope:recipient }
 		scope:actor = {
 			any_owned_story = {
-				story_type = BMU_stakeholder
+				story_type = BMU_stakeholder_story
 				has_variable = status
 				var:status = flag:contender
-				var:pressed_claim = { save_temporary_scope_as = pressed_claim }
+				var:pressed_claim_story = { save_temporary_scope_as = pressed_claim }
 				scope:recipient = {
 					any_owned_story = {
-						story_type = BMU_stakeholder
+						story_type = BMU_stakeholder_story
 						has_variable = status
 						OR = {
 							var:status = flag:stakeholder
 							var:status = flag:contender
 						}
-						var:pressed_claim = scope:pressed_claim
+						var:pressed_claim_story = scope:pressed_claim_story
 					}
 				}
 			}
@@ -130,16 +130,32 @@ BMU_negotiate_support_promise_owned_title_interaction = {
 	is_valid_showing_failures_only = {
 		scope:actor = {
 			any_owned_story = {
-				story_type = BMU_stakeholder
-				has_variable = status
-				var:status = flag:contender
-				var:pressed_claim = { save_temporary_scope_as = pressed_claim }
+				story_type = BMU_stakeholder_story
+				trigger_if = {
+					limit = { has_variable = status }
+					var:status = flag:contender
+				}
+				trigger_else = { always = no }
+				trigger_if = {
+					limit = { has_variable = pressed_claim_story }
+					var:pressed_claim_story = { save_temporary_scope_as = pressed_claim }
+				}
+				trigger_else = { always = no }
 				scope:recipient = {
 					any_owned_story = {
-						story_type = BMU_stakeholder_ambition
-						var:BMU_pressed_claim = scope:pressed_claim
-						var:ambition = flag:FF_ambition_get_title
-						var:coveted_title.holder = scope:actor
+						story_type = BMU_ambition_story
+						trigger_if = {
+							limit = {
+								has_variable = BMU_pressed_claim
+								has_variable = ambition
+								has_variable = coveted_title
+								exists = scope:pressed_claim_story
+							}
+							var:pressed_claim_story = scope:pressed_claim_story
+							var:ambition = flag:FF_ambition_get_title
+							var:coveted_title.holder = scope:actor
+						}
+						trigger_else = { always = no }
 					}
 				}
 			}
@@ -212,7 +228,7 @@ BMU_negotiate_support_promise_owned_title_interaction = {
 			text = grant_titles_interaction_title_being_wagered
 			scope:recipient = {
 				any_owned_story = {
-					story_type = BMU_stakeholder_ambition
+					story_type = BMU_ambition_story
 					var:ambition = flag:FF_ambition_get_title
 					var:coveted_title = scope:target
 				}
@@ -223,404 +239,23 @@ BMU_negotiate_support_promise_owned_title_interaction = {
 	auto_accept = yes
 
 	on_auto_accept = {
-		scope:recipient = {
-			trigger_event = char_interaction.0110
-		}
+		# scope:recipient = {
+		# 	trigger_event = char_interaction.0110
+		# }
 	}
 	
 	on_accept = {
-		scope:recipient = {
-			if = {
-				limit = {
-					is_independent_ruler = yes
-					save_temporary_scope_as = recipient_is_independent
-				}
-			}
-			if = {
-				limit = {
-					NAND = {
-						has_relation_friend = scope:actor
-						has_relation_lover = scope:actor
-						has_relation_soulmate = scope:actor
-						has_relation_best_friend = scope:actor
-					}
-				}
-				if = {
-					# then verify the right struggle phase
-					limit = {
-						is_diff_faith_or_culture_trigger = {
-							CHAR = scope:actor
-							STATUS = involved
-							STRUGGLE_TYPE = iberian_struggle
-						}
-						any_character_struggle = {
-							involvement = involved
-							is_struggle_type = iberian_struggle
-							has_struggle_phase_parameter = struggle_grant_titles_diff_faith_culture_to_leads_to_friendship
-						}
-					}
-					progress_towards_friend_effect = {
-						REASON = friend_granted_title
-						CHARACTER = scope:actor
-						OPINION = 0
-					}
-				}
-			}
-		}
+		
+		# every_in_list = {
 
-		if = {
-			limit = {
-				any_in_list = {
-					list = target_titles
-					tier = tier_county
-					culture = scope:recipient.culture
-					NOR = {
-						culture = scope:actor.culture
-						recent_history = {
-							type = granted
-							years = 10
-						}
-					}
-				}
-			}
-			alternative_limit = {
-				any_in_list = {
-					list = target_titles
-					tier >= tier_duchy
-					title_capital_county = {
-						NOT = { culture = scope:actor.culture }
-						culture = scope:recipient.culture
-					}
-					NOT = {
-						recent_history = {
-							type = granted
-							years = 10
-						}
-					}
-				}
-			}
-			scope:recipient.culture = {
-				change_cultural_acceptance = {
-					target = scope:actor.culture
-					value = grant_title_cultural_acceptance_impact
-					desc = cultural_acceptance_gain_granted_title
-				}
-			}
-		}
-		if = {
-			limit = {
-				any_in_list = {
-					list = target_titles
-					tier = tier_county
-				}
-				scope:actor.culture = { has_cultural_parameter = grants_to_lowborns_bonuses }
-				scope:recipient = {
-					is_lowborn = yes
-				}
-			}
-			every_in_list = {
-				list = target_titles
-				limit = { tier = tier_county }
-				change_county_control = 30
-			}
-			scope:recipient = {
-				add_trait = peasant_leader
-			}
-		}
-		if = {
-			limit = {
-				any_in_list = {
-					list = target_titles
-					tier >= tier_county
-				}
-				scope:actor.culture = { has_cultural_parameter = landing_house_members_give_prestige }
-				exists = scope:actor.house
-				exists = scope:recipient.house
-				scope:actor.house = scope:recipient.house
-			}
-			scope:actor = {
-				add_prestige = {
-					value = 0
-					every_in_list = {
-						list = target_titles
-						limit = { tier = tier_empire }
-						add = massive_prestige_gain
-					}
-					every_in_list = {
-						list = target_titles
-						limit = { tier = tier_kingdom }
-						add = major_prestige_gain
-					}
-					every_in_list = {
-						list = target_titles
-						limit = { tier = tier_duchy }
-						add = medium_prestige_gain
-					}
-					every_in_list = {
-						list = target_titles
-						limit = { tier = tier_county }
-						add = minor_prestige_gain
-					}
-				}
-			}
-		}
-		if = {
-			limit = {
-				any_in_list = {
-					list = target_titles
-					tier >= tier_county
-				}
-				scope:actor.culture = { has_cultural_parameter = landing_house_members_gives_renown }
-				exists = scope:actor.house
-				exists = scope:recipient.house
-				scope:actor.house = scope:recipient.house
-			}
-			scope:actor.dynasty = {
-				add_dynasty_prestige = {
-					value = 0
-					every_in_list = {
-						list = target_titles
-						limit = { tier = tier_empire }
-						add = massive_dynasty_prestige_gain
-					}
-					every_in_list = {
-						list = target_titles
-						limit = { tier = tier_kingdom }
-						add = major_dynasty_prestige_gain
-					}
-					every_in_list = {
-						list = target_titles
-						limit = { tier = tier_duchy }
-						add = medium_dynasty_prestige_gain
-					}
-					every_in_list = {
-						list = target_titles
-						limit = { tier = tier_county }
-						add = minor_dynasty_prestige_gain
-					}
-				}
-			}
-		}
-
-		# Iterate over all given titles
-		#  - Add opinion modifiers
-		#  - Collect titles that discontent reduction can later be derived from
-		every_in_list = {
-			list = target_titles
-			save_temporary_scope_as = this_title
-			if = {
-				limit = {
-					exists = scope:landed_title
-				}
-				scope:recipient = {
-					if = {
-						limit = {
-							scope:this_title.tier = tier_barony
-						}
-
-						hidden_effect = {
-							add_opinion = {
-								target = scope:actor
-								modifier = received_title_barony
-							}
-						}
-
-						scope:this_title = { add_to_temporary_list = titles_to_grant }
-					}
-
-					else_if = {
-						limit = {
-							scope:this_title.tier = tier_county
-						}
-
-						hidden_effect = {
-							add_opinion = {
-								target = scope:actor
-								modifier = received_title_county
-							}
-						}
-
-						scope:this_title = { add_to_temporary_list = titles_to_grant }
-					}
-
-					else_if = {
-						limit = {
-							scope:this_title.tier = tier_duchy
-						}
-
-						hidden_effect = {
-							add_opinion = {
-								target = scope:actor
-								modifier = received_title_duchy
-							}
-						}
-
-						scope:this_title = { add_to_temporary_list = titles_to_grant }
-					}
-
-					else_if = {
-						limit = {
-							scope:this_title.tier = tier_kingdom
-						}
-
-						hidden_effect = {
-							add_opinion = {
-								target = scope:actor
-								modifier = received_title_kingdom
-							}
-						}
-
-						scope:this_title = { add_to_temporary_list = titles_to_grant }
-					}
-
-					else_if = {
-						limit = { scope:this_title.tier = tier_empire }
-
-						add_opinion = {
-							target = scope:actor
-							modifier = received_title_empire
-						}
-
-						scope:this_title = { add_to_temporary_list = titles_to_grant }
-					}
-				}
-
-				#Promised a vassal this title they had a claim on (vassal.2901)
-				if = {
-					limit = {
-						scope:actor = {
-							exists = var:was_promised_title
-							var:was_promised_title = scope:recipient
-						}
-					}
-					if = {
-						limit = {
-							scope:recipient = {
-								exists = var:promised_title
-							}
-							scope:landed_title = scope:recipient.var:promised_title
-						}
-						scope:actor = {
-							trigger_event = {
-								id = vassal.2910
-								days = { 7 14 }
-							}
-						}
-					}
-				}
-			}
-			if = {
-				limit = {
-					scope:recipient = {
-						has_trait = bastard
-					}
-				}
-				custom_tooltip = grant_title_to_bastard_dynasty_warning
-			}
-		} # every_in_list
-
-
-		# The accumulated discontent reduction of the recipient
-		scope:recipient = {
-			if = {
-				limit = {
-					is_a_faction_member = yes
-				}
-				add_joined_faction_discontent = grant_title_opinion_sum_discontent_calc
-			}
-		}
-
-		if = {
-			limit = {
-				any_in_list = {
-					list = target_titles
-					tier = tier_empire
-				}
-			}
-			custom_tooltip = grant_title_modifier_stack_empires
-		}
-		if = {
-			limit = {
-				any_in_list = {
-					list = target_titles
-					tier = tier_kingdom
-				}
-			}
-			custom_tooltip = grant_title_modifier_stack_kingdoms
-		}
-		if = {
-			limit = {
-				any_in_list = {
-					list = titles_to_grant
-					tier = tier_duchy
-				}
-			}
-			custom_tooltip = grant_title_modifier_stack_duchies
-		}
-		if = {
-			limit = {
-				any_in_list = {
-					list = titles_to_grant
-					tier = tier_county
-				}
-			}
-			custom_tooltip = grant_title_modifier_stack_counties
-		}
-		if = {
-			limit = {
-				any_in_list = {
-					list = titles_to_grant
-					tier = tier_barony
-				}
-			}
-			custom_tooltip = grant_title_modifier_stack_baronies
-		}
-
-		# Jealousy check
-		if = {
-			limit = {
-				any_in_list = {
-					list = titles_to_grant
-					any_claimant = { grant_title_rivalry_trigger = yes }
-				}
-			}
-			hidden_effect = {
-				random = {
-					chance = 25
-					ordered_in_list = {
-						list = titles_to_grant
-						limit = {
-							any_claimant = { grant_title_rivalry_trigger = yes }
-						}
-						order_by = tier
-						save_scope_as = claim_title
-						ordered_claimant = {
-							limit = { grant_title_rivalry_trigger = yes }
-							order_by = primary_title.tier
-							save_scope_as = claim_vassal
-							if = {
-								limit = {
-									scope:recipient = { is_lowborn = yes }
-								}
-								scope:recipient = { save_scope_as = lowborn_scope }
-							}
-							else_if = {
-								limit = {
-									scope:recipient = { has_claim_on = scope:claim_title }
-								}
-								scope:recipient = { save_scope_as = claimant_scope }
-							}
-							scope:actor = {
-								trigger_event = {
-									id = bp1_yearly.8070
-									days = 5
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+		# }
+		# custom_description = {
+		# 	text = 
+		# 	every_in_list = {
+		# 		list = target_titles
+		# 		scope:recipient = { get_title = prev }
+		# 	}
+		# }
 
 		#Stress impact
 		scope:actor = {
@@ -772,255 +407,7 @@ BMU_negotiate_support_promise_owned_title_interaction = {
 						}
 					}
 				}
-			}
-
-			# Maintenance for runestones
-			if = {
-				limit = {
-					# Use expanded version if we have FP1.
-					has_fp1_dlc_trigger = yes
-					fp1_remove_stele_new_holder_trigger = {
-						TITLE = scope:target
-						PREVIOUS_HOLDER = scope:actor
-						NEW_HOLDER = scope:recipient
-					}
-				}
-				# Actually removed in fp1_other_decisions.0113
-				custom_tooltip = runestone_grant_title_warning
-			}
-			else_if = {
-				limit = {
-					scope:target = {
-						exists = var:ancestor_to_bury
-						has_county_modifier = county_raised_runestone_modifier
-					}
-					NOT = { scope:recipient.dynasty = var:ancestor_to_bury.dynasty } #We only have to change something if the new holder is of a different dynasty
-				}
-				# Actually removed in religious_decision.0312
-				custom_tooltip = runestone_grant_title_warning
-			}
-			
-			if = {
-				limit = {
-					exists = scope:actor.dynasty
-					scope:actor.dynasty = {
-						has_dynasty_perk = ep1_culture_legacy_3
-					}
-					scope:recipient = {
-						is_landed = no
-						NOT = {
-							culture = scope:actor.culture
-						}
-						any_in_list = {
-							list = target_titles
-							OR = {
-								tier = tier_county
-								tier = tier_barony
-							}
-							culture = scope:recipient.culture
-						}
-					}
-				}
-				scope:actor = {
-					if = {
-						limit = {
-							can_add_hook = {
-								target = scope:recipient
-								type = favor_hook
-							}
-						}
-						add_hook = {
-							type = favor_hook
-							target = scope:recipient
-						}
-					}
-				}
-			}
-
-			#Feedback for actor
-			hidden_effect = {
-				if = {
-					limit = {
-						any_in_list = {
-							list = target_titles
-							count = 1
-							NOT = { tier = scope:actor.highest_held_title_tier }
-						}
-						NOT = { exists = scope:recipient_is_independent }
-						scope:recipient = {
-							any_held_title = {
-								tier > tier_barony
-								NOT = {
-									is_in_list = target_titles
-								}
-							}
-						}
-					}
-					random_in_list = {
-						list = target_titles
-						save_temporary_scope_as = loc_title
-					}
-					send_interface_toast = {
-						title = grant_titles_interaction_notification
-					
-						left_icon = scope:actor					
-						right_icon = scope:recipient
-					
-						custom_tooltip = grant_titles_interaction_notification_effect_2
-						if = {
-							limit = {
-								exists = dynasty
-								is_diff_faith_or_culture_trigger = {
-									CHAR = scope:recipient
-									STATUS = involved
-									STRUGGLE_TYPE = iberian_struggle
-								}
-								any_character_struggle = {
-									involvement = involved
-									is_struggle_type = iberian_struggle
-									has_struggle_phase_parameter = struggle_grant_titles_diff_faith_culture_gives_prestige
-
-								}
-							}
-							dynasty = {
-								add_dynasty_prestige = minor_dynasty_prestige_gain
-							}
-
-						}
-					}
-				}
-				else_if = {
-					limit = {
-						any_in_list = {
-							list = target_titles
-							count > 1
-							NOT = { tier = scope:actor.highest_held_title_tier }
-						}
-						NOT = { exists = scope:recipient_is_independent }
-						scope:recipient = {
-							any_held_title = {
-								tier > tier_barony
-								NOT = {
-									is_in_list = target_titles
-								}
-							}
-						}
-					}
-					random_in_list = {
-						list = target_titles
-						save_temporary_scope_as = loc_title
-					}
-					send_interface_toast = {
-						title = grant_titles_interaction_notification
-					
-						left_icon = scope:actor					
-						right_icon = scope:recipient
-					
-						custom_tooltip = grant_titles_interaction_notification_effect_3
-					}
-				}
-				else_if = {
-					limit = {
-						exists = scope:recipient_is_independent
-					}
-
-					random_in_list = {
-						list = target_titles
-						save_temporary_scope_as = loc_title
-					}
-					send_interface_toast = {
-						title = grant_titles_interaction_notification
-					
-						left_icon = scope:actor					
-						right_icon = scope:recipient
-					
-						custom_tooltip = grant_titles_interaction_notification_effect_6
-					}
-				}
-				else_if = {
-					limit = {
-						scope:recipient = {
-							any_in_list = { #Became independent from you, but still have the same liege
-								list = target_titles
-								tier = scope:actor.highest_held_title_tier
-							}
-							top_liege = scope:actor.top_liege
-						}
-					}
-					send_interface_toast = {
-						title = grant_titles_interaction_notification
-					
-						left_icon = scope:actor					
-						right_icon = scope:recipient
-					
-						custom_tooltip = grant_titles_interaction_notification_effect_5
-					}
-				}
-				else_if = {
-					limit = {
-						scope:recipient = {
-							any_in_list = { #Became independent
-								list = target_titles
-								tier = scope:actor.highest_held_title_tier
-							}
-						}
-					}
-					send_interface_toast = {
-						title = grant_titles_interaction_notification
-					
-						left_icon = scope:actor					
-						right_icon = scope:recipient
-					
-						custom_tooltip = grant_titles_interaction_notification_effect_4
-					}
-				}
-				else = {
-					send_interface_toast = {
-						title = grant_titles_interaction_notification
-
-						left_icon = scope:actor					
-						right_icon = scope:recipient
-
-						custom_tooltip = grant_titles_interaction_notification_effect
-					}
-				}
-			}
-		}
-
-		hidden_effect = {
-			# Struggle Catalyst
-			if = {
-				limit = {
-					scope:actor = {
-						is_diff_faith_or_culture_trigger = {
-							CHAR = scope:recipient
-							STATUS = involved
-							STRUGGLE_TYPE = iberian_struggle
-						}
-						any_character_struggle = {
-							involvement = involved
-							activate_struggle_catalyst_secondary_character_involvement_involved_trigger = {
-								CATALYST = catalyst_grant_privilege_to_diff_faith_culture_vassal
-								CHAR = scope:recipient
-							}
-						}
-					}
-				}
-				scope:actor = {
-					every_character_struggle = {
-						involvement = involved
-						limit = {
-							activate_struggle_catalyst_secondary_character_involvement_involved_trigger = {
-								CATALYST = catalyst_grant_privilege_to_diff_faith_culture_vassal
-								CHAR = scope:recipient
-							}
-						}
-						activate_struggle_catalyst = {
-							catalyst = catalyst_grant_privilege_to_diff_faith_culture_vassal
-							character = scope:actor
-						}
-					}
-				}
+				
 			}
 		}
 	}

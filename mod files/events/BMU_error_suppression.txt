@@ -40,7 +40,7 @@ BMU_error_suppression.0001 = {
 		fix_variable_error = { X = story_owner }
 		fix_variable_error = { X = BMU_stakeholder_ambitions }
 		fix_variable_error = { X = BMU_pressed_claim }
-		fix_variable_error = { X = BMU_stakeholder }
+		fix_variable_error = { X = stakeholder_story }
 		fix_variable_error = { X = ambition }
 		fix_variable_error = { X = coveted_title }
 		fix_variable_error = { X = ambition_score }

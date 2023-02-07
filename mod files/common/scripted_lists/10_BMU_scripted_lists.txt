@@ -1,6 +1,6 @@
-﻿BMU_stakeholder = {
+﻿stakeholder_story = {
 	base = owned_story
 	conditions = {
-		story_type = BMU_stakeholder
+		story_type = BMU_stakeholder_story
 	}
 }
