@@ -36,14 +36,14 @@
 			scope:secondary_actor = {
 				NOT = {
 					custom_description = {
-						text = BMU_candidate_score_trigger
+						text = BMU_contender_score_trigger
 						subject = scope:recipient
 						object = scope:claim_target
-						scope:recipient = { BMU_candidate_score > 0 }
+						scope:recipient = { BMU_contender_score > 0 }
 					}
 				}
 				trigger_if = {
-					limit = { scope:recipient = { BMU_candidate_score > 0 }}
+					limit = { scope:recipient = { BMU_contender_score > 0 }}
 					custom_description = {
 						text = BMU_ambition_get_title_trigger
 						subject = scope:recipient

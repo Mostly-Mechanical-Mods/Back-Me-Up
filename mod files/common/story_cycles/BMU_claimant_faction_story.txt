@@ -180,7 +180,7 @@ BMU_stakeholder_story = {
 								NOT = { this = var:contender }
 							}
 						}
-						order_by = { var:stakeholder = { scope:story.story_owner = { add = BMU_candidate_score }}}
+						order_by = { var:stakeholder = { scope:story.story_owner = { add = BMU_contender_score }}}
 						scope:story = {
 							set_variable = {
 								name = top_alternate_candidate

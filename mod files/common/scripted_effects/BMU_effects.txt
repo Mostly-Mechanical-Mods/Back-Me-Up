@@ -324,7 +324,7 @@ BMU_create_pressed_claim_stakeholder_story = {
 				has_variable = stakeholder
 				NOT = { var:stakeholder = scope:story.story_owner }
 			}
-			order_by = { var:stakeholder = { scope:stakeholder = { add = BMU_candidate_score }}}
+			order_by = { var:stakeholder = { scope:stakeholder = { add = BMU_contender_score }}}
 			scope:stakeholder_story = {
 				set_variable = {
 					name = top_contender

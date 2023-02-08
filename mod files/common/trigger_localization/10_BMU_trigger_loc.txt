@@ -1,4 +1,4 @@
-﻿BMU_candidate_score_trigger = {
+﻿BMU_contender_score_trigger = {
 	first = BMU_I_HAVE_POSITIVE_CANDIDATE_SCORE_TRIGGER
 	first_not = BMU_I_HAVE_NEGATIVE_CANDIDATE_SCORE_TRIGGER
 	third = BMU_THEY_HAVE_POSITIVE_CANDIDATE_SCORE_TRIGGER
