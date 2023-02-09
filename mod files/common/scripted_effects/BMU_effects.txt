@@ -337,7 +337,9 @@ BMU_create_pressed_claim_stakeholder_story = {
 	# Ambition Get Title
 	every_held_title = {
 		every_this_title_or_de_jure_above = {
-			limit = { NOT = { holder = scope:stakeholder }}
+			limit = {
+				NOR = { holder = scope:stakeholder }
+			}
 			add_to_list = coveted_titles
 		}
 	}
@@ -368,18 +370,24 @@ BMU_create_pressed_claim_stakeholder_story = {
 		list = coveted_titles
 		limit = {
 			save_temporary_scope_as = temp_coveted_title
-			exists = holder
-			holder = {
-				any_owned_story = {
-					story_type = BMU_stakeholder_story
-					var:pressed_claim_story = scope:pressed_claim_story
-					has_variable = status
-					OR = {
-						var:status = flag:contender
-						var:status = flag:supporter
+			trigger_if = {
+				limit = { exists = holder }
+				holder = {
+					any_owned_story = {
+						story_type = BMU_stakeholder_story
+						var:pressed_claim_story = scope:pressed_claim_story
+						has_variable = status
+						OR = {
+							var:status = flag:contender
+							var:status = flag:supporter
+						}
 					}
 				}
 			}
+			trigger_else = {
+				
+			}
+			
 			scope:stakeholder = { FF_ambition_get_title > 0 }
 		}
 		save_scope_as = coveted_title
