@@ -48,5 +48,17 @@ BMU_error_suppression.0001 = {
 		fix_variable_error = { X = BMU_vote_stories }
 		fix_variable_error = { X = claim_story }
 		fix_variable_error = { X = FF_council_position_datamodel }
+		fix_variable_error = { X = top_alternate_candidate }
+		fix_variable_error = { X = player_score }
+		fix_variable_error = { X = score_to_beat }
+		fix_variable_error = { X = player_story }
+		fix_variable_error = { X = gui_candidate }
+		fix_variable_error = { X = Y }
+		fix_variable_error = { X = Y }
+		fix_variable_error = { X = Y }
+
+
+		trigger_event = faction_demand.2001
+		trigger_event = faction_demand.2005
 	}
 }

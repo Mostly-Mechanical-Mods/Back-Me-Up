@@ -143,6 +143,12 @@
 
 BMU_stakeholder_story = {
 	on_setup = {
+		story_owner = {
+			add_to_variable_list = {
+				name = BMU_stakeholder_stories
+				target = prev
+			}
+		}
 		set_variable = {
 			name = stakeholder
 			value = story_owner

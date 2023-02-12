@@ -33,7 +33,7 @@ window = {
 
 		widget = {
 			size = { 100% 100% }
-			datamodel = "[GetPlayer.MakeScope.GetList('BMU_pressed_claim_stakeholders')]"
+			datamodel = "[GetPlayer.MakeScope.GetList('BMU_stakeholder_stories')]"
 			item = {
 				vbox = {
 					layoutpolicy_vertical = expanding
@@ -916,10 +916,11 @@ window = {
 														spacer = { size = { 20 0 }}
 														hbox = {
 															button = {
+																visible = "[GetScriptedGui('BMU_ambition_get_title').IsShown(GuiScope.SetRoot(Scope.Story.MakeScope).AddScope('contender',GetPlayer.MakeScope).End)]"
 																texture = "gfx/interface/icons/message_feed/titles.dds"
 																size = { 50 50 }
 																tooltipwidget = BMU_stakeholder_ambition_tooltip
-																onclick = "[GetVariableSystem.Set('ambitions_type','ambition_get_title')]"
+																onclick = "[GetVariableSystem.Set('ambitions_type','FF_ambition_get_title')]"
 																onclick = "[GetVariableSystem.Set('ambitions_target',Scope.Var('stakeholder').Char.GetPrimaryTitle.GetKey)]"
 															}
 															icon = {
@@ -953,8 +954,10 @@ window = {
 							}
 
 						}
+						#Ambitions
 						widget = {
-							visible = "[GetVariableSystem.Exists('ambitions_type')]"
+							# visible = "[GetVariableSystem.Exists('ambitions_type')]"
+							visible = no
 							parentanchor = top|right
 							size = { 350 425 }
 							state = {
@@ -997,24 +1000,29 @@ window = {
 													datamodel = "[Scope.GetList('BMU_stakeholder_ambitions')]"
 													item = {
 														vbox = {
+															visible = "[EqualTo_string(Scope.Var('ambition').GetFlagName,GetVariableSystem.Get('ambitions_type'))]"
 															layoutpolicy_horizontal = expanding
 															layoutpolicy_vertical = expanding
-															visible = "[EqualTo_string(Scope.Var('ambition').GetFlagName,'FF_ambition_get_title')]"
+															visible = "[GetScriptedGui('BMU_ambition_get_coveted_title').IsShown(GuiScope.SetRoot(Scope.Story.MakeScope).AddScope('ambition_type',MakeScopeFlag(GetVariableSystem.Get('ambitions_type'))).AddScope('contender',GetPlayer.MakeScope).End)]"
 															hbox = {
-																datacontext = "[Scope.Var('coveted_title').Title]"
-																layoutpolicy_horizontal = expanding
-																coa_title_tiny_crown ={
-																	blockoverride "coa_button" {
-																		down = "[GetVariableSystem.HasValue('coveted_title',Title.GetKey)]"
-																		onclick = "[GetVariableSystem.Set('coveted_title',Title.GetKey)]"
+																hbox = {
+																	datacontext = "[Scope.Var('coveted_title').Title]"
+																	layoutpolicy_horizontal = expanding
+																	layoutpolicy_vertical = expanding
+																	coa_title_tiny_crown ={
+																		blockoverride "coa_button" {
+																			down = "[GetVariableSystem.HasValue('coveted_title',Title.GetKey)]"
+																			onclick = "[GetVariableSystem.Set('coveted_title',Title.GetKey)]"
+																		}
 																	}
+																	text_single = {
+																		# text = "[Scope.Var('ambition_score').GetValue|0]"
+																		text = "[Title.GetName]"
+																	}
+																	expand = {}
 																}
-																text_single = {
-																	# text = "[Scope.Var('ambition_score').GetValue|0]"
-																	text = "[Title.GetName]"
-																}
-																expand = {}
 															}
+															expand = {}
 														}
 													}
 
@@ -1022,6 +1030,7 @@ window = {
 											}
 										}
 										text_multi = {
+											visible = "[GetVariableSystem.Exists('coveted_title')]"
 											raw_text = "[GetTitleByKey(GetVariableSystem.Get('coveted_title')).GetName]"
 											default_format = "#high"
 											autoresize = yes
@@ -1136,7 +1145,7 @@ window = {
 
 		flowcontainer = {
 			ignoreinvisible = yes
-			datamodel = "[GetPlayer.MakeScope.GetList('BMU_pressed_claim_stakeholders')]"
+			datamodel = "[GetPlayer.MakeScope.GetList('BMU_stakeholder_stories')]"
 			item = {
 				widget = {
 					# allow_outside = yes
