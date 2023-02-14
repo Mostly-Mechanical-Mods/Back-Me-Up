@@ -1,0 +1,17 @@
+﻿pressed_claim_contender = {
+	type = character
+	gender = male
+	special = holder
+	tier = duchy
+	top_liege = no
+	priority = 27
+	flag = flavorization_contender
+}
+
+pressed_claim_contender_title = {
+	type = title
+	tier = duchy
+	top_liege = no
+	priority = 27
+	flag = flavorization_contender
+}

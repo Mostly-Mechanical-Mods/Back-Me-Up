@@ -65,7 +65,7 @@ window = {
 							visible = "[Character.IsValid]"
 							layoutpolicy_horizontal = expanding
 							# margin = { 70 0 }
-							margin_top = 20
+							# margin_top = 20
 	
 							state = {
 								name = _show
@@ -165,7 +165,7 @@ window = {
 									}
 								}
 								datacontext = "[Scope.Var('pressed_claim_story').Var('claim_target').Char]"
-								margin_left = 20
+								margin_left = 0
 								portrait_torso = {
 									
 									state = {
@@ -189,7 +189,8 @@ window = {
 									
 									vbox = {
 										layoutpolicy_horizontal = expanding
-										min_width = 300
+										min_width = 250
+										max_width = 250
 										spacing = 5
 		
 										text_label_center = {
@@ -232,6 +233,71 @@ window = {
 								}
 		
 								
+							}
+							expand = {}
+							
+							vbox = {
+								layoutpolicy_vertical = expanding
+								spacing = 10
+								# minimumsize = { 50 0 }
+								# text = {
+								# 	# align = center
+								# 	# autoresize = no
+								# 	text = "[Scope.Var('pressed_claim_story').Var('pressed_claim_phase').GetFlagName]"
+								# }
+								expand = {}
+								container = {
+
+									icon = {
+										texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+										size = { 100% 100% }
+									}
+									
+									progresspie = {
+										name = "progress"
+										size = { 80 80 }
+										texture = "gfx/interface/progressbars/action_progress_thin.dds"
+										framesize = { 124 124 }
+										frame = 2
+										widgetanchor = top|hcenter
+										parentanchor = top|hcenter
+										value = "[Scope.Var('pressed_claim_story').ScriptValue('FF_pressed_claim_story_duration')]"
+										min = 0
+										max = 1
+									}
+	
+									icon = {
+										name = "progress_frame"
+										texture = "gfx/interface/icons/BMU_action_progress_frame.dds"
+										size = { 100% 100% }
+										parentanchor = center
+										alpha = 0.5
+									}
+
+									icon_doctrine = {
+										# visible = "[EqualTo_string(Scope.Var('status').GetFlagName,'dropout')]"
+										size = { 44 44 }
+										texture = "gfx/interface/icons/press_claim_status.dds"
+										framesize = { 70 70 }
+										frame = 2
+										parentanchor = center
+									}
+
+									# highlight_icon = {
+									# 	texture = "gfx/interface/icons/flat_icons/inventory.dds"
+									# 	alwaystransparent = yes
+									# 	size = { 45 45 }
+									# 	parentanchor = center
+									# }
+								}
+								text_multi = {
+									layoutpolicy_horizontal = expanding
+									autoresize = yes
+									using = Font_Size_Medium
+									text = "[Scope.Var('pressed_claim_story').Var('pressed_claim_phase').GetFlagName]"
+								}
+								
+								expand = {}
 							}
 
 							expand = {}
@@ -362,13 +428,14 @@ window = {
 								}
 								visible = "[Or(Not(EqualTo_string(Scope.Var('status').GetFlagName,'contender')),ObjectsEqual(Scope.Var('pressed_claim_story').Var('claim_target').Char,GetPlayer.Self))]"
 								datacontext = "[Scope.Var('pressed_claim_story').Var('top_contender').Char]"
-								margin_right = 20
+								# margin_right = 20
 								vbox = {
 									layoutpolicy_vertical = expanding
 									
 									vbox = {
 										layoutpolicy_horizontal = expanding
-										min_width = 300
+										min_width = 250
+										max_width = 250
 										spacing = 5
 		
 										text_label_center = {
@@ -684,7 +751,7 @@ window = {
 												
 		
 												icon_doctrine = {
-													visible = "[EqualTo_string(Scope.Var('status').GetFlagName,'dropout')]"
+													visible = "[Or(EqualTo_string(Scope.Var('status').GetFlagName,'dropout'),EqualTo_string(Scope.Var('status').GetFlagName,'supporter'))]"
 													size = { 44 44 }
 													texture = "gfx/interface/icons/press_claim_status.dds"
 													framesize = { 70 70 }
@@ -797,6 +864,33 @@ window = {
 														}
 														minimumsize = { 600 0 }
 														
+													}
+													spacer = {
+														size = { 20 0 }
+													}
+													vbox = {
+														spacing = 10
+														text_single = {
+															text = "BMU_CLAIM_WINDOW_SUPPORTER_COUNT"
+															# text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Scope.Var('pressed_claim_story').Story.MakeScope).ScriptValue('FF_BMU_contender_supporter_count')|0]"
+															
+															using = Font_Size_Small
+														}
+					
+														hbox = {
+															icon = {
+																name = "icon_combat_strength"
+																size = { 30 30 }
+																texture = "gfx/interface/icons/icon_soldier.dds"
+															}
+															spacer = {
+																size = { 10 0 }
+															}
+															text_single = {
+																default_format = "#high"
+																text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Scope.Var('pressed_claim_story').Story.MakeScope).ScriptValue('FF_BMU_contender_mil_strength')|0]"
+															}
+														}
 													}
 													expand = {}
 												}
@@ -1000,10 +1094,10 @@ window = {
 													datamodel = "[Scope.GetList('BMU_stakeholder_ambitions')]"
 													item = {
 														vbox = {
-															visible = "[EqualTo_string(Scope.Var('ambition').GetFlagName,GetVariableSystem.Get('ambitions_type'))]"
+															# visible = "[EqualTo_string(Scope.Var('ambition').GetFlagName,GetVariableSystem.Get('ambitions_type'))]"
 															layoutpolicy_horizontal = expanding
 															layoutpolicy_vertical = expanding
-															visible = "[GetScriptedGui('BMU_ambition_get_coveted_title').IsShown(GuiScope.SetRoot(Scope.Story.MakeScope).AddScope('ambition_type',MakeScopeFlag(GetVariableSystem.Get('ambitions_type'))).AddScope('contender',GetPlayer.MakeScope).End)]"
+															# visible = "[GetScriptedGui('BMU_ambition_get_coveted_title').IsShown(GuiScope.SetRoot(Scope.Story.MakeScope).AddScope('ambition_type',MakeScopeFlag(GetVariableSystem.Get('ambitions_type'))).AddScope('contender',GetPlayer.MakeScope).End)]"
 															hbox = {
 																hbox = {
 																	datacontext = "[Scope.Var('coveted_title').Title]"

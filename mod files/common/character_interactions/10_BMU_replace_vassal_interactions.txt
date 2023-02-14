@@ -43,7 +43,7 @@
 					}
 				}
 				trigger_if = {
-					limit = { scope:recipient = { BMU_contender_score > 0 }}
+					limit = { scope:recipient = { BMU_contender_score < 0 }}
 					custom_description = {
 						text = BMU_ambition_get_title_trigger
 						subject = scope:recipient

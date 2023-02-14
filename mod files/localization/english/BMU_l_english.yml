@@ -101,7 +101,14 @@ game_concept_supporter_desc: "A $game_concept_supporter$ on a [BMU_pressed_claim
 game_concept_BMU_pressed_claim: "Pressed Claim"
 game_concept_BMU_pressed_claim_desc: "When a [contender|E] asserts their right to a title, other [claimants|E] to the title can press their own [claim|E].\n\n[contenders|E] will try to gather support in the hope of getting other [contenders|E] to back down - or to help in the inevitable war to come, should diplomacy fail."
 
-
+game_concept_contention_phase: "Contention Phase"
+game_concept_contention_phase_desc: "Contention"
+game_concept_rallying_phase: "Rallying Phase"
+game_concept_rallying_phase_desc: "Rallying"
+game_concept_bargaining_phase: "Bargaining Phase"
+game_concept_bargaining_phase_desc: "Bargaining"
+game_concept_declaration_phase: "Declaration Phase"
+game_concept_declaration_phase_desc: "Declaration"
 
 # Misc
 
@@ -121,3 +128,14 @@ FF_VALUE_FORMAT: "$KEY$: $VALUE|+=0$"
 
 test_1: "[Character.GetShortUIName]"
 test_2: "[Character.GetShortUIName]"
+
+
+# MISC
+
+CONTENDER_TITLE_NAME:0 "Claim on [old_title.GetBaseNameNoTooltip]"
+pressed_claim_contender: "[contender|E]"
+
+contention_phase: "[contention_phase|E]"
+rallying_phase: "[rallying_phase|E]"
+bargaining_phase: "[bargaining_phase|E]"
+declaration_phase: "[declaration_phase|E]"

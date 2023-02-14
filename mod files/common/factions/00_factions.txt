@@ -484,6 +484,20 @@ claimant_faction = {
 						years < 5
 					}
 				}
+				# save_temporary_scope_as = contender
+				# root.faction_target = { save_temporary_scope_as = claim_target }
+				# root.special_title = {
+				# 	save_temporary_scope_as = claimed_title
+				# 	save_temporary_scope_as = coveted_title
+				# }
+				# scope:claim_target = {
+				# 	save_temporary_scope_value_as = {
+				# 		name = target_score
+				# 		value = BMU_contender_score
+				# 	}
+				# }
+				# scope:target_score < 0
+				# FF_ambition_get_title > 0
 			}
 			exists = faction_war
 		}
@@ -491,10 +505,6 @@ claimant_faction = {
 
 	on_creation = {
 		save_scope_as = claimant_faction
-		# trigger_event = {
-		# 	on_action = on_claimant_faction_created
-		# 	delayed = yes
-		# }
 	}
 
 	demand = { # The effect of pressing demand

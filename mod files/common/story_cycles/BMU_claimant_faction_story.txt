@@ -1,9 +1,24 @@
 ﻿BMU_pressed_claim_story = {
 	on_setup = {
 		# handled in BMU_create_claim_press effect
+
+		set_variable = {
+			name = start_date
+			value = current_date
+		}
 	}
 	
 	on_end = {
+		every_in_list = {
+			variable = BMU_stakeholder_stories
+			var:stakeholder = {
+				every_owned_story = {
+					limit = { story_type = BMU_ambition_story }}
+					end_story = yes
+				}
+			}
+			end_story = yes
+		}
 	}
 
 	on_owner_death = {
@@ -11,25 +26,118 @@
 
 	effect_group = {
 		# months = 1
-		weeks = 1
+		days = 30
 		first_valid = {
 			triggered_effect = {
 				trigger = {
-					always = no
-					has_variable = rallying_phase
+					var:pressed_claim_phase = flag:declaration_phase
+				}
+				effect = {
+					set_variable = {
+						name = pressed_claim_phase
+						value = flag:war_phase
+					}
+					var:claim_target = { save_scope_as = claim_target }
+					var:claimed_title = {
+						save_scope_as = claimed_title
+						save_scope_as = old_title
+					}
+					every_in_list = {
+						variable = BMU_pressed_claim_stakeholders
+						limit = {
+							has_variable = status
+							var:status = flag:contender
+							NOT = { var:stakeholder = scope:claim_target }
+							trigger_if = {
+								limit = { var:stakeholder = { is_landed = no }}
+								var:stakeholder = { save_temporary_scope_as = unlanded_contender }
+								prev = {
+									any_in_list = {
+										variable = BMU_pressed_claim_stakeholders
+										has_variable = status
+										var:status = flag:supporter
+										var:contender.var:stakeholder = scope:unlanded_contender
+									}
+								}
+							}
+						}
+						var:stakeholder = {
+							debug_log_scopes = no
+							if = {
+								limit = { is_landed = no }
+								add_character_flag = flavorization_contender
+								create_dynamic_title = {
+									tier = duchy
+									name = CONTENDER_TITLE_NAME
+								}
+								create_title_and_vassal_change = {
+									type = created
+									save_scope_as = change
+									add_claim_on_loss = no
+								}
+								scope:new_title = {
+									set_capital_county = scope:claimed_title.title_capital_county
+									set_landless_title = yes
+									set_destroy_on_succession = no
+									set_delete_on_destroy = yes
+									set_no_automatic_claims = yes
+									set_definitive_form = yes
+									set_can_be_named_after_dynasty = no
+									change_title_holder = {
+										holder = prev
+										change = scope:change
+									}
+									set_variable = unlanded_contender
+									generate_coa = pressed_claim
+								}
+								resolve_title_and_vassal_change = scope:change
+							}
+							start_war = {
+								cb = BMU_pressed_claim_cb
+								target = scope:claim_target
+								claimant = this
+								target_title = scope:claimed_title
+							}
+						}
+					}
+					every_in_list = {
+						variable = BMU_pressed_claim_stakeholders
+						limit = {
+							has_variable = status
+							var:status = flag:supporter
+							has_variable = contender
+						}
+						var:stakeholder = { save_scope_as = supporter }
+						var:contender.var:stakeholder = {
+							every_character_war = {
+								limit = { using_cb = BMU_pressed_claim_cb }
+								if = {
+									limit = { is_attacker = prev }
+									add_attacker = scope:supporter
+								}
+								else = {
+									add_defender = scope:supporter
+								}
+							}
+						}
+					}
+				}
+			}
+			triggered_effect = {
+				trigger = {
+					var:pressed_claim_phase = flag:bargaining_phase
 				}
 				effect = {
 					if = {
-						limit = { var:rallying_phase = 5 }
-						remove_variable = rallying_phase
+						limit = { var:bargaining_phase = 5 }
 						set_variable = {
-							name = declaration_phase
-							value = 0
+							name = pressed_claim_phase
+							value = flag:declaration_phase
 						}
 					}
 					else = {
 						change_variable = {
-							name = rallying_phase
+							name = bargaining_phase
 							add = 1
 						}
 					}
@@ -37,28 +145,33 @@
 			}
 			triggered_effect = {
 				trigger = {
-					always = no
-					has_variable = contention_phase
-					has_variable = stakeholders_added
+					var:pressed_claim_phase = flag:rallying_phase
+					# has_variable = stakeholders_added
 				}
 				effect = {
-					remove_variable = contention_phase
 					set_variable = {
-						name = rallying_phase
+						name = pressed_claim_phase
+						value = flag:bargaining_phase
+					}
+					set_variable = {
+						name = bargaining_phase
 						value = 0
 					}
 				}
 			}
 			triggered_effect = {
 				trigger = {
-					has_variable = contention_phase
-					NOT = { has_variable = stakeholders_added }
+					var:pressed_claim_phase = flag:contention_phase
+					# NOT = { has_variable = stakeholders_added }
 				}
 				effect = {
 					debug_log = "BMU_pressed_claim triggered_effect"
 					debug_log_scopes = no
 
-
+					set_variable = {
+						name = pressed_claim_phase
+						value = flag:rallying_phase
+					}
 					story_owner = {
 						save_scope_as = claim_target
 						every_ally = {
@@ -72,6 +185,7 @@
 							}
 							trigger_event = {
 								id = BMU_pressed_claim.0011
+								days = { 1 7 }
 							}
 						}
 					}
@@ -97,7 +211,7 @@
 								}
 								trigger_event = {
 									id = BMU_pressed_claim.0012
-									days = 1
+									days = { 8 14 }
 								}
 							}
 						}
@@ -114,7 +228,7 @@
 							}
 							trigger_event = {
 								id = BMU_pressed_claim.0013
-								days = 2
+								days = { 15 21 }
 							}
 						}
 						every_realm_county = {
@@ -128,7 +242,7 @@
 								}
 								trigger_event = {
 									id = BMU_pressed_claim.0014
-									days = 3
+									days = { 22 28 }
 								}
 							}
 						}

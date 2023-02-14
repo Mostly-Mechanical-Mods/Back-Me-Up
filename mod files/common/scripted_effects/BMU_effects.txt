@@ -34,6 +34,10 @@
 		debug_log = story
 		debug_log_scopes = no
 		set_variable = contention_phase
+		set_variable = {
+			name = pressed_claim_phase
+			value = flag:contention_phase
+		}
 		set_variable = { name = claimed_title value = scope:claimed_title }
 		set_variable = { name = claim_target value = scope:claim_target }
 
@@ -176,16 +180,38 @@ BMU_pressed_claim_supporter = {
 			}
 		}
 		save_scope_as = stakeholder_story
+		if = {
+			limit = { has_variable = contender }
+			var:contender.var:stakeholder = {
+				random_owned_story = {
+					limit = {
+						story_type = BMU_stakeholder_story
+						var:pressed_claim_story = scope:stakeholder_story.var:pressed_claim_story
+					}
+					remove_list_variable = {
+						name = supporters
+						target = scope:stakeholder_story
+					}
+				}
+			}
+		}
 		scope:contender = {
 			random_owned_story = {
 				limit = {
 					story_type = BMU_stakeholder_story
-					var:pressed_claim_story.var:claimed_title = scope:claimed_title
+					var:pressed_claim_story = scope:stakeholder_story.var:pressed_claim_story
 				}
 				scope:stakeholder_story = {
 					set_variable = {
 						name = contender
 						value = prev
+					}
+				}
+				if = {
+					limit = { NOT = { scope:contender = scope:supporter }}
+					add_to_variable_list = {
+						name = supporters
+						target = scope:stakeholder_story
 					}
 				}
 			}
