@@ -321,6 +321,8 @@ BMU_pressed_claim_update_top_contender = {
 }
 
 BMU_create_pressed_claim_stakeholder_story = {
+	debug_log = "BMU_create_pressed_claim_stakeholder_story debug"
+	debug_log_scopes = no
 	save_scope_as = stakeholder
 	$PRESSED_CLAIM$ = { save_scope_as = pressed_claim_story }
 	create_story = {
@@ -358,6 +360,12 @@ BMU_create_pressed_claim_stakeholder_story = {
 				}
 			}
 		}
+	}
+
+	# Clean-up coveted_titles list
+	every_in_list = {
+		list = coveted_titles
+		remove_from_list = coveted_titles
 	}
 
 	# Ambition Get Title

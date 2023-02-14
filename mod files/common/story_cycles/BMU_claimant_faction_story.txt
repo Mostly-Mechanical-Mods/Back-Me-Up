@@ -13,7 +13,7 @@
 			variable = BMU_stakeholder_stories
 			var:stakeholder = {
 				every_owned_story = {
-					limit = { story_type = BMU_ambition_story }}
+					limit = { story_type = BMU_ambition_story }
 					end_story = yes
 				}
 			}

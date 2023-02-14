@@ -1010,7 +1010,8 @@ window = {
 														spacer = { size = { 20 0 }}
 														hbox = {
 															button = {
-																visible = "[GetScriptedGui('BMU_ambition_get_title').IsShown(GuiScope.SetRoot(Scope.Story.MakeScope).AddScope('contender',GetPlayer.MakeScope).End)]"
+																# visible = "[GetScriptedGui('BMU_ambition_get_title').IsShown(GuiScope.SetRoot(Scope.Story.MakeScope).AddScope('contender',GetPlayer.MakeScope).End)]"
+																enabled = "[GetScriptedGui('BMU_ambition_get_title').IsValid(GuiScope.SetRoot(Scope.Story.MakeScope).AddScope('contender',GetPlayer.MakeScope).End)]"
 																texture = "gfx/interface/icons/message_feed/titles.dds"
 																size = { 50 50 }
 																tooltipwidget = BMU_stakeholder_ambition_tooltip
@@ -1050,8 +1051,8 @@ window = {
 						}
 						#Ambitions
 						widget = {
-							# visible = "[GetVariableSystem.Exists('ambitions_type')]"
-							visible = no
+							visible = "[GetVariableSystem.Exists('ambitions_type')]"
+							# visible = no
 							parentanchor = top|right
 							size = { 350 425 }
 							state = {
@@ -1081,7 +1082,8 @@ window = {
 										
 										text_single = {
 											minimumsize = { 0 50 }
-											raw_text = "Bargain with [Scope.Var('stakeholder').Char.GetShortUINameNoTooltip]"
+											# raw_text = "Bargain with [Scope.Var('stakeholder').Char.GetShortUINameNoTooltip]"
+											raw_text = "[GetVariableSystem.Get('ambitions_target')]"
 										}
 
 										scrollbox = {
@@ -1097,13 +1099,14 @@ window = {
 															# visible = "[EqualTo_string(Scope.Var('ambition').GetFlagName,GetVariableSystem.Get('ambitions_type'))]"
 															layoutpolicy_horizontal = expanding
 															layoutpolicy_vertical = expanding
-															# visible = "[GetScriptedGui('BMU_ambition_get_coveted_title').IsShown(GuiScope.SetRoot(Scope.Story.MakeScope).AddScope('ambition_type',MakeScopeFlag(GetVariableSystem.Get('ambitions_type'))).AddScope('contender',GetPlayer.MakeScope).End)]"
+															visible = "[GetScriptedGui('BMU_ambition_get_coveted_title').IsShown(GuiScope.SetRoot(Scope.Story.MakeScope).AddScope('ambition_type',MakeScopeFlag(GetVariableSystem.Get('ambitions_type'))).AddScope('contender',GetPlayer.MakeScope).End)]"
 															hbox = {
+																layoutpolicy_horizontal = expanding
 																hbox = {
 																	datacontext = "[Scope.Var('coveted_title').Title]"
 																	layoutpolicy_horizontal = expanding
 																	layoutpolicy_vertical = expanding
-																	coa_title_tiny_crown ={
+																	coa_title_tiny_crown = {
 																		blockoverride "coa_button" {
 																			down = "[GetVariableSystem.HasValue('coveted_title',Title.GetKey)]"
 																			onclick = "[GetVariableSystem.Set('coveted_title',Title.GetKey)]"
@@ -1112,8 +1115,12 @@ window = {
 																	text_single = {
 																		# text = "[Scope.Var('ambition_score').GetValue|0]"
 																		text = "[Title.GetName]"
+																		# text = "[Scope.Var('story_owner').Char.GetShortUIName]"
 																	}
 																	expand = {}
+																	text_single = {
+																		text = "[Scope.Var('ambition_score').GetValue|0]"
+																	}
 																}
 															}
 															expand = {}
