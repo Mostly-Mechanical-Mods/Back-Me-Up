@@ -890,7 +890,17 @@ window = {
 																default_format = "#high"
 																text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Scope.Var('pressed_claim_story').Story.MakeScope).ScriptValue('FF_BMU_contender_mil_strength')|0]"
 															}
+															spacer = {
+																size = { 10 0 }
+															}
 														}
+													}
+													spacer = {
+														size = { 10 0 }
+													}
+													text_single = {
+														default_format = "#high"
+														text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Scope.Var('pressed_claim_story').Story.MakeScope).ScriptValue('FF_confidence')|0%]"
 													}
 													expand = {}
 												}
