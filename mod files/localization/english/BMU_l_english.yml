@@ -83,6 +83,13 @@ BMU_TARGET_INVITE_VASSALS_SUPPORT_CONTENDER: "BMU_TARGET_INVITE_VASSALS_SUPPORT_
 BMU_TARGET_INVITE_VASSALS_STAKEHOLDER: "BMU_TARGET_INVITE_VASSALS_STAKEHOLDER"
 BMU_TARGET_INVITE_VASSALS_DROPOUT: "BMU_TARGET_INVITE_VASSALS_DROPOUT"
 
+BMU_ACCEPT_BARGAIN_TOOLTIP: "You accept the bargain, and pledge your support to [contender.Var('stakeholder').Char.GetShortUIName] in the claim on [contender.Var('pressed_claim_story').Var('claimed_title').Title.GetName]."
+BMU_REFUSE_BARGAIN_TOOLTIP: "You refuse the bargain."
+
+BMU_BARGAIN_PROPOSAL: "I am seeking your support for my claim on [bargain.MakeScope.Var('stakeholder_story').Var('pressed_claim_story').Var('claimed_title').Title.GetName].\nShould you chose to side with me, once I get the title, "
+BMU_BARGAIN_PROPOSAL_COUNCIL_POSITION: "I would make you my [Localize(Concatenate(bargain.MakeScope.Var('council_position').GetFlagName,'_name'))]."
+BMU_BARGAIN_ACCEPTED: "BMU_BARGAIN_ACCEPTED"
+BMU_BARGAIN_REFUSED: "BMU_BARGAIN_REFUSED"
 
 # Game Concepts
 
@@ -139,3 +146,18 @@ contention_phase: "[contention_phase|E]"
 rallying_phase: "[rallying_phase|E]"
 bargaining_phase: "[bargaining_phase|E]"
 declaration_phase: "[declaration_phase|E]"
+
+chancellor_name: "[chancellor|E]"
+steward_name: "[steward|E]"
+marshal_name: "[marshal|E]"
+spymaster_name: "[spymaster|E]"
+
+BMU_THEY_ALREADY_BARGAINED_FOR: "[TARGET_CHARACTER.GetShortUIName] already promised this to [CHARACTER.GetShortUIName]."
+BMU_I_HAVE_NOT_SELECTED_BARGAIN: "Select something to bargain with."
+BMU_I_ALREADY_BARGAINED_WITH_TARGET: "You already struck a bargain with [TARGET_CHARACTER.GetShortUIName]."
+BMU_THEY_ARE_CONSIDERING_YOUR_BARGAIN: "[TARGET_CHARACTER.GetShortUIName] is already considering your proposal."
+
+BMU_ACCEPT_BARGAIN: "I will support [contender.Var('stakeholder').Char.GetShortUINamePossessive] claim!"
+BMU_REFUSE_BARGAIN: "Nah, that bargain is not good enough..."
+BMU_THEY_WOULD_ACCEPT_BARGAIN: "[TARGET_CHARACTER.GetShortUIName] would probably accept this bargain."
+BMU_THEY_WOULD_NOT_ACCEPT_BARGAIN: "[TARGET_CHARACTER.GetShortUIName] will not accept this bargain."

@@ -8,6 +8,7 @@
 			exists = $UNWILLING_CONTENDER$
 		}
 	}
+	
 	$TARGET$ = { save_scope_as = claim_target }
 	$TARGET_TITLE$ = { save_scope_as = claimed_title }
 	$CONTENDER$ = { save_scope_as = contender }

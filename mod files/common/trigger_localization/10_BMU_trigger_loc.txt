@@ -11,3 +11,24 @@ BMU_ambition_get_title_trigger = {
 	third = BMU_THEY_WANT_COVETED_TITLE_TRIGGER
 	third_not = BMU_THEY_NOT_WANT_COVETED_TITLE_TRIGGER
 }
+
+BMU_ambition_already_bargained_for = {
+	third = BMU_THEY_ALREADY_BARGAINED_FOR
+}
+
+BMU_ambition_selected_for_bargain = {
+	first_not = BMU_I_HAVE_NOT_SELECTED_BARGAIN
+}
+
+BMU_supporter_already_bargained_with = {
+	first = BMU_I_ALREADY_BARGAINED_WITH_TARGET
+}
+
+BMU_bargain_under_consideration = {
+	third = BMU_THEY_ARE_CONSIDERING_YOUR_BARGAIN
+}
+
+BMU_bargain_acceptable = {
+	third = BMU_THEY_WOULD_ACCEPT_BARGAIN
+	third_not = BMU_THEY_WOULD_NOT_ACCEPT_BARGAIN
+}

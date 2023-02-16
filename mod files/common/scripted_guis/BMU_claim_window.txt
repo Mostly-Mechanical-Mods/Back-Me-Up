@@ -1,0 +1,356 @@
+﻿# BMU_claim_player_involved = {
+# 	scope = character
+# 	saved_scopes = {
+# 		story
+# 	}
+# 	is_shown = {
+# 		# always = no
+# 		scope:story = {
+# 			is_target_in_variable_list = {
+# 				name = supporters
+# 				target = root
+# 			}
+# 		}
+# 	}
+# }
+
+BMU_has_strong_claim = {
+	scope = character
+	saved_scopes = {
+		title
+	}
+	is_shown = {
+		has_strong_claim_on = scope:title
+	}
+}
+
+BMU_has_weak_claim = {
+	scope = character
+	saved_scopes = {
+		title
+	}
+	is_shown = {
+		has_weak_claim_on = scope:title
+	}
+}
+
+BMU_has_implicit_claim = {
+	scope = character
+	saved_scopes = {
+		title
+	}
+	is_shown = {
+		NOR = {
+			has_claim_on = scope:title
+			has_title = scope:title
+		}
+	}
+}
+
+# BMU_candidate_picked = {
+# 	scope = character
+# 	saved_scopes = {
+# 		story
+# 	}
+# 	is_shown = {
+# 		# always = no
+# 		scope:story = {
+# 			any_in_list = {
+# 				variable = supporter_stories
+# 				story_owner = root
+# 				has_variable = status
+# 				exists = var:top_candidate
+# 			}
+# 		}
+# 	}
+# 	effect = {
+# 		debug_log = "tooltip_mouse_enter"
+# 		scope:story = {
+# 			random_in_list = {
+# 				variable = supporter_stories
+# 				limit = { story_owner = root }
+# 				story_owner = {
+# 					set_variable = {
+# 						name = tooltip_candidate
+# 						value = prev.var:top_candidate
+# 					}
+# 					set_variable = {
+# 						name = claim_story
+# 						value = scope:story
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+# }
+
+BMU_test = {
+	scope = character
+	# saved_scopes = {
+	# 	story
+	# }
+	effect = {
+		debug_log = "tooltip_mouse_enter"
+		# scope:story = {
+		# 	story_owner = {
+		# 		set_variable = {
+		# 			name = top_candidate
+		# 			value = prev.var:top_candidate
+		# 		}
+		# 		set_variable = {
+		# 			name = claim_story
+		# 			value = scope:story
+		# 		}
+		# 	}
+		# }
+	}
+}
+
+
+BMU_ambition_get_title = {
+	scope = story
+	saved_scopes = {
+		contender
+	}
+	is_shown = {
+		any_in_list = {
+			variable = BMU_stakeholder_ambitions
+			var:ambition = flag:FF_ambition_get_title
+		}
+	}
+	is_valid = {
+		any_in_list = {
+			variable = BMU_stakeholder_ambitions
+			has_variable = ambition
+			var:ambition = flag:FF_ambition_get_title
+			trigger_if = {
+				limit = {
+					var:coveted_title = { is_title_created = yes }
+					var:coveted_title_holder = scope:contender
+				}
+				NOR = {
+					var:coveted_title = var:coveted_title_holder.primary_title
+					var:coveted_title = var:coveted_title_holder.capital_county
+				}
+			}
+			trigger_else_if = {
+				limit = { var:coveted_title = { is_title_created = no } }
+				OR = {
+					var:coveted_title_holder = scope:contender
+					AND = {
+						var:coveted_title_holder = root.var:pressed_claim_story.var:claim_target
+						var:coveted_title = { any_this_title_or_de_jure_above = { this = root.var:pressed_claim_story.var:claimed_title }}
+					}
+				}
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+	}
+}
+
+BMU_ambition_get_coveted_title = {
+	scope = story
+	saved_scopes = {
+		contender
+		ambition_type
+	}
+	is_shown = {
+		trigger_if = {
+			limit = { var:ambition = scope:ambition_type }
+			trigger_if = {
+				limit = {
+					var:coveted_title = { is_title_created = yes }
+					var:coveted_title_holder = scope:contender
+				}
+				NOR = {
+					var:coveted_title = var:coveted_title_holder.primary_title
+					var:coveted_title = var:coveted_title_holder.capital_county
+				}
+			}
+			trigger_else_if = {
+				limit = { var:coveted_title = { is_title_created = no } }
+				OR = {
+					var:coveted_title_holder = scope:contender
+					AND = {
+						var:coveted_title_holder = root.var:pressed_claim_story.var:claim_target
+						var:coveted_title = { any_this_title_or_de_jure_above = { this = root.var:pressed_claim_story.var:claimed_title }}
+					}
+				}
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+		trigger_else = {
+			always = no
+		}
+	}
+}
+
+BMU_ambition_get_council_position = {
+	scope = story
+	saved_scopes = {
+		contender
+		ambition_type
+	}
+	is_shown = {
+		any_in_list = {
+			variable = BMU_stakeholder_ambitions
+			var:ambition = flag:FF_ambition_get_council_position
+		}
+	}
+	is_valid = {
+		any_in_list = {
+			variable = BMU_stakeholder_ambitions
+			has_variable = ambition
+			var:ambition = flag:FF_ambition_get_council_position
+		}
+	}
+}
+
+BMU_set_bargain = {
+	scope = character
+	saved_scopes = {
+		bargain
+	}
+	is_shown = {
+		has_variable = bargain
+		scope:bargain = var:bargain
+	}
+	is_valid = {
+		trigger_if = {
+			limit = { scope:bargain = { has_variable = fulfilled }}
+			NOT = {
+				custom_description = {
+					text = BMU_ambition_already_bargained_for
+					subject = scope:bargain.var:stakeholder_story.var:stakeholder
+					object = scope:bargain.var:fulfilled.var:stakeholder
+					scope:bargain = { has_variable = fulfilled }
+				}
+			}
+		}
+	}
+	effect = {
+		set_variable = {
+			name = bargain
+			value = scope:bargain
+		}
+	}
+}
+
+BMU_send_bargain = {
+	scope = character
+	saved_scopes = {
+		contender
+	}
+	is_valid = {
+		custom_description = {
+			text = BMU_ambition_selected_for_bargain
+			subject = root
+			has_variable = bargain
+		}
+		trigger_if = {
+			limit = {
+				has_variable = bargain
+				var:bargain = { save_temporary_scope_as = bargain }
+			}
+			NOR = {
+				custom_description = {
+					text = BMU_supporter_already_bargained_with
+					subject = root
+					object = scope:bargain.var:stakeholder_story.var:stakeholder
+					scope:contender = {
+						any_in_list = {
+							variable = BMU_bargains
+							var:stakeholder_story.var:stakeholder = scope:bargain.var:stakeholder_story.var:stakeholder
+						}
+					}
+				}
+				custom_description = {
+					text = BMU_bargain_under_consideration
+					subject = root
+					object = scope:bargain.var:stakeholder_story.var:stakeholder
+					var:bargain = { has_variable = pending }
+				}
+			}
+			custom_description = {
+				text = BMU_bargain_acceptable
+				subject = root
+				object = scope:bargain.var:stakeholder_story.var:stakeholder
+				FF_bargain_acceptance > 0
+			}
+		}
+	}
+	effect = {
+		debug_log = "BMU_send_bargain"
+		debug_log_scopes = no
+		show_as_tooltip = {
+			if = {
+				limit = { has_variable = bargain }
+				var:bargain = {
+					switch = {
+						trigger = var:ambition
+						flag:FF_ambition_get_council_position = {
+							switch = {
+								trigger = var:council_position
+								flag:chancellor = {
+									root = {
+										assign_councillor_type = {
+											type = councillor_chancellor
+											target = var:bargain.var:stakeholder_story.var:stakeholder
+										}
+									}
+								}
+								flag:steward = {
+									root = {
+										assign_councillor_type = {
+											type = councillor_steward
+											target = var:bargain.var:stakeholder_story.var:stakeholder
+										}
+									}
+								}
+								flag:marshal = {
+									root = {
+										assign_councillor_type = {
+											type = councillor_marshal
+											target = var:bargain.var:stakeholder_story.var:stakeholder
+										}
+									}
+								}
+								flag:spymaster = {
+									root = {
+										assign_councillor_type = {
+											type = councillor_spymaster
+											target = var:bargain.var:stakeholder_story.var:stakeholder
+										}
+									}
+								}
+							}
+						}
+					}
+				}	
+			}
+		}
+
+		hidden_effect = {
+			if = {
+				limit = { has_variable = bargain }
+				var:bargain = { save_scope_as = bargain }
+				scope:bargain = {
+					set_variable = {
+						name = pending
+						value = scope:contender
+					}
+					var:stakeholder_story.var:stakeholder = {
+						trigger_event = {
+							id = BMU_pressed_claim_bargaining.0001
+							# [TODO] introduce delay
+						}
+					}
+				}
+			}
+		}
+	}
+}
