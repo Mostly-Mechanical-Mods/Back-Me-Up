@@ -72,8 +72,7 @@
 					subject = scope:actor
 					object = scope:recipient
 					BMU_pressed_claim_supporter = {
-						TITLE = scope:pressed_claim_story.var:claimed_title
-						TARGET = scope:pressed_claim_story.var:claim_target
+						PRESSED_CLAIM = scope:pressed_claim_story
 						CONTENDER = scope:actor
 					}
 				}

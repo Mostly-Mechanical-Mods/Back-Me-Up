@@ -66,8 +66,9 @@ BMU_error_suppression.0001 = {
 		fix_variable_error = { X = fulfilled }
 		fix_variable_error = { X = bargained }
 		fix_variable_error = { X = BMU_bargains_refused }
-		fix_variable_error = { X = fulfilled }
-
+		fix_variable_error = { X = pressed_claim_won }
+		fix_variable_error = { X = pending_bargain }
+		fix_variable_error = { X = pending_bargain_proposal }
 
 		trigger_event = faction_demand.2001
 		trigger_event = faction_demand.2005

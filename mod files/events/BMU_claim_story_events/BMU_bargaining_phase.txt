@@ -16,7 +16,7 @@ BMU_pressed_claim_bargaining.0001 = {
 	sender = scope:contender.var:stakeholder
 
 	trigger = {
-		NOT = { this = scope:contender }
+		NOT = { this = scope:contender.var:stakeholder }
 		exists = scope:contender.var:stakeholder
 	}
 
@@ -45,10 +45,14 @@ BMU_pressed_claim_bargaining.0001 = {
 		}
 		scope:contender.var:stakeholder = {
 			send_interface_toast = {
-				type = event_generic_neutral # default: send_interface_toast
+				# type = event_generic_neutral # default: send_interface_toast
 				title = BMU_BARGAIN_ACCEPTED
 				left_icon = root # optional, character, artifact, or title
 			}
+		}
+		BMU_pressed_claim_supporter = {
+			PRESSED_CLAIM = scope:bargain.var:stakeholder_story.var:pressed_claim_story
+			CONTENDER = scope:contender.var:stakeholder
 		}
 		
 		ai_chance = {
@@ -76,7 +80,7 @@ BMU_pressed_claim_bargaining.0001 = {
 		}
 		scope:contender.var:stakeholder = {
 			send_interface_toast = {
-				type = event_generic_neutral # default: send_interface_toast
+				# type = event_generic_neutral # default: send_interface_toast
 				title = BMU_BARGAIN_REFUSED
 				left_icon = root # optional, character, artifact, or title
 			}

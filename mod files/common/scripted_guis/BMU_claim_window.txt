@@ -211,18 +211,18 @@ BMU_ambition_get_council_position = {
 }
 
 BMU_set_bargain = {
-	scope = character
+	scope = story
 	saved_scopes = {
 		bargain
 	}
 	is_shown = {
-		has_variable = bargain
-		scope:bargain = var:bargain
+		has_variable = current_bargain
+		scope:bargain = var:current_bargain
 	}
 	is_valid = {
-		trigger_if = {
-			limit = { scope:bargain = { has_variable = fulfilled }}
-			NOT = {
+		NOR = {
+			trigger_if ={
+				limit = { scope:bargain = { has_variable = fullfilled }}
 				custom_description = {
 					text = BMU_ambition_already_bargained_for
 					subject = scope:bargain.var:stakeholder_story.var:stakeholder
@@ -230,11 +230,24 @@ BMU_set_bargain = {
 					scope:bargain = { has_variable = fulfilled }
 				}
 			}
+			any_in_list = {
+				variable = BMU_bargains
+				var:ambition = scope:bargain.var:ambition
+				trigger_if = {
+					limit = { var:ambition = flag:FF_ambition_get_council_position }
+					var:council_position = scope:bargain.var:council_position
+				}
+				custom_description = {
+					text = BMU_ambition_already_bargained_with
+					subject = root.var:stakeholder
+					object = var:stakeholder_story.var:stakeholder
+				}
+			}
 		}
 	}
 	effect = {
 		set_variable = {
-			name = bargain
+			name = current_bargain
 			value = scope:bargain
 		}
 	}
@@ -249,12 +262,12 @@ BMU_send_bargain = {
 		custom_description = {
 			text = BMU_ambition_selected_for_bargain
 			subject = root
-			has_variable = bargain
+			has_variable = current_bargain
 		}
 		trigger_if = {
 			limit = {
-				has_variable = bargain
-				var:bargain = { save_temporary_scope_as = bargain }
+				has_variable = current_bargain
+				var:current_bargain = { save_temporary_scope_as = bargain }
 			}
 			NOR = {
 				custom_description = {
@@ -272,14 +285,14 @@ BMU_send_bargain = {
 					text = BMU_bargain_under_consideration
 					subject = root
 					object = scope:bargain.var:stakeholder_story.var:stakeholder
-					var:bargain = { has_variable = pending }
+					has_variable = pending_bargain_proposal
 				}
 			}
 			custom_description = {
 				text = BMU_bargain_acceptable
 				subject = root
 				object = scope:bargain.var:stakeholder_story.var:stakeholder
-				FF_bargain_acceptance > 0
+				scope:bargain.var:stakeholder_story.var:stakeholder.FF_bargain_acceptance > 0
 			}
 		}
 	}
@@ -296,34 +309,34 @@ BMU_send_bargain = {
 							switch = {
 								trigger = var:council_position
 								flag:chancellor = {
-									root = {
+									root.var:stakeholder = {
 										assign_councillor_type = {
 											type = councillor_chancellor
-											target = var:bargain.var:stakeholder_story.var:stakeholder
+											target = root.var:bargain.var:stakeholder_story.var:stakeholder
 										}
 									}
 								}
 								flag:steward = {
-									root = {
+									root.var:stakeholder = {
 										assign_councillor_type = {
 											type = councillor_steward
-											target = var:bargain.var:stakeholder_story.var:stakeholder
+											target = root.var:bargain.var:stakeholder_story.var:stakeholder
 										}
 									}
 								}
 								flag:marshal = {
-									root = {
+									root.var:stakeholder = {
 										assign_councillor_type = {
 											type = councillor_marshal
-											target = var:bargain.var:stakeholder_story.var:stakeholder
+											target = root.var:bargain.var:stakeholder_story.var:stakeholder
 										}
 									}
 								}
 								flag:spymaster = {
-									root = {
+									root.var:stakeholder = {
 										assign_councillor_type = {
 											type = councillor_spymaster
-											target = var:bargain.var:stakeholder_story.var:stakeholder
+											target = root.var:bargain.var:stakeholder_story.var:stakeholder
 										}
 									}
 								}
@@ -336,12 +349,17 @@ BMU_send_bargain = {
 
 		hidden_effect = {
 			if = {
-				limit = { has_variable = bargain }
-				var:bargain = { save_scope_as = bargain }
+				limit = { has_variable = current_bargain }
+				var:current_bargain = { save_scope_as = bargain }
+				remove_variable = bargain
+				set_variable = {
+					name = pending_bargain_proposal
+					value = scope:bargain
+				}
 				scope:bargain = {
 					set_variable = {
 						name = pending
-						value = scope:contender
+						value = root
 					}
 					var:stakeholder_story.var:stakeholder = {
 						trigger_event = {
@@ -353,4 +371,9 @@ BMU_send_bargain = {
 			}
 		}
 	}
+}
+
+BMU_clear_bargain = {
+	scope = character
+	effect = { remove_variable = current_bargain }
 }

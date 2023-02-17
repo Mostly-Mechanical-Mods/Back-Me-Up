@@ -91,6 +91,9 @@ BMU_BARGAIN_PROPOSAL_COUNCIL_POSITION: "I would make you my [Localize(Concatenat
 BMU_BARGAIN_ACCEPTED: "BMU_BARGAIN_ACCEPTED"
 BMU_BARGAIN_REFUSED: "BMU_BARGAIN_REFUSED"
 
+BMU_SUPPORTER_LOST: "BMU_SUPPORTER_LOST"
+BMU_SUPPORTER_GAIN: "BMU_SUPPORTER_GAIN"
+
 # Game Concepts
 
 game_concept_stakeholder: "Stakeholder"
@@ -152,7 +155,8 @@ steward_name: "[steward|E]"
 marshal_name: "[marshal|E]"
 spymaster_name: "[spymaster|E]"
 
-BMU_THEY_ALREADY_BARGAINED_FOR: "[TARGET_CHARACTER.GetShortUIName] already promised this to [CHARACTER.GetShortUIName]."
+BMU_THEY_ALREADY_BARGAINED_FOR: "[TARGET_CHARACTER.GetShortUIName] already bargained this with [CHARACTER.GetShortUIName]."
+BMU_YOU_ALREADY_BARGAINED_WITH: "You already bargained this with [TARGET_CHARACTER.GetShortUIName]"
 BMU_I_HAVE_NOT_SELECTED_BARGAIN: "Select something to bargain with."
 BMU_I_ALREADY_BARGAINED_WITH_TARGET: "You already struck a bargain with [TARGET_CHARACTER.GetShortUIName]."
 BMU_THEY_ARE_CONSIDERING_YOUR_BARGAIN: "[TARGET_CHARACTER.GetShortUIName] is already considering your proposal."

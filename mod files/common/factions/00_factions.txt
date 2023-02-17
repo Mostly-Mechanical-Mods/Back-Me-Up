@@ -643,8 +643,10 @@ claimant_faction = {
 			scope:faction.faction_target = {
 				any_owned_story = {
 					story_type = BMU_pressed_claim_story
-					has_variable = claimed_title
-					var:claimed_title = scope:faction.special_title
+					trigger_if = {
+						limit = { has_variable = claimed_title }
+						var:claimed_title = scope:faction.special_title
+					}
 				}
 			}
 		}

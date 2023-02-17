@@ -225,6 +225,26 @@
 						value = prev
 					}
 				}
+				every_in_list = {
+					variable = BMU_pressed_claim_stakeholders
+					if = {
+						limit = {
+							has_variable = status
+							OR = {
+								var:status = flag:dropout
+								var:status = flag:stakeholder
+							}
+						}
+						end_story = yes
+					}
+					else = {
+						every_in_list = {
+							variable = BMU_stakeholder_ambitions
+							limit = { NOT = { has_variable = bargained }}
+							end_story = yes
+						}
+					}
+				}
 			}
 		}
 	}
@@ -303,6 +323,9 @@
 			}
 			scope:war.var:pressed_claim = { end_story = yes }
 		}
+		else = {
+
+		}
 	}
 
 	on_victory_desc = {
@@ -348,6 +371,13 @@
 					}
 					every_war_defender = {
 						limit = { NOT = { this = scope:defender }}
+						random_owned_story = {
+							limit = {
+								story_type = BMU_stakeholder_story
+								var:pressed_claim_story = scope:war.var:pressed_claim
+							}
+							end_story = yes
+						}
 						prev = { remove_participant = prev }
 					}
 					# add_defender = scope:attacker
@@ -447,7 +477,17 @@
 			# FP1: note the victory for future memorialisation via stele (if applicable).
 			scope:attacker = { fp1_remember_recent_conquest_victory_effect = yes }
 
-			scope:war.var:pressed_claim = { end_story = yes }
+			scope:attacker = {
+				random_owned_story = {
+					limit = {
+						story_type = BMU_stakeholder_story
+						var:pressed_claim_story = scope:war.var:pressed_claim
+					}
+					set_variable = pressed_claim_won
+					end_story = yes
+				}
+			}
+			scope:war.var:pressed_claim = { end_story = yes } 
 		}
 	}
 

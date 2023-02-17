@@ -16,6 +16,10 @@ BMU_ambition_already_bargained_for = {
 	third = BMU_THEY_ALREADY_BARGAINED_FOR
 }
 
+BMU_ambition_already_bargained_with = {
+	first = BMU_YOU_ALREADY_BARGAINED_WITH
+}
+
 BMU_ambition_selected_for_bargain = {
 	first_not = BMU_I_HAVE_NOT_SELECTED_BARGAIN
 }

@@ -3,6 +3,9 @@
 	}
 	
 	on_end = {
+		if = {
+			limit = { has_variable = bargained }
+		}
 	}
 
 	on_owner_death = {
