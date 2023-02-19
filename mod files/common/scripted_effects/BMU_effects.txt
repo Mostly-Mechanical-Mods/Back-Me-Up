@@ -132,7 +132,7 @@
 					limit = {
 						NOT = { this = prev.special_character }
 						any_owned_story = {
-							story_type = BMU_pressed_claim_stakeholder
+							story_type = BMU_pressed_claim_stakeholder_story
 							var:pressed_claim_story = scope:story
 							count = 0
 						}
@@ -861,6 +861,49 @@ BMU_create_pressed_claim_stakeholder_story = {
 								name = ambition_score
 								value = scope:FF_ambition_get_council_position
 							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+BMU_execute_bargain = {
+	switch = {
+		trigger = var:ambition
+		flag:FF_ambition_get_council_position = {
+			switch = {
+				trigger = var:council_position
+				flag:chancellor = {
+					root.var:stakeholder = {
+						assign_councillor_type = {
+							type = councillor_chancellor
+							target = root.var:current_bargain.var:stakeholder_story.var:stakeholder
+						}
+					}
+				}
+				flag:steward = {
+					root.var:stakeholder = {
+						assign_councillor_type = {
+							type = councillor_steward
+							target = root.var:current_bargain.var:stakeholder_story.var:stakeholder
+						}
+					}
+				}
+				flag:marshal = {
+					root.var:stakeholder = {
+						assign_councillor_type = {
+							type = councillor_marshal
+							target = root.var:current_bargain.var:stakeholder_story.var:stakeholder
+						}
+					}
+				}
+				flag:spymaster = {
+					root.var:stakeholder = {
+						assign_councillor_type = {
+							type = councillor_spymaster
+							target = root.var:current_bargain.var:stakeholder_story.var:stakeholder
 						}
 					}
 				}

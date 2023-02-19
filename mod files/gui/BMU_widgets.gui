@@ -4,7 +4,7 @@ window = {
 	parentanchor = center
 	size = { 1000 750 }
 	position = { 0 0 }
-	layer = top
+	layer = windows_layer
 	filter_mouse = all
 	alwaystransparent = no
 
@@ -57,7 +57,7 @@ window = {
 							onclick = "[GetVariableSystem.Clear('BMU_claim_window')]"
 						}
 					}
-					# Top Candidate
+					# Header Candidates
 					hbox = {
 						layoutpolicy_horizontal = expanding
 						hbox = {
@@ -236,7 +236,7 @@ window = {
 								
 							}
 							expand = {}
-							
+							# Phase Counter
 							vbox = {
 								layoutpolicy_vertical = expanding
 								spacing = 10
@@ -275,12 +275,21 @@ window = {
 										alpha = 0.5
 									}
 
+									# icon_doctrine = {
+									# 	# visible = "[EqualTo_string(Scope.Var('status').GetFlagName,'dropout')]"
+									# 	size = { 44 44 }
+									# 	texture = "gfx/interface/icons/press_claim_status.dds"
+									# 	framesize = { 70 70 }
+									# 	frame = 2
+									# 	parentanchor = center
+									# }
+
 									icon_doctrine = {
 										# visible = "[EqualTo_string(Scope.Var('status').GetFlagName,'dropout')]"
 										size = { 44 44 }
-										texture = "gfx/interface/icons/press_claim_status.dds"
-										framesize = { 70 70 }
-										frame = 2
+										texture = "gfx/interface/icons/press_claim_bargain.dds"
+										# framesize = { 70 70 }
+										# frame = 2
 										parentanchor = center
 									}
 
@@ -497,143 +506,6 @@ window = {
 								
 							}
 						}
-						# hbox = {
-						# 	name = "my_candidate"
-						# 	datacontext = "[Scope.Var('pressed_claim_story').Var('claim_target').Char]"
-						# 	visible = "[Character.IsValid]"
-						# 	layoutpolicy_horizontal = expanding
-						# 	margin = { 70 0 }
-						# 	margin_top = 20
-	
-						# 	state = {
-						# 		name = _show
-	
-						# 		duration = 0.2
-	
-						# 		animation = {
-						# 			size = { 0 500 }
-						# 			bezier = { 0 0.5 0.5 1 }
-						# 		}
-	
-						# 		animation = {
-						# 			alpha = 1
-						# 			bezier = { 0.5 0 1 0.5 }
-						# 		}
-						# 	}
-	
-						# 	state = {
-						# 		name = _hide
-						# 		size = { 0 0 }
-						# 		alpha = 0
-						# 	}
-	
-						# 	state = {
-						# 		name = "add_candidate"
-						# 		alpha = 0
-						# 		duration = 0.2
-						# 		next = "b"
-						# 		using = Animation_Curve_Default
-						# 	}
-	
-						# 	state = {
-						# 		name = "b"
-						# 		alpha = 1
-						# 		duration = 0.2
-						# 		using = Animation_Curve_Default
-						# 	}
-	
-						# 	vbox = {
-						# 		layoutpolicy_vertical = expanding
-	
-						# 		vbox = {
-						# 			spacing = 5
-	
-						# 			text_label_center = {
-						# 				layoutpolicy_horizontal = expanding
-						# 				text = "SUCCESSION_ELECTION_WINDOW_MY_CANDIDATE"
-						# 			}
-	
-						# 			text_single = {
-						# 				text = "SUCCESSION_ELECTION_WINDOW_MY_CANDIDATE_INFO"
-						# 				default_format = "#high"
-						# 				using = Font_Size_Big
-						# 			}
-	
-						# 			text_single = {
-						# 				text = "SUCCESSION_ELECTION_WINDOW_MY_CANDIDATE_STANCE"
-						# 			}
-	
-						# 			text_single = {
-						# 				text = "SUCCESSION_ELECTION_WINDOW_MY_CANDIDATE_NOT_MY_DYNASTY"
-						# 				visible = "[Not( ObjectsEqual( Character.GetDynasty, GetPlayer.GetDynasty ) )]"
-						# 			}
-	
-						# 			expand = {
-						# 				minimumsize = { 0 10 }
-						# 			}
-	
-						# 			hbox = {
-						# 				spacing = 20
-						# 				margin_top = 10
-	
-						# 				text_single = {
-						# 					datacontext = "[SuccessionElectionWindow.GetCandidateFromCharacter( Character.Self )]"
-						# 					text = "SUCCESSION_ELECTION_WINDOW_CANDIDATE_RANK"
-						# 					using = Font_Size_Medium
-						# 				}
-	
-						# 				hbox = {
-						# 					spacing = 4
-						# 					tooltip = "SUCCESSION_ELECTION_WINDOW_CANDIDATE_SCORE"
-	
-						# 					vote_amount_icon = {}
-	
-						# 					text_single = {
-						# 						text = "[SuccessionElectionWindowCandidate.GetScore|V]"
-						# 						using = Font_Size_Medium
-						# 					}
-						# 				}
-						# 			}
-	
-						# 			hbox = {
-						# 				tooltip = "[SuccessionElectionWindow.GetElectorVoteStrengthBreakdown( GetPlayer )]"
-	
-						# 				text_single = {
-						# 					text = "SUCCESSION_ELECTION_WINDOW_MY_VOTING_STRENGTH"
-						# 					max_width = 180
-						# 					default_format = "#low"
-						# 				}
-	
-						# 				vote_strength_icon = {}
-	
-						# 				text_single = {
-						# 					text = "[SuccessionElectionWindow.GetVoteStrength( GetPlayer )|V]"
-						# 					max_width = 30
-						# 					default_format = "#low"
-						# 					using = Font_Size_Medium
-						# 				}
-						# 			}
-						# 		}
-						# 	}
-	
-						# 	portrait_torso = {
-						# 		state = {
-						# 			name = "on_player_election_nomination"
-						# 			next = "nomination_shown"
-						# 			alpha = 0.5
-						# 		}
-	
-						# 		state = {
-						# 			name = "nomination_shown"
-						# 			alpha = 1
-						# 			duration = 0.5
-						# 			using = Animation_Curve_Default
-						# 		}
-	
-						# 		blockoverride "opinion_box" {}
-						# 		blockoverride "status_icons" {}
-						# 	}
-						# }
 					}
 					#Tabs
 					hbox = {
@@ -993,7 +865,7 @@ window = {
 														}
 														spacer = { size = { 20 0 }}
 														hbox = {
-															visible = "[And(EqualTo_string(Story.MakeScope.Var('status').GetFlagName,'contender'),Not(ObjectsEqual(Scope.Var('contender').Story,Story.Self)))]"
+															visible = "[EqualTo_string(Story.MakeScope.Var('status').GetFlagName,'contender')]"
 															button = {
 																# visible = "[GetScriptedGui('BMU_ambition_get_title').IsShown(GuiScope.SetRoot(Scope.Story.MakeScope).AddScope('contender',GetPlayer.MakeScope).End)]"
 																enabled = "[GetScriptedGui('BMU_ambition_get_title').IsValid(GuiScope.SetRoot(Scope.Story.MakeScope).AddScope('contender',GetPlayer.MakeScope).End)]"
@@ -1025,6 +897,29 @@ window = {
 															# }
 														}
 														expand = {}
+														hbox = {
+															datamodel = "[Scope.GetList('BMU_stakeholder_ambitions')]"
+															item = {
+																hbox = {
+																	visible = "[Scope.Var('bargained').IsSet]"
+																	spacing = 10
+																	icon_doctrine = {
+																		size = { 44 44 }
+																		texture = "gfx/interface/icons/press_claim_bargain.dds"
+																	}
+																	vbox = {
+																		text_single = {
+																			visible = "[EqualTo_string(Scope.Var('ambition').GetFlagName,'FF_ambition_get_council_position')]"
+																			text = "BMU_BARGAIN_STRUCK_WITH"
+																		}
+																		text_single = {
+																			visible = "[EqualTo_string(Scope.Var('ambition').GetFlagName,'FF_ambition_get_council_position')]"
+																			text = "BMU_BARGAIN_STRUCK_FOR"
+																		}
+																	}
+																}
+															}
+														}
 													}
 													expand = {}
 												}
@@ -1254,7 +1149,7 @@ window = {
 window = {
 	name = "BMU_claim_icon"
 	widgetid = "BMU_claim_icon"
-	position = { 460 -40 }
+	position = { 500 -70 }
 	layer = hud_layer
 	# filter_mouse = all
 	alwaystransparent = no
@@ -1265,80 +1160,78 @@ window = {
 	# using = Window_Decoration
 	using = Window_Movable
 
-	background = {
-        texture = "gfx/interface/skinned/button_hud_character_bar.dds"
-        spriteType = Corneredtiled
-        spriteborder = { 18 0 }
-        texture_density = 2
+	# background = {
+    #     texture = "gfx/interface/skinned/button_hud_character_bar.dds"
+    #     spriteType = Corneredtiled
+    #     spriteborder = { 18 0 }
+    #     texture_density = 2
 
-        modify_texture = {
-            texture = "gfx/interface/component_overlay/overlay_effect.dds"
-            blend_mode = overlay
-        }
+    #     modify_texture = {
+    #         texture = "gfx/interface/component_overlay/overlay_effect.dds"
+    #         blend_mode = overlay
+    #     }
 
-        block "bg_margins"
-        {
-            margin = { -23 -17 }
-        }
-    }
+    #     block "bg_margins"
+    #     {
+    #         margin = { -23 -17 }
+    #     }
+    # }
 
 	hbox = {
-		
-		# flowcontainer = {
-		# 	ignoreinvisible = yes
-		# 	datamodel = "[GetGlobalList('BMU_claim_stories')]"
-		# 	item = {
-		# 		widget = {
-		# 			# allow_outside = yes
-		# 			parentanchor = bottom
-		# 			datacontext = "[Scope.Var('claimed_title').Title]"
-		# 			visible = "[ObjectsEqual(Scope.Var('claim_target').Char,GetPlayer)]"
-		# 			# visible = no
-		# 			size = { 40 40 }
-		# 			# coa_title_tiny_crown = {
-						
-		# 			# 	parentanchor = bottom
-		# 			# 	position = { 0 3 }
-		# 			# 	using = tooltip_ne
-		# 			# 	scale = 0.92
-			
-		# 			# 	# blockoverride "coa_button"
-		# 			# 	# {
-		# 			# 	# 	alwaystransparent = yes
-		# 			# 	# }
-			
-		# 			# 	blockoverride "coa_tooltip"
-		# 			# 	{}
-		# 			# }
-		# 			coa_title_tiny_crown = {
-		# 				parentanchor = bottom
-		# 				blockoverride "coa_button"
-		# 				{
-		# 					onclick = "[GetVariableSystem.SetOrToggle('BMU_claim_window',Scope.Var('claimed_title').Title.GetKey)]"
-		# 				}
-		# 			}
-		# 		}
-		# 	}
-		# }
-
 		flowcontainer = {
 			ignoreinvisible = yes
 			datamodel = "[GetPlayer.MakeScope.GetList('BMU_stakeholder_stories')]"
 			item = {
-				widget = {
+				button_normal = {
 					# allow_outside = yes
+					datacontext = "[Scope.Var('pressed_claim_story').Story]"
 					datacontext = "[Scope.Var('pressed_claim_story').Var('claimed_title').Title]"
-					# visible = "[And(Not(ObjectsEqual(Scope.Var('claim_target').Char,GetPlayer)),GetScriptedGui('BMU_claim_window').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('story',Scope.Self).End))]"
-					# visible = "[Not(ObjectsEqual(Scope.Var('claim_target').Char,GetPlayer))]"
-					# visible = "[And(Not(ObjectsEqual(Scope.Var('claim_target').Char,GetPlayer)),GetScriptedGui('BMU_claim_player_involved').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('story',Scope.Story.MakeScope).End))]"
-					size = { 40 40 }
+					
+					size = { 60 60 }
+
+					icon = {
+						texture = "gfx/interface/buttons/button_lifestyles_base.dds"
+						size = { 100% 100% }
+					}
+					
+					progresspie = {
+						name = "progress"
+						size = { 60 60 }
+						texture = "gfx/interface/progressbars/action_progress_thin.dds"
+						framesize = { 124 124 }
+						frame = 2
+						widgetanchor = top|hcenter
+						parentanchor = top|hcenter
+						value = "[Story.MakeScope.ScriptValue('FF_pressed_claim_story_duration')]"
+						min = 0
+						max = 1
+					}
+
+					icon = {
+						name = "progress_frame"
+						texture = "gfx/interface/icons/BMU_action_progress_frame.dds"
+						size = { 100% 100% }
+						parentanchor = center
+						alpha = 0.5
+					}
+					
 					coa_title_tiny_crown = {
-						parentanchor = bottom
+						parentanchor = center
 						blockoverride "coa_button"
 						{
 							onclick = "[GetVariableSystem.SetOrToggle('BMU_claim_window',Scope.Var('pressed_claim_story').Var('claimed_title').Title.GetKey)]"
 						}
 					}
+
+					# icon_doctrine = {
+					# 	# visible = "[EqualTo_string(Scope.Var('status').GetFlagName,'dropout')]"
+					# 	position = { 0 -10 }
+					# 	size = { 25 25 }
+					# 	texture = "gfx/interface/icons/press_claim_status.dds"
+					# 	framesize = { 70 70 }
+					# 	frame = 2
+					# 	parentanchor = top|center
+					# }
 				}
 			}
 		}

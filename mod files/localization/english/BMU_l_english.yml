@@ -165,3 +165,6 @@ BMU_ACCEPT_BARGAIN: "I will support [contender.Var('stakeholder').Char.GetShortU
 BMU_REFUSE_BARGAIN: "Nah, that bargain is not good enough..."
 BMU_THEY_WOULD_ACCEPT_BARGAIN: "[TARGET_CHARACTER.GetShortUIName] would probably accept this bargain."
 BMU_THEY_WOULD_NOT_ACCEPT_BARGAIN: "[TARGET_CHARACTER.GetShortUIName] will not accept this bargain."
+
+BMU_BARGAIN_STRUCK_WITH: "Bargain struck with [Scope.Var('bargained').Var('stakeholder').Char.GetShortUIName]"
+BMU_BARGAIN_STRUCK_FOR: "for the [Localize(Concatenate(Scope.Var('council_position').GetFlagName,'_name'))] position."

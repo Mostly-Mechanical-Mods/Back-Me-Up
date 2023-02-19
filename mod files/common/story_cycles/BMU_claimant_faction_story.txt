@@ -30,10 +30,14 @@
 		days = 30
 		first_valid = {
 			triggered_effect = {
-				trigger = {
-					var:pressed_claim_phase = flag:declaration_phase
-				}
+				trigger = { var:pressed_claim_phase = flag:war_phase }
+				effect = {}
+			}
+			triggered_effect = {
+				trigger = { var:pressed_claim_phase = flag:declaration_phase }
 				effect = {
+					debug_log = "BMU_pressed_claim war_phase"
+					debug_log_scopes = no
 					set_variable = {
 						name = pressed_claim_phase
 						value = flag:war_phase
@@ -125,10 +129,10 @@
 				}
 			}
 			triggered_effect = {
-				trigger = {
-					var:pressed_claim_phase = flag:bargaining_phase
-				}
+				trigger = { var:pressed_claim_phase = flag:bargaining_phase }
 				effect = {
+					debug_log = "BMU_pressed_claim declaration_phase"
+					debug_log_scopes = no
 					if = {
 						limit = { var:bargaining_phase = 5 }
 						set_variable = {
@@ -145,11 +149,10 @@
 				}
 			}
 			triggered_effect = {
-				trigger = {
-					var:pressed_claim_phase = flag:rallying_phase
-					# has_variable = stakeholders_added
-				}
+				trigger = { var:pressed_claim_phase = flag:rallying_phase }
 				effect = {
+					debug_log = "BMU_pressed_claim bargaining_phase"
+					debug_log_scopes = no
 					set_variable = {
 						name = pressed_claim_phase
 						value = flag:bargaining_phase
@@ -161,12 +164,9 @@
 				}
 			}
 			triggered_effect = {
-				trigger = {
-					var:pressed_claim_phase = flag:contention_phase
-					# NOT = { has_variable = stakeholders_added }
-				}
+				trigger = { var:pressed_claim_phase = flag:contention_phase }
 				effect = {
-					debug_log = "BMU_pressed_claim triggered_effect"
+					debug_log = "BMU_pressed_claim rallying_phase"
 					debug_log_scopes = no
 
 					set_variable = {

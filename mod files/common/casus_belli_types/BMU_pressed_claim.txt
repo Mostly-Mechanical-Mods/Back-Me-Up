@@ -309,6 +309,7 @@
 	}
 	
 	on_invalidated = {
+		war = { save_scope_as = war }
 		if = {
 			limit = {
 				scope:defender = {
@@ -347,6 +348,7 @@
 	on_victory = {
 		debug_log = "BMU_pressed_claim_cb on_victory"
 		debug_log_scopes = yes
+		war = { save_scope_as = war }
 		if = {
 			limit = {
 				scope:defender = {
@@ -388,10 +390,10 @@
 								add_defender = prev
 							}
 						}
-						set_variable = {
-							name = contender
-							value = scope:attacker
-						}
+					}
+					set_variable = {
+						name = contender
+						value = scope:attacker
 					}
 				}
 			}
@@ -483,8 +485,10 @@
 						story_type = BMU_stakeholder_story
 						var:pressed_claim_story = scope:war.var:pressed_claim
 					}
-					set_variable = pressed_claim_won
-					end_story = yes
+					every_in_list = {
+						variable = BMU_bargains
+						BMU_execute_bargain = yes
+					}
 				}
 			}
 			scope:war.var:pressed_claim = { end_story = yes } 
@@ -609,6 +613,7 @@
 	}
 
 	on_defeat = {
+		war = { save_scope_as = war }
 		scope:attacker = { show_pow_release_message_effect = yes }
 
 		# lose claims
@@ -719,6 +724,37 @@
 
 			scope:war.var:pressed_claim = { end_story = yes }
 		}
+
+		if = {
+			limit = { scope:war = { has_variable = contender }}
+			var:contender = {
+				random_owned_story = {
+					limit = {
+						story_type = BMU_stakeholder_story
+						var:pressed_claim = scope:war.var:pressed_claim
+					}
+					every_in_list = {
+						variable = BMU_bargains
+						BMU_execute_bargain = yes
+					}
+				}
+			}
+		}
+		else = {
+			scope:defender = {
+				random_owned_story = {
+					limit = {
+						story_type = BMU_stakeholder_story
+						var:pressed_claim = scope:war.var:pressed_claim
+					}
+					every_in_list = {
+						variable = BMU_bargains
+						BMU_execute_bargain = yes
+					}
+				}
+			}
+		}
+		scope:war.var:pressed_claim = { end_story = yes }
 	}
 
 	on_primary_attacker_death = inherit

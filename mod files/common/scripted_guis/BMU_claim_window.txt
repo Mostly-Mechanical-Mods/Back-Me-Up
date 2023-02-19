@@ -301,48 +301,9 @@ BMU_send_bargain = {
 		debug_log_scopes = no
 		show_as_tooltip = {
 			if = {
-				limit = { has_variable = bargain }
-				var:bargain = {
-					switch = {
-						trigger = var:ambition
-						flag:FF_ambition_get_council_position = {
-							switch = {
-								trigger = var:council_position
-								flag:chancellor = {
-									root.var:stakeholder = {
-										assign_councillor_type = {
-											type = councillor_chancellor
-											target = root.var:bargain.var:stakeholder_story.var:stakeholder
-										}
-									}
-								}
-								flag:steward = {
-									root.var:stakeholder = {
-										assign_councillor_type = {
-											type = councillor_steward
-											target = root.var:bargain.var:stakeholder_story.var:stakeholder
-										}
-									}
-								}
-								flag:marshal = {
-									root.var:stakeholder = {
-										assign_councillor_type = {
-											type = councillor_marshal
-											target = root.var:bargain.var:stakeholder_story.var:stakeholder
-										}
-									}
-								}
-								flag:spymaster = {
-									root.var:stakeholder = {
-										assign_councillor_type = {
-											type = councillor_spymaster
-											target = root.var:bargain.var:stakeholder_story.var:stakeholder
-										}
-									}
-								}
-							}
-						}
-					}
+				limit = { has_variable = current_bargain }
+				var:current_bargain = {
+					BMU_execute_bargain = yes
 				}	
 			}
 		}
@@ -351,7 +312,7 @@ BMU_send_bargain = {
 			if = {
 				limit = { has_variable = current_bargain }
 				var:current_bargain = { save_scope_as = bargain }
-				remove_variable = bargain
+				remove_variable = current_bargain
 				set_variable = {
 					name = pending_bargain_proposal
 					value = scope:bargain
