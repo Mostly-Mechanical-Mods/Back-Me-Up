@@ -33,6 +33,7 @@
 				trigger = { var:pressed_claim_phase = flag:war_phase }
 				effect = {}
 			}
+			# War Phase
 			triggered_effect = {
 				trigger = { var:pressed_claim_phase = flag:declaration_phase }
 				effect = {
@@ -128,6 +129,7 @@
 					}
 				}
 			}
+			# Declaration Phase
 			triggered_effect = {
 				trigger = { var:pressed_claim_phase = flag:bargaining_phase }
 				effect = {
@@ -148,6 +150,7 @@
 					}
 				}
 			}
+			# Bargaining Phase
 			triggered_effect = {
 				trigger = { var:pressed_claim_phase = flag:rallying_phase }
 				effect = {
@@ -163,6 +166,7 @@
 					}
 				}
 			}
+			# Rallying Phase
 			triggered_effect = {
 				trigger = { var:pressed_claim_phase = flag:contention_phase }
 				effect = {
@@ -173,6 +177,8 @@
 						name = pressed_claim_phase
 						value = flag:rallying_phase
 					}
+
+					# Claim Target Allies
 					story_owner = {
 						save_scope_as = claim_target
 						every_ally = {
@@ -186,11 +192,12 @@
 							}
 							trigger_event = {
 								id = BMU_pressed_claim.0011
-								days = { 1 7 }
+								days = { 1 3 }
 							}
 						}
 					}
 
+					# Contender Allies
 					every_in_list = {
 						variable = BMU_pressed_claim_stakeholders
 						limit = {
@@ -212,15 +219,17 @@
 								}
 								trigger_event = {
 									id = BMU_pressed_claim.0012
-									days = { 8 14 }
+									days = { 4 7 }
 								}
 							}
 						}
 					}
 
+					# Claim title de jure vassals
 					story_owner = {
 						every_vassal = {
 							limit = {
+								any_this_title_or_de_jure_above = scope:story.var:claimed_title
 								any_owned_story = {
 									story_type = BMU_stakeholder_story
 									var:pressed_claim_story = scope:story
@@ -229,21 +238,36 @@
 							}
 							trigger_event = {
 								id = BMU_pressed_claim.0013
-								days = { 15 21 }
+								days = { 8 14 }
 							}
 						}
-						every_realm_county = {
-							every_de_jure_top_liege = {
-								limit = {
-									any_owned_story = {
-										story_type = BMU_stakeholder_story
-										var:pressed_claim_story = scope:story
-										count = 0
+						if = {
+							limit = {
+								scope:story.var:claimed_title = scope:story.var:claim_target.primary_title
+								every_sub_realm_county = {
+									limit = {
+										NOR = {
+											any_this_title_or_de_jure_above = scope:story.var:claimed_title
+											any_this_title_or_de_jure_above = {
+												tier = scope:story.var:claimed_title.tier
+												holder = scope:story.story_owner
+											}
+										}
 									}
-								}
-								trigger_event = {
-									id = BMU_pressed_claim.0014
-									days = { 22 28 }
+									every_de_jure_top_liege = {
+										limit = {
+											NOT = { this = scope:story.var:claim_target }
+											any_owned_story = {
+												story_type = BMU_stakeholder_story
+												var:pressed_claim_story = scope:story
+												count = 0
+											}
+										}
+										trigger_event = {
+											id = BMU_pressed_claim.0014
+											days = { 17 21 }
+										}
+									}
 								}
 							}
 						}
@@ -254,6 +278,15 @@
 			}
 		}
 	}
+
+	# effect_group = {
+	# 	days = 1
+	# 	triggered_effect = {
+	# 		effect = {
+	# 			debug_log = "DEBUG DATE [GetCurrentDate]"
+	# 		}
+	# 	}
+	# }
 }
 
 BMU_stakeholder_story = {
