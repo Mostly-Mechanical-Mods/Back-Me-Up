@@ -229,7 +229,7 @@
 					story_owner = {
 						every_vassal = {
 							limit = {
-								any_this_title_or_de_jure_above = scope:story.var:claimed_title
+								primary_title = { any_this_title_or_de_jure_above = { this = scope:story.var:claimed_title }}
 								any_owned_story = {
 									story_type = BMU_stakeholder_story
 									var:pressed_claim_story = scope:story
@@ -242,31 +242,31 @@
 							}
 						}
 						if = {
-							limit = {
-								scope:story.var:claimed_title = scope:story.var:claim_target.primary_title
-								every_sub_realm_county = {
-									limit = {
-										NOR = {
-											any_this_title_or_de_jure_above = scope:story.var:claimed_title
-											any_this_title_or_de_jure_above = {
-												tier = scope:story.var:claimed_title.tier
-												holder = scope:story.story_owner
-											}
+							limit = { scope:story.var:claimed_title = scope:story.var:claim_target.primary_title }
+							every_sub_realm_county = {
+								limit = {
+									NOR = {
+										any_this_title_or_de_jure_above = {
+											this = scope:story.var:claimed_title
+										}
+										any_this_title_or_de_jure_above = {
+											tier = scope:story.var:claimed_title.tier
+											holder = scope:story.story_owner
 										}
 									}
-									every_de_jure_top_liege = {
-										limit = {
-											NOT = { this = scope:story.var:claim_target }
-											any_owned_story = {
-												story_type = BMU_stakeholder_story
-												var:pressed_claim_story = scope:story
-												count = 0
-											}
+								}
+								every_de_jure_top_liege = {
+									limit = {
+										NOT = { this = scope:story.var:claim_target }
+										any_owned_story = {
+											story_type = BMU_stakeholder_story
+											var:pressed_claim_story = scope:story
+											count = 0
 										}
-										trigger_event = {
-											id = BMU_pressed_claim.0014
-											days = { 17 21 }
-										}
+									}
+									trigger_event = {
+										id = BMU_pressed_claim.0014
+										days = { 17 21 }
 									}
 								}
 							}
