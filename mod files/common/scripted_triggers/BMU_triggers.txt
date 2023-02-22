@@ -1,0 +1,13 @@
+﻿BMU_supporter_is_relevant = {
+	$SUPPORTER$ = { save_scope_as = relevant_supporter }
+	save_scope_as = PoV
+	scope:relevant_supporter = {
+		OR = {
+			this.liege = scope:PoV
+			is_close_family_of = scope:PoV
+			has_relation_friend = scope:PoV
+			dynasty = scope:PoV.dynasty
+			house = scope:PoV.house
+		}
+	}
+}
