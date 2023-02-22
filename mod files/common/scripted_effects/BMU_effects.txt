@@ -1,12 +1,11 @@
 ﻿BMU_create_claim_press = {
-	debug_log = "BMU_create_claim_press"
 	if = {
-		limit = {
-			exists = $TARGET$
-			exists = $TARGET_TITLE$
-			exists = $CONTENDER$
-			exists = $UNWILLING_CONTENDER$
-		}
+		limit = { debug_only = yes }
+		debug_log = "BMU_create_claim_press START"
+		$TARGET$ = { debug_log = "claim_target [THIS.Char.GetNameNoTooltip]" }
+		$TARGET_TITLE$ = { debug_log = "claimed_title [THIS.Title.GetNameNoTooltip]" }
+		$CONTENDER$ = { debug_log = "contender [THIS.Char.GetNameNoTooltip]" }
+		$UNWILLING_CONTENDER$ = { debug_log = "unwilling_contender [THIS.Char.GetNameNoTooltip]" }
 	}
 	
 	$TARGET$ = { save_scope_as = claim_target }
@@ -14,10 +13,6 @@
 	$CONTENDER$ = { save_scope_as = contender }
 	$UNWILLING_CONTENDER$ = { save_scope_as = unwilling_contender }
 
-	scope:claim_target = { debug_log = "claim_target [THIS.Char.GetNameNoTooltip]" }
-	scope:claimed_title = { debug_log = "claimed_title [THIS.Title.GetNameNoTooltip]" }
-	scope:contender = { debug_log = "contender [THIS.Char.GetNameNoTooltip]" }
-	scope:unwilling_contender = { debug_log = "unwilling_contender [THIS.Char.GetNameNoTooltip]" }
 
 	scope:claim_target = {
 		create_story = {
@@ -56,6 +51,10 @@
 			}
 		}
 		
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "orderded_in_list claimants START"
+		}
 		ordered_in_list = {
 			list = claimants
 			max = 99
@@ -80,7 +79,10 @@
 				add = highest_held_title_tier
 			}
 			
-			debug_log_scopes = no
+			if = {
+				limit = { debug_only = yes }
+				debug_log_scopes = no
+			}
 			prev = {
 				add_to_variable_list = {
 					name = claimants
@@ -122,6 +124,12 @@
 
 			clear_saved_scope = stakeholder_story
 		}
+
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "orderded_in_list claimants END"
+		}
+
 		scope:claim_target = {
 			every_targeting_faction = {
 				limit = {
@@ -160,26 +168,29 @@
 			}
 		}
 	}
+	if = {
+		limit = { debug_only = yes }
+		debug_log = "BMU_create_claim_press END"
+	}
 }
 
 BMU_pressed_claim_supporter = {
+	if = {
+		limit = { debug_only = yes }
+		debug_log = "BMU_pressed_claim_supporter START"
+		debug_log_scopes = no
+		$PRESSED_CLAIM$ = { debug_log_scopes = no }
+		$PRESSED_CLAIM$.var:claimed_title = { debug_log = "claimed_title [THIS.Title.GetNameNoTooltip]" }
+		$PRESSED_CLAIM$.var:claim_target = { debug_log = "claim_target [THIS.Char.GetNameNoTooltip]" }
+		$CONTENDER$ = { debug_log = "contender [THIS.Char.GetNameNoTooltip]" }
+	}
+
 	save_scope_as = supporter
-	
 	$PRESSED_CLAIM$ = { save_scope_as = pressed_claim }
 	$PRESSED_CLAIM$.var:claimed_title = { save_scope_as = claimed_title }
 	$PRESSED_CLAIM$.var:claim_target = { save_scope_as = claim_target }
 	$CONTENDER$ = { save_scope_as = contender }
 	
-	if = {
-		limit = { debug_only = yes }
-		debug_log = "BMU_pressed_claim_supporter"
-		debug_log_scopes = no
-		scope:pressed_claim = { debug_log_scopes = no }
-		scope:claimed_title = { debug_log_scopes = no }
-		scope:claim_target = { debug_log_scopes = no }
-		scope:contender = { debug_log_scopes = no }
-	}
-
 	random_owned_story = {
 		limit = {
 			story_type = BMU_stakeholder_story
@@ -264,9 +275,20 @@ BMU_pressed_claim_supporter = {
 	scope:pressed_claim = {
 		BMU_pressed_claim_update_top_contender = yes
 	}
+
+	if = {
+		limit = { debug_only = yes }
+		debug_log = "BMU_pressed_claim_supporter END"
+	}
 }
 
 BMU_pressed_claim_stakeholder = {
+	if = {
+		limit = { debug_only = yes }
+		debug_log = "BMU_pressed_claim_stakeholder START"
+		debug_log = "stakeholder [THIS.Char.GetNameNoTooltip]"
+		$PRESSED_CLAIM$ = { debug_log_scopes = no }
+	}
 	save_scope_as = stakeholder
 	$PRESSED_CLAIM$ = { save_scope_as = pressed_claim }
 
@@ -284,9 +306,19 @@ BMU_pressed_claim_stakeholder = {
 	scope:pressed_claim = {
 		BMU_pressed_claim_update_top_contender = yes
 	}
+	if = {
+		limit = { debug_only = yes }
+		debug_log = "BMU_pressed_claim_stakeholder END"
+	}
 }
 
 BMU_pressed_claim_dropout = {
+	if = {
+		limit = { debug_only = yes }
+		debug_log = "BMU_pressed_claim_dropout START"
+		debug_log = "dropout [THIS.Char.GetNameNoTooltip]"
+		$PRESSED_CLAIM$ = { debug_log_scopes = no }
+	}
 	save_scope_as = dropout
 	$PRESSED_CLAIM$ = { save_scope_as = pressed_claim }
 
@@ -304,6 +336,10 @@ BMU_pressed_claim_dropout = {
 	}
 	scope:pressed_claim = {
 		BMU_pressed_claim_update_top_contender = yes
+	}
+	if = {
+		limit = { debug_only = yes }
+		debug_log = "BMU_pressed_claim_dropout END"
 	}
 }
 
@@ -344,8 +380,13 @@ BMU_pressed_claim_update_top_contender = {
 }
 
 BMU_create_pressed_claim_stakeholder_story = {
-	debug_log = "BMU_create_pressed_claim_stakeholder_story debug"
-	debug_log_scopes = no
+	if = {
+		limit = { debug_only = yes }
+		debug_log = "BMU_create_pressed_claim_stakeholder_story START"
+		debug_log = "stakeholder [THIS.Char.GetNameNoTooltip]"
+		$PRESSED_CLAIM$ = { debug_log_scopes = no }
+	}
+	
 	save_scope_as = stakeholder
 	$PRESSED_CLAIM$ = { save_scope_as = pressed_claim }
 	create_story = {
@@ -530,69 +571,7 @@ BMU_create_pressed_claim_stakeholder_story = {
 		}
 	}
 
-	scope:pressed_claim = {
-		# every_in_list = {
-		# 	variable = BMU_pressed_claim_stakeholders
-		# 	limit = {
-		# 		has_variable = status
-		# 		var:status = flag:contender
-		# 	}
-		# 	story_owner = {
-		# 		every_held_title = {
-		# 			limit = {
-		# 				tier >= tier_county
-		# 				NOT = { this = prev.primary_title }
-		# 			}
-		# 			save_scope_as = coveted_title
-		# 			scope:stakeholder = {
-		# 				save_scope_value_as = {
-		# 					name = FF_ambition_get_title
-		# 					value = FF_ambition_get_title
-		# 				}
-		# 				if = {
-		# 					limit = { scope:FF_ambition_get_title > 0 }
-		# 					create_story = {
-		# 						type = BMU_ambition_story
-		# 						save_scope_as = BMU_stakeholder_ambition
-		# 					}
-		# 					scope:stakeholder_story = {
-		# 						add_to_variable_list = {
-		# 							name = BMU_stakeholder_ambitions
-		# 							target = scope:BMU_stakeholder_ambition
-		# 						}
-		# 					}
-		# 					scope:BMU_stakeholder_ambition = {
-		# 						set_variable = {
-		# 							name = pressed_claim_story
-		# 							value = scope:pressed_claim
-		# 						}
-		# 						set_variable = {
-		# 							name = stakeholder_story
-		# 							value = scope:stakeholder_story
-		# 						}
-		# 						set_variable = {
-		# 							name = story_owner
-		# 							value = story_owner
-		# 						}
-		# 						set_variable = {
-		# 							name = ambition
-		# 							value = flag:FF_ambition_get_title
-		# 						}
-		# 						set_variable = {
-		# 							name = coveted_title
-		# 							value = scope:coveted_title
-		# 						}
-		# 						set_variable = {
-		# 							name = ambition_score
-		# 							value = scope:FF_ambition_get_title
-		# 						}
-		# 					}
-		# 				}
-		# 			}
-		# 		}
-		# 	}
-		# }
-	}
+	debug_log = "get_title_for_child"
 	# Ambition Get Title for child
 	every_child = {
 		save_scope_as = child
@@ -642,6 +621,7 @@ BMU_create_pressed_claim_stakeholder_story = {
 			}
 		}
 	}
+	debug_log = "get_gold"
 	# Ambition Get Gold
 	scope:stakeholder = {
 		save_scope_value_as = {
@@ -684,6 +664,7 @@ BMU_create_pressed_claim_stakeholder_story = {
 			}
 		}
 	}
+	debug_log = "screw_rival"
 	# Ambition Screw Rival
 	scope:stakeholder = {
 		save_scope_value_as = {
@@ -744,6 +725,7 @@ BMU_create_pressed_claim_stakeholder_story = {
 			}
 		}
 	}
+	debug_log = "help_friend"
 	# Ambition Help Friend
 	scope:stakeholder = {
 		save_scope_value_as = {
@@ -804,6 +786,7 @@ BMU_create_pressed_claim_stakeholder_story = {
 			}
 		}
 	}
+	debug_log = "get_council_position"
 	#Ambition Get Council Position
 	scope:stakeholder = {
 		if = {
@@ -866,6 +849,10 @@ BMU_create_pressed_claim_stakeholder_story = {
 				}
 			}
 		}
+	}
+	if = {
+		limit = { debug_only = yes }
+		debug_log = "BMU_create_pressed_claim_stakeholder_story END"
 	}
 }
 
