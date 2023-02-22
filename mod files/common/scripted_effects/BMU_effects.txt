@@ -140,7 +140,7 @@
 					limit = {
 						NOT = { this = prev.special_character }
 						any_owned_story = {
-							story_type = BMU_pressed_claim_stakeholder_story
+							story_type = BMU_stakeholder_story
 							var:pressed_claim_story = scope:story
 							count = 0
 						}
