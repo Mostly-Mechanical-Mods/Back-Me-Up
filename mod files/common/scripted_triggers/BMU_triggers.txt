@@ -11,3 +11,102 @@
 		}
 	}
 }
+
+BMU_ambition_can_be_councillor_of = {
+	$PRESSED_CLAIM$ = { save_temporary_scope_as = pressed_claim_temp }
+	$CONTENDER$ = { save_temporary_scope_as = contender_temp }
+	$COUNCIL_POSITION$ = { save_temporary_scope_as = council_position_temp }
+	is_capable_adult = yes
+	is_imprisoned = no
+	NOT = { is_at_war_with = scope:contender_temp }
+	trigger_if = {
+		limit = { has_variable = block_hire_councillor }
+		NOT = { var:block_hire_councillor = scope:contender_temp }
+	}
+	trigger_if = {
+		limit = { NOT = { liege = scope:contender_temp }}
+		liege = scope:pressed_claim_temp.var:claim_target
+		primary_title = {
+			any_this_title_or_de_jure_above = {
+				NOT = { this = scope:pressed_claim_temp.var:claimed_title }
+				exists = holder
+				holder = scope:pressed_claim_temp.var:claim_target
+				count = 0
+			}
+		}
+	}
+
+	trigger_if = {
+		limit = { scope:council_position_temp = flag:chancellor }
+		BMU_can_be_chancellor_of = { COURT_OWNER = scope:contender_temp }
+	}
+	trigger_else_if = {
+		limit = { scope:council_position_temp = flag:steward }
+		BMU_can_be_chancellor_of = { COURT_OWNER = scope:contender_temp }
+	}
+	trigger_else_if = {
+		limit = { scope:council_position_temp = flag:marshal }
+		BMU_can_be_steward_of = { COURT_OWNER = scope:contender_temp }
+	}
+	trigger_else_if = {
+		limit = { scope:council_position_temp = flag:spymaster }
+		BMU_can_be_spymaster_of = { COURT_OWNER = scope:contender_temp }
+	}
+	trigger_else = {
+		always = yes
+	}
+}
+
+BMU_can_be_chancellor_of = {
+	NOT = { has_council_position = councillor_spouse }
+	OR = {
+		is_ruler = yes
+		AND = {
+			is_female = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = male_dominated_council } }
+		}
+		AND = {
+			is_male = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = female_dominated_council } }
+		}
+	}
+}
+
+BMU_can_be_steward_of = {
+	NOT = { has_council_position = councillor_spouse }
+	OR = {
+		is_ruler = yes
+		AND = {
+			is_female = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = male_dominated_council } }
+		}
+		AND = {
+			is_male = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = female_dominated_council } }
+		}
+	}
+}
+
+BMU_can_be_marshal_of = {
+	NOT = { has_council_position = councillor_spouse }
+	OR = {
+		is_ruler = yes
+		AND = {
+			is_female = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = male_dominated_council } }
+		}
+		AND = {
+			is_male = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = female_dominated_council } }
+		}
+		AND = {
+			has_trait = shieldmaiden
+			$COURT_OWNER$.culture = { has_cultural_parameter = has_access_to_shieldmaidens }
+		}
+	}
+}
+
+BMU_can_be_spymaster_of = {
+	NOT = { has_council_position = councillor_spouse }
+	exists = $COURT_OWNER$ #so we can have the argument but get no errors
+}
