@@ -1,6 +1,5 @@
 ﻿namespace = BMU_pressed_claim_bargaining
 
-#First Contender informs target + claimants that they are pressing their claim
 BMU_pressed_claim_bargaining.0001 = {
 	type = letter_event
 	opening = BMU_CLAIMANT_INVITE
@@ -92,5 +91,108 @@ BMU_pressed_claim_bargaining.0001 = {
 				FF_bargain_acceptance <= 0
 			}
 		}
+	}
+
+	after = {
+		scope:contender.var:stakeholder = { remove_variable = pending_bargain_proposal }
+	}
+}
+
+BMU_pressed_claim_bargaining.0002 = {
+	type = letter_event
+	opening = BMU_CLAIMANT_INVITE
+	desc = {
+		desc = BMU_BARGAIN_PROPOSAL
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:bargain.var:ambition = flag:FF_ambition_get_council_position }
+				desc = BMU_BARGAIN_PROPOSAL_COUNCIL_POSITION
+			}
+		}
+	}
+	sender = scope:supporter.var:stakeholder
+
+	trigger = {
+		NOT = { this = scope:supporter.var:stakeholder }
+		exists = scope:supporter.var:stakeholder
+	}
+
+	immediate = {
+		debug_log = "BMU_pressed_claim_bargaining.0002"
+		debug_log_scopes = no
+	}
+
+	option = {
+		name = "BMU_ACCEPT_BARGAIN"
+		trigger = {
+		}
+		custom_tooltip = BMU_ACCEPT_BARGAIN_TOOLTIP
+		scope:contender = {
+			add_to_variable_list = {
+				name = BMU_bargains
+				target = scope:bargain
+			}
+		}
+		scope:bargain = {
+			remove_variable = pending
+			set_variable = {
+				name = bargained
+				value = scope:contender
+			}
+		}
+		scope:supporter.var:stakeholder = {
+			send_interface_toast = {
+				# type = event_generic_neutral # default: send_interface_toast
+				title = BMU_BARGAIN_ACCEPTED
+				left_icon = root # optional, character, artifact, or title
+			}
+			BMU_pressed_claim_supporter = {
+				PRESSED_CLAIM = scope:bargain.var:stakeholder_story.var:pressed_claim_story
+				CONTENDER = scope:contender.var:stakeholder
+			}
+			remove_variable = pending_bargain_proposal
+		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				FF_bargain_for_acceptance > 0
+			}
+		}
+	}
+
+	option = {
+		name = "BMU_REFUSE_BARGAIN"
+		trigger = {
+		}
+		custom_tooltip = BMU_REFUSE_BARGAIN_TOOLTIP
+		scope:contender = {
+			add_to_variable_list = {
+				name = BMU_bargains_refused
+				target = scope:bargain
+			}
+		}
+		scope:bargain = {
+			remove_variable = pending
+		}
+		scope:supporter.var:stakeholder = {
+			send_interface_toast = {
+				# type = event_generic_neutral # default: send_interface_toast
+				title = BMU_BARGAIN_REFUSED
+				left_icon = root # optional, character, artifact, or title
+			}
+			remove_variable = pending_bargain_proposal
+		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				FF_bargain_for_acceptance <= 0
+			}
+		}
+	}
+
+	after = {
+		
 	}
 }

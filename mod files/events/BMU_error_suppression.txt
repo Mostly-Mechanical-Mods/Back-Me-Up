@@ -34,7 +34,7 @@ BMU_error_suppression.0001 = {
 		fix_variable_error = { X = FF_ambition_screw_rival }
 		fix_variable_error = { X = FF_ambition_help_friend }
 		fix_variable_error = { X = FF_ambition_get_council_position }
-		fix_variable_error = { X = marshall }
+		fix_variable_error = { X = marshal }
 		fix_variable_error = { X = claim_target_score }
 		fix_variable_error = { X = top_candidate_score }
 		fix_variable_error = { X = story_owner }
