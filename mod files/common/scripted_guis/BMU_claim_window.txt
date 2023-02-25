@@ -530,6 +530,33 @@ BMU_send_bargain_for = {
 						}
 					}
 				}
+				scope:contender = {
+					any_in_list = {
+						variable = BMU_bargains
+						trigger_if = {
+							limit = {
+								scope:bargain.var:ambition = flag:FF_ambition_get_council_position
+								var:ambition = flag:FF_ambition_get_council_position
+							}
+							custom_description = {
+								text = BMU_supporter_already_bargained_with
+								subject = scope:contender.var:stakeholder
+								object = var:stakeholder_story.var:stakeholder
+							}
+						}
+					}
+				}
+				custom_description = {
+					text = BMU_contender_already_bargained_for
+					subject = root
+					object = scope:contender.var:stakeholder
+					scope:contender = {
+						any_in_list = {
+							variable = BMU_bargains
+							var:stakeholder_story.var:stakeholder = scope:bargain.var:stakeholder_story.var:stakeholder
+						}
+					}
+				}
 				trigger_if = {
 					limit = { has_variable = pending_bargain_proposal }
 					custom_description = {
