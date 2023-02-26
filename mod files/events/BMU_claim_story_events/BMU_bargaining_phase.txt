@@ -83,6 +83,7 @@ BMU_pressed_claim_bargaining.0001 = {
 				title = BMU_BARGAIN_REFUSED
 				left_icon = root # optional, character, artifact, or title
 			}
+			remove_variable = pending_bargain_proposal
 		}
 		ai_chance = {
 			base = 0
@@ -94,7 +95,6 @@ BMU_pressed_claim_bargaining.0001 = {
 	}
 
 	after = {
-		scope:contender.var:stakeholder = { remove_variable = pending_bargain_proposal }
 	}
 }
 

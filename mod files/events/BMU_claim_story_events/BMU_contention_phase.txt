@@ -9,7 +9,7 @@ BMU_pressed_claim.0010 = {
 
 	trigger = {
 		NOT = { this = scope:contender }
-		exists = scope:story
+		exists = scope:pressed_claim
 	}
 
 	immediate = {
@@ -20,7 +20,7 @@ BMU_pressed_claim.0010 = {
 			limit = {
 				story_type = BMU_stakeholder_story
 				exists = var:pressed_claim_story
-				var:pressed_claim_story = scope:story
+				var:pressed_claim_story = scope:pressed_claim
 			}
 			save_scope_as = stakeholder_story
 		}
@@ -35,7 +35,7 @@ BMU_pressed_claim.0010 = {
 			value = { scope:claim_target = { add = BMU_contender_score }}
 		}
 
-		scope:story.var:claimed_title = {
+		scope:pressed_claim.var:claimed_title = {
 			save_scope_as = coveted_title	
 		}
 		
@@ -48,7 +48,7 @@ BMU_pressed_claim.0010 = {
 
 			if = {
 				limit = { scope:wants_target_title_score <= 0 }
-				scope:story = {
+				scope:pressed_claim = {
 					ordered_in_list = {
 						variable = BMU_pressed_claim_stakeholders
 						limit = {
@@ -107,7 +107,7 @@ BMU_pressed_claim.0010 = {
 						is_weak_claimant_due_to_gender_trigger = { FAITH = root.faith CHARACTER = root }
 					}
 				}
-				scope:story.story_owner = {
+				scope:pressed_claim.story_owner = {
 					OR = {
 						is_adult = no
 						is_weak_claimant_due_to_gender_trigger = { FAITH = root.faith CHARACTER = scope:claim_target }
@@ -118,7 +118,7 @@ BMU_pressed_claim.0010 = {
 		custom_tooltip = BMU_CLAIMANT_INVITE_CONTENDER_TOOLTIP
 
 		BMU_pressed_claim_supporter = {
-			PRESSED_CLAIM = scope:story
+			PRESSED_CLAIM = scope:pressed_claim
 			CONTENDER = root
 		}
 
@@ -126,7 +126,7 @@ BMU_pressed_claim.0010 = {
 			limit = { root = scope:unwilling_contender }
 			scope:contender = {
 				BMU_pressed_claim_supporter = {
-					PRESSED_CLAIM = scope:story
+					PRESSED_CLAIM = scope:pressed_claim
 					CONTENDER = root
 				}
 			}
@@ -155,13 +155,13 @@ BMU_pressed_claim.0010 = {
 				scope:best_other_candidate_score > scope:target_score
 			}
 			BMU_pressed_claim_supporter = {
-				PRESSED_CLAIM = scope:story
+				PRESSED_CLAIM = scope:pressed_claim
 				CONTENDER = scope:best_other_candidate
 			}
 		}
 		else = {
 			BMU_pressed_claim_stakeholder = {
-				PRESSED_CLAIM = scope:story
+				PRESSED_CLAIM = scope:pressed_claim
 			}
 			
 		}
@@ -188,7 +188,7 @@ BMU_pressed_claim.0010 = {
 		name = "BMU_CLAIMANT_INVITE_DROPOUT"
 		trigger = { NOT = { this = scope:claim_target }}
 		BMU_pressed_claim_dropout = {
-			PRESSED_CLAIM = scope:story
+			PRESSED_CLAIM = scope:pressed_claim
 		}
 		ai_chance = {
 			base = 1
@@ -215,7 +215,7 @@ BMU_pressed_claim.0011 = {
 	trigger = {
 		any_owned_story = {
 			story_type = BMU_stakeholder_story
-			var:pressed_claim_story = scope:story
+			var:pressed_claim_story = scope:pressed_claim
 			count = 0
 		}
 	}
@@ -224,13 +224,13 @@ BMU_pressed_claim.0011 = {
 		debug_log = "BMU_pressed_claim.0011"
 		debug_log_scopes = no
 
-		BMU_create_pressed_claim_stakeholder_story = { PRESSED_CLAIM = scope:story }
+		BMU_create_pressed_claim_stakeholder_story = { PRESSED_CLAIM = scope:pressed_claim }
 	}
 
 	option = {
 		name = "BMU_TARGET_INVITE_ALLIES_SUPPORTER"
 		BMU_pressed_claim_supporter = {
-			PRESSED_CLAIM = scope:story
+			PRESSED_CLAIM = scope:pressed_claim
 			CONTENDER = scope:claim_target
 		}
 		ai_chance = {
@@ -283,7 +283,7 @@ BMU_pressed_claim.0012 = {
 	trigger = {
 		any_owned_story = {
 			story_type = BMU_stakeholder_story
-			var:pressed_claim_story = scope:story
+			var:pressed_claim_story = scope:pressed_claim
 			count = 0
 		}
 	}
@@ -292,7 +292,7 @@ BMU_pressed_claim.0012 = {
 		debug_log = "BMU_pressed_claim.0012"
 		debug_log_scopes = no
 
-		BMU_create_pressed_claim_stakeholder_story = { PRESSED_CLAIM = scope:story }
+		BMU_create_pressed_claim_stakeholder_story = { PRESSED_CLAIM = scope:pressed_claim }
 	}
 
 	option = {
@@ -303,7 +303,7 @@ BMU_pressed_claim.0012 = {
 				any_ally = {
 					any_owned_story = {
 						story_type = BMU_stakeholder_story
-						var:pressed_claim_story = scope:story
+						var:pressed_claim_story = scope:pressed_claim
 						has_variable = status
 						var:status = flag:contender
 						NOT = { var:stakeholder = scope:contender }
@@ -314,7 +314,7 @@ BMU_pressed_claim.0012 = {
 			}
 		}
 		BMU_pressed_claim_supporter = {
-			PRESSED_CLAIM = scope:story
+			PRESSED_CLAIM = scope:pressed_claim
 			CONTENDER = scope:contender
 		}
 	}
@@ -327,7 +327,7 @@ BMU_pressed_claim.0012 = {
 				any_ally = {
 					any_owned_story = {
 						story_type = BMU_stakeholder_story
-						var:pressed_claim_story = scope:story
+						var:pressed_claim_story = scope:pressed_claim
 						has_variable = status
 						var:status = flag:contender
 						NOT = { var:stakeholder = scope:contender }
@@ -374,7 +374,7 @@ BMU_pressed_claim.0013 = {
 		highest_held_title_tier >= tier_county
 		any_owned_story = {
 			story_type = BMU_stakeholder_story
-			var:pressed_claim_story = scope:story
+			var:pressed_claim_story = scope:pressed_claim
 			count = 0
 		}
 	}
@@ -383,7 +383,7 @@ BMU_pressed_claim.0013 = {
 		debug_log = "BMU_pressed_claim.0013"
 		debug_log_scopes = no
 
-		BMU_create_pressed_claim_stakeholder_story = { PRESSED_CLAIM = scope:story }
+		BMU_create_pressed_claim_stakeholder_story = { PRESSED_CLAIM = scope:pressed_claim }
 
 		# scope:claim_target = { save_scope_as = candidate }
 		save_scope_value_as = {
@@ -394,7 +394,7 @@ BMU_pressed_claim.0013 = {
 		set_variable = { name = claim_target_score value = scope:target_score }
 
 		#DEBUG
-		scope:story = {
+		scope:pressed_claim = {
 			every_in_list = {
 				variable = BMU_pressed_claim_stakeholders
 				limit = {
@@ -415,7 +415,7 @@ BMU_pressed_claim.0013 = {
 			}
 		}
 
-		scope:story = {
+		scope:pressed_claim = {
 			ordered_in_list = {
 				variable = BMU_pressed_claim_stakeholders
 				limit = {
@@ -451,12 +451,12 @@ BMU_pressed_claim.0013 = {
 			base = 0
 			modifier = {
 				scope:top_candidate_score > 0
-				scope:top_candidate = scope:story.var:claim_target
+				scope:top_candidate = scope:pressed_claim.var:claim_target
 				add = 100
 			}
 		}
 		BMU_pressed_claim_supporter = {
-			PRESSED_CLAIM = scope:story
+			PRESSED_CLAIM = scope:pressed_claim
 			CONTENDER = scope:top_candidate
 		}
 	}
@@ -468,12 +468,12 @@ BMU_pressed_claim.0013 = {
 			base = 0
 			modifier = {
 				scope:top_candidate_score > 0
-				NOT = { scope:top_candidate = scope:story.var:claim_target }
+				NOT = { scope:top_candidate = scope:pressed_claim.var:claim_target }
 				add = 100
 			}
 		}
 		BMU_pressed_claim_supporter = {
-			PRESSED_CLAIM = scope:story
+			PRESSED_CLAIM = scope:pressed_claim
 			CONTENDER = scope:top_candidate
 		}
 	}
@@ -481,7 +481,7 @@ BMU_pressed_claim.0013 = {
 	option = {
 		name = "BMU_TARGET_INVITE_VASSALS_STAKEHOLDER"
 		BMU_pressed_claim_stakeholder = {
-			PRESSED_CLAIM = scope:story
+			PRESSED_CLAIM = scope:pressed_claim
 		}
 		ai_chance = {
 			base = 0
@@ -496,7 +496,7 @@ BMU_pressed_claim.0013 = {
 		name = "BMU_TARGET_INVITE_VASSALS_DROPOUT"
 		trigger = { is_ai = no }
 		BMU_pressed_claim_dropout = {
-			PRESSED_CLAIM = scope:story
+			PRESSED_CLAIM = scope:pressed_claim
 		}
 	}
 
@@ -552,7 +552,7 @@ BMU_pressed_claim.0014 = {
 		}
 		any_owned_story = {
 			story_type = BMU_stakeholder_story
-			var:pressed_claim_story = scope:story
+			var:pressed_claim_story = scope:pressed_claim
 			count = 0
 		}
 		any_councillor = { has_council_position = councillor_chancellor }
@@ -566,7 +566,7 @@ BMU_pressed_claim.0014 = {
 			limit = { has_council_position = councillor_chancellor }
 			save_scope_as = chancellor
 		}
-		BMU_create_pressed_claim_stakeholder_story = { PRESSED_CLAIM = scope:story }
+		BMU_create_pressed_claim_stakeholder_story = { PRESSED_CLAIM = scope:pressed_claim }
 	}
 
 	option = {

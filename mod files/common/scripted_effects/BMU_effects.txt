@@ -17,17 +17,17 @@
 	scope:claim_target = {
 		create_story = {
 			type = BMU_pressed_claim_story
-			save_scope_as = story
+			save_scope_as = pressed_claim
 		}
 	}
 
 	add_to_global_variable_list = {
 		name = BMU_claim_stories
-		target = scope:story
+		target = scope:pressed_claim
 	}
 
-	scope:story = {
-		debug_log = story
+	scope:pressed_claim = {
+		debug_log = "story"
 		debug_log_scopes = no
 		set_variable = contention_phase
 		set_variable = {
@@ -40,7 +40,7 @@
 		story_owner = {
 			add_to_variable_list = {
 				name = claimed_titles
-				target = scope:story
+				target = scope:pressed_claim
 			}
 			add_to_list = claimants
 		}
@@ -99,7 +99,7 @@
 			scope:stakeholder_story = {
 				set_variable = {
 					name = pressed_claim_story
-					value = scope:story
+					value = scope:pressed_claim
 				}
 				set_variable = claimant
 				set_variable = {
@@ -118,7 +118,7 @@
 				# 	}
 				# }
 			}
-			scope:story = {
+			scope:pressed_claim = {
 				add_to_variable_list = {
 					name = BMU_pressed_claim_stakeholders
 					target = scope:stakeholder_story
@@ -130,7 +130,7 @@
 					scope:contender = scope:unwilling_contender
 				}
 				BMU_pressed_claim_supporter = {
-					PRESSED_CLAIM = scope:story
+					PRESSED_CLAIM = scope:pressed_claim
 					CONTENDER = scope:contender
 				}
 			}
@@ -155,16 +155,16 @@
 						NOT = { this = prev.special_character }
 						any_owned_story = {
 							story_type = BMU_stakeholder_story
-							var:pressed_claim_story = scope:story
+							var:pressed_claim_story = scope:pressed_claim
 							count = 0
 						}
 					}
-					BMU_create_pressed_claim_stakeholder_story = { PRESSED_CLAIM = scope:story }
+					BMU_create_pressed_claim_stakeholder_story = { PRESSED_CLAIM = scope:pressed_claim }
 					prev.special_character = {
 						random_owned_story = {
 							limit = {
 								story_type = BMU_stakeholder_story
-								var:pressed_claim_story = scope:story
+								var:pressed_claim_story = scope:pressed_claim
 							}
 							scope:stakeholder_story = {
 								set_variable = {
@@ -175,7 +175,7 @@
 						}
 					}
 					BMU_pressed_claim_supporter = {
-						PRESSED_CLAIM = scope:story
+						PRESSED_CLAIM = scope:pressed_claim
 						CONTENDER = prev.special_character
 					}
 				}
@@ -428,7 +428,7 @@ BMU_create_pressed_claim_stakeholder_story = {
 				has_variable = status
 				var:status = flag:contender
 				has_variable = stakeholder
-				NOT = { var:stakeholder = scope:story.story_owner }
+				NOT = { var:stakeholder = scope:pressed_claim.story_owner }
 			}
 			order_by = { var:stakeholder = { scope:stakeholder = { add = BMU_contender_score }}}
 			scope:stakeholder_story = {
