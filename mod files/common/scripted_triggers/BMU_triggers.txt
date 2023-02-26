@@ -1,16 +1,98 @@
-﻿BMU_supporter_is_relevant = {
-	$SUPPORTER$ = { save_scope_as = relevant_supporter }
-	save_scope_as = PoV
-	scope:relevant_supporter = {
+﻿BMU_can_bargain = {
+	$CONTENDER$ = { save_temporary_scope_as = bargaining_contender }
+	$SUPPORTER$ = { save_temporary_scope_as = bargaining_supporter }
+	trigger_if = {
+		limit = { scope:bargaining_supporter.var:status = flag:stakeholder }
+		scope:bargaining_contender = { BMU_supporter_is_relevant = { SUPPORTER = scope:bargaining_supporter }}
+	}
+	trigger_else_if = {
+		limit = { scope:bargaining_supporter.var:status = flag:supporter }
+		scope:contender = {
+			any_in_list = {
+				variable = BMU_bargains
+				var:stakeholder_story = scope:bargaining_supporter
+				count = 0
+			}
+		}
+	}
+	trigger_else = { always = no }
+}
+
+BMU_supporter_is_relevant = {
+	$SUPPORTER$ = { save_temporary_scope_as = relevant_supporter }
+	scope:relevant_supporter.var:stakeholder = {
 		OR = {
-			this.liege = scope:PoV
-			is_close_family_of = scope:PoV
-			has_relation_friend = scope:PoV
-			dynasty = scope:PoV.dynasty
-			house = scope:PoV.house
+			liege = prev.var:stakeholder
+			is_close_family_of = prev.var:stakeholder
+			has_relation_friend = prev.var:stakeholder
+			dynasty = prev.var:stakeholder.dynasty
+			house = prev.var:stakeholder.house
+			any_relation = {
+				type = rival
+				any_owned_story = {
+					story_type = BMU_stakeholder_story
+					var:pressed_claim = scope:relevant_supporter.var:pressed_claim
+					var:status = flag:contender
+				}
+			}
 		}
 	}
 }
+
+BMU_bargain_can_be_struck = {
+	$SUPPORTER$ = { save_temporary_scope_as = bargaining_supporter }
+	$CONTENDER$ = { save_temporary_scope_as = bargaining_contender }
+	trigger_if = {
+		limit = { scope:supporter.var:stakeholder = { is_ai = yes }}
+		var:ambition_score > 0
+	}
+	NOR = {
+		has_variable = pending
+		has_variable = bargained
+	}
+	trigger_if = {
+		limit = {
+			exists = scope:bargain_temp
+			NOT = { exists = scope:bargain }
+			scope:bargain_temp = { save_temporary_scope_as = bargain }
+		}
+	}
+	trigger_if = {
+		limit = { scope:bargain.var:ambition = flag:FF_ambition_get_council_position }
+		scope:bargaining_supporter.var:stakeholder = {
+			NAND = {
+				is_councillor_of = scope:bargaining_contender.var:stakeholder
+				trigger_if = {
+					limit = { scope:bargain.var:council_position = flag:chancellor }
+					has_council_position = councillor_chancellor
+				}
+				trigger_else_if = {
+					limit = { scope:bargain.var:council_position = flag:steward }
+					has_council_position = councillor_steward
+				}
+				trigger_else_if = {
+					limit = { scope:bargain.var:council_position = flag:marshal }
+					has_council_position = councillor_marshal
+				}
+				trigger_else_if = {
+					limit = { scope:bargain.var:council_position = flag:spymaster }
+					has_council_position = councillor_spymaster
+				}
+				trigger_else = { always = yes }
+			}
+		}
+		scope:bargaining_contender = {
+			any_in_list = {
+				variable = BMU_bargains
+				has_variable = bargained
+				var:ambition = flag:FF_ambition_get_council_position
+				var:council_position = scope:bargain.var:council_position
+				count = 0
+			}
+		}
+	}
+}
+
 
 BMU_ambition_can_be_councillor_of = {
 	$PRESSED_CLAIM$ = { save_temporary_scope_as = pressed_claim_temp }
