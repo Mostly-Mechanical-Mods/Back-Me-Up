@@ -501,6 +501,12 @@ claimant_faction = {
 			}
 			exists = faction_war
 		}
+		trigger_if = {
+			limit = { special_character = { is_ai = yes }}
+			special_title = { save_temporary_scope_as = claimed_title }
+			faction_target = { save_temporary_scope_as = claim_target }
+			special_character = { prev.faction_target = { BMU_contender_score < 0 }}
+		}
 	}
 
 	on_creation = {
@@ -517,6 +523,24 @@ claimant_faction = {
 			TARGET_TITLE = special_title
 			CONTENDER = faction_leader
 			UNWILLING_CONTENDER = special_character
+		}
+
+		faction_target = {
+			every_targeting_faction = {
+				limit = { faction_is_type = claimant_faction }
+				set_variable = {
+					name = pressed_claim
+					value = scope:pressed_claim
+				}
+				every_faction_member = {
+					prev = {
+						add_to_variable_list = {
+							name = pressed_claim_supporters
+							target = prev
+						}
+					}
+				}
+			}
 		}
 		#[/BMU]
 	}
@@ -580,6 +604,18 @@ claimant_faction = {
 		common_character_validity_trigger = {
 			FACTION_TARGET = scope:faction.faction_target
 		}
+		#[BMU]
+		trigger_if = {
+			limit = {
+				is_ai = yes
+				exists = scope:faction
+				exists = scope:faction.special_title
+			}
+			scope:faction.faction_target = { save_temporary_scope_as = claim_target }
+			scope:faction.special_title = { save_temporary_scope_as = claimed_title }
+			scope:faction.special_character = { BMU_contender_score > 0 }
+		}
+		#[/BMU]
 	}
 
 	can_character_create_ui = {
@@ -595,6 +631,8 @@ claimant_faction = {
 			FACTION_TARGET = scope:target
 		}
 
+		
+
 		trigger_if = {
 			limit = {
 				exists = joined_faction
@@ -603,53 +641,44 @@ claimant_faction = {
 				exists = special_title
 				special_title.holder = scope:target
 			}
-			NOT = {
-				scope:target = {
-					any_owned_story = {
-						story_type = BMU_pressed_claim_story
-						has_variable = claimed_title
-						var:claimed_title = root.joined_faction.special_title
-					}
-				}
-			}
 		}
 		trigger_else_if = {
 			limit = {
 				has_variable = claiming_title
 			}
 			var:claiming_title.holder = scope:target
-			NOT = {
-				scope:target = {
-					any_owned_story = {
-						story_type = BMU_pressed_claim_story
-						has_variable = claimed_title
-						var:claimed_title = root.var:claiming_title
-					}
-				}
+			trigger_if = {
+				limit = { is_ai = yes }
+				# #[BMU]
+				# scope:target = { save_temporary_scope_as = claim_target }
+				# var:claiming_title = { save_temporary_scope_as = claimed_title }
+				# scope:target = { BMU_contender_score < 0 }
+				# #[/BMU]
 			}
 		}
 		trigger_else = {
 			always = no
 		}
-
 	}
 
 	can_character_join = { # Can a character join an existing faction?
 		common_can_character_join_trigger = {
 			FACTION_TARGET = scope:faction.faction_target
 		}
-
-		NOT = {
-			scope:faction.faction_target = {
-				any_owned_story = {
-					story_type = BMU_pressed_claim_story
-					trigger_if = {
-						limit = { has_variable = claimed_title }
-						var:claimed_title = scope:faction.special_title
+		#[BMU]
+		trigger_if = {
+			limit = { scope:faction = { has_variable = pressed_claim }}
+			custom_description = {
+				text = BMU_ongoing_pressed_claim
+				scope:faction = {
+					is_target_in_variable_list = {
+						name = pressed_claim_supporters
+						target = root
 					}
 				}
 			}
 		}
+		#[/BMU]
 	}
 
 	can_character_become_leader = {
@@ -683,11 +712,24 @@ claimant_faction = {
 			THRESHOLD = 80
 		}
 
-		claimant_faction_modifiers = {
-			FACTION_TARGET = scope:target
-			FACTION_CLAIMANT = scope:claimant
-			FACTION_TITLE = scope:title
-		}		
+		# claimant_faction_modifiers = {
+		# 	FACTION_TARGET = scope:target
+		# 	FACTION_CLAIMANT = scope:claimant
+		# 	FACTION_TITLE = scope:title
+		# }
+
+		#[BMU]
+		modifier = {
+			scope:target = { save_temporary_scope_as = claim_target }
+			scope:claimant = { save_temporary_scope_as = candidate }
+			scope:title = { save_temporary_scope_as = claimed_title }
+			add = {
+				value = {
+					scope:claimant = { add = BMU_contender_score }
+				}
+			}
+		}
+		#[/BMU]
 
 		# If another Claimant Faction already exists, prefer to side with it
 		modifier = {
@@ -735,6 +777,14 @@ claimant_faction = {
 		  	}
 		}
 
+		modifier = {
+			scope:target = { save_temporary_scope_as = claim_target }
+			scope:claimant = { save_temporary_scope_as = candidate }
+			scope:title = { save_temporary_scope_as = claimed_title }
+			scope:claimant = { BMU_contender_score < 0 }
+			factor = 0
+		}
+
 	}
 
 	ai_join_score = { # How likely is an AI to join an existing faction?
@@ -757,11 +807,24 @@ claimant_faction = {
 			THRESHOLD = scope:faction.faction_power_threshold
 		}
 
-		claimant_faction_modifiers = {
-			FACTION_TARGET = scope:faction.faction_target 
-			FACTION_CLAIMANT = scope:faction.special_character 
-			FACTION_TITLE = scope:faction.special_title
-		}		
+		# claimant_faction_modifiers = {
+		# 	FACTION_TARGET = scope:faction.faction_target 
+		# 	FACTION_CLAIMANT = scope:faction.special_character 
+		# 	FACTION_TITLE = scope:faction.special_title
+		# }
+
+		#[BMU]
+		modifier = {
+			scope:faction.faction_target  = { save_temporary_scope_as = claim_target }
+			scope:faction.special_character = { save_temporary_scope_as = candidate }
+			scope:faction.special_title = { save_temporary_scope_as = claimed_title }
+			add = {
+				value = {
+					scope:faction.special_character = { add = BMU_contender_score }
+				}
+			}
+		}
+		#[/BMU]
 
 		##########################
 		# Faction 'Stacking' Factors, attempts to cluster AI rulers into several powerful factions instead of many weak ones.

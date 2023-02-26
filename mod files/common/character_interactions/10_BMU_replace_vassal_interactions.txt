@@ -20,30 +20,34 @@
 	}
 
 	is_valid_showing_failures_only = {
-		# always = no
 		scope:actor = { NOT = { has_truce = scope:secondary_actor }}
+		#[BMU]
 		trigger_if = {
 			limit = {
 				exists = scope:recipient
 				exists = scope:landed_title
 			}
-			# scope:recipient = { save_temporary_scope_as = candidate }
-			scope:actor.liege = { save_temporary_scope_as = claim_target }
+			scope:secondary_actor = { save_temporary_scope_as = candidate }
+			scope:secondary_actor = { save_temporary_scope_as = claim_target }
 			scope:landed_title = {
 				save_temporary_scope_as = claimed_title
 				save_temporary_scope_as = coveted_title
 			}
-			scope:secondary_actor = {
-				NOT = {
-					custom_description = {
-						text = BMU_contender_score_trigger
-						subject = scope:recipient
-						object = scope:claim_target
-						scope:recipient = { BMU_contender_score > 0 }
-					}
+			trigger_if = {
+				limit = { scope:recipient = { is_ai = yes }}
+				custom_description = {
+					text = BMU_contender_score_trigger
+					subject = scope:recipient
+					object = scope:secondary_actor
+					scope:recipient = { scope:secondary_actor = { BMU_contender_score < 0 }}
 				}
-				trigger_if = {
-					limit = { scope:recipient = { BMU_contender_score < 0 }}
+			}
+			trigger_if = {
+				limit = {
+					scope:recipient = { is_ai = yes }
+					scope:recipient = { scope:secondary_actor = { BMU_contender_score < 0 }}
+				}
+				scope:recipient = {
 					custom_description = {
 						text = BMU_ambition_get_title_trigger
 						subject = scope:recipient
@@ -52,7 +56,20 @@
 					}
 				}
 			}
+			scope:secondary_actor = {
+				NOT = {
+					custom_description = {
+						text = BMU_title_already_claimed
+						subject = scope:landed_title
+						any_owned_story = {
+							story_type = BMU_pressed_claim_story
+							var:claimed_title = scope:landed_title
+						}
+					}
+				}
+			}
 		}
+		#[/BMU]
 		scope:secondary_actor = {
 			trigger_if = {
 				limit = {
@@ -116,6 +133,20 @@
 	}
 
 	on_send = {
+		debug_log = "claimant faction created"
+		debug_log_scopes = yes
+		scope:secondary_actor = { save_scope_as = claim_target }
+		scope:landed_title = { save_scope_as = claimed_title }
+		scope:recipient = {
+			scope:secondary_actor = {
+				save_scope_value_as = {
+					name = BMU_contender_score
+					value = BMU_contender_score
+				}
+			}
+		}
+		scope:BMU_contender_score = { debug_log_scopes = no }
+
 		scope:actor = {
 			set_variable = {
 				name = claiming_title

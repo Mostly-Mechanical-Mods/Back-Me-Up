@@ -170,3 +170,5 @@ BMU_BARGAIN_STRUCK_WITH: "Bargain struck with [Scope.Var('bargained').Var('stake
 BMU_BARGAIN_STRUCK_FOR: "for the [Localize(Concatenate(Scope.Var('council_position').GetFlagName,'_name'))] position."
 
 BMU_tooltip_unfulfilled_ambitions: "Wants something for [Character.GetHerHis] trouble."
+BMU_ONGOING_PRESSED_CLAIM: "BMU_ONGOING_PRESSED_CLAIM"
+BMU_ALREADY_BARGAINED_WITH_CONTENDER: "BMU_ALREADY_BARGAINED_WITH_CONTENDER"

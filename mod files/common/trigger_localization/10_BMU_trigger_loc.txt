@@ -36,3 +36,15 @@ BMU_bargain_acceptable = {
 	third = BMU_THEY_WOULD_ACCEPT_BARGAIN
 	third_not = BMU_THEY_WOULD_NOT_ACCEPT_BARGAIN
 }
+
+BMU_ongoing_pressed_claim = {
+	global = BMU_ONGOING_PRESSED_CLAIM
+}
+
+BMU_contender_already_bargained_for = {
+	global = BMU_ALREADY_BARGAINED_WITH_CONTENDER
+}
+
+BMU_title_already_claimed = {
+	global = BMU_TITLE_ALREADY_CLAIMED
+}
