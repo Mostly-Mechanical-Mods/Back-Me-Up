@@ -222,7 +222,7 @@ BMU_pressed_claim_supporter = {
 				}
 				every_in_list = {
 					variable = BMU_bargains
-					limit = { var:stakeholder_story.var:stakeholder = scope:supporter }
+					limit = { var:stakeholder_story.story_owner = scope:supporter }
 					remove_variable = bargained
 					prev = {
 						remove_list_variable = {
@@ -231,7 +231,7 @@ BMU_pressed_claim_supporter = {
 						}
 					}
 				}
-				var:stakeholder = {
+				story_owner = {
 					send_interface_toast = {
 						title = BMU_SUPPORTER_LOST
 						left_icon = scope:supporter # optional, character, artifact, or title
@@ -364,7 +364,7 @@ BMU_pressed_claim_update_top_contender = {
 			has_variable = status
 			var:status = flag:contender
 			has_variable = stakeholder
-			NOT = { var:stakeholder = scope:claim_target }
+			NOT = { story_owner = scope:claim_target }
 		}
 		order_by = {
 			if = { limit = { story_owner = { save_temporary_scope_as = temp_contender }}}
@@ -428,9 +428,9 @@ BMU_create_pressed_claim_stakeholder_story = {
 				has_variable = status
 				var:status = flag:contender
 				has_variable = stakeholder
-				NOT = { var:stakeholder = scope:pressed_claim.story_owner }
+				NOT = { story_owner = scope:pressed_claim.story_owner }
 			}
-			order_by = { var:stakeholder = { scope:stakeholder = { add = BMU_contender_score }}}
+			order_by = { story_owner = { scope:stakeholder = { add = BMU_contender_score }}}
 			scope:stakeholder_story = {
 				set_variable = {
 					name = top_contender
@@ -521,13 +521,13 @@ BMU_create_pressed_claim_stakeholder_story = {
 					limit = {
 						has_variable = status
 						var:status = flag:contender
-						var:stakeholder = {
+						story_owner = {
 							any_alert_creatable_title = {
 								this = scope:coveted_title
 							}
 						}
 					}
-					var:stakeholder = {
+					story_owner = {
 						save_scope_as = coveted_title_holder
 						debug_log_scopes = no
 					}
@@ -887,38 +887,107 @@ BMU_execute_bargain = {
 			switch = {
 				trigger = var:council_position
 				flag:chancellor = {
-					root.var:stakeholder = {
+					root.story_owner = {
 						assign_councillor_type = {
 							type = councillor_chancellor
-							target = root.var:current_bargain.var:stakeholder_story.var:stakeholder
+							target = root.var:current_bargain.var:stakeholder_story.story_owner
 						}
 					}
 				}
 				flag:steward = {
-					root.var:stakeholder = {
+					root.story_owner = {
 						assign_councillor_type = {
 							type = councillor_steward
-							target = root.var:current_bargain.var:stakeholder_story.var:stakeholder
+							target = root.var:current_bargain.var:stakeholder_story.story_owner
 						}
 					}
 				}
 				flag:marshal = {
-					root.var:stakeholder = {
+					root.story_owner = {
 						assign_councillor_type = {
 							type = councillor_marshal
-							target = root.var:current_bargain.var:stakeholder_story.var:stakeholder
+							target = root.var:current_bargain.var:stakeholder_story.story_owner
 						}
 					}
 				}
 				flag:spymaster = {
-					root.var:stakeholder = {
+					root.story_owner = {
 						assign_councillor_type = {
 							type = councillor_spymaster
-							target = root.var:current_bargain.var:stakeholder_story.var:stakeholder
+							target = root.var:current_bargain.var:stakeholder_story.story_owner
 						}
 					}
 				}
 			}
 		}
+	}
+}
+
+BMU_transfer_claimed_press = {
+	$PRESSED_CLAIM$ = { save_scope_as = pressed_claim }
+	$CLAIMED_TITLE$ = { save_scope_as = claimed_title }
+	$OLD_CLAIM_TARGET$ = { save_scope_as = old_claim_target }
+	$NEW_CLAIM_TARGET$ = { save_scope_as = new_claim_target }
+
+	scope:old_claim_target = {
+		random_owned_story = {
+			limit = {
+				story_type = BMU_stakeholder_story
+				var:pressed_claim_story = scope:claimed_title
+			}
+			save_scope_as = old_claim_target_stakeholder_story
+		}
+	}
+	scope:new_claim_target = {
+		random_owned_story = {
+			limit = {
+				story_type = BMU_stakeholder_story
+				var:pressed_claim_story = scope:pressed_claim
+			}
+			save_scope_as = new_claim_target_stakeholder_story
+		}
+	}
+	
+	if = {
+		limit = { exists = scope:new_claim_target_stakeholder_story }
+		scope:new_claim_target_stakeholder_story = {
+			set_variable = {
+				name = status
+				value = flag:contender
+			}
+			set_variable = {
+				name = contender
+				value = scope:new_claim_target_stakeholder_story
+			}
+			every_in_list = {
+				variable = BMU_stakeholder_ambitions
+				if = {
+					limit = { has_variable = bargained }
+					var:bargained = {
+						remove_list_variable = {
+							name = BMU_bargains
+							target = scope:new_claim_target_stakeholder_story
+						}
+					}
+				}
+				end_story = yes
+			}
+		}
+	}
+	else = {
+		scope:old_claim_target_stakeholder_story = {
+			make_story_owner = scope:new_claim_target
+			set_variable = {
+				name = stakeholder
+				value = scope:new_claim_target
+			}
+		}
+	}
+	scope:pressed_claim = {
+		set_variable = {
+			name = claim_target
+			value = scope:new_claim_target
+		}
+		make_story_owner = scope:new_claim_target
 	}
 }

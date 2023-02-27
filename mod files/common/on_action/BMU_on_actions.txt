@@ -3,3 +3,38 @@
 		NOT = { war = { using_cb = claim_cb }}
 	}
 }
+# A title is lost by a character
+# root = the old holder
+# scope:title = the title that changes hands
+# scope:new_holder = new holder.
+on_title_lost = {
+	on_actions = {
+		# BMU_on_title_lost
+	}
+}
+
+BMU_on_title_lost = {
+	trigger = {
+		any_owned_story = {
+			story_type = BMU_pressed_claim_story
+			var:claimed_title = scope:title
+			NOT = { var:status = flag:war }
+		}
+	}
+	effect = {
+		save_scope_as = old_holder
+		random_owned_story = {
+			limit = {
+				story_type = BMU_pressed_claim_story
+				var:claimed_title = scope:title
+			}
+			save_scope_as = pressed_claim
+		}
+		BMU_transfer_claimed_press = {
+			PRESSED_CLAIM = scope:pressed_claim
+			CLAIMED_TITLE = scope:title
+			OLD_CLAIM_TARGET = root
+			NEW_CLAIM_TARGET = scope:new_holder
+		}
+	}
+}

@@ -12,7 +12,7 @@
 		every_in_list = {
 			variable = BMU_stakeholder_stories
 			limit = {}
-			var:stakeholder = {
+			story_owner = {
 				every_owned_story = {
 					limit = { story_type = BMU_ambition_story }
 					end_story = yes
@@ -23,6 +23,17 @@
 	}
 
 	on_owner_death = {
+		var:claimed_title = {
+			ordered_title_heir = {
+				save_scope_as = new_claim_target
+			}
+		}
+		BMU_transfer_claimed_press = {
+			PRESSED_CLAIM = this
+			CLAIMED_TITLE = var:claimed_title
+			OLD_CLAIM_TARGET = story_owner
+			NEW_CLAIM_TARGET = scope:new_claim_target
+		}
 	}
 
 	effect_group = {
@@ -56,21 +67,21 @@
 						limit = {
 							has_variable = status
 							var:status = flag:contender
-							NOT = { var:stakeholder = scope:claim_target }
+							NOT = { story_owner = scope:claim_target }
 							trigger_if = {
-								limit = { var:stakeholder = { is_landed = no }}
-								var:stakeholder = { save_temporary_scope_as = unlanded_contender }
+								limit = { story_owner = { is_landed = no }}
+								story_owner = { save_temporary_scope_as = unlanded_contender }
 								prev = {
 									any_in_list = {
 										variable = BMU_pressed_claim_stakeholders
 										has_variable = status
 										var:status = flag:supporter
-										var:contender.var:stakeholder = scope:unlanded_contender
+										var:contender.story_owner = scope:unlanded_contender
 									}
 								}
 							}
 						}
-						var:stakeholder = {
+						story_owner = {
 							debug_log_scopes = no
 							if = {
 								limit = { is_landed = no }
@@ -116,8 +127,8 @@
 							var:status = flag:supporter
 							has_variable = contender
 						}
-						var:stakeholder = { save_scope_as = supporter }
-						var:contender.var:stakeholder = {
+						story_owner = { save_scope_as = supporter }
+						var:contender.story_owner = {
 							every_character_war = {
 								limit = { using_cb = BMU_pressed_claim_cb }
 								if = {
@@ -212,7 +223,7 @@
 							has_variable = status
 							var:status = flag:contender
 						}
-						var:stakeholder = { save_scope_as = contender }
+						story_owner = { save_scope_as = contender }
 						story_owner = {
 							every_ally = {
 								limit = {
@@ -343,7 +354,7 @@ BMU_stakeholder_story = {
 				var:pressed_claim_story.var:pressed_claim_phase = flag:war_phase
 				story_owner = { exists = primary_heir }
 			}
-			make_story_owner = { story_owner.primary_heir }
+			make_story_owner = story_owner.primary_heir
 		}
 		else = {
 			#TODO send notifications to contender if supporter, to other contenders + own supporters if contender
@@ -374,21 +385,21 @@ BMU_stakeholder_story = {
 							BMU_can_bargain = { CONTENDER = scope:contender SUPPORTER = this }
 							save_temporary_scope_value_as = {
 								name = neg_contender_score
-								value = { var:stakeholder = { scope:contender.var:stakeholder = { subtract = BMU_contender_score }}}
+								value = { story_owner = { scope:contender.story_owner = { subtract = BMU_contender_score }}}
 							}
 							save_temporary_scope_as = supporter
 							any_in_list = {
 								variable = BMU_stakeholder_ambitions
 								save_temporary_scope_as = bargain_temp
 								BMU_bargain_can_be_struck = { CONTENDER = scope:contender SUPPORTER = scope:supporter }
-								scope:supporter.var:stakeholder = { scope:contender.var:stakeholder = { scope:bargain_temp.var:ambition_score > scope:neg_contender_score }}
-								scope:contender.var:stakeholder = { FF_ambition_cost > 0 }
+								scope:supporter.story_owner = { scope:contender.story_owner = { scope:bargain_temp.var:ambition_score > scope:neg_contender_score }}
+								scope:contender.story_owner = { FF_ambition_cost > 0 }
 							}
 						}
 						weight = {
 							base = 0
 							modifier = {
-								add = var:stakeholder.max_military_strength
+								add = story_owner.max_military_strength
 							}
 							modifier = {
 								var:status = flag:supporter
@@ -400,18 +411,18 @@ BMU_stakeholder_story = {
 						if = {
 							limit = { debug_only = yes }
 							debug_log = "random stakeholder"
-							var:stakeholder = { debug_log_scopes = no }
+							story_owner = { debug_log_scopes = no }
 						}
 						save_scope_value_as = {
 							name = neg_contender_score
-							value = { var:stakeholder = { root.story_owner = { subtract = BMU_contender_score }}}
+							value = { story_owner = { root.story_owner = { subtract = BMU_contender_score }}}
 						}
 						random_in_list = {
 							variable = BMU_stakeholder_ambitions
 							limit = {
 								save_temporary_scope_as = bargain_temp
 								BMU_bargain_can_be_struck = { CONTENDER = scope:contender SUPPORTER = scope:supporter }
-								prev.var:stakeholder = { root.story_owner = { scope:bargain_temp.var:ambition_score > scope:neg_contender_score }}
+								prev.story_owner = { root.story_owner = { scope:bargain_temp.var:ambition_score > scope:neg_contender_score }}
 								root.story_owner = { FF_ambition_cost > 0 }
 							}
 							save_scope_as = bargain
@@ -419,10 +430,10 @@ BMU_stakeholder_story = {
 							if = {
 								limit = { debug_only = yes }
 								debug_log_scopes = no
-								scope:supporter.var:stakeholder = { debug_log_scopes = no }
+								scope:supporter.story_owner = { debug_log_scopes = no }
 								var:ambition = { debug_log_scopes = no }
 							}
-							scope:supporter.var:stakeholder = {
+							scope:supporter.story_owner = {
 								trigger_event = BMU_pressed_claim_bargaining.0001
 							}
 						}

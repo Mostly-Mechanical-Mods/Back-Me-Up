@@ -20,13 +20,13 @@
 
 BMU_supporter_is_relevant = {
 	$SUPPORTER$ = { save_temporary_scope_as = relevant_supporter }
-	scope:relevant_supporter.var:stakeholder = {
+	scope:relevant_supporter.story_owner = {
 		OR = {
-			liege = prev.var:stakeholder
-			is_close_family_of = prev.var:stakeholder
-			has_relation_friend = prev.var:stakeholder
-			dynasty = prev.var:stakeholder.dynasty
-			house = prev.var:stakeholder.house
+			liege = prev.story_owner
+			is_close_family_of = prev.story_owner
+			has_relation_friend = prev.story_owner
+			dynasty = prev.story_owner.dynasty
+			house = prev.story_owner.house
 			any_relation = {
 				type = rival
 				any_owned_story = {
@@ -43,7 +43,7 @@ BMU_bargain_can_be_struck = {
 	$SUPPORTER$ = { save_temporary_scope_as = bargaining_supporter }
 	$CONTENDER$ = { save_temporary_scope_as = bargaining_contender }
 	trigger_if = {
-		limit = { scope:supporter.var:stakeholder = { is_ai = yes }}
+		limit = { scope:supporter.story_owner = { is_ai = yes }}
 		var:ambition_score > 0
 	}
 	NOR = {
@@ -59,9 +59,9 @@ BMU_bargain_can_be_struck = {
 	}
 	trigger_if = {
 		limit = { scope:bargain.var:ambition = flag:FF_ambition_get_council_position }
-		scope:bargaining_supporter.var:stakeholder = {
+		scope:bargaining_supporter.story_owner = {
 			NAND = {
-				is_councillor_of = scope:bargaining_contender.var:stakeholder
+				is_councillor_of = scope:bargaining_contender.story_owner
 				trigger_if = {
 					limit = { scope:bargain.var:council_position = flag:chancellor }
 					has_council_position = councillor_chancellor

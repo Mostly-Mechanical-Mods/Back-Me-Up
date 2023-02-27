@@ -207,7 +207,7 @@ BMU_bargain_with_council_position = {
 			variable = BMU_stakeholder_ambitions
 			var:ambition = flag:FF_ambition_get_council_position
 			var:council_position = { save_temporary_scope_as = council_position }
-			var:stakeholder_story.var:stakeholder = {
+			var:stakeholder_story.story_owner = {
 				BMU_ambition_can_be_councillor_of = {
 					PRESSED_CLAIM = root.var:pressed_claim_story
 					CONTENDER = scope:contender
@@ -226,7 +226,7 @@ BMU_bargain_for_council_position = {
 	}
 	is_shown = {
 		NOR = {
-			var:stakeholder_story.var:stakeholder = { is_councillor_of = scope:contender.var:stakeholder }
+			var:stakeholder_story.story_owner = { is_councillor_of = scope:contender.story_owner }
 			scope:contender = {
 				any_in_list = {
 					variable = BMU_bargains
@@ -254,27 +254,27 @@ BMU_set_bargain_with = {
 	is_valid = {
 		trigger_if = {
 			limit = { scope:bargain.var:ambition = flag:FF_ambition_get_council_position }
-			scope:supporter.var:stakeholder = {
+			scope:supporter.story_owner = {
 				OR = {
-					is_vassal_of = scope:contender.var:stakeholder
-					root.var:pressed_claim_story.var:claimed_title = { is_de_jure_liege_or_above_target = scope:supporter.var:stakeholder.primary_title }
+					is_vassal_of = scope:contender.story_owner
+					root.var:pressed_claim_story.var:claimed_title = { is_de_jure_liege_or_above_target = scope:supporter.story_owner.primary_title }
 				}
 			}
 			trigger_if = {
 				limit = { scope:bargain.var:council_position = flag:chancellor }
-				scope:supporter.var:stakeholder = { BMU_can_be_chancellor_of = { COURT_OWNER = scope:contender.var:stakeholder }}
+				scope:supporter.story_owner = { BMU_can_be_chancellor_of = { COURT_OWNER = scope:contender.story_owner }}
 			}
 			trigger_else_if = {
 				limit = { scope:bargain.var:council_position = flag:steward }
-				scope:supporter.var:stakeholder = { BMU_can_be_steward_of = { COURT_OWNER = scope:contender.var:stakeholder }}
+				scope:supporter.story_owner = { BMU_can_be_steward_of = { COURT_OWNER = scope:contender.story_owner }}
 			}
 			trigger_else_if = {
 				limit = { scope:bargain.var:council_position = flag:marshal }
-				scope:supporter.var:stakeholder = { BMU_can_be_marshal_of = { COURT_OWNER = scope:contender.var:stakeholder }}
+				scope:supporter.story_owner = { BMU_can_be_marshal_of = { COURT_OWNER = scope:contender.story_owner }}
 			}
 			trigger_else_if = {
 				limit = { scope:bargain.var:council_position = flag:spymaster }
-				scope:supporter.var:stakeholder = { BMU_can_be_spymaster_of = { COURT_OWNER = scope:contender.var:stakeholder }}
+				scope:supporter.story_owner = { BMU_can_be_spymaster_of = { COURT_OWNER = scope:contender.story_owner }}
 			}
 			trigger_else = {
 				always = no
@@ -285,8 +285,8 @@ BMU_set_bargain_with = {
 				limit = { scope:bargain = { has_variable = fullfilled }}
 				custom_description = {
 					text = BMU_ambition_already_bargained_for
-					subject = scope:bargain.var:stakeholder_story.var:stakeholder
-					object = scope:bargain.var:fulfilled.var:stakeholder
+					subject = scope:bargain.var:stakeholder_story.story_owner
+					object = scope:bargain.var:fulfilled.story_owner
 					scope:bargain = { has_variable = fulfilled }
 				}
 			}
@@ -299,8 +299,8 @@ BMU_set_bargain_with = {
 				}
 				custom_description = {
 					text = BMU_ambition_already_bargained_with
-					subject = root.var:stakeholder
-					object = var:stakeholder_story.var:stakeholder
+					subject = root.story_owner
+					object = var:stakeholder_story.story_owner
 				}
 			}
 		}
@@ -327,53 +327,53 @@ BMU_set_bargain_for = {
 	is_valid = {
 		trigger_if = {
 			limit = { scope:bargain.var:ambition = flag:FF_ambition_get_council_position }
-			scope:supporter.var:stakeholder = {
+			scope:supporter.story_owner = {
 				OR = {
-					is_vassal_of = scope:contender.var:stakeholder
-					scope:supporter.var:pressed_claim_story.var:claimed_title = { is_de_jure_liege_or_above_target = scope:supporter.var:stakeholder.primary_title }
+					is_vassal_of = scope:contender.story_owner
+					scope:supporter.var:pressed_claim_story.var:claimed_title = { is_de_jure_liege_or_above_target = scope:supporter.story_owner.primary_title }
 				}
 			}
 			trigger_if = {
 				limit = { scope:bargain.var:council_position = flag:chancellor }
-				scope:supporter.var:stakeholder = { BMU_can_be_chancellor_of = { COURT_OWNER = scope:contender.var:stakeholder }}
+				scope:supporter.story_owner = { BMU_can_be_chancellor_of = { COURT_OWNER = scope:contender.story_owner }}
 				trigger_if = {
-					limit = { is_councillor_of = scope:contender.var:stakeholder }
+					limit = { is_councillor_of = scope:contender.story_owner }
 					NAND = {
-						is_councillor_of = scope:contender.var:stakeholder
+						is_councillor_of = scope:contender.story_owner
 						has_council_position = councillor_chancellor
 					}
 				}
 			}
 			trigger_else_if = {
 				limit = { scope:bargain.var:council_position = flag:steward }
-				scope:supporter.var:stakeholder = { BMU_can_be_steward_of = { COURT_OWNER = scope:contender.var:stakeholder }}
+				scope:supporter.story_owner = { BMU_can_be_steward_of = { COURT_OWNER = scope:contender.story_owner }}
 				trigger_if = {
-					limit = { is_councillor_of = scope:contender.var:stakeholder }
+					limit = { is_councillor_of = scope:contender.story_owner }
 					NAND = {
-						is_councillor_of = scope:contender.var:stakeholder
+						is_councillor_of = scope:contender.story_owner
 						has_council_position = councillor_steward
 					}
 				}
 			}
 			trigger_else_if = {
 				limit = { scope:bargain.var:council_position = flag:marshal }
-				scope:supporter.var:stakeholder = { BMU_can_be_marshal_of = { COURT_OWNER = scope:contender.var:stakeholder }}
+				scope:supporter.story_owner = { BMU_can_be_marshal_of = { COURT_OWNER = scope:contender.story_owner }}
 				trigger_if = {
-					limit = { is_councillor_of = scope:contender.var:stakeholder }
+					limit = { is_councillor_of = scope:contender.story_owner }
 					# NOT = { has_council_position = councillor_marshal }
 					NAND = {
-						is_councillor_of = scope:contender.var:stakeholder
+						is_councillor_of = scope:contender.story_owner
 						has_council_position = councillor_marshal
 					}
 				}
 			}
 			trigger_else_if = {
 				limit = { scope:bargain.var:council_position = flag:spymaster }
-				scope:supporter.var:stakeholder = { BMU_can_be_spymaster_of = { COURT_OWNER = scope:contender.var:stakeholder }}
+				scope:supporter.story_owner = { BMU_can_be_spymaster_of = { COURT_OWNER = scope:contender.story_owner }}
 				trigger_if = {
-					limit = { is_councillor_of = scope:contender.var:stakeholder }
+					limit = { is_councillor_of = scope:contender.story_owner }
 					NAND = {
-						is_councillor_of = scope:contender.var:stakeholder
+						is_councillor_of = scope:contender.story_owner
 						has_council_position = councillor_spymaster
 					}
 				}
@@ -387,8 +387,8 @@ BMU_set_bargain_for = {
 				limit = { scope:bargain = { has_variable = fullfilled }}
 				custom_description = {
 					text = BMU_ambition_already_bargained_for
-					subject = scope:bargain.var:stakeholder_story.var:stakeholder
-					object = scope:bargain.var:fulfilled.var:stakeholder
+					subject = scope:bargain.var:stakeholder_story.story_owner
+					object = scope:bargain.var:fulfilled.story_owner
 					scope:bargain = { has_variable = fulfilled }
 				}
 			}
@@ -401,8 +401,8 @@ BMU_set_bargain_for = {
 				}
 				custom_description = {
 					text = BMU_ambition_already_bargained_with
-					subject = root.var:stakeholder
-					object = var:stakeholder_story.var:stakeholder
+					subject = root.story_owner
+					object = var:stakeholder_story.story_owner
 				}
 			}
 		}
@@ -439,26 +439,26 @@ BMU_send_bargain = {
 				custom_description = {
 					text = BMU_supporter_already_bargained_with
 					subject = root
-					object = scope:bargain.var:stakeholder_story.var:stakeholder
+					object = scope:bargain.var:stakeholder_story.story_owner
 					scope:contender = {
 						any_in_list = {
 							variable = BMU_bargains
-							var:stakeholder_story.var:stakeholder = scope:bargain.var:stakeholder_story.var:stakeholder
+							var:stakeholder_story.story_owner = scope:bargain.var:stakeholder_story.story_owner
 						}
 					}
 				}
 				custom_description = {
 					text = BMU_bargain_under_consideration
 					subject = root
-					object = scope:bargain.var:stakeholder_story.var:stakeholder
+					object = scope:bargain.var:stakeholder_story.story_owner
 					has_variable = pending_bargain_proposal
 				}
 			}
 			custom_description = {
 				text = BMU_bargain_acceptable
 				subject = root
-				object = scope:bargain.var:stakeholder_story.var:stakeholder
-				scope:bargain.var:stakeholder_story.var:stakeholder.FF_bargain_acceptance > 0
+				object = scope:bargain.var:stakeholder_story.story_owner
+				scope:bargain.var:stakeholder_story.story_owner.FF_bargain_acceptance > 0
 			}
 		}
 	}
@@ -488,7 +488,7 @@ BMU_send_bargain = {
 						name = pending
 						value = root
 					}
-					var:stakeholder_story.var:stakeholder = {
+					var:stakeholder_story.story_owner = {
 						trigger_event = {
 							id = BMU_pressed_claim_bargaining.0001
 							# [TODO] introduce delay
@@ -522,11 +522,11 @@ BMU_send_bargain_for = {
 				custom_description = {
 					text = BMU_supporter_already_bargained_with
 					subject = root
-					object = scope:contender.var:stakeholder
+					object = scope:contender.story_owner
 					scope:contender = {
 						any_in_list = {
 							variable = BMU_bargains
-							var:stakeholder_story.var:stakeholder = scope:bargain.var:stakeholder_story.var:stakeholder
+							var:stakeholder_story.story_owner = scope:bargain.var:stakeholder_story.story_owner
 						}
 					}
 				}
@@ -540,8 +540,8 @@ BMU_send_bargain_for = {
 							}
 							custom_description = {
 								text = BMU_supporter_already_bargained_with
-								subject = scope:contender.var:stakeholder
-								object = var:stakeholder_story.var:stakeholder
+								subject = scope:contender.story_owner
+								object = var:stakeholder_story.story_owner
 							}
 						}
 					}
@@ -549,11 +549,11 @@ BMU_send_bargain_for = {
 				custom_description = {
 					text = BMU_contender_already_bargained_for
 					subject = root
-					object = scope:contender.var:stakeholder
+					object = scope:contender.story_owner
 					scope:contender = {
 						any_in_list = {
 							variable = BMU_bargains
-							var:stakeholder_story.var:stakeholder = scope:bargain.var:stakeholder_story.var:stakeholder
+							var:stakeholder_story.story_owner = scope:bargain.var:stakeholder_story.story_owner
 						}
 					}
 				}
@@ -570,8 +570,8 @@ BMU_send_bargain_for = {
 			custom_description = {
 				text = BMU_bargain_acceptable
 				subject = root
-				object = scope:contender.var:stakeholder
-				scope:contender.var:stakeholder.FF_bargain_for_acceptance > 0
+				object = scope:contender.story_owner
+				scope:contender.story_owner.FF_bargain_for_acceptance > 0
 			}
 		}
 	}
@@ -601,9 +601,9 @@ BMU_send_bargain_for = {
 				scope:bargain = {
 					set_variable = {
 						name = pending
-						value = scope:contender.var:stakeholder
+						value = scope:contender.story_owner
 					}
-					scope:contender.var:stakeholder = {
+					scope:contender.story_owner = {
 						trigger_event = {
 							id = BMU_pressed_claim_bargaining.0002
 							# [TODO] introduce delay

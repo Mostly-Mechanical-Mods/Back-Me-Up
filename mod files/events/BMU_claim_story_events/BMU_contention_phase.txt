@@ -59,7 +59,7 @@ BMU_pressed_claim.0010 = {
 						}
 						order_by = {
 							# if = { limit = { story_owner = { save_temporary_scope_as = candidate }}}
-							root = { prev.var:stakeholder = { add = BMU_contender_score }}
+							root = { prev.story_owner = { add = BMU_contender_score }}
 						}
 						story_owner = {
 							save_scope_as = best_other_candidate
@@ -70,7 +70,7 @@ BMU_pressed_claim.0010 = {
 						root = {
 							save_scope_value_as = {
 								name = best_other_candidate_score
-								value = { prev.var:stakeholder = { add = BMU_contender_score }}
+								value = { prev.story_owner = { add = BMU_contender_score }}
 							}
 						}
 					}
@@ -306,7 +306,7 @@ BMU_pressed_claim.0012 = {
 						var:pressed_claim_story = scope:pressed_claim
 						has_variable = status
 						var:status = flag:contender
-						NOT = { var:stakeholder = scope:contender }
+						NOT = { story_owner = scope:contender }
 					}
 					count = 0
 				}
@@ -330,7 +330,7 @@ BMU_pressed_claim.0012 = {
 						var:pressed_claim_story = scope:pressed_claim
 						has_variable = status
 						var:status = flag:contender
-						NOT = { var:stakeholder = scope:contender }
+						NOT = { story_owner = scope:contender }
 					}
 				}
 				add = 100

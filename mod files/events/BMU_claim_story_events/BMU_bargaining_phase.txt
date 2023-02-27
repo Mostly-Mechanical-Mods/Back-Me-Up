@@ -12,11 +12,11 @@ BMU_pressed_claim_bargaining.0001 = {
 			}
 		}
 	}
-	sender = scope:contender.var:stakeholder
+	sender = scope:contender.story_owner
 
 	trigger = {
-		NOT = { this = scope:contender.var:stakeholder }
-		exists = scope:contender.var:stakeholder
+		NOT = { this = scope:contender.story_owner }
+		exists = scope:contender.story_owner
 	}
 
 	immediate = {
@@ -42,7 +42,7 @@ BMU_pressed_claim_bargaining.0001 = {
 				value = scope:contender
 			}
 		}
-		scope:contender.var:stakeholder = {
+		scope:contender.story_owner = {
 			send_interface_toast = {
 				# type = event_generic_neutral # default: send_interface_toast
 				title = BMU_BARGAIN_ACCEPTED
@@ -51,7 +51,7 @@ BMU_pressed_claim_bargaining.0001 = {
 		}
 		BMU_pressed_claim_supporter = {
 			PRESSED_CLAIM = scope:bargain.var:stakeholder_story.var:pressed_claim_story
-			CONTENDER = scope:contender.var:stakeholder
+			CONTENDER = scope:contender.story_owner
 		}
 		
 		ai_chance = {
@@ -77,7 +77,7 @@ BMU_pressed_claim_bargaining.0001 = {
 		scope:bargain = {
 			remove_variable = pending
 		}
-		scope:contender.var:stakeholder = {
+		scope:contender.story_owner = {
 			send_interface_toast = {
 				# type = event_generic_neutral # default: send_interface_toast
 				title = BMU_BARGAIN_REFUSED
@@ -110,11 +110,11 @@ BMU_pressed_claim_bargaining.0002 = {
 			}
 		}
 	}
-	sender = scope:supporter.var:stakeholder
+	sender = scope:supporter.story_owner
 
 	trigger = {
-		NOT = { this = scope:supporter.var:stakeholder }
-		exists = scope:supporter.var:stakeholder
+		NOT = { this = scope:supporter.story_owner }
+		exists = scope:supporter.story_owner
 	}
 
 	immediate = {
@@ -140,7 +140,7 @@ BMU_pressed_claim_bargaining.0002 = {
 				value = scope:contender
 			}
 		}
-		scope:supporter.var:stakeholder = {
+		scope:supporter.story_owner = {
 			send_interface_toast = {
 				# type = event_generic_neutral # default: send_interface_toast
 				title = BMU_BARGAIN_ACCEPTED
@@ -148,7 +148,7 @@ BMU_pressed_claim_bargaining.0002 = {
 			}
 			BMU_pressed_claim_supporter = {
 				PRESSED_CLAIM = scope:bargain.var:stakeholder_story.var:pressed_claim_story
-				CONTENDER = scope:contender.var:stakeholder
+				CONTENDER = scope:contender.story_owner
 			}
 			remove_variable = pending_bargain_proposal
 		}
@@ -175,7 +175,7 @@ BMU_pressed_claim_bargaining.0002 = {
 		scope:bargain = {
 			remove_variable = pending
 		}
-		scope:supporter.var:stakeholder = {
+		scope:supporter.story_owner = {
 			send_interface_toast = {
 				# type = event_generic_neutral # default: send_interface_toast
 				title = BMU_BARGAIN_REFUSED

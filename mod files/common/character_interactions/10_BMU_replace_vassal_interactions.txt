@@ -74,13 +74,13 @@
 						exists = joined_faction
 						joined_faction = { faction_is_type = claimant_faction }
 					}
-				}
-				NOT = {
-					custom_description = {
-						text = BMU_claimant_already_in_claimant_faction
-						subject = scope:recipient
-						object = joined_faction.special_character
-						joined_faction = { faction_is_type = claimant_faction }
+					NOT = {
+						custom_description = {
+							text = BMU_claimant_already_in_claimant_faction
+							subject = scope:recipient
+							object = joined_faction.special_character
+							joined_faction = { faction_is_type = claimant_faction }
+						}
 					}
 				}
 			}
