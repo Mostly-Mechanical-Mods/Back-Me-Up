@@ -317,12 +317,18 @@ BMU_stakeholder_story = {
 	on_end = {
 		story_owner = {
 			remove_list_variable = {
-				name = BMU_pressed_claim_stakeholders
+				name = BMU_stakeholder_stories
 				target = prev
 			}
 			every_owned_story = {
 				limit = { story_type = BMU_ambition_story }
 				end_story = yes
+			}
+		}
+		var:pressed_claim_story = {
+			remove_list_variable = {
+				name = BMU_pressed_claim_stakeholders
+				target = prev
 			}
 		}
 	}
