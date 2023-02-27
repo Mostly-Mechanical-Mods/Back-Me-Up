@@ -48,3 +48,7 @@ BMU_contender_already_bargained_for = {
 BMU_title_already_claimed = {
 	global = BMU_TITLE_ALREADY_CLAIMED
 }
+
+BMU_claimant_already_in_claimant_faction = {
+	third = BMU_CLAIMANT_SUPPORTS_ANOTHER
+}

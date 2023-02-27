@@ -59,12 +59,28 @@
 			scope:secondary_actor = {
 				NOT = {
 					custom_description = {
-						text = BMU_title_already_claimed
+						text = BMU_ongoing_pressed_claim
 						subject = scope:landed_title
 						any_owned_story = {
 							story_type = BMU_pressed_claim_story
 							var:claimed_title = scope:landed_title
 						}
+					}
+				}
+			}
+			scope:recipient = {
+				trigger_if = {
+					limit = {
+						exists = joined_faction
+						joined_faction = { faction_is_type = claimant_faction }
+					}
+				}
+				NOT = {
+					custom_description = {
+						text = BMU_claimant_already_in_claimant_faction
+						subject = scope:recipient
+						object = joined_faction.special_character
+						joined_faction = { faction_is_type = claimant_faction }
 					}
 				}
 			}
