@@ -332,6 +332,24 @@ BMU_stakeholder_story = {
 			}
 		}
 	}
+	on_owner_death = {
+		#TODO replace with event to primary_heir asking for course of action
+		if = {
+			limit = {
+				OR = {
+					var:status = flag:supporter
+					var:status = flag:contender
+				}
+				var:pressed_claim_story.var:pressed_claim_phase = flag:war_phase
+				story_owner = { exists = primary_heir }
+			}
+			make_story_owner = { story_owner.primary_heir }
+		}
+		else = {
+			#TODO send notifications to contender if supporter, to other contenders + own supporters if contender
+			end_story = yes
+		}
+	}
 	effect_group = {
 		days = { bargain_min bargain_max }
 		triggered_effect = {
