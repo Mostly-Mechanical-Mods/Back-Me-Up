@@ -200,6 +200,7 @@
 		debug_log_scopes = yes
 
 		on_declared_war = yes
+
 		if = {
 			limit = {
 				scope:defender = { is_sibling_of = scope:attacker }
@@ -211,15 +212,16 @@
 		scope:defender = {
 			random_owned_story = {
 				limit = {
+					# debug_log_details = yes
 					story_type = BMU_pressed_claim_story
+					has_variable = claim_target
 					var:claim_target = scope:defender
 					save_temporary_scope_as = pressed_claim
-					any_in_list = {
-						list = target_titles
-						this = prev.var:claimed_title
-					}
+					var:claimed_title = { is_in_list = target_titles }
 				}
+				debug_log = "pressed_claim found"
 				scope:war = {
+					debug_log_scopes = no
 					set_variable = {
 						name = pressed_claim
 						value = prev
@@ -354,6 +356,8 @@
 				scope:defender = {
 					any_character_war = {
 						using_cb = BMU_pressed_claim_cb
+						has_variable = pressed_claim
+						scope:war = { has_variable = pressed_claim }
 						var:pressed_claim = scope:war.var:pressed_claim
 						NOT = { this = scope:war }
 					}
