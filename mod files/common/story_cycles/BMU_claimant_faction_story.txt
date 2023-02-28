@@ -321,8 +321,12 @@ BMU_stakeholder_story = {
 			value = story_owner
 		}
 		set_variable = {
-			name = supporter_count
-			value = 0
+			name = bargainer
+			value = story_owner
+		}
+		set_variable = {
+			name = status
+			value = flag:pending_status
 		}
 	}
 	on_end = {
@@ -415,15 +419,15 @@ BMU_stakeholder_story = {
 						}
 						save_scope_value_as = {
 							name = neg_contender_score
-							value = { story_owner = { root.story_owner = { subtract = BMU_contender_score }}}
+							value = { story_owner = { scope:contender.story_owner = { subtract = BMU_contender_score }}}
 						}
 						random_in_list = {
 							variable = BMU_stakeholder_ambitions
 							limit = {
 								save_temporary_scope_as = bargain_temp
 								BMU_bargain_can_be_struck = { CONTENDER = scope:contender SUPPORTER = scope:supporter }
-								prev.story_owner = { root.story_owner = { scope:bargain_temp.var:ambition_score > scope:neg_contender_score }}
-								root.story_owner = { FF_ambition_cost > 0 }
+								scope:supporter.story_owner = { scope:contender.story_owner = { scope:bargain_temp.var:ambition_score > scope:neg_contender_score }}
+								scope:contender.story_owner = { FF_ambition_cost > 0 }
 							}
 							save_scope_as = bargain
 							set_variable = pending
@@ -433,9 +437,7 @@ BMU_stakeholder_story = {
 								scope:supporter.story_owner = { debug_log_scopes = no }
 								var:ambition = { debug_log_scopes = no }
 							}
-							scope:supporter.story_owner = {
-								trigger_event = BMU_pressed_claim_bargaining.0001
-							}
+							BMU_send_bargain = { CONTENDER = scope:contender }
 						}
 					}
 				}

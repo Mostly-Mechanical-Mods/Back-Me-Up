@@ -465,12 +465,10 @@ BMU_send_bargain = {
 	effect = {
 		debug_log = "BMU_send_bargain"
 		debug_log_scopes = no
-		show_as_tooltip = {
-			if = {
-				limit = { has_variable = current_bargain }
-				var:current_bargain = {
-					BMU_execute_bargain = yes
-				}	
+		if = {
+			limit = { has_variable = current_bargain }
+			var:current_bargain = {
+				BMU_execute_bargain_tooltip = { CONTENDER = scope:contender }	
 			}
 		}
 
@@ -488,12 +486,7 @@ BMU_send_bargain = {
 						name = pending
 						value = root
 					}
-					var:stakeholder_story.story_owner = {
-						trigger_event = {
-							id = BMU_pressed_claim_bargaining.0001
-							# [TODO] introduce delay
-						}
-					}
+					BMU_send_bargain = { CONTENDER = scope:contender }
 				}
 			}
 		}
@@ -582,7 +575,7 @@ BMU_send_bargain_for = {
 			if = {
 				limit = { has_variable = current_bargain }
 				var:current_bargain = {
-					BMU_execute_bargain = yes
+					BMU_execute_bargain = { CONTENDER = scope:contender }
 				}	
 			}
 		}

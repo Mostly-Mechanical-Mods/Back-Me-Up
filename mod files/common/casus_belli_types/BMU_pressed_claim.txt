@@ -240,7 +240,7 @@
 					else = {
 						every_in_list = {
 							variable = BMU_stakeholder_ambitions
-							limit = { NOT = { has_variable = bargained }}
+							limit = { NOT = { has_variable = bargained_with }}
 							end_story = yes
 						}
 					}
@@ -487,7 +487,7 @@
 					}
 					every_in_list = {
 						variable = BMU_bargains
-						BMU_execute_bargain = yes
+						BMU_execute_bargain = { CONTENDER = var:bargained_with }
 					}
 				}
 			}
@@ -735,7 +735,7 @@
 					}
 					every_in_list = {
 						variable = BMU_bargains
-						BMU_execute_bargain = yes
+						BMU_execute_bargain = { CONTENDER = var:bargained_with }
 					}
 				}
 			}
@@ -749,7 +749,7 @@
 					}
 					every_in_list = {
 						variable = BMU_bargains
-						BMU_execute_bargain = yes
+						BMU_execute_bargain = { CONTENDER = var:bargained_with }
 					}
 				}
 			}

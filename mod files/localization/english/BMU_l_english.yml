@@ -83,11 +83,13 @@ BMU_TARGET_INVITE_VASSALS_SUPPORT_CONTENDER: "BMU_TARGET_INVITE_VASSALS_SUPPORT_
 BMU_TARGET_INVITE_VASSALS_STAKEHOLDER: "BMU_TARGET_INVITE_VASSALS_STAKEHOLDER"
 BMU_TARGET_INVITE_VASSALS_DROPOUT: "BMU_TARGET_INVITE_VASSALS_DROPOUT"
 
+
+BMU_BREAK_SUPPORT_TOOLTIP: "You stop supporting [bargain_temp.MakeScope.Var('stakeholder_story').Var('contender').Var('stakeholder').Char.GetShortUIName] in the claim on [contender.MakeScope.Var('pressed_claim_story').Var('claimed_title').Title.GetName]."
 BMU_ACCEPT_BARGAIN_TOOLTIP: "You accept the bargain, and pledge your support to [contender.MakeScope.Var('stakeholder').Char.GetShortUIName] in the claim on [contender.MakeScope.Var('pressed_claim_story').Var('claimed_title').Title.GetName]."
 BMU_REFUSE_BARGAIN_TOOLTIP: "You refuse the bargain."
 
 BMU_BARGAIN_PROPOSAL: "I am seeking your support for my claim on [bargain.MakeScope.Var('stakeholder_story').Var('pressed_claim_story').Var('claimed_title').Title.GetName].\nShould you chose to side with me, once I get the title, "
-BMU_BARGAIN_PROPOSAL_COUNCIL_POSITION: "I would make you my [Localize(Concatenate(bargain.MakeScope.Var('council_position').GetFlagName,'_name'))]."
+BMU_BARGAIN_PROPOSAL_COUNCIL_POSITION: "I would make you my [Localize(Concatenate(bargain.MakeScope.Var('council_position').GetFlagName,'_name_notooltip'))]."
 BMU_BARGAIN_ACCEPTED: "BMU_BARGAIN_ACCEPTED"
 BMU_BARGAIN_REFUSED: "BMU_BARGAIN_REFUSED"
 
@@ -151,9 +153,13 @@ bargaining_phase: "[bargaining_phase|E]"
 declaration_phase: "[declaration_phase|E]"
 
 chancellor_name: "[chancellor|E]"
+chancellor_name_notooltip: "$game_concept_chancellor$"
 steward_name: "[steward|E]"
+steward_name_notooltip: "$game_concept_steward$"
 marshal_name: "[marshal|E]"
+marshal_name_notooltip: "$game_concept_marshal$"
 spymaster_name: "[spymaster|E]"
+spymaster_name_notooltip: "$game_concept_spymaster$"
 
 BMU_THEY_ALREADY_BARGAINED_FOR: "[TARGET_CHARACTER.GetShortUIName] already bargained this with [CHARACTER.GetShortUIName]."
 BMU_YOU_ALREADY_BARGAINED_WITH: "You already bargained this with [TARGET_CHARACTER.GetShortUIName]"
@@ -161,7 +167,7 @@ BMU_I_HAVE_NOT_SELECTED_BARGAIN: "Select something to bargain with."
 BMU_I_ALREADY_BARGAINED_WITH_TARGET: "You already struck a bargain with [TARGET_CHARACTER.GetShortUIName]."
 BMU_THEY_ARE_CONSIDERING_YOUR_BARGAIN: "[TARGET_CHARACTER.GetShortUIName] is already considering your proposal."
 
-BMU_ACCEPT_BARGAIN: "I will support [contender.MakeScope.Var('stakeholder').Char.GetShortUINamePossessive] claim!"
+BMU_ACCEPT_BARGAIN: "I will support your claim!"
 BMU_REFUSE_BARGAIN: "Nah, that bargain is not good enough..."
 BMU_THEY_WOULD_ACCEPT_BARGAIN: "[TARGET_CHARACTER.GetShortUIName] would probably accept this bargain."
 BMU_THEY_WOULD_NOT_ACCEPT_BARGAIN: "[TARGET_CHARACTER.GetShortUIName] will not accept this bargain."
@@ -173,3 +179,8 @@ BMU_tooltip_unfulfilled_ambitions: "Wants something for [Character.GetHerHis] tr
 BMU_ONGOING_PRESSED_CLAIM: "There already is a Pressed Claim on [Title.GetNameNoTooltip]"
 BMU_ALREADY_BARGAINED_WITH_CONTENDER: "BMU_ALREADY_BARGAINED_WITH_CONTENDER"
 BMU_CLAIMANT_SUPPORTS_ANOTHER: "[CHARACTER.GetShortUIName] supports the claim of [TARGET_CHARACTER.GetShortUIName]"
+BMU_BLOCK_BARGAINS: "I will never support you!"
+BMU_BLOCK_BARGAINS_TOOLTIP: "[contender.MakeScope.Var('stakeholder').Char.GetShortUIName] will not try to bargain for your support again."
+BMU_AFTER_PRESSED_CLAIM: "If [contender.MakeScope.Var('stakeholder').Char.GetShortUINameNoTooltip] wins the [contender.MakeScope.Var('pressed_claim_story').Var('claimed_title').Title.GetNameNoTooltip]"
+BMU_THEY_NOT_WANT_COVETED_TITLE_TRIGGER: "[CHARACTER.GetShortUINameNoTooltip] does not want the [TARGET_TITLE.GetNameNoTooltip] for [CHARACTER.GetHerselfHimself]."
+BMU_THEY_ALREADY_REFUSED_THIS_BARGAIN: "[CHARACTER.GetShortUINameNoTooltip] already refused that bargain."

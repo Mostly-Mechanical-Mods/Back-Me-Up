@@ -19,6 +19,19 @@ BMU_pressed_claim_bargaining.0001 = {
 		exists = scope:contender.story_owner
 	}
 
+	on_trigger_fail = {
+		if = {
+			limit = { exists = scope:bargain }
+			scope:bargain = {
+				remove_variable = pending
+			}
+		}
+		if = {
+			limit = { exists = scope:contender }
+			scope:contender.story_owner = { remove_variable = pending_bargain_proposal }
+		}
+	}
+
 	immediate = {
 		debug_log = "BMU_pressed_claim_bargaining.0001"
 		debug_log_scopes = no
@@ -28,17 +41,19 @@ BMU_pressed_claim_bargaining.0001 = {
 		name = "BMU_ACCEPT_BARGAIN"
 		trigger = {
 		}
-		custom_tooltip = BMU_ACCEPT_BARGAIN_TOOLTIP
 		scope:contender = {
 			add_to_variable_list = {
 				name = BMU_bargains
 				target = scope:bargain
 			}
 		}
+		
+		scope:bargain = { BMU_execute_bargain_tooltip = { CONTENDER = scope:contender }}
+
 		scope:bargain = {
 			remove_variable = pending
 			set_variable = {
-				name = bargained
+				name = bargained_with
 				value = scope:contender
 			}
 		}
@@ -94,6 +109,29 @@ BMU_pressed_claim_bargaining.0001 = {
 		}
 	}
 
+	option = {
+		name = "BMU_BLOCK_BARGAINS"
+		trigger = { is_ai = no }
+		custom_tooltip = BMU_BLOCK_BARGAINS_TOOLTIP
+		scope:contender = {
+			add_to_variable_list = {
+				name = bargain_blocker
+				target = scope:bargain.var:stakeholder_story
+			}
+		}
+		scope:bargain = {
+			remove_variable = pending
+		}
+		scope:contender.story_owner = {
+			send_interface_toast = {
+				# type = event_generic_neutral # default: send_interface_toast
+				title = BMU_BARGAIN_REFUSED
+				left_icon = root # optional, character, artifact, or title
+			}
+			remove_variable = pending_bargain_proposal
+		}
+	}
+
 	after = {
 	}
 }
@@ -136,7 +174,7 @@ BMU_pressed_claim_bargaining.0002 = {
 		scope:bargain = {
 			remove_variable = pending
 			set_variable = {
-				name = bargained
+				name = bargained_with
 				value = scope:contender
 			}
 		}

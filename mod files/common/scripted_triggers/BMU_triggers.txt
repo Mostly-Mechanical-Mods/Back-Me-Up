@@ -54,13 +54,26 @@ BMU_supporter_is_relevant = {
 BMU_bargain_can_be_struck = {
 	$SUPPORTER$ = { save_temporary_scope_as = bargaining_supporter }
 	$CONTENDER$ = { save_temporary_scope_as = bargaining_contender }
+	save_temporary_scope_as = bargain
+	custom_description = {
+		text = BMU_bargain_already_refused
+		subject = scope:bargaining_contender.var:bargainer
+		scope:bargaining_contender = {
+			NOT = {
+				is_target_in_variable_list = {
+					name = BMU_bargains_refused
+					target = scope:bargain
+				}
+			}
+		}
+	}
 	trigger_if = {
 		limit = { scope:supporter.story_owner = { is_ai = yes }}
 		var:ambition_score > 0
 	}
 	NOR = {
 		has_variable = pending
-		has_variable = bargained
+		has_variable = bargained_with
 	}
 	trigger_if = {
 		limit = {
@@ -96,7 +109,7 @@ BMU_bargain_can_be_struck = {
 		scope:bargaining_contender = {
 			any_in_list = {
 				variable = BMU_bargains
-				has_variable = bargained
+				has_variable = bargained_with
 				var:ambition = flag:FF_ambition_get_council_position
 				var:council_position = scope:bargain.var:council_position
 				count = 0

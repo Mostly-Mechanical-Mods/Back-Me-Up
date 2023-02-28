@@ -3,3 +3,10 @@
 	third = CHARACTER_BECOMES_SUPPORTER
 }
 
+BMU_after_pressed_claim = {
+	third = BMU_AFTER_PRESSED_CLAIM
+}
+
+# BMU_block_bargains = {
+# 	first = BMU_BLOCK_BARGAIN
+# }

@@ -880,41 +880,78 @@ BMU_create_pressed_claim_stakeholder_story = {
 	}
 }
 
+BMU_send_bargain = {
+	$CONTENDER$ = { save_scope_as = contender }
+	var:stakeholder_story = { save_scope_as = supporter }
+	save_scope_as = bargain
+	set_variable = pending
+	if = {
+		limit = { debug_only = yes }
+		debug_log_scopes = no
+		scope:supporter.story_owner = { debug_log_scopes = no }
+		var:ambition = { debug_log_scopes = no }
+	}
+	scope:supporter.var:bargainer = {
+		trigger_event = BMU_pressed_claim_bargaining.0001
+	}
+}
+
+BMU_execute_bargain_tooltip = {
+	save_scope_as = bargain_temp
+	show_as_tooltip = {
+		$CONTENDER$ = { save_scope_as = contender_temp }
+		if = {
+			limit = { var:stakeholder_story = { has_variable = contender }}
+			custom_tooltip = BMU_BREAK_SUPPORT_TOOLTIP
+		}
+		custom_tooltip = BMU_ACCEPT_BARGAIN_TOOLTIP
+		add_to_list = tooltip
+		every_in_list = {
+			list = tooltip
+			custom = BMU_AFTER_PRESSED_CLAIM	
+			BMU_execute_bargain = { CONTENDER = scope:contender_temp }
+		}
+	}
+}
+
 BMU_execute_bargain = {
+	$CONTENDER$ = { save_scope_as = contender_temp }
+	save_scope_as = bargain_temp
+	var:stakeholder_story = { save_scope_as = supporter_temp }
 	switch = {
 		trigger = var:ambition
 		flag:FF_ambition_get_council_position = {
 			switch = {
 				trigger = var:council_position
 				flag:chancellor = {
-					root.story_owner = {
+					scope:contender_temp.story_owner = {
 						assign_councillor_type = {
 							type = councillor_chancellor
-							target = root.var:current_bargain.var:stakeholder_story.story_owner
+							target = scope:supporter_temp.story_owner
 						}
 					}
 				}
 				flag:steward = {
-					root.story_owner = {
+					scope:contender_temp.story_owner = {
 						assign_councillor_type = {
 							type = councillor_steward
-							target = root.var:current_bargain.var:stakeholder_story.story_owner
+							target = scope:supporter_temp.story_owner
 						}
 					}
 				}
 				flag:marshal = {
-					root.story_owner = {
+					scope:contender_temp.story_owner = {
 						assign_councillor_type = {
 							type = councillor_marshal
-							target = root.var:current_bargain.var:stakeholder_story.story_owner
+							target = scope:supporter_temp.story_owner
 						}
 					}
 				}
 				flag:spymaster = {
-					root.story_owner = {
+					scope:contender_temp.story_owner = {
 						assign_councillor_type = {
 							type = councillor_spymaster
-							target = root.var:current_bargain.var:stakeholder_story.story_owner
+							target = scope:supporter_temp.story_owner
 						}
 					}
 				}
@@ -962,8 +999,8 @@ BMU_transfer_claimed_press = {
 			every_in_list = {
 				variable = BMU_stakeholder_ambitions
 				if = {
-					limit = { has_variable = bargained }
-					var:bargained = {
+					limit = { has_variable = bargained_with }
+					var:bargained_with = {
 						remove_list_variable = {
 							name = BMU_bargains
 							target = scope:new_claim_target_stakeholder_story
