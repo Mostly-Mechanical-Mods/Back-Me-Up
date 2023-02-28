@@ -54,7 +54,7 @@ BMU_supporter_is_relevant = {
 BMU_bargain_can_be_struck = {
 	$SUPPORTER$ = { save_temporary_scope_as = bargaining_supporter }
 	$CONTENDER$ = { save_temporary_scope_as = bargaining_contender }
-	save_temporary_scope_as = bargain
+	save_temporary_scope_as = bargain_temp
 	custom_description = {
 		text = BMU_bargain_already_refused
 		subject = scope:bargaining_contender.var:bargainer
@@ -62,7 +62,7 @@ BMU_bargain_can_be_struck = {
 			NOT = {
 				is_target_in_variable_list = {
 					name = BMU_bargains_refused
-					target = scope:bargain
+					target = scope:bargain_temp
 				}
 			}
 		}
