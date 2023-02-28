@@ -1,9 +1,12 @@
 ﻿bargain_min = {
 	value = 5
-	multiply = {
-		add = 100
-		subtract = ai_energy
-		divide = 100
+	add = {
+		value = 5
+		multiply = {
+			add = 100
+			subtract = scope:story.story_owner.ai_energy
+			divide = 100
+		}
 	}
 	min = 1
 }

@@ -1,413 +1,413 @@
-﻿BMU_contender_negotiate_support_interaction = {
-	category = interaction_category_diplomacy
-	use_diplomatic_range = no
-	common_interaction = yes
-	ignores_pending_interaction_block = yes
-	interface_priority = -1
-	icon = hook_strong
+﻿# BMU_contender_negotiate_support_interaction = {
+# 	category = interaction_category_diplomacy
+# 	use_diplomatic_range = no
+# 	common_interaction = yes
+# 	ignores_pending_interaction_block = yes
+# 	interface_priority = -1
+# 	icon = hook_strong
 
-	desc = BMU_contender_negotiate_support_interaction_desc
+# 	desc = BMU_contender_negotiate_support_interaction_desc
 
-	target_type = title
+# 	target_type = title
 
 
-	is_shown = {
-		NOT = { scope:recipient = scope:actor }
-	}
+# 	is_shown = {
+# 		NOT = { scope:recipient = scope:actor }
+# 	}
 
-	is_valid_showing_failures_only = {
-		# debug_log_details = yes
-		scope:actor = {
-			any_owned_story = {
-				story_type = BMU_stakeholder_story
-				has_variable = status
-				var:status = flag:contender
-				var:pressed_claim_story = {
-					any_in_list = {
-						variable = BMU_pressed_claim_stakeholders
-						story_owner = scope:recipient
-						has_variable = status
-						OR = {
-							var:status = flag:supporter
-							var:status = flag:stakeholder
-						}
-					}
-				}
-			}
-		}
-	}
+# 	is_valid_showing_failures_only = {
+# 		# debug_log_details = yes
+# 		scope:actor = {
+# 			any_owned_story = {
+# 				story_type = BMU_stakeholder_story
+# 				has_variable = status
+# 				var:status = flag:contender
+# 				var:pressed_claim_story = {
+# 					any_in_list = {
+# 						variable = BMU_pressed_claim_stakeholders
+# 						story_owner = scope:recipient
+# 						has_variable = status
+# 						OR = {
+# 							var:status = flag:supporter
+# 							var:status = flag:stakeholder
+# 						}
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
 
-	on_send = {
-		debug_log = "BMU_contender_negotiate_support_interaction on_send"
-		debug_log_scopes = yes
-		scope:actor = {
-			random_owned_story = {
-				limit = {
-					story_type = BMU_stakeholder_story
-					var:pressed_claim_story = { save_temporary_scope_as = pressed_claim }
-					scope:recipient = {
-						any_owned_story = {
-							story_type = BMU_stakeholder_story
-							var:pressed_claim_story = scope:pressed_claim_story
-						}
-					}
-				}
-				var:pressed_claim_story = {
-					save_scope_as = pressed_claim_story
-					debug_log_scopes = no
-				}
-			}
-		}
-		if = {
-			limit = {
-				exists = scope:recipient
-				exists = scope:actor
-			}
+# 	on_send = {
+# 		debug_log = "BMU_contender_negotiate_support_interaction on_send"
+# 		debug_log_scopes = yes
+# 		scope:actor = {
+# 			random_owned_story = {
+# 				limit = {
+# 					story_type = BMU_stakeholder_story
+# 					var:pressed_claim_story = { save_temporary_scope_as = pressed_claim }
+# 					scope:recipient = {
+# 						any_owned_story = {
+# 							story_type = BMU_stakeholder_story
+# 							var:pressed_claim_story = scope:pressed_claim_story
+# 						}
+# 					}
+# 				}
+# 				var:pressed_claim_story = {
+# 					save_scope_as = pressed_claim_story
+# 					debug_log_scopes = no
+# 				}
+# 			}
+# 		}
+# 		if = {
+# 			limit = {
+# 				exists = scope:recipient
+# 				exists = scope:actor
+# 			}
 			
-			scope:recipient = {
-				debug_log_scopes = no
+# 			scope:recipient = {
+# 				debug_log_scopes = no
 
-				custom_description = {
-					text = "BMU_pressed_claim_suppporter"
-					subject = scope:actor
-					object = scope:recipient
-					BMU_pressed_claim_supporter = {
-						PRESSED_CLAIM = scope:pressed_claim_story
-						CONTENDER = scope:actor
-					}
-				}
-			}
-		}
-	}
+# 				custom_description = {
+# 					text = "BMU_pressed_claim_suppporter"
+# 					subject = scope:actor
+# 					object = scope:recipient
+# 					BMU_pressed_claim_supporter = {
+# 						PRESSED_CLAIM = scope:pressed_claim_story
+# 						CONTENDER = scope:actor
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
 
-	auto_accept = yes
-}
+# 	auto_accept = yes
+# }
 
-BMU_negotiate_support_promise_owned_title_interaction = {
+# BMU_negotiate_support_promise_owned_title_interaction = {
 
-	category = interaction_category_vassal
-	common_interaction = yes
+# 	category = interaction_category_vassal
+# 	common_interaction = yes
 
-	desc = grant_titles_interaction_desc
+# 	desc = grant_titles_interaction_desc
 
-	special_interaction = grant_titles_interaction
-	interface = grant_titles
-	target_type = title
-	target_filter = actor_domain_titles
-	interface_priority = 60
+# 	special_interaction = grant_titles_interaction
+# 	interface = grant_titles
+# 	target_type = title
+# 	target_filter = actor_domain_titles
+# 	interface_priority = 60
 
-	# actor character giving the titles
-	# recipient character receiving the titles
+# 	# actor character giving the titles
+# 	# recipient character receiving the titles
 
-	is_shown = {
-		NOT = { scope:actor = scope:recipient }
-		scope:actor = {
-			any_owned_story = {
-				story_type = BMU_stakeholder_story
-				has_variable = status
-				var:status = flag:contender
-				var:pressed_claim_story = { save_temporary_scope_as = pressed_claim }
-				scope:recipient = {
-					any_owned_story = {
-						story_type = BMU_stakeholder_story
-						has_variable = status
-						OR = {
-							var:status = flag:stakeholder
-							var:status = flag:contender
-						}
-						var:pressed_claim_story = scope:pressed_claim_story
-					}
-				}
-			}
-		}
-	}
+# 	is_shown = {
+# 		NOT = { scope:actor = scope:recipient }
+# 		scope:actor = {
+# 			any_owned_story = {
+# 				story_type = BMU_stakeholder_story
+# 				has_variable = status
+# 				var:status = flag:contender
+# 				var:pressed_claim_story = { save_temporary_scope_as = pressed_claim }
+# 				scope:recipient = {
+# 					any_owned_story = {
+# 						story_type = BMU_stakeholder_story
+# 						has_variable = status
+# 						OR = {
+# 							var:status = flag:stakeholder
+# 							var:status = flag:contender
+# 						}
+# 						var:pressed_claim_story = scope:pressed_claim_story
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
 
-	redirect = {
+# 	redirect = {
 		
-	}
+# 	}
 	
-	is_valid_showing_failures_only = {
-		scope:actor = {
-			any_owned_story = {
-				story_type = BMU_stakeholder_story
-				trigger_if = {
-					limit = { has_variable = status }
-					var:status = flag:contender
-				}
-				trigger_else = { always = no }
-				trigger_if = {
-					limit = { has_variable = pressed_claim_story }
-					var:pressed_claim_story = { save_temporary_scope_as = pressed_claim }
-				}
-				trigger_else = { always = no }
-				scope:recipient = {
-					any_owned_story = {
-						story_type = BMU_ambition_story
-						trigger_if = {
-							limit = {
-								has_variable = BMU_pressed_claim
-								has_variable = ambition
-								has_variable = coveted_title
-								exists = scope:pressed_claim_story
-							}
-							var:pressed_claim_story = scope:pressed_claim_story
-							var:ambition = flag:FF_ambition_get_title
-							var:coveted_title.holder = scope:actor
-						}
-						trigger_else = { always = no }
-					}
-				}
-			}
-		}
-	}
+# 	is_valid_showing_failures_only = {
+# 		scope:actor = {
+# 			any_owned_story = {
+# 				story_type = BMU_stakeholder_story
+# 				trigger_if = {
+# 					limit = { has_variable = status }
+# 					var:status = flag:contender
+# 				}
+# 				trigger_else = { always = no }
+# 				trigger_if = {
+# 					limit = { has_variable = pressed_claim_story }
+# 					var:pressed_claim_story = { save_temporary_scope_as = pressed_claim }
+# 				}
+# 				trigger_else = { always = no }
+# 				scope:recipient = {
+# 					any_owned_story = {
+# 						story_type = BMU_ambition_story
+# 						trigger_if = {
+# 							limit = {
+# 								has_variable = BMU_pressed_claim
+# 								has_variable = ambition
+# 								has_variable = coveted_title
+# 								exists = scope:pressed_claim_story
+# 							}
+# 							var:pressed_claim_story = scope:pressed_claim_story
+# 							var:ambition = flag:FF_ambition_get_title
+# 							var:coveted_title.holder = scope:actor
+# 						}
+# 						trigger_else = { always = no }
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
 
-	can_be_picked_title = {
-		scope:target = {
-			is_leased_out = no
+# 	can_be_picked_title = {
+# 		scope:target = {
+# 			is_leased_out = no
 
-			custom_tooltip = {
-				is_head_of_faith = no
-				text = GRANT_TITLES_ITEM_CANT_HEAD_OF_FAITH
-			}
+# 			custom_tooltip = {
+# 				is_head_of_faith = no
+# 				text = GRANT_TITLES_ITEM_CANT_HEAD_OF_FAITH
+# 			}
 
-			trigger_if = {
-				limit = {
-					scope:recipient = scope:actor.player_heir
-					scope:actor = { has_partition_succession_realm_law_trigger = yes }
-				}
-				custom_description = {
-					text = partition_primary_heir_unfair
-					subject = scope:recipient
-					current_heir = scope:recipient
-				}
-			}
-			trigger_if = {
-				limit = { scope:target = title:k_fashion }
-				NOT = { scope:target = title:k_fashion }
-			}
-		}
+# 			trigger_if = {
+# 				limit = {
+# 					scope:recipient = scope:actor.player_heir
+# 					scope:actor = { has_partition_succession_realm_law_trigger = yes }
+# 				}
+# 				custom_description = {
+# 					text = partition_primary_heir_unfair
+# 					subject = scope:recipient
+# 					current_heir = scope:recipient
+# 				}
+# 			}
+# 			trigger_if = {
+# 				limit = { scope:target = title:k_fashion }
+# 				NOT = { scope:target = title:k_fashion }
+# 			}
+# 		}
 
-		custom_description = {
-			text = grant_titles_interaction_children_not_allowed_temple
-			subject = scope:recipient
-			NOR = {
-				AND = {
-					scope:recipient = {
-						is_adult = no
-					}
-					scope:target = {
-						tier = tier_barony
-						title_province = { has_building_with_flag = temple }
-					}
-				}
-				AND = {
-					scope:recipient = {
-						is_adult = no
-					}
-					scope:target = {
-						tier = tier_county 
+# 		custom_description = {
+# 			text = grant_titles_interaction_children_not_allowed_temple
+# 			subject = scope:recipient
+# 			NOR = {
+# 				AND = {
+# 					scope:recipient = {
+# 						is_adult = no
+# 					}
+# 					scope:target = {
+# 						tier = tier_barony
+# 						title_province = { has_building_with_flag = temple }
+# 					}
+# 				}
+# 				AND = {
+# 					scope:recipient = {
+# 						is_adult = no
+# 					}
+# 					scope:target = {
+# 						tier = tier_county 
 
-						title_province = { 
-							is_county_capital = yes
-							has_building_with_flag = temple 
-						}
-					}
-				}
-			}
-		}
+# 						title_province = { 
+# 							is_county_capital = yes
+# 							has_building_with_flag = temple 
+# 						}
+# 					}
+# 				}
+# 			}
+# 		}
 
-		custom_description = {
-			text = grant_titles_interaction_title_being_wagered
-			NOT = {
-				scope:target = { has_variable = wagered_county }
-			}
-		}
+# 		custom_description = {
+# 			text = grant_titles_interaction_title_being_wagered
+# 			NOT = {
+# 				scope:target = { has_variable = wagered_county }
+# 			}
+# 		}
 
-		custom_description = {
-			text = grant_titles_interaction_title_being_wagered
-			scope:recipient = {
-				any_owned_story = {
-					story_type = BMU_ambition_story
-					var:ambition = flag:FF_ambition_get_title
-					var:coveted_title = scope:target
-				}
-			}
-		}
-	}
+# 		custom_description = {
+# 			text = grant_titles_interaction_title_being_wagered
+# 			scope:recipient = {
+# 				any_owned_story = {
+# 					story_type = BMU_ambition_story
+# 					var:ambition = flag:FF_ambition_get_title
+# 					var:coveted_title = scope:target
+# 				}
+# 			}
+# 		}
+# 	}
 
-	auto_accept = yes
+# 	auto_accept = yes
 
-	on_auto_accept = {
-		# scope:recipient = {
-		# 	trigger_event = char_interaction.0110
-		# }
-	}
+# 	on_auto_accept = {
+# 		# scope:recipient = {
+# 		# 	trigger_event = char_interaction.0110
+# 		# }
+# 	}
 	
-	on_accept = {
+# 	on_accept = {
 		
-		# every_in_list = {
+# 		# every_in_list = {
 
-		# }
-		# custom_description = {
-		# 	text = 
-		# 	every_in_list = {
-		# 		list = target_titles
-		# 		scope:recipient = { get_title = prev }
-		# 	}
-		# }
+# 		# }
+# 		# custom_description = {
+# 		# 	text = 
+# 		# 	every_in_list = {
+# 		# 		list = target_titles
+# 		# 		scope:recipient = { get_title = prev }
+# 		# 	}
+# 		# }
 
-		#Stress impact
-		scope:actor = {
-			if = {
-				limit = {
-					any_in_list = {
-						list = target_titles
-						trigger_if = {
-							limit = { tier = tier_barony }
-							title_province.barony = {
-								has_wrong_holding_type = no
-							}
-						}
-						count >= 1
-					}
-				}
+# 		#Stress impact
+# 		scope:actor = {
+# 			if = {
+# 				limit = {
+# 					any_in_list = {
+# 						list = target_titles
+# 						trigger_if = {
+# 							limit = { tier = tier_barony }
+# 							title_province.barony = {
+# 								has_wrong_holding_type = no
+# 							}
+# 						}
+# 						count >= 1
+# 					}
+# 				}
 				
-				# Generous characters enjoy giving away titles
-				if = {
-					limit = {
-						has_trait = generous
-					}
-					add_stress = generous_title_grant_value
-				}
+# 				# Generous characters enjoy giving away titles
+# 				if = {
+# 					limit = {
+# 						has_trait = generous
+# 					}
+# 					add_stress = generous_title_grant_value
+# 				}
 
-				# Gnostics lose stress for giving away titles.
-				if = {
-					limit = {
-						scope:actor = {
-							faith = {
-								has_doctrine_parameter = granting_titles_gives_stress
-							}
-						}
-					}
-					scope:actor = {
-						add_stress = {
-							value = 0
+# 				# Gnostics lose stress for giving away titles.
+# 				if = {
+# 					limit = {
+# 						scope:actor = {
+# 							faith = {
+# 								has_doctrine_parameter = granting_titles_gives_stress
+# 							}
+# 						}
+# 					}
+# 					scope:actor = {
+# 						add_stress = {
+# 							value = 0
 
-							# Base stress value scaled on title tier.
-							every_in_list = {
-								list = target_titles
+# 							# Base stress value scaled on title tier.
+# 							every_in_list = {
+# 								list = target_titles
 
-								add = {
-									value = 0
+# 								add = {
+# 									value = 0
 
-									if = {
-										limit = { this.tier = tier_county }
-										add = minor_stress_loss # 10 base
-									}
-									else_if = {
-										limit = { this.tier = tier_duchy }
-										add = {
-											value = medium_stress_loss
-											multiply = 1.25 # 25 base
-										}
-									}
-									else_if = {
-										limit = { this.tier = tier_kingdom }
-										add = {
-											value = major_stress_loss
-											multiply = 2 # 80 base
-										}
-									}
-									else_if = {
-										limit = { this.tier = tier_empire }
-										add = {
-											value = monumental_stress_loss 
-											multiply = 2 # 200 base
-										}
-									}
+# 									if = {
+# 										limit = { this.tier = tier_county }
+# 										add = minor_stress_loss # 10 base
+# 									}
+# 									else_if = {
+# 										limit = { this.tier = tier_duchy }
+# 										add = {
+# 											value = medium_stress_loss
+# 											multiply = 1.25 # 25 base
+# 										}
+# 									}
+# 									else_if = {
+# 										limit = { this.tier = tier_kingdom }
+# 										add = {
+# 											value = major_stress_loss
+# 											multiply = 2 # 80 base
+# 										}
+# 									}
+# 									else_if = {
+# 										limit = { this.tier = tier_empire }
+# 										add = {
+# 											value = monumental_stress_loss 
+# 											multiply = 2 # 200 base
+# 										}
+# 									}
 
-									# Lose more stress for giving away titles of your primary tier; lose less stress for giving away titles far below your primary in tier.
-									multiply = {
-										value = this.tier
-										add = 1
-										divide = scope:actor.primary_title.tier
-									}
+# 									# Lose more stress for giving away titles of your primary tier; lose less stress for giving away titles far below your primary in tier.
+# 									multiply = {
+# 										value = this.tier
+# 										add = 1
+# 										divide = scope:actor.primary_title.tier
+# 									}
 
-									# Round to the nearest multiple of 5.
-									divide = 5
-									round = yes
-									multiply = 5
+# 									# Round to the nearest multiple of 5.
+# 									divide = 5
+# 									round = yes
+# 									multiply = 5
 
-									# For a Duke, this will be x1.25 for Duchies (-30) and x1 for Counties(-10)
-									# For a King, this will be x1.25 for a Kingdom (-100), x1 for a Duchy (-25) and x0.75 for Counties(-10)
-									# For an Emperor, this will be x1.25 for an Empire(-200), x1 for a Kingdom(-80), x0.75 for a Duchy(-20) and x0.4 for a Counties (-5)
-								}
-							}
-						}
-					}
-				}
+# 									# For a Duke, this will be x1.25 for Duchies (-30) and x1 for Counties(-10)
+# 									# For a King, this will be x1.25 for a Kingdom (-100), x1 for a Duchy (-25) and x0.75 for Counties(-10)
+# 									# For an Emperor, this will be x1.25 for an Empire(-200), x1 for a Kingdom(-80), x0.75 for a Duchy(-20) and x0.4 for a Counties (-5)
+# 								}
+# 							}
+# 						}
+# 					}
+# 				}
 
-				# Greedy & ambitious ruler gain stress for giving away titles if they would normally be able to keep them.
-				if = {
-					limit = {
-						# Pre-filter 
-						OR = {
-							has_trait = greedy
-							has_trait = ambitious
-						}
-						domain_size <= domain_limit # Not over my domain limit
-						any_in_list = {
-							list = target_titles
-							tier <= tier_county # At least 1 selected title counts toward domain limit
-						}
+# 				# Greedy & ambitious ruler gain stress for giving away titles if they would normally be able to keep them.
+# 				if = {
+# 					limit = {
+# 						# Pre-filter 
+# 						OR = {
+# 							has_trait = greedy
+# 							has_trait = ambitious
+# 						}
+# 						domain_size <= domain_limit # Not over my domain limit
+# 						any_in_list = {
+# 							list = target_titles
+# 							tier <= tier_county # At least 1 selected title counts toward domain limit
+# 						}
 
-						# Special exemption for lieges who are over their held duchy limit, which are giving away that duchy (and associated counties) specifically
-						trigger_if = {
-							limit = {
-								has_too_many_held_duchies_trigger = yes
-							}
-							NOT = {				
-								# Granting at least 1 duchy
-								any_in_list = {
-									list = target_titles
-									title_counts_towards_too_many_duchies_trigger = yes
-									save_temporary_scope_as = granted_duchy
+# 						# Special exemption for lieges who are over their held duchy limit, which are giving away that duchy (and associated counties) specifically
+# 						trigger_if = {
+# 							limit = {
+# 								has_too_many_held_duchies_trigger = yes
+# 							}
+# 							NOT = {				
+# 								# Granting at least 1 duchy
+# 								any_in_list = {
+# 									list = target_titles
+# 									title_counts_towards_too_many_duchies_trigger = yes
+# 									save_temporary_scope_as = granted_duchy
 
-									# All counties being granted are De Jure part of the duchy that is being granted
-									any_in_list = {
-										list = target_titles
-										count = all 
-										trigger_if = {
-											limit = { tier = tier_county}
-											de_jure_liege = scope:granted_duchy
-										}
-									}
-								}
-							}
-						}
-					}
-					# Actual stress gain effects
-					if = {
-						limit = {
-							domain_size = domain_limit
-						}
-						stress_impact = {
-							greedy = minor_stress_impact_gain
-							ambitious = minor_stress_impact_gain
-						}
-					}
-					else_if = {
-						limit = {
-							domain_size < domain_limit
-						}
-						stress_impact = {
-							greedy = medium_stress_impact_gain
-							ambitious = medium_stress_impact_gain
-						}
-					}
-				}
+# 									# All counties being granted are De Jure part of the duchy that is being granted
+# 									any_in_list = {
+# 										list = target_titles
+# 										count = all 
+# 										trigger_if = {
+# 											limit = { tier = tier_county}
+# 											de_jure_liege = scope:granted_duchy
+# 										}
+# 									}
+# 								}
+# 							}
+# 						}
+# 					}
+# 					# Actual stress gain effects
+# 					if = {
+# 						limit = {
+# 							domain_size = domain_limit
+# 						}
+# 						stress_impact = {
+# 							greedy = minor_stress_impact_gain
+# 							ambitious = minor_stress_impact_gain
+# 						}
+# 					}
+# 					else_if = {
+# 						limit = {
+# 							domain_size < domain_limit
+# 						}
+# 						stress_impact = {
+# 							greedy = medium_stress_impact_gain
+# 							ambitious = medium_stress_impact_gain
+# 						}
+# 					}
+# 				}
 				
-			}
-		}
-	}
-}
+# 			}
+# 		}
+# 	}
+# }

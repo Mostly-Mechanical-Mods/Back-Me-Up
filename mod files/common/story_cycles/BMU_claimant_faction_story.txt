@@ -246,7 +246,7 @@
 					story_owner = {
 						every_vassal = {
 							limit = {
-								primary_title = { any_this_title_or_de_jure_above = { this = scope:pressed_claim.var:claimed_title }}
+								# primary_title = { any_this_title_or_de_jure_above = { this = scope:pressed_claim.var:claimed_title }}
 								any_owned_story = {
 									story_type = BMU_stakeholder_story
 									var:pressed_claim_story = scope:pressed_claim
@@ -362,7 +362,7 @@ BMU_stakeholder_story = {
 		}
 	}
 	effect_group = {
-		days = { bargain_min bargain_max }
+		days = { 5 15 }
 		triggered_effect = {
 			trigger = {
 				var:pressed_claim_story.var:pressed_claim_phase = flag:bargaining_phase

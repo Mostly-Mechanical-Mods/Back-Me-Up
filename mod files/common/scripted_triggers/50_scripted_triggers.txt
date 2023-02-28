@@ -1,0 +1,41 @@
+﻿allowed_to_imprison_character_trigger = {
+	save_temporary_scope_as = allowed_imprisoner
+	$CHARACTER$ = {
+		save_temporary_scope_as = allowed_prisoner
+		is_imprisoned = no
+		NOT = { is_at_war_with  = scope:allowed_imprisoner }
+		custom_description = {
+			text = "character_interactions_imprison_recently_ransomed"
+			object = scope:allowed_prisoner
+			NOT = {
+				has_opinion_modifier = {
+					target = scope:allowed_imprisoner
+					modifier = ransomed_from_prison
+				}
+			}
+		}
+		NOT = { has_strong_hook = scope:allowed_imprisoner }
+	}
+	scope:allowed_imprisoner = {
+		custom_description = {
+			text = "character_interactions_imprison_ally_without_reason"
+			object = scope:allowed_prisoner
+			OR = {
+				NOT = { is_allied_to = scope:allowed_prisoner }
+				has_imprisonment_reason = scope:allowed_prisoner
+				is_spouse_of = scope:allowed_prisoner
+			}
+		}
+	}
+	basic_allowed_to_imprison_character_trigger = { CHARACTER = $CHARACTER$ }
+
+	trigger_if = {
+		limit = {
+			BMU_save_common_pressed_claim_as_scope_pressed_claim_temp = {
+				STAKEHOLDER_1 = scope:allowed_imprisoner
+				STAKEHOLDER_2 = scope:allowed_prisoner
+			}
+		}
+		BMU_vassal_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim_temp }
+	}
+}

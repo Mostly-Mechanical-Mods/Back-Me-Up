@@ -1,6 +1,18 @@
 ﻿BMU_can_bargain = {
 	$CONTENDER$ = { save_temporary_scope_as = bargaining_contender }
 	$SUPPORTER$ = { save_temporary_scope_as = bargaining_supporter }
+	custom_tooltip = {
+		text = "BMU_bargain_supporter_refused_bargains"
+		subject = scope:bargaining_supporter.story_owner
+		scope:bargaining_contender = {
+			NOT = {
+				is_target_in_variable_list = {
+					name = bargain_blocker
+					target = scope:bargaining_supporter
+				}
+			}
+		}
+	}
 	trigger_if = {
 		limit = { scope:bargaining_supporter.var:status = flag:stakeholder }
 		scope:bargaining_contender = { BMU_supporter_is_relevant = { SUPPORTER = scope:bargaining_supporter }}
@@ -31,7 +43,7 @@ BMU_supporter_is_relevant = {
 				type = rival
 				any_owned_story = {
 					story_type = BMU_stakeholder_story
-					var:pressed_claim = scope:relevant_supporter.var:pressed_claim
+					var:pressed_claim_story = scope:relevant_supporter.var:pressed_claim_story
 					var:status = flag:contender
 				}
 			}
@@ -191,4 +203,62 @@ BMU_can_be_marshal_of = {
 BMU_can_be_spymaster_of = {
 	NOT = { has_council_position = councillor_spouse }
 	exists = $COURT_OWNER$ #so we can have the argument but get no errors
+}
+
+BMU_save_common_pressed_claim_as_scope_pressed_claim_temp = {
+	$STAKEHOLDER_1$ = { save_temporary_scope_as = stakeholder_1 }
+	$STAKEHOLDER_2$ = { save_temporary_scope_as = stakeholder_2 }
+	scope:stakeholder_1 = {
+		any_owned_story = {
+			story_type = BMU_stakeholder_story
+			var:pressed_claim_story = { save_temporary_scope_as = pressed_claim_temp }
+			scope:stakeholder_2 = {
+				any_owned_story = {
+					story_type = BMU_stakeholder_story
+					var:pressed_claim_story = scope:pressed_claim_temp
+				}
+			}
+		}
+	}
+	exists = scope:pressed_claim_temp
+}
+
+BMU_vassal_follows_pressed_claim = {
+	$PRESSED_CLAIM$ = { save_temporary_scope_as = pressed_claim_temp }
+	trigger_if = {
+		limit = {
+			is_landed = yes
+			is_vassal_of = scope:pressed_claim_temp.story_owner
+		}
+		custom_description = {
+			text = BMU_vassal_follows_pressed_claim
+			primary_title = {
+				OR = {
+					target_is_de_jure_liege_or_above = scope:pressed_claim_temp.var:claimed_title
+					AND = {
+						scope:pressed_claim_temp.story_owner.primary_title = scope:pressed_claim_temp.var:claimed_title
+						any_this_title_or_de_jure_above = {
+							exists = holder
+							holder = scope:pressed_claim_temp.story_owner
+							count = 0
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+BMU_allowed_to_imprison_character_trigger = {
+	$IMPRISONER$ = { save_temporary_scope_as = allowed_imprisoner }
+	$PRISONER$ = { save_temporary_scope_as = allowed_prisoner }
+	trigger_if = {
+		limit = {
+			BMU_save_common_pressed_claim_as_scope_pressed_claim_temp = {
+				STAKEHOLDER_1 = scope:allowed_imprisoner
+				STAKEHOLDER_2 = scope:allowed_prisoner
+			}
+		}
+		BMU_vassal_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim_temp }
+	}
 }

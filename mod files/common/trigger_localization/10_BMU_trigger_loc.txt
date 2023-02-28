@@ -52,3 +52,10 @@ BMU_title_already_claimed = {
 BMU_claimant_already_in_claimant_faction = {
 	third = BMU_CLAIMANT_SUPPORTS_ANOTHER
 }
+
+BMU_vassal_follows_pressed_claim = {
+	first = BMU_VASSAL_I_FOLLOW_PRESSED_CLAIM
+	first_not = BMU_VASSAL_I_NOT_FOLLOW_PRESSED_CLAIM
+	third = BMU_VASSAL_THEY_FOLLOW_PRESSED_CLAIM
+	third_not = BMU_VASSAL_THEY_NOT_FOLLOW_PRESSED_CLAIM
+}
