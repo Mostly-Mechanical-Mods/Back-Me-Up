@@ -80,9 +80,11 @@ BMU_on_war_transferred = {
 			scope:war.var:pressed_claim = {
 				every_in_list = {
 					variable = BMU_pressed_claim_stakeholders
-					NOT = { is_participant_in_war = scope:war }
-					var:status = flag:supporter
-					var:contender = scope:defender
+					limit = {
+						NOT = { is_participant_in_war = scope:war }
+						var:status = flag:supporter
+						var:contender = scope:defender
+					}
 					scope:war = { add_defender = prev.story_owner }
 				}
 			}
