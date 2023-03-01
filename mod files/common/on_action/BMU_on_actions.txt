@@ -38,3 +38,57 @@ BMU_on_title_lost = {
 		}
 	}
 }
+
+# called for wars after being transferred to a new defender
+# root is the primary attacker
+# scope:war is the war
+# scope:defender is the new defender
+
+on_war_transferred = {
+	on_actions = {
+		BMU_on_war_transferred
+	}
+}
+
+BMU_on_war_transferred = {
+	trigger = {
+		# scope:war = { using_CB = BMU_pressed_claim_cb }
+		# scope:defender = {
+		# 	any_owned_story = {
+		# 		story_type = BMU_pressed_claim_story
+		# 		this = scope:war.var:pressed_claim
+		# 	}
+		# }
+	}
+	effect = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_on_war_transferred"
+			debug_log_scopes = yes
+		}
+		if = {
+			limit = {
+				debug_log_details = yes
+				scope:war = { using_cb = BMU_pressed_claim_cb }
+				scope:defender = {
+					any_owned_story = {
+						story_type = BMU_pressed_claim_story
+						this = scope:war.var:pressed_claim
+					}
+				}
+			}
+			scope:war.var:pressed_claim = {
+				every_in_list = {
+					variable = BMU_pressed_claim_stakeholders
+					NOT = { is_participant_in_war = scope:war }
+					var:status = flag:supporter
+					var:contender = scope:defender
+					scope:war = { add_defender = prev.story_owner }
+				}
+			}
+		}
+		else = {
+			debug_log = "no Pressed Claim found"
+		}
+	}
+}

@@ -966,11 +966,20 @@ BMU_transfer_claimed_press = {
 	$OLD_CLAIM_TARGET$ = { save_scope_as = old_claim_target }
 	$NEW_CLAIM_TARGET$ = { save_scope_as = new_claim_target }
 
+	if = {
+		limit = { debug_only = yes }
+		debug_log = "BMU_transfer_claimed_press"
+		scope:pressed_claim = { debug_log_scopes = no }
+		scope:claimed_title = { debug_log_scopes = no }
+		scope:old_claim_target = { debug_log_scopes = no }
+		scope:new_claim_target = { debug_log_scopes = no }
+	}
+
 	scope:old_claim_target = {
 		random_owned_story = {
 			limit = {
 				story_type = BMU_stakeholder_story
-				var:pressed_claim_story = scope:claimed_title
+				var:pressed_claim_story = scope:pressed_claim
 			}
 			save_scope_as = old_claim_target_stakeholder_story
 		}
@@ -1026,5 +1035,20 @@ BMU_transfer_claimed_press = {
 			value = scope:new_claim_target
 		}
 		make_story_owner = scope:new_claim_target
+	}
+}
+
+BMU_dropout_supporters_of = {
+	$PRESSED_CLAIM$ = { save_temporary_scope_as = pressed_claim_temp }
+	$CONTENDER$ = { save_temporary_scope_as = contender_temp }
+	scope:pressed_claim_temp = {
+		every_in_list = {
+			variable = BMU_pressed_claim_stakeholders
+			limit = {
+				var:status = flag:supporter
+				var:contender.story_owner = scope:contender_temp
+			}
+			end_story = yes
+		}
 	}
 }
