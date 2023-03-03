@@ -21,162 +21,167 @@
 		}
 	}
 
-	add_to_global_variable_list = {
-		name = BMU_claim_stories
-		target = scope:pressed_claim
-	}
-
-	scope:pressed_claim = {
-		debug_log = "story"
-		debug_log_scopes = no
-		set_variable = contention_phase
-		set_variable = {
-			name = pressed_claim_phase
-			value = flag:contention_phase
+	if = {
+		limit = {
+			exists = scope:pressed_claim
 		}
-		set_variable = { name = claimed_title value = scope:claimed_title }
-		set_variable = { name = claim_target value = scope:claim_target }
-
-		story_owner = {
-			add_to_variable_list = {
-				name = claimed_titles
-				target = scope:pressed_claim
+		add_to_global_variable_list = {
+			name = BMU_claim_stories
+			target = scope:pressed_claim
+		}
+	
+		scope:pressed_claim = {
+			debug_log = "story"
+			debug_log_scopes = no
+			set_variable = contention_phase
+			set_variable = {
+				name = pressed_claim_phase
+				value = flag:contention_phase
 			}
-			add_to_list = claimants
-		}
-		var:claimed_title = {
-			every_claimant = {
-				explicit = all
+			set_variable = { name = claimed_title value = scope:claimed_title }
+			set_variable = { name = claim_target value = scope:claim_target }
+	
+			story_owner = {
+				add_to_variable_list = {
+					name = claimed_titles
+					target = scope:pressed_claim
+				}
 				add_to_list = claimants
 			}
-		}
-		# save_scope_value_as = {
-		# 	name = claimant_index
-		# 	value = 0
-		# }
-		if = {
-			limit = { debug_only = yes }
-			debug_log = "orderded_in_list claimants START"
-		}
-		ordered_in_list = {
-			list = claimants
-			max = 99
-			check_range_bounds = no
-			order_by = {
-				value = 0
-				if = {
-					limit = { has_title = scope:claimed_title }
-					add = 10000
+			var:claimed_title = {
+				every_claimant = {
+					explicit = all
+					add_to_list = claimants
 				}
-				if = {
-					limit = { has_strong_claim_on = scope:claimed_title }
-					add = 1000
-				}
-				else_if = {
-					limit = { has_weak_claim_on = scope:claimed_title }
-					add = 900
-				}
-				else = {
-					add = 800
-				}
-				add = highest_held_title_tier
 			}
-			
+			# save_scope_value_as = {
+			# 	name = claimant_index
+			# 	value = 0
+			# }
 			if = {
 				limit = { debug_only = yes }
-				debug_log_scopes = no
+				debug_log = "orderded_in_list claimants START"
 			}
-			prev = {
-				add_to_variable_list = {
-					name = claimants
-					target = prev
-				}
-			}
-			create_story = {
-				type = BMU_stakeholder_story
-				save_scope_as = stakeholder_story
-			}
-			scope:stakeholder_story = {
-				set_variable = {
-					name = pressed_claim_story
-					value = scope:pressed_claim
-				}
-				set_variable = claimant
-				set_variable = {
-					name = stakeholder
-					value = story_owner
-				}
-				# set_variable = {
-				# 	name = claimant_index
-				# 	value = scope:claimant_index
-				# }
-				# save_scope_value_as = {
-				# 	name = claimant_index
-				# 	value = {
-				# 		add = scope:claimant_index
-				# 		add = 1
-				# 	}
-				# }
-			}
-			scope:pressed_claim = {
-				add_to_variable_list = {
-					name = BMU_pressed_claim_stakeholders
-					target = scope:stakeholder_story
-				}
-			}
-			if = {
-				limit = {
-					scope:contender = this
-					scope:contender = scope:unwilling_contender
-				}
-				BMU_pressed_claim_supporter = {
-					PRESSED_CLAIM = scope:pressed_claim
-					CONTENDER = scope:contender
-				}
-			}
-			trigger_event = BMU_pressed_claim.0010
-
-			clear_saved_scope = stakeholder_story
-		}
-
-		if = {
-			limit = { debug_only = yes }
-			debug_log = "orderded_in_list claimants END"
-		}
-
-		scope:claim_target = {
-			every_targeting_faction = {
-				limit = {
-					faction_is_type = claimant_faction
-					special_title = scope:claimed_title
-				}
-				every_faction_member = {
-					limit = {
-						NOT = { this = prev.special_character }
-						any_owned_story = {
-							story_type = BMU_stakeholder_story
-							var:pressed_claim_story = scope:pressed_claim
-							count = 0
-						}
+			ordered_in_list = {
+				list = claimants
+				max = 99
+				check_range_bounds = no
+				order_by = {
+					value = 0
+					if = {
+						limit = { has_title = scope:claimed_title }
+						add = 10000
 					}
-					BMU_create_pressed_claim_stakeholder_story = { PRESSED_CLAIM = scope:pressed_claim }
-					prev.special_character = {
-						random_owned_story = {
-							limit = {
-								story_type = BMU_stakeholder_story
-								var:pressed_claim_story = scope:pressed_claim
-							}
-							scope:stakeholder_story = {
-								set_variable = {
-									name = faction_claimant
-									value = prev
-								}
-							}
-						}
+					if = {
+						limit = { has_strong_claim_on = scope:claimed_title }
+						add = 1000
+					}
+					else_if = {
+						limit = { has_weak_claim_on = scope:claimed_title }
+						add = 900
+					}
+					else = {
+						add = 800
+					}
+					add = highest_held_title_tier
+				}
+				
+				if = {
+					limit = { debug_only = yes }
+					debug_log_scopes = no
+				}
+				prev = {
+					add_to_variable_list = {
+						name = claimants
+						target = prev
+					}
+				}
+				create_story = {
+					type = BMU_stakeholder_story
+					save_scope_as = stakeholder_story
+				}
+				scope:stakeholder_story = {
+					set_variable = {
+						name = pressed_claim_story
+						value = scope:pressed_claim
+					}
+					set_variable = claimant
+					set_variable = {
+						name = stakeholder
+						value = story_owner
+					}
+					# set_variable = {
+					# 	name = claimant_index
+					# 	value = scope:claimant_index
+					# }
+					# save_scope_value_as = {
+					# 	name = claimant_index
+					# 	value = {
+					# 		add = scope:claimant_index
+					# 		add = 1
+					# 	}
+					# }
+				}
+				scope:pressed_claim = {
+					add_to_variable_list = {
+						name = BMU_pressed_claim_stakeholders
+						target = scope:stakeholder_story
+					}
+				}
+				if = {
+					limit = {
+						scope:contender = this
+						scope:contender = scope:unwilling_contender
 					}
 					BMU_pressed_claim_supporter = {
 						PRESSED_CLAIM = scope:pressed_claim
-						CONTENDER = prev.special_character
+						CONTENDER = scope:contender
+					}
+				}
+				trigger_event = BMU_pressed_claim.0010
+	
+				clear_saved_scope = stakeholder_story
+			}
+	
+			if = {
+				limit = { debug_only = yes }
+				debug_log = "orderded_in_list claimants END"
+			}
+	
+			scope:claim_target = {
+				every_targeting_faction = {
+					limit = {
+						faction_is_type = claimant_faction
+						special_title = scope:claimed_title
+					}
+					every_faction_member = {
+						limit = {
+							NOT = { this = prev.special_character }
+							any_owned_story = {
+								story_type = BMU_stakeholder_story
+								var:pressed_claim_story = scope:pressed_claim
+								count = 0
+							}
+						}
+						BMU_create_pressed_claim_stakeholder_story = { PRESSED_CLAIM = scope:pressed_claim }
+						prev.special_character = {
+							random_owned_story = {
+								limit = {
+									story_type = BMU_stakeholder_story
+									var:pressed_claim_story = scope:pressed_claim
+								}
+								scope:stakeholder_story = {
+									set_variable = {
+										name = faction_claimant
+										value = prev
+									}
+								}
+							}
+						}
+						BMU_pressed_claim_supporter = {
+							PRESSED_CLAIM = scope:pressed_claim
+							CONTENDER = prev.special_character
+						}
 					}
 				}
 			}
@@ -904,6 +909,7 @@ BMU_execute_bargain_tooltip = {
 			limit = { var:stakeholder_story = { has_variable = contender }}
 			custom_tooltip = BMU_BREAK_SUPPORT_TOOLTIP
 		}
+
 		custom_tooltip = BMU_ACCEPT_BARGAIN_TOOLTIP
 		add_to_list = tooltip
 		every_in_list = {
