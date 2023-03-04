@@ -190,54 +190,55 @@ BMU_ambition_get_coveted_title = {
 }
 
 BMU_bargain_with_council_position = {
-	scope = story
+	scope = character
 	saved_scopes = {
-		contender
+		supporter
 	}
 	is_shown = {
-		any_in_list = {
-			variable = BMU_stakeholder_ambitions
-			var:ambition = flag:FF_ambition_get_council_position
-			var:council_position = { save_temporary_scope_as = council_position }
-			prev = { FF_ambition_get_council_position > 0 }
+		is_character_interaction_shown = {
+			recipient = scope:supporter.var:stakeholder
+			interaction = BMU_bargain_with_council_position_interaction
 		}
 	}
 	is_valid = {
-		any_in_list = {
-			variable = BMU_stakeholder_ambitions
-			var:ambition = flag:FF_ambition_get_council_position
-			var:council_position = { save_temporary_scope_as = council_position }
-			var:stakeholder_story.story_owner = {
-				BMU_ambition_can_be_councillor_of = {
-					PRESSED_CLAIM = root.var:pressed_claim_story
-					CONTENDER = scope:contender
-					COUNCIL_POSITION = prev.var:council_position
-				}
-				FF_ambition_get_council_position > 0
-			}
+		is_character_interaction_valid = {
+			recipient = scope:supporter.var:stakeholder
+			interaction = BMU_bargain_with_council_position_interaction
+		}
+	}
+	effect = {
+		set_variable = {
+			name = current_pressed_claim
+			value = scope:supporter.var:pressed_claim_story
+		}
+		open_interaction_window = {
+			interaction = BMU_bargain_with_council_position_interaction
+			actor = this
+			recipient = scope:supporter.var:stakeholder
 		}
 	}
 }
 
 BMU_bargain_for_council_position = {
-	scope = story
+	scope = character
 	saved_scopes = {
 		contender
 	}
 	is_shown = {
-		NOR = {
-			var:stakeholder_story.story_owner = { is_councillor_of = scope:contender.story_owner }
-			scope:contender = {
-				any_in_list = {
-					variable = BMU_bargains
-					var:ambition = flag:FF_ambition_get_council_position
-					count = 4
-				}
-			}
-		}
+		# NOR = {
+		# 	var:stakeholder_story.story_owner = { is_councillor_of = scope:contender.story_owner }
+		# 	scope:contender = {
+		# 		any_in_list = {
+		# 			variable = BMU_bargains
+		# 			var:ambition = flag:FF_ambition_get_council_position
+		# 			count = 4
+		# 		}
+		# 	}
+		# }
 	}
 	is_valid = {
 	}
+	
 }
 
 BMU_set_bargain_with = {

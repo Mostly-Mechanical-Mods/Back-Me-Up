@@ -287,10 +287,19 @@ BMU_have_common_pressed_claim = {
 		}
 	}
 	trigger_else_if = {
-		limit = { scope:common_pressed_claim_number > 0 }
+		limit = {
+			scope:common_pressed_claim_number > 0
+			exists = scope:actor
+			exists = scope:recipient
+			scope:actor = { has_variable = current_pressed_claim }
+		}
 		custom_tooltip = {
 			text = have_several_common_pressed_claim
-			always = yes
+			any_in_list = {
+				list = common_pressed_claim
+				this = scope:actor.var:current_pressed_claim
+				save_temporary_scope_as = common_pressed_claim
+			}
 		}
 	}
 	trigger_else = {

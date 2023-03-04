@@ -1077,3 +1077,65 @@ BMU_dropout_supporters_of = {
 		}
 	}
 }
+
+BMU_accept_bargain_with = {
+	scope:actor = { remove_variable = pending_bargain }
+	hidden_effect = {
+		if = {
+			limit = {
+				BMU_have_common_pressed_claim = { STAKEHOLDER_1 = scope:actor STAKEHOLDER_2 = scope:recipient }
+				exists = scope:common_pressed_claim
+				scope:stakeholder_1_story = { save_temporary_scope_as = contender }
+				scope:stakeholder_2_story = { save_temporary_scope_as = supporter }
+			}
+			scope:recipient = {
+				random_owned_story = {
+					limit = {
+						story_type = BMU_ambition_story
+						var:stakeholder_story.var:pressed_claim_story = scope:common_pressed_claim
+						var:ambition = flag:FF_ambition_get_council_position
+						switch = {
+							trigger = var:council_position
+							flag:chancellor = { scope:councillor_chancellor = yes }
+							flag:steward = { scope:councillor_steward = yes }
+							flag:marshal = { scope:councillor_marshal = yes }
+							flag:spymaster = { scope:councillor_spymaster = yes }
+							fallback = { always = no }
+						}
+					}
+					save_scope_as = bargain
+				}
+			}
+		}
+	}
+	if = {
+		limit = { exists = scope:bargain }
+		scope:actor = {
+			if = {
+				limit = { debug_only = yes }
+				custom_description = {
+					text = BMU_debug_ai_accept_value
+					value = FF_ambition_cost
+				}
+				custom_tooltip = "[SCOPE.GetScriptValueDesc('FF_ambition_cost')]"
+			}
+		}
+		scope:recipient = {
+			if = {
+				limit = { debug_only = yes }
+				custom_description = {
+					text = BMU_debug_ai_accept_value
+					value = FF_bargain_acceptance
+				}
+			}
+			BMU_pressed_claim_supporter = {
+				PRESSED_CLAIM = scope:common_pressed_claim
+				CONTENDER = scope:actor
+			}
+			scope:bargain = {
+				set_variable = bargained
+				value = scope:contender
+			}
+		}
+	}
+}
