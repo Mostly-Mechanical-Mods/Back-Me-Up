@@ -118,16 +118,16 @@ BMU_bargain_can_be_struck = {
 	}
 }
 
-BMU_ambition_can_be_councillor_of_v2 = {
+BMU_can_be_councillor_of = {
+	$COURT_OWNER$ = { save_temporary_scope_as = court_owner }
 	$PRESSED_CLAIM$ = { save_temporary_scope_as = pressed_claim_temp }
-	$CONTENDER$ = { save_temporary_scope_as = contender_temp }
-	is_capable_adult = yes
-	is_imprisoned = no
-	NOT = { is_at_war_with = scope:contender_temp }
-	OR = {
-		is_vassal_of = scope:contender_temp
-		is_courtier_of = scope:contender_temp
-		BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim_temp }
+	trigger_if = {
+		limit = { NOT = { FF_can_be_councillor_of = { COURT_OWNER = scope:court_owner }}}
+		OR = {
+			is_vassal_of = scope:court_owner
+			is_courtier_of = scope:court_owner
+			BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim_temp }
+		}
 	}
 }
 

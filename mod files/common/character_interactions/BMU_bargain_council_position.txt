@@ -20,17 +20,16 @@
 	redirect = {
 	}
 
-	is_valid = {
-		
+	is_shown = {
+		NOT = { scope:actor = scope:recipient }
+		BMU_have_common_pressed_claim = { STAKEHOLDER_1 = scope:actor STAKEHOLDER_2 = scope:recipient }
 	}
+
 	
 	is_valid_showing_failures_only = {
 		trigger_if = {
 			limit = {
-				NAND = {
-					scope:actor = { has_variable = current_bargain }
-					scope:actor.var:current_bargain.var:stakeholder_story.story_owner = scope:recipient
-				}
+				NOT = { scope:actor = { has_variable = current_pressed_claim }}
 			}
 			custom_description = {
 				text = BMU_have_common_pressed_claim
@@ -47,26 +46,45 @@
 			trigger_if = {
 				limit = { exists = scope:common_pressed_claim }
 				scope:recipient = {
-					BMU_ambition_can_be_councillor_of_v2 = { PRESSED_CLAIM = scope:common_pressed_claim CONTENDER = scope:actor }
+					BMU_can_be_councillor_of = { PRESSED_CLAIM = scope:common_pressed_claim CONTENDER = scope:actor }
 					custom_description = {
 						text = BMU_has_ambition_get_council_position
-						any_owned_story = {
-							story_type = BMU_ambition_story
-							has_variable = stakeholder_story
-							var:stakeholder_story.var:pressed_claim_story = scope:common_pressed_claim
-							has_variable = ambition
-							var:ambition = flag:FF_ambition_get_council_position
+						any_in_global_list = {
+							variable = FF_council_position_datamodel
+							switch = {
+								trigger = this
+								flag:chancellor = {
+									BMU_can_be_chancellor_of = { COURT_OWNER = scope:actor }
+									FF_ambition_get_council_position_chancellor > 0
+								}
+								flag:steward = {
+									BMU_can_be_steward_of = { COURT_OWNER = scope:actor }
+									FF_ambition_get_council_position_steward > 0
+								}
+								flag:marshal = {
+									BMU_can_be_marshal_of = { COURT_OWNER = scope:actor }
+									FF_ambition_get_council_position_marshal > 0
+								}
+								flag:spymaster = {
+									BMU_can_be_spymaster_of = { COURT_OWNER = scope:actor }
+									FF_ambition_get_council_position_spymaster > 0
+								}
+							}
 						}
+						# any_owned_story = {
+						# 	story_type = BMU_ambition_story
+						# 	has_variable = stakeholder_story
+						# 	var:stakeholder_story.var:pressed_claim_story = scope:common_pressed_claim
+						# 	has_variable = ambition
+						# 	var:ambition = flag:FF_ambition_get_council_position
+						# }
 					}
 				}
 			}
 		}
 	}
 
-	is_shown = {
-		NOT = { scope:actor = scope:recipient }
-		BMU_have_common_pressed_claim = { STAKEHOLDER_1 = scope:actor STAKEHOLDER_2 = scope:recipient }
-	}
+
 
 	can_send = {
 	}
@@ -75,40 +93,8 @@
 	send_option = {
 		is_shown = { }								# Is option shown
 		is_valid = {
-			trigger_if = {
-				limit = {
-					NOT = { scope:actor = { has_variable = current_bargain }}
-					BMU_have_common_pressed_claim = { STAKEHOLDER_1 = scope:actor STAKEHOLDER_2 = scope:recipient }
-					exists = scope:common_pressed_claim
-				}
-				scope:recipient = {
-					any_owned_story = {
-						story_type = BMU_ambition_story
-						trigger_if = {
-							limit = {
-								has_variable = stakeholder_story
-								has_variable = ambition
-								has_variable = council_position
-							}
-							var:stakeholder_story.var:pressed_claim_story = scope:common_pressed_claim
-							var:ambition = flag:FF_ambition_get_council_position
-							var:council_position = flag:chancellor
-						}
-						trigger_else = {
-							always = no
-						}
-						 
-					}
-				}
-			}
-			trigger_else_if = {
-				limit = { scope:actor = { has_variable = current_bargain }}
-				scope:actor.var:current_bargain.var:ambition = flag:FF_ambition_get_council_position
-				scope:actor.var:current_bargain.var:council_position = flag:chancellor
-			}
-			trigger_else = {
-				always = no
-			}
+			BMU_can_be_chancellor_of = { COURT_OWNER = scope:actor }
+			FF_ambition_get_council_position_chancellor > 0
 		}
 		flag = councillor_chancellor
 		localization = BMU_bargain_council_position_interaction_option_chancellor

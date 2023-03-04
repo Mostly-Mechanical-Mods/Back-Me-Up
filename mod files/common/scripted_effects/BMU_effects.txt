@@ -1133,8 +1133,10 @@ BMU_accept_bargain_with = {
 				CONTENDER = scope:actor
 			}
 			scope:bargain = {
-				set_variable = bargained
-				value = scope:contender
+				set_variable = {
+					name = bargained
+					value = scope:contender
+				}
 			}
 		}
 	}
