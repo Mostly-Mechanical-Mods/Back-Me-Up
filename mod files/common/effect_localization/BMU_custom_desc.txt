@@ -10,3 +10,32 @@ BMU_after_pressed_claim = {
 # BMU_block_bargains = {
 # 	first = BMU_BLOCK_BARGAIN
 # }
+
+BMU_stop_supporting_contender = {
+	first = BMU_I_STOP_SUPPORTING_CONTENDER
+	first_past = BMU_I_STOPPED_SUPPORTING_CONTENDER
+	third = BMU_THEY_STOP_SUPPORTING_CONTENDER
+	third_past = BMU_THEY_STOPPED_SUPPORTING_CONTENDER
+	global = BMU_GLOBAL_STOP_SUPPORTING_CONTENDER
+	global_past = BMU_GLOBAL_STOPPED_SUPPORTING_CONTENDER
+}
+
+BMU_start_supporting_contender = {
+	first = BMU_I_START_SUPPORTING_CONTENDER
+	first_past = BMU_I_STARTED_SUPPORTING_CONTENDER
+	third = BMU_THEY_START_SUPPORTING_CONTENDER
+	third_past = BMU_THEY_STARTED_SUPPORTING_CONTENDER
+	global = BMU_GLOBAL_START_SUPPORTING_CONTENDER
+	global_past = BMU_GLOBAL_STARTED_SUPPORTING_CONTENDER
+}
+
+BMU_if_pressed_claim_won = {
+	global = BMU_GLOBAL_IF_PRESSED_CLAIM_WON
+}
+
+BMU_debug_ai_accept_value = {
+	first = BMU_debug_ai_accept_value
+	third = BMU_debug_ai_accept_value
+	global = BMU_debug_ai_accept_value
+	global_neg = BMU_debug_ai_accept_value_neg
+}

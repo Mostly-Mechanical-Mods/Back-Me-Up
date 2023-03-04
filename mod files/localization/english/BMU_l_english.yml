@@ -122,6 +122,49 @@ game_concept_bargaining_phase_desc: "Bargaining"
 game_concept_declaration_phase: "Declaration Phase"
 game_concept_declaration_phase_desc: "Declaration"
 
+# Character Interactions
+
+BMU_bargain_with_council_position_interaction: "Promise Council Appointment"
+BMU_bargain_with_council_position_interaction_desc: "Offer [recipient.GetShortUINameNoTooltip] a Council Position in exchange for [recipient.GetHerHis] support"
+BMU_bargain_council_position_interaction_option: "Promised Council Position:"
+BMU_bargain_council_position_interaction_option_chancellor: "@skill_diplomacy_icon! [chancellor|E]"
+BMU_bargain_council_position_interaction_option_steward: "@skill_stewardship_icon! [steward|E]"
+BMU_bargain_council_position_interaction_option_marshal: "@skill_martial_icon! [marshal|E]"
+BMU_bargain_council_position_interaction_option_spymaster: "@skill_intrigue_icon! [spymaster|E]"
+
+# Trigger Localization
+
+# Effect Localization
+
+BMU_GLOBAL_IF_PRESSED_CLAIM_WON: "If [CHARACTER.GetSheHe] gets [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetNameNoTooltip]:"
+
+BMU_GLOBAL_STOP_SUPPORTING_CONTENDER: "Stops supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]"
+
+BMU_GLOBAL_START_SUPPORTING_CONTENDER: "Starts supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]"
+
+BMU_debug_ai_accept_value: "#warning AI Accept chance should be#! $VALUE|+0$"
+BMU_debug_ai_accept_value_neg: "#warning AI Accept chance should be -#!$VALUE|-0$"
+
+# Scripted Modifiers
+
+FF_bargain_acceptance_support_for_bargainer_modifier: "$FF_bargain_acceptance_support_for_bargainer$: $VALUE|+0$"
+FF_bargain_acceptance_military_leverage_modifier: "$FF_bargain_acceptance_military_leverage$: $VALUE|+0$"
+FF_bargain_acceptance_ambition_score_modifier : "$FF_bargain_acceptance_ambition_score$: $VALUE|+0$"
+FF_ambition_get_council_position_chancellor_modifier: "$FF_ambition_get_council_position_chancellor$: $VALUE|+0$"
+FF_ambition_get_council_position_steward_modifier: "$FF_ambition_get_council_position_steward$: $VALUE|+0$"
+FF_ambition_get_council_position_marshal_modifier: "$FF_ambition_get_council_position_marshal$: $VALUE|+0$"
+FF_ambition_get_council_position_spymaster_modifier: "$FF_ambition_get_council_position_spymaster$: $VALUE|+0$"
+
+# Scrip Values
+
+FF_bargain_acceptance_support_for_bargainer: "Doesn't support you"
+FF_bargain_acceptance_military_leverage: "Military leverage"
+FF_bargain_acceptance_ambition_score: "FF_bargain_acceptance_ambition_score"
+FF_ambition_get_council_position_chancellor: "Wants to be Chancellor"
+FF_ambition_get_council_position_steward: "Wants to be Steward"
+FF_ambition_get_council_position_marshal: "Wants to be Marshal"
+FF_ambition_get_council_position_spymaster: "Wants to be Spymaster"
+
 # Misc
 
 BMU_msg_claim_war_invalidated_claimant_unavailable_dead_message: "BMU_msg_claim_war_invalidated_claimant_unavailable_dead_message"
@@ -184,3 +227,6 @@ BMU_BLOCK_BARGAINS_TOOLTIP: "[contender.MakeScope.Var('stakeholder').Char.GetSho
 BMU_AFTER_PRESSED_CLAIM: "If [contender.MakeScope.Var('stakeholder').Char.GetShortUINameNoTooltip] wins the [contender.MakeScope.Var('pressed_claim_story').Var('claimed_title').Title.GetNameNoTooltip]"
 BMU_THEY_NOT_WANT_COVETED_TITLE_TRIGGER: "[CHARACTER.GetShortUINameNoTooltip] does not want the [TARGET_TITLE.GetNameNoTooltip] for [CHARACTER.GetHerselfHimself]."
 BMU_THEY_ALREADY_REFUSED_THIS_BARGAIN: "[CHARACTER.GetShortUINameNoTooltip] already refused that bargain."
+have_common_pressed_claim: "have_common_pressed_claim"
+have_several_common_pressed_claim: "have_several_common_pressed_claim"
+have_no_common_pressed_claim: "have_no_common_pressed_claim"

@@ -31,11 +31,11 @@
 
 	trigger_if = {
 		limit = {
-			BMU_save_common_pressed_claim_as_scope_pressed_claim_temp = {
+			BMU_have_common_pressed_claim = {
 				STAKEHOLDER_1 = scope:allowed_imprisoner
 				STAKEHOLDER_2 = scope:allowed_prisoner
 			}
 		}
-		BMU_vassal_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim_temp }
+		# BMU_vassal_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim_temp }
 	}
 }

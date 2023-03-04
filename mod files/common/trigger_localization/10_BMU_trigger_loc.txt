@@ -63,3 +63,11 @@ BMU_vassal_follows_pressed_claim = {
 	third = BMU_VASSAL_THEY_FOLLOW_PRESSED_CLAIM
 	third_not = BMU_VASSAL_THEY_NOT_FOLLOW_PRESSED_CLAIM
 }
+
+BMU_have_common_pressed_claim = {
+	global_not = BMU_NO_COMMON_PRESSED_CLAIM
+}
+
+BMU_have_unique_common_pressed_claim = {
+	global_not = BMU_SEVERAL_COMMON_PRESSED_CLAIM
+}

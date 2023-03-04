@@ -1,0 +1,75 @@
+﻿BMU_bargain_setup = {
+	modifier = {
+		trigger_if = {
+			limit = {
+				NOT = { exists = scope:bargain }
+				AND = {
+					exists = scope:actor
+					exists = scope:recipient
+				}
+			}
+			trigger_if = {
+				limit = {
+					NAND = {
+						scope:actor = { has_variable = current_bargain }
+						scope:actor.var:current_bargain.var:stakeholder_story.story_owner = scope:recipient
+					}
+					BMU_have_common_pressed_claim = { STAKEHOLDER_1 = scope:actor STAKEHOLDER_2 = scope:recipient }
+					exists = scope:common_pressed_claim
+					scope:stakeholder_1_story = { save_temporary_scope_as = contender }
+					scope:stakeholder_2_story = { save_temporary_scope_as = supporter }
+				}
+				scope:recipient = {
+					any_owned_story = {
+						story_type = BMU_ambition_story
+						trigger_if = {
+							limit = { has_variable = stakeholder_story }
+							var:stakeholder_story.var:pressed_claim_story = scope:common_pressed_claim
+							switch = {
+								trigger = var:ambition
+								flag:FF_ambition_get_council_position = {
+									switch = {
+										trigger = var:council_position
+										flag:chancellor = { scope:councillor_chancellor = yes }
+										flag:steward = { scope:councillor_steward = yes }
+										flag:marshal = { scope:councillor_marshal = yes }
+										flag:spymaster = { scope:councillor_spymaster = yes }
+										fallback = { always = no }
+									}
+								}
+							}
+							save_temporary_scope_as = bargain
+						}
+						trigger_else = { always = no }
+					}
+				}
+			}
+			trigger_else_if = {
+				limit = {
+					scope:actor.var:current_bargain = { save_temporary_scope_as = bargain }
+				}
+			}
+			trigger_else = {}
+		}
+		exists = scope:bargain
+		scope:bargain.var:stakeholder_story.var:pressed_claim_story = { save_temporary_scope_as = pressed_claim }
+		scope:actor = {
+			save_temporary_scope_as = candidate
+			save_temporary_scope_value_as = {
+				name = actor_score
+				value = BMU_contender_score
+			}
+		}
+		trigger_if = {
+			limit = { scope:bargain.var:stakeholder_story = { has_variable = contender }}
+			scope:bargain.var:stakeholder_story.var:contender.story_owner = {
+				save_temporary_scope_as = candidate
+				save_temporary_scope_value_as = {
+					name = previous_contender_score
+					value = BMU_contender_score
+				}
+			}
+		}
+		add = 0
+	}
+}

@@ -217,29 +217,38 @@ BMU_pressed_claim_supporter = {
 			var:pressed_claim_story = scope:pressed_claim
 		}
 		save_scope_as = stakeholder_story
+	}
+	if = {
+		limit = { exists = scope:stakeholder_story }
+
 		# Remove previous Contender + send toast
 		if = {
-			limit = { has_variable = contender }
-			var:contender = {
-				remove_list_variable = {
-					name = supporters
-					target = scope:stakeholder_story
-				}
-				every_in_list = {
-					variable = BMU_bargains
-					limit = { var:stakeholder_story.story_owner = scope:supporter }
-					remove_variable = bargained
-					prev = {
-						remove_list_variable = {
-							name = BMU_bargains
-							target = prev
+			limit = { scope:stakeholder_story = { has_variable = contender }}
+			custom_description = {
+				text = BMU_stop_supporting_contender
+				subject = scope:supporter
+				object = scope:stakeholder_story.var:contender.story_owner
+				scope:stakeholder_story.var:contender = {
+					remove_list_variable = {
+						name = supporters
+						target = scope:stakeholder_story
+					}
+					every_in_list = {
+						variable = BMU_bargains
+						limit = { var:stakeholder_story.story_owner = scope:supporter }
+						remove_variable = bargained
+						prev = {
+							remove_list_variable = {
+								name = BMU_bargains
+								target = prev
+							}
 						}
 					}
-				}
-				story_owner = {
-					send_interface_toast = {
-						title = BMU_SUPPORTER_LOST
-						left_icon = scope:supporter # optional, character, artifact, or title
+					story_owner = {
+						send_interface_toast = {
+							title = BMU_SUPPORTER_LOST
+							left_icon = scope:supporter # optional, character, artifact, or title
+						}
 					}
 				}
 			}
@@ -247,49 +256,59 @@ BMU_pressed_claim_supporter = {
 		# Set new Contender + toast (except if bargain struck, toast already handled)
 		if = {
 			limit = { NOT = { scope:contender = scope:supporter }}
-			set_variable = {
-				name = status
-				value = flag:supporter
+			scope:stakeholder_story = {
+				set_variable = {
+					name = status
+					value = flag:supporter
+				}
 			}
-			scope:contender = {
-				random_owned_story = {
-					limit = {
-						story_type = BMU_stakeholder_story
-						var:pressed_claim_story = scope:pressed_claim
-					}
-					scope:stakeholder_story = {
-						set_variable = {
-							name = contender
-							value = prev
+			custom_description = {
+				text = BMU_start_supporting_contender
+				subject = this
+				object = scope:contender
+				scope:contender = {
+					random_owned_story = {
+						limit = {
+							story_type = BMU_stakeholder_story
+							var:pressed_claim_story = scope:pressed_claim
+						}
+						scope:stakeholder_story = {
+							set_variable = {
+								name = contender
+								value = prev
+							}
+						}
+						if = {
+							limit = { NOT = { scope:contender = scope:supporter }}
+							add_to_variable_list = {
+								name = supporters
+								target = scope:stakeholder_story
+							}
 						}
 					}
 					if = {
-						limit = { NOT = { scope:contender = scope:supporter }}
-						add_to_variable_list = {
-							name = supporters
-							target = scope:stakeholder_story
+						limit = { NOT = { exists = scope:bargain }}
+						send_interface_toast = {
+							title = BMU_SUPPORTER_GAIN
+							left_icon = scope:supporter # optional, character, artifact, or title
 						}
-					}
-				}
-				if = {
-					limit = { NOT = { exists = scope:bargain }}
-					send_interface_toast = {
-						title = BMU_SUPPORTER_GAIN
-						left_icon = scope:supporter # optional, character, artifact, or title
 					}
 				}
 			}
 		}
 		else = {
-			set_variable = {
-				name = status
-				value = flag:contender
-			}
-			set_variable = {
-				name = contender
-				value = this
+			scope:stakeholder_story = {
+				set_variable = {
+					name = status
+					value = flag:contender
+				}
+				set_variable = {
+					name = contender
+					value = this
+				}
 			}
 		}
+
 	}
 	scope:pressed_claim = {
 		BMU_pressed_claim_update_top_contender = yes
