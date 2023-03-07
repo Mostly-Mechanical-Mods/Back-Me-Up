@@ -233,6 +233,15 @@ BMU_pressed_claim_supporter = {
 						name = supporters
 						target = scope:stakeholder_story
 					}
+					story_owner = {
+						every_owned_story = {
+							limit = {
+								story_type = BMU_bargain_story
+								var:pressed_claim = scope:pressed_claim
+								var:contender = scope:stakeholder_story
+							}
+						}
+					}
 					every_in_list = {
 						variable = BMU_bargains
 						limit = { var:stakeholder_story.story_owner = scope:supporter }
@@ -378,6 +387,39 @@ BMU_pressed_claim_dropout = {
 	if = {
 		limit = { debug_only = yes }
 		debug_log = "BMU_pressed_claim_dropout END"
+	}
+}
+
+BMU_pressed_claim_update_top_contender_v2 = {
+	$PRESSED_CLAIM$ = { save_scope_as = temp_pressed_claim }
+	scope:temp_pressed_claim = {
+		ordered_in_list = {
+			variable = BMU_pressed_claim_stakeholders
+			limit = {
+				var:status = flag:contender
+				NOT = { story_owner = scope:temp_pressed_claim.var:claim_target }
+			}
+			order_by = {
+				if = { limit = { save_temporary_scope_as = temp_contender }}
+				scope:temp_pressed_claim = {
+					every_in_list = {
+						variable = BMU_pressed_claim_stakeholders
+						limit = {
+							has_variable = contender
+							var:contender = scope:temp_contender
+						}
+						add = story_owner.max_military_strength
+					}
+				}
+				clear_saved_scope = temp_contender
+			}
+			scope:temp_pressed_claim = {
+				set_variable = {
+					name = top_contender
+					value = prev.story_owner
+				}
+			}
+		}
 	}
 }
 
@@ -1060,6 +1102,31 @@ BMU_transfer_claimed_press = {
 			value = scope:new_claim_target
 		}
 		make_story_owner = scope:new_claim_target
+		every_in_list = {
+			variable = claimants
+			limit = {
+				NOR = {
+					has_claim_on = scope:claimed_title
+					any_heir_title = { this = scope:claimed_title }
+				}
+			}
+			prev = {
+				remove_list_variable = {
+					name = claimants
+					target = prev
+				}
+			}
+		}
+	}
+	scope:new_claim_target = {
+		every_heir = {
+			scope:pressed_claim = {
+				add_to_variable_list = {
+					name = claimants
+					target = prev
+				}
+			}
+		}
 	}
 }
 
@@ -1078,64 +1145,102 @@ BMU_dropout_supporters_of = {
 	}
 }
 
-BMU_accept_bargain_with = {
-	scope:actor = { remove_variable = pending_bargain }
-	hidden_effect = {
-		if = {
-			limit = {
-				BMU_have_common_pressed_claim = { STAKEHOLDER_1 = scope:actor STAKEHOLDER_2 = scope:recipient }
-				exists = scope:common_pressed_claim
-				scope:stakeholder_1_story = { save_temporary_scope_as = contender }
-				scope:stakeholder_2_story = { save_temporary_scope_as = supporter }
+
+
+# CLEAN
+
+BMU_create_bargain_get_council_position = {
+	scope:contender.story_owner = {
+		create_story = {
+			type = BMU_bargain_story
+			save_scope_as = bargain
+		}
+		scope:bargain = {
+			set_variable = {
+				name = pressed_claim
+				value = scope:common_pressed_claim
 			}
-			scope:recipient = {
-				random_owned_story = {
-					limit = {
-						story_type = BMU_ambition_story
-						var:stakeholder_story.var:pressed_claim_story = scope:common_pressed_claim
-						var:ambition = flag:FF_ambition_get_council_position
-						switch = {
-							trigger = var:council_position
-							flag:chancellor = { scope:councillor_chancellor = yes }
-							flag:steward = { scope:councillor_steward = yes }
-							flag:marshal = { scope:councillor_marshal = yes }
-							flag:spymaster = { scope:councillor_spymaster = yes }
-							fallback = { always = no }
+			set_variable = {
+				name = contender
+				value = scope:contender
+			}
+			set_variable = {
+				name = supporter
+				value = scope:supporter
+			}
+			set_variable = {
+				name = bargain_type
+				value = flag:FF_ambition_get_council_position
+			}
+			if = { limit = { scope:councillor_chancellor = yes } set_variable = { name = council_position value = flag:councillor_chancellor }}
+			else_if = { limit = { scope:councillor_steward = yes } set_variable = { name = council_position value = flag:councillor_steward }}
+			else_if = { limit = { scope:councillor_marshal = yes } set_variable = { name = council_position value = flag:councillor_marshal }}
+			else_if = { limit = { scope:councillor_spymaster = yes } set_variable = { name = council_position value = flag:councillor_spymaster }}
+		}
+	}
+}
+
+BMU_accept_bargain = {
+	# Remove previous Contender + send toast
+	if = {
+		limit = { scope:supporter = { has_variable = contender }}
+		custom_description = {
+			text = BMU_stop_supporting_contender
+			subject = scope:supporter.story_owner
+			object = scope:supporter.var:contender.story_owner
+			scope:supporter.var:contender = {
+				remove_list_variable = {
+					name = supporters
+					target = scope:supporter
+				}
+				story_owner = {
+					every_owned_story = {
+						limit = {
+							story_type = BMU_bargain_story
+							var:pressed_claim = scope:pressed_claim
+							var:supporter = scope:supporter
 						}
+						set_variable = {
+							name = status
+							value = broken
+						}
+						end_story = yes
 					}
-					save_scope_as = bargain
+					send_interface_toast = {
+						title = BMU_SUPPORTER_LOST
+						left_icon = scope:supporter # optional, character, artifact, or title
+					}
 				}
 			}
 		}
 	}
-	if = {
-		limit = { exists = scope:bargain }
-		scope:actor = {
-			if = {
-				limit = { debug_only = yes }
-				custom_description = {
-					text = BMU_debug_ai_accept_value
-					value = FF_ambition_cost
-				}
-				custom_tooltip = "[SCOPE.GetScriptValueDesc('FF_ambition_cost')]"
-			}
-		}
-		scope:recipient = {
-			if = {
-				limit = { debug_only = yes }
-				custom_description = {
-					text = BMU_debug_ai_accept_value
-					value = FF_bargain_acceptance
-				}
-			}
-			BMU_pressed_claim_supporter = {
-				PRESSED_CLAIM = scope:common_pressed_claim
-				CONTENDER = scope:actor
-			}
-			scope:bargain = {
+	# Set new Contender + toast (except if bargain struck, toast already handled)
+	
+	scope:supporter.story_owner = {
+		custom_description = {
+			text = BMU_start_supporting_contender
+			subject = scope:supporter.story_owner
+			object = scope:contender.story_owner
+			scope:supporter = {
 				set_variable = {
-					name = bargained
+					name = status
+					value = flag:supporter
+				}
+				set_variable = {
+					name = contender
 					value = scope:contender
+				}
+			}
+			scope:contender = {
+				add_to_variable_list = {
+					name = supporters
+					target = scope:supporter
+				}
+				story_owner = {
+					send_interface_toast = {
+						title = BMU_SUPPORTER_GAIN
+						left_icon = scope:supporter.story_owner # optional, character, artifact, or title
+					}
 				}
 			}
 		}

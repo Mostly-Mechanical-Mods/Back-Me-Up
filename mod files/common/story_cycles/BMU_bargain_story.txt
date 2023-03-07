@@ -1,0 +1,13 @@
+﻿BMU_bargain_story = {
+	on_setup = {
+	}
+	
+	on_end = {
+	}
+
+	on_owner_death = {
+	}
+
+	effect_group = {
+	}
+}

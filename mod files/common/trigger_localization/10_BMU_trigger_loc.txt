@@ -71,3 +71,29 @@ BMU_have_common_pressed_claim = {
 BMU_have_unique_common_pressed_claim = {
 	global_not = BMU_SEVERAL_COMMON_PRESSED_CLAIM
 }
+
+BMU_too_late_to_join_pressed_claim = {
+	global = BMU_TOO_LATE_TO_JOIN_PRESSED_CLAIM
+}
+
+BMU_already_involved_in_pressed_claim = {
+	global = BMU_ALREADY_INVOLVED_IN_PRESSED_CLAIM
+}
+
+BMU_rival_of_pressed_claim_contender = {
+	first = BMU_I_AM_RIVAL_OF_PRESSED_CLAIM_CONTENDER
+	third = BMU_THEY_ARE_RIVAL_OF_PRESSED_CLAIM_CONTENDER
+	global = BMU_RIVAL_OF_PRESSED_CLAIM_CONTENDER
+}
+
+BMU_relevant_supporter_in_pressed_claim = {
+	first = BMU_I_AM_RELEVANT_SUPPORTER_IN_PRESSED_CLAIM
+	third = BMU_THEY_ARE_RELEVANT_SUPPORTER_IN_PRESSED_CLAIM
+	global = BMU_RELEVANT_SUPPORTER_IN_PRESSED_CLAIM
+}
+
+BMU_supporter_in_pressed_claim = {
+	first = BMU_I_AM_SUPPORTER_IN_PRESSED_CLAIM
+	third = BMU_THEY_ARE_SUPPORTER_IN_PRESSED_CLAIM
+	global = BMU_SUPPORTER_IN_PRESSED_CLAIM
+}

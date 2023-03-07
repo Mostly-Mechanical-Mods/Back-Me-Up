@@ -39,3 +39,35 @@ BMU_debug_ai_accept_value = {
 	global = BMU_debug_ai_accept_value
 	global_neg = BMU_debug_ai_accept_value_neg
 }
+
+BMU_contender_join_pressed_claim = {
+	first = BMU_I_JOIN_PRESSED_CLAIM
+	first_past = BMU_I_JOINED_PRESSED_CLAIM
+	third = BMU_THEY_JOIN_PRESSED_CLAIM
+	third_past = BMU_THEY_JOINED_PRESSED_CLAIM
+	global = BMU_JOIN_PRESSED_CLAIM
+	global_past = BMU_JOINED_PRESSED_CLAIM
+}
+
+BMU_contender_create_pressed_claim = {
+	first = BMU_I_CREATE_PRESSED_CLAIM
+	first_past = BMU_I_CREATED_PRESSED_CLAIM
+	third = BMU_THEY_CREATE_PRESSED_CLAIM
+	third_not = BMU_THEY_CREATED_PRESSED_CLAIM
+	global = BMU_CREATE_PRESSED_CLAIM
+	global_past = BMU_CREATED_PRESSED_CLAIM
+}
+
+BMU_claim_target_defend_pressed_claim = {
+	first = BMU_I_DEFEND_PRESSED_CLAIM
+	first_past = BMU_I_DEFENDED_PRESSED_CLAIM
+	third = BMU_THEY_DEFEND_PRESSED_CLAIM
+	third_past = BMU_THEY_DEFENDED_PRESSED_CLAIM
+	global = BMU_DEFEND_PRESSED_CLAIM
+	global_past = BMU_DEFENDED_PRESSED_CLAIM
+}
+
+BMU_claimant_might_join_pressed_claim = {
+	third = BMU_THEY_MIGHT_JOIN_PRESSED_CLAIM
+	global = BMU_MIGHT_JOIN_PRESSED_CLAIM
+}

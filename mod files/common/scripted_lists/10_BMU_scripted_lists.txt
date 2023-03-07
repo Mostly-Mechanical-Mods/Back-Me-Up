@@ -4,3 +4,26 @@
 		story_type = BMU_stakeholder_story
 	}
 }
+
+supporter_story = {
+	base = owned_story
+	conditions = {
+		story_type = BMU_stakeholder_story
+		var:status = flag:supporter
+	}
+}
+
+contender_story = {
+	base = owned_story
+	conditions = {
+		story_type = BMU_stakeholder_story
+		var:status = flag:contender
+	}
+}
+
+pressed_claim = {
+	base = owned_story
+	conditions = {
+		story_type = BMU_pressed_claim_story
+	}
+}

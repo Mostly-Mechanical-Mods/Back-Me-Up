@@ -15,11 +15,7 @@ on_title_lost = {
 
 BMU_on_title_lost = {
 	trigger = {
-		any_owned_story = {
-			story_type = BMU_pressed_claim_story
-			var:claimed_title = scope:title
-			NOT = { var:status = flag:war }
-		}
+		scope:title = { has_variable = pressed_claim }
 	}
 	effect = {
 		save_scope_as = old_holder
@@ -91,6 +87,58 @@ BMU_on_war_transferred = {
 		}
 		else = {
 			debug_log = "no Pressed Claim found"
+		}
+	}
+}
+
+
+# A claim is gained by a character
+# root = the claimant
+# scope:title = the title that is claimed
+# scope:transfer_type = flag:inheritance or none
+on_explicit_claim_gain = {
+	on_actions = {
+		BMU_on_explicit_claim_gain
+	}
+}
+
+BMU_on_explicit_claim_gain = {
+	trigger = {
+		scope:title = { has_variable = pressed_claim }
+	}
+	effect = {
+		scope:title = {
+			var:pressed_claim = {
+				add_to_variable_list = {
+					name = claimants
+					target = root
+				}
+			}
+		}
+	}
+}
+
+# A claim is lost by a character
+# root = the claimant
+# scope:title = the title that was claimed
+on_explicit_claim_lost = {
+	on_actions = {
+		BMU_on_explicit_claim_lost
+	}
+}
+
+BMU_on_explicit_claim_lost = {
+	trigger = {
+		scope:title = { has_variable = pressed_claim }
+	}
+	effect = {
+		scope:title = {
+			var:pressed_claim = {
+				remove_list_variable = {
+					name = claimants
+					target = root
+				}
+			}
 		}
 	}
 }

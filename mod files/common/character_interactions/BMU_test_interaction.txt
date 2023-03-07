@@ -1,0 +1,55 @@
+﻿BMU_test_interaction = {
+	category = interaction_category_pressed_claim
+	use_diplomatic_range = no
+	common_interaction = yes
+	ignores_pending_interaction_block = yes
+	interface_priority = -1
+	# icon = bargain_council_position
+
+	# desc = BMU_test_interaction
+
+	auto_accept = no
+	ai_min_reply_days = 4
+	ai_max_reply_days = 9
+
+	popup_on_receive = yes
+	pause_on_receive = yes
+	can_send_despite_rejection = no
+	ignores_pending_interaction_block = no
+
+	redirect = {
+		scope:actor = { save_scope_as = test_scope }
+		# save_scope_value_as = {
+		# 	name = test_value
+		# 	value = 10
+		# }
+	}
+
+	is_shown = {
+		scope:actor = { is_ai = no }
+	}
+	
+	is_valid_showing_failures_only = {
+		# custom_tooltip = {
+		# 	text = test_scope_NOK
+		# 	exists = scope:test_scope
+		# }
+		# custom_tooltip = {
+		# 	text = test_value_NOK
+		# 	exists = scope:test_value
+		# }
+	}
+
+	on_accept = {
+		scope:actor = {
+			add_piety = 100
+		}
+		scope:test_scope = {
+			add_prestige = 100
+			add_gold = scope:test_value
+		}
+	}
+
+	can_send = {
+	}
+}
