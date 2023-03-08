@@ -50,8 +50,9 @@
 								}
 							}
 						}
-						custom_tooltip = {
+						custom_description = {
 							text = BMU_already_involved_in_pressed_claim
+							subject = scope:actor
 							scope:actor = {
 								any_owned_story = {
 									story_type = BMU_stakeholder_story

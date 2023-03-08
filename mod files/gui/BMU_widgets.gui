@@ -265,7 +265,7 @@ window = {
 										frame = 2
 										widgetanchor = top|hcenter
 										parentanchor = top|hcenter
-										value = "[Story.ScriptValue('FF_pressed_claim_story_duration')]"
+										value = "[Story.MakeScope.ScriptValue('FF_pressed_claim_story_duration')]"
 										min = 0
 										max = 1
 									}

@@ -47,8 +47,9 @@
 	
 	is_valid_showing_failures_only = {
 		scope:recipient = {
-			custom_tooltip = {
-				text = BMU_already_involved_in_a_pressed_claim
+			custom_description = {
+				text = BMU_involved_in_another_pressed_claim
+				subject = scope:recipient
 				any_contender_story = {
 					count = 0
 				}
@@ -189,7 +190,7 @@
 				scope:pressed_claim.var:claimed_title = { save_temporary_scope_as = claimed_title }
 				scope:recipient = {
 					scope:actor = { save_temporary_scope_as = candidate }
-					save_scope_value_as = {
+					save_temporary_scope_value_as = {
 						name = actor_score
 						value = BMU_contender_score
 					}
@@ -216,10 +217,8 @@
 							}
 							any_in_list = {
 								variable = BMU_stakeholder_stories
-								limit = {
-									var:status = flag:contender
-									NOT = { story_owner = scope:actor }
-								}
+								var:status = flag:contender
+								NOT = { story_owner = scope:actor }
 								story_owner = { save_temporary_scope_as = candidate }
 								save_temporary_scope_value_as = {
 									name = temp_contender_score

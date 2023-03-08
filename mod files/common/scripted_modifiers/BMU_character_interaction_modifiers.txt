@@ -28,3 +28,169 @@
 		add = 0
 	}
 }
+
+BMU_bargain_title = {
+	modifier = {
+		trigger_if = {
+			limit = { NOT = { exists = scope:target }}
+			trigger_if = {
+				limit = { scope:actor = { has_variable = BMU_press_claim_interaction_AI }}
+				scope:actor.var:BMU_press_claim_interaction_AI = { save_temporary_scope_as = target }
+			}
+			trigger_else_if = {
+				scope:actor = { is_ai = yes }
+				scope:recipient = {
+					any_held_title = {
+						any_this_title_or_de_jure_above = {
+							add_to_temporary_list = coveted_titles
+						}
+					}
+					any_claim = {
+						add_to_temporary_list = coveted_titles
+					}
+					any_held_title = {
+						tier > tier_barony
+						trigger_if = {
+							tier >= tier_duchy
+							any_in_de_jure_hierarchy = {
+								tier = tier_county
+								NOT = { holder = scope:stakeholder }
+								add_to_temporary_list = coveted_titles
+							}
+						}
+						trigger_else = {
+							any_neighboring_county = {
+								NOT = { holder = scope:stakeholder }
+								add_to_temporary_list = coveted_titles
+							}
+						}
+					}
+					save_temporary_scope_value_as = {
+						name = coveted_title_score
+						value = 0
+					}
+					any_in_list = {
+						list = coveted_titles
+						save_temporary_scope_as = coveted_title
+						trigger_if = {
+							scope:recipient.FF_ambition_get_title > scope:coveted_title_score
+							save_temporary_scope_value_as = {
+								name = coveted_title_score
+								value = scope:recipient.FF_ambition_get_title
+							}
+							save_temporary_scope_as = target
+						}
+					}
+				}
+			}
+			trigger_else = {}
+		}
+		add = 0
+	}
+	modifier = {
+		add = ai_greed
+		desc = BMU_interaction_tooltip_bargain_title_greed
+	}
+	modifier = {
+		ai_greed > 0
+		add = {
+			value = ai_boldness
+			subtract = ai_compassion
+			min = 0
+		}
+		desc = BMU_interaction_tooltip_bargain_title_willing_to_fight
+	}
+	modifier = {
+		exists = scope:target
+		add = {
+			value = scope:target_title.tier
+			multiply = 10
+		}
+		desc = BMU_interaction_tooltip_bargain_title_tier
+	}
+	modifier = {
+		exists = scope:target
+		has_strong_claim_on = scope:target
+		add = 50
+		desc = BMU_interaction_tooltip_bargain_title_strong_claim
+	}
+	modifier = {
+		exists = scope:target
+		has_weak_claim_on = scope:target
+		add = 25
+		desc = BMU_interaction_tooltip_bargain_title_strong_claim
+	}
+	modifier = {
+		exists = scope:target
+		is_lowborn = no
+		scope:target = {
+			any_past_holder = {
+				count = 10
+				house = root.house
+				save_temporary_scope_as = past_holder
+				root = {
+					any_ancestor = {
+						this = scope:past_holder
+					}
+				}
+			}
+		}
+		add = 10
+		desc = BMU_ambition_tooltip_bargain_title_house_right
+	}
+	modifier = {
+		exists = scope:target
+		scope:target = {
+			any_this_title_or_de_jure_above = {
+				NOT = { this = prev }
+				exists = holder
+				holder = root
+			}
+		}
+		add = 25
+		desc = BMU_ambition_tooltip_bargain_title_de_jure
+	}
+	modifier = {
+		exists = scope:target
+		exists = scope:target.holder
+		has_relation_rival = scope:target.holder
+		add = {
+			add = 100
+			add = ai_vengefulness
+		}
+		desc = BMU_ambition_tooltip_bargain_title_rival
+	}
+	modifier = {
+		exists = scope:target
+		exists = scope:target.holder
+		has_relation_rival = scope:target.holder
+		add = {
+			add = 100
+			add = ai_vengefulness
+		}
+		desc = BMU_ambition_tooltip_bargain_title_rival
+	}
+	modifier = {
+		exists = scope:target
+		exists = scope:target.holder
+		OR = {
+			has_relation_friend = scope:target.holder
+			has_relation_lover = scope:target.holder
+		}
+		add = {
+			subtract = 100
+			subtract = ai_honor
+		}
+		desc = BMU_ambition_tooltip_bargain_title_friend
+	}
+	modifier = {
+		exists = scope:target
+		exists = scope:target.holder
+		is_independent_ruler = no
+		is_vassal_of = scope:target.holder
+		add = {
+			subtract = FF_loyalty
+		}
+		desc = BMU_ambition_tooltip_bargain_title_liege
+	}
+}

@@ -2,7 +2,7 @@
 	$COURT_OWNER$ = { save_temporary_scope_as = court_owner }
 	$PRESSED_CLAIM$ = { save_temporary_scope_as = pressed_claim_temp }
 	trigger_if = {
-		limit = { NOT = { FF_can_be_councillor_of = { COURT_OWNER = scope:court_owner }}}
+		# limit = { NOT = { FF_can_be_councillor_of = { COURT_OWNER = scope:court_owner }}}
 		OR = {
 			is_vassal_of = scope:court_owner
 			is_courtier_of = scope:court_owner

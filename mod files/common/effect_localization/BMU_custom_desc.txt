@@ -53,7 +53,7 @@ BMU_contender_create_pressed_claim = {
 	first = BMU_I_CREATE_PRESSED_CLAIM
 	first_past = BMU_I_CREATED_PRESSED_CLAIM
 	third = BMU_THEY_CREATE_PRESSED_CLAIM
-	third_not = BMU_THEY_CREATED_PRESSED_CLAIM
+	third_past = BMU_THEY_CREATED_PRESSED_CLAIM
 	global = BMU_CREATE_PRESSED_CLAIM
 	global_past = BMU_CREATED_PRESSED_CLAIM
 }

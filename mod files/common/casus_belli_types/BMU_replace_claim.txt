@@ -197,22 +197,6 @@
 	#target_title_tier = all
 
 	on_declaration = {
-		#BMU
-		debug_log = "BMU claim_cb on_invalidated"
-		debug_log_scopes = yes
-		debug_log = "set target title"
-		ordered_in_list = {
-			list = target_titles
-			save_scope_as = target_title
-			debug_log_scopes = no
-		}
-		BMU_create_claim_press = {
-			TARGET = scope:defender
-			TARGET_TITLE = scope:target_title
-			CONTENDER = scope:attacker
-			UNWILLING_CONTENDER = scope:claimant
-		}
-		#[/BMU]
 	}
 
 	should_invalidate = {
@@ -249,6 +233,15 @@
 	}
 	
 	on_invalidated = {
+		debug_log = "claim_cb on_invalidated"
+		debug_log_scopes = yes
+		
+		run_interaction = {
+			interaction = BMU_press_claim_interaction
+			scope:actor = scope:attacker
+			scope:recipient = scope:defender
+			send_threshold = decline
+		}
 	}
 
 	on_victory_desc = {
@@ -346,86 +339,86 @@
 	}
 
 	on_white_peace_desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = { scope:defender = { is_local_player = yes } }
-				desc = claim_cb_white_peace_desc_defender
-			}
-			desc = claim_cb_white_peace_desc
-		}
-		
+		# first_valid = {
+		# 	triggered_desc = {
+		# 		trigger = { scope:defender = { is_local_player = yes } }
+		# 		desc = claim_cb_white_peace_desc_defender
+		# 	}
+		# 	desc = claim_cb_white_peace_desc
+		# }
+		desc = BMU_CloseWarResultsWindow
 	}
 
 	on_white_peace = {
-		scope:attacker = {
-			show_pow_release_message_effect = yes
-			stress_impact = {
- 				ambitious = medium_stress_impact_gain
- 				arrogant = medium_stress_impact_gain
- 			}
-		}
+		# scope:attacker = {
+		# 	show_pow_release_message_effect = yes
+		# 	stress_impact = {
+ 		# 		ambitious = medium_stress_impact_gain
+ 		# 		arrogant = medium_stress_impact_gain
+ 		# 	}
+		# }
 
-		# press claims
-		every_in_list = {
-			list = target_titles
-			if = {
-				limit = { scope:claimant = { has_weak_claim_on = prev } }
-				scope:claimant = {
-					make_claim_strong = prev
-				}
-			}
-		}
+		# # press claims
+		# every_in_list = {
+		# 	list = target_titles
+		# 	if = {
+		# 		limit = { scope:claimant = { has_weak_claim_on = prev } }
+		# 		scope:claimant = {
+		# 			make_claim_strong = prev
+		# 		}
+		# 	}
+		# }
 
-		# Create an 'helper' claim CB which we won't execute, but can use to determine how much Prestige should be given to war participants.
-		setup_claim_cb = {
-			titles = target_titles
-			attacker = scope:attacker
-			defender = scope:defender
-			claimant = scope:claimant
-			victory = no
-		}
-		# Prestige loss for the attacker
-		scope:attacker = {
-			add_prestige = {
-				value = scope:cb_prestige_factor # Set by 'setup_claim_cb'
-				multiply = -5.0
-			}
-		}
-		# Allies on both sides get full prestige value for helping in the war, based on their war participation.
-		modify_allies_of_participants_fame_values = {
-			WINNER = scope:attacker
-			FAME_BASE = scope:cb_prestige_factor # Set by 'setup_claim_cb'
-			IS_RELIGIOUS_WAR = no
-			WINNER_ALLY_FAME_SCALE = 10
-			LOSER_ALLY_FAME_SCALE = 10
-		}
-		# Defender neither gains nor loses any prestige.
-		scope:defender = {
-			stress_impact = {
- 				arrogant = medium_stress_impact_gain
- 			}
-		}
+		# # Create an 'helper' claim CB which we won't execute, but can use to determine how much Prestige should be given to war participants.
+		# setup_claim_cb = {
+		# 	titles = target_titles
+		# 	attacker = scope:attacker
+		# 	defender = scope:defender
+		# 	claimant = scope:claimant
+		# 	victory = no
+		# }
+		# # Prestige loss for the attacker
+		# scope:attacker = {
+		# 	add_prestige = {
+		# 		value = scope:cb_prestige_factor # Set by 'setup_claim_cb'
+		# 		multiply = -5.0
+		# 	}
+		# }
+		# # Allies on both sides get full prestige value for helping in the war, based on their war participation.
+		# modify_allies_of_participants_fame_values = {
+		# 	WINNER = scope:attacker
+		# 	FAME_BASE = scope:cb_prestige_factor # Set by 'setup_claim_cb'
+		# 	IS_RELIGIOUS_WAR = no
+		# 	WINNER_ALLY_FAME_SCALE = 10
+		# 	LOSER_ALLY_FAME_SCALE = 10
+		# }
+		# # Defender neither gains nor loses any prestige.
+		# scope:defender = {
+		# 	stress_impact = {
+ 		# 		arrogant = medium_stress_impact_gain
+ 		# 	}
+		# }
 
-		if = {
-			limit = {
-				NOT = { scope:claimant = scope:attacker }
-				scope:attacker = {
-					can_add_hook = {
-					  	type = favor_hook
-					  	target = scope:claimant
-					}
-				}
-			}
-			scope:attacker = {
-				add_hook = {
-		  			target = scope:claimant
-		  			type = favor_hook
-		 		}
-			}
-		}
+		# if = {
+		# 	limit = {
+		# 		NOT = { scope:claimant = scope:attacker }
+		# 		scope:attacker = {
+		# 			can_add_hook = {
+		# 			  	type = favor_hook
+		# 			  	target = scope:claimant
+		# 			}
+		# 		}
+		# 	}
+		# 	scope:attacker = {
+		# 		add_hook = {
+		#   			target = scope:claimant
+		#   			type = favor_hook
+		#  		}
+		# 	}
+		# }
 
-		# Truce
-		add_truce_white_peace_effect = yes
+		# # Truce
+		# add_truce_white_peace_effect = yes
 	}
 
 	on_defeat_desc = {

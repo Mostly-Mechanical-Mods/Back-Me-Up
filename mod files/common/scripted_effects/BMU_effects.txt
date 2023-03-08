@@ -138,7 +138,7 @@
 						CONTENDER = scope:contender
 					}
 				}
-				trigger_event = BMU_pressed_claim.0010
+				# trigger_event = BMU_pressed_claim.0010
 	
 				clear_saved_scope = stakeholder_story
 			}
@@ -411,7 +411,7 @@ BMU_pressed_claim_update_top_contender_v2 = {
 						add = story_owner.max_military_strength
 					}
 				}
-				clear_saved_scope = temp_contender
+				# clear_saved_scope = temp_contender
 			}
 			scope:temp_pressed_claim = {
 				set_variable = {
@@ -958,7 +958,7 @@ BMU_send_bargain = {
 		var:ambition = { debug_log_scopes = no }
 	}
 	scope:supporter.var:bargainer = {
-		trigger_event = BMU_pressed_claim_bargaining.0001
+		# trigger_event = BMU_pressed_claim_bargaining.0001
 	}
 }
 
@@ -1202,7 +1202,7 @@ BMU_accept_bargain = {
 						}
 						set_variable = {
 							name = status
-							value = broken
+							value = flag:broken
 						}
 						end_story = yes
 					}

@@ -1,4 +1,57 @@
-﻿on_war_invalidated = {
+﻿on_war_started = {
+	on_actions = {
+		BMU_claim_cb_white_peace_delay
+	}
+}
+
+BMU_claim_cb_white_peace_delay = {
+	trigger = {
+		war = { using_cb = claim_cb }
+	}
+	effect = {
+		debug_log = "BMU_claim_cb_white_peace_delay"
+		debug_log_scopes = yes
+		trigger_event = {
+			on_action = BMU_claim_cb_white_peace
+			delayed = yes
+		}
+	}
+}
+
+BMU_claim_cb_white_peace = {
+	trigger = {
+		war = { using_cb = claim_cb }
+	}
+	effect = {
+		debug_log = "BMU_claim_cb_white_peace"
+		debug_log_scopes = yes
+
+		ordered_in_list = {
+			list = target_titles
+			debug_log = "target_title"
+			debug_log_scopes = no
+			scope:attacker = {
+				set_variable = {
+					name = BMU_press_claim_interaction_script
+					value = prev
+				}
+			}	
+		}
+		scope:attacker = {
+			run_interaction = {
+				interaction = BMU_press_claim_interaction_script
+				actor = scope:attacker
+				recipient = scope:defender
+				send_threshold = decline
+			}
+		}
+
+		war = { end_war = white_peace }
+		
+	}
+}
+
+on_war_invalidated = {
 	trigger = {
 		NOT = { war = { using_cb = claim_cb }}
 	}
@@ -98,7 +151,7 @@ BMU_on_war_transferred = {
 # scope:transfer_type = flag:inheritance or none
 on_explicit_claim_gain = {
 	on_actions = {
-		BMU_on_explicit_claim_gain
+		BMU_claimant_tracker_on
 	}
 }
 
@@ -118,12 +171,23 @@ BMU_on_explicit_claim_gain = {
 	}
 }
 
+BMU_claimant_tracker_on = {
+	trigger = {
+		exists = scope:title.holder
+		NOT = { has_relation_claimant = scope:title.holder }
+	}
+	effect = {
+		set_relation_claimant = scope:title.holder
+	}
+}
+
 # A claim is lost by a character
 # root = the claimant
 # scope:title = the title that was claimed
 on_explicit_claim_lost = {
 	on_actions = {
 		BMU_on_explicit_claim_lost
+		BMU_claimant_tracker_off
 	}
 }
 
@@ -137,6 +201,41 @@ BMU_on_explicit_claim_lost = {
 				remove_list_variable = {
 					name = claimants
 					target = root
+				}
+			}
+		}
+	}
+}
+
+BMU_claimant_tracker_off = {
+	trigger = {
+		exists = scope:title.holder
+		any_claim = {
+			exists = holder
+			holder = scope:title_holder
+			count = 0
+		}
+	}
+	effect = {
+		remove_relation_claimant = scope:title.holder
+	}
+}
+
+on_game_start = {
+	on_actions = {
+		BMU_claimant_tracker_init
+	}
+}
+
+BMU_claimant_tracker_init = {
+	effect = {
+		every_living_character = {
+			limit = { any_claim = { count > 0 }}
+			every_claim = {
+				limit = { exists = holder }
+				if = {
+					limit = { NOT = { prev = { has_relation_claimant = prev.holder }}}
+					prev = { set_relation_claimant = prev.holder }
 				}
 			}
 		}
