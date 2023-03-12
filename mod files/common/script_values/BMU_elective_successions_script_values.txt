@@ -1,4 +1,41 @@
-﻿BMU_contender_score = {
+﻿BMU_score_diff = {
+	if = {
+		limit = {
+			scope:player = {
+				any_owned_story = {
+					story_type = BMU_stakeholder_story
+					var:pressed_claim_story = scope:pressed_claim
+					var:status = flag:contender
+				}
+			}
+		}
+		scope:player = {
+			if = { limit = { save_temporary_scope_as = score_contender }}
+			prev = { add = BMU_contender_score }
+		}
+		if = {
+			limit = { NOT = { scope:contender = scope:player }}
+			scope:contender = {
+				if = { limit = { save_temporary_scope_as = score_contender }}
+				prev = { add = BMU_contender_score }
+			}
+		}
+		else_if = {
+			limit = { exists = scope:top_contender }
+			scope:top_contender = {
+				if = { limit = { save_temporary_scope_as = score_contender }}
+				prev = {
+					subtract = {
+						add = BMU_contender_score
+						min = 0
+					}
+				}
+			}
+		}
+	}
+}
+
+BMU_contender_score = {
 	if = {
 		limit = {
 			exists = scope:pressed_claim
@@ -20,254 +57,200 @@
 }
 
 BMU_contender_score_gui = {
-	add = BMU_elector_self_voting_pattern_feudal_elective_modifier
-	add = BMU_holder_voting_pattern_feudal_elective_modifier
-	add = BMU_elector_voting_pattern_circumstances_feudal_elective_modifier
-	add = BMU_elector_voting_pattern_prestige_piety_feudal_elective_modifier
-	add = BMU_elector_voting_pattern_traits_feudal_elective_modifier
-	add = BMU_elector_voting_pattern_opinion_feudal_elective_modifier
+	if = {
+		limit = { this = scope:score_contender }
+		add = BMU_elector_self_voting_pattern_feudal_elective_modifier
+	}
+	else = {
+		add = BMU_holder_voting_pattern_feudal_elective_modifier
+		add = BMU_elector_voting_pattern_circumstances_feudal_elective_modifier
+		add = BMU_elector_voting_pattern_prestige_piety_feudal_elective_modifier
+		add = BMU_elector_voting_pattern_traits_feudal_elective_modifier
+		add = BMU_elector_voting_pattern_opinion_feudal_elective_modifier
+	}
 }
 
 ##########################	Elector voting himself	##########################
 BMU_elector_self_voting_pattern_feudal_elective_modifier = {
-	add = BMU_tooltip_feudal_elector_vote_myself
-	add = BMU_tooltip_feudal_elector_vote_not_myself
-	add = BMU_tooltip_feudal_elector_vote_myself_heir
-	add = BMU_tooltip_feudal_elector_vote_myself_ambitious
-	add = BMU_tooltip_feudal_elector_vote_myself_ruler_choice
-	add = BMU_tooltip_feudal_elector_vote_myself_ruling_dynasty
-	add = BMU_tooltip_feudal_elector_vote_myself_sick
-	add = BMU_tooltip_feudal_elector_vote_myself_claimant
+	if = {
+		limit = {
+			NOR = {
+				has_trait = humble
+				has_trait = content
+				has_trait = craven
+				has_trait = lazy
+				has_trait = depressed
+				has_trait = ambitious
+			}
+		}
+		if = {
+			limit = { NOT = { scope:holder = { is_parent_of = scope:score_supporter }}}
+			add = BMU_tooltip_feudal_elector_vote_myself
+		}
+		else = { add = BMU_tooltip_feudal_elector_vote_myself_heir }
+	}
+	else_if = {
+		limit = { NOT = { has_trait = ambitious }}
+		add = BMU_tooltip_feudal_elector_vote_not_myself
+	}
+	else_if = {
+		limit = { is_adult = yes }
+		add = BMU_tooltip_feudal_elector_vote_myself_ambitious
+	}
+	if = {
+		limit = { is_adult = yes }
+		if = {
+			limit = { this = scope:holder_candidate }
+			add = BMU_tooltip_feudal_elector_vote_myself_ruler_choice
+		}
+		if = {
+			limit = {
+				exists = this.dynasty
+				exists = scope:holder.dynasty
+				this.dynasty = scope:holder.dynasty
+			}
+			add = BMU_tooltip_feudal_elector_vote_myself_ruling_dynasty
+		}
+		if = {
+			limit = { is_healthy = no }
+			add = BMU_tooltip_feudal_elector_vote_myself_sick
+		}
+	}
+	if = {
+		limit = {
+			OR = {
+				has_strong_claim_on = scope:title
+				has_weak_claim_on = scope:title
+			}
+		}
+		add = BMU_tooltip_feudal_elector_vote_myself_claimant
+	}
 }#############################################################################
 
 BMU_tooltip_feudal_elector_vote_myself = {
-	if = {
-		limit = {
-			this = scope:score_contender
-			NOR = {
-				has_trait = humble
-				has_trait = content
-				has_trait = craven
-				has_trait = lazy
-				has_trait = depressed
-				has_trait = ambitious
-			}
-			NOT = {
-				scope:holder = {
-					is_parent_of = scope:score_supporter
-				}
-			}
-		}
-		add = {
-			value = 15
-			desc = BMU_tooltip_feudal_elector_vote_myself
-			format = "FF_VALUE_FORMAT"
-		}
-	}
+	value = 15
+	desc = BMU_tooltip_feudal_elector_vote_myself
+	format = "FF_VALUE_FORMAT"
 }
 
 BMU_tooltip_feudal_elector_vote_not_myself = {
-	if = {
-		limit = {
-			this = scope:score_contender
-			NOT = { has_trait = ambitious }
-			OR = {
-				has_trait = humble
-				has_trait = content
-				has_trait = craven
-				has_trait = lazy
-				has_trait = depressed
-			}
-		}
-		add = {
-			value = -25
-			desc = BMU_tooltip_feudal_elector_vote_not_myself
-			format = "FF_VALUE_FORMAT"
-		}
-	}
+	value = -25
+	desc = BMU_tooltip_feudal_elector_vote_not_myself
+	format = "FF_VALUE_FORMAT"
 }
 
 BMU_tooltip_feudal_elector_vote_myself_heir = {
-	if = {
-		limit = {
-			this = scope:score_contender
-			NOR = {
-				has_trait = humble
-				has_trait = content
-				has_trait = craven
-				has_trait = lazy
-				has_trait = depressed
-				has_trait = ambitious
+	value = {
+		add = 40
+		if = {
+			limit = {
+				ai_boldness > 0
 			}
-			scope:holder = {
-				is_parent_of = scope:score_supporter
-			}
+			add = this.ai_boldness
 		}
-		add = {
-			value = {
-				add = 40
-				if = {
-					limit = {
-						ai_boldness > 0
-					}
-					add = this.ai_boldness
-				}
-				if = {
-					limit = {
-						ai_greed > 0
-					}
-					add = this.ai_greed
-				}
+		if = {
+			limit = {
+				ai_greed > 0
 			}
-			desc = BMU_tooltip_feudal_elector_vote_myself_heir
-			format = "FF_VALUE_FORMAT"
+			add = this.ai_greed
 		}
 	}
+	desc = BMU_tooltip_feudal_elector_vote_myself_heir
+	format = "FF_VALUE_FORMAT"
 }
 
 BMU_tooltip_feudal_elector_vote_myself_ambitious = {
-	if = {
-		limit = {
-			this = scope:score_contender
-			has_trait = ambitious
-			is_adult = yes
-		}
-		add = {
-			value = {
-				add = 40
-				if = {
-					limit = {
-						ai_boldness > 0
-					}
-					add = this.ai_boldness
-				}
-				if = {
-					limit = {
-						ai_greed > 0
-					}
-					add = this.ai_greed
-				}
+	value = {
+		add = 40
+		if = {
+			limit = {
+				ai_boldness > 0
 			}
-			desc = BMU_tooltip_feudal_elector_vote_myself_ambitious
-			format = "FF_VALUE_FORMAT"
+			add = this.ai_boldness
+		}
+		if = {
+			limit = {
+				ai_greed > 0
+			}
+			add = this.ai_greed
 		}
 	}
+	desc = BMU_tooltip_feudal_elector_vote_myself_ambitious
+	format = "FF_VALUE_FORMAT"
 }
 
 BMU_tooltip_feudal_elector_vote_myself_ruler_choice = {
-	if = {
-		limit = {
-			this = scope:score_contender
-			this = scope:holder_candidate
-			is_adult = yes
-		}
-		add = {
-			value = 100
-			desc = BMU_tooltip_feudal_elector_vote_myself_ruler_choice
-			format = "FF_VALUE_FORMAT"
-		}
-	}
+	value = 100
+	desc = BMU_tooltip_feudal_elector_vote_myself_ruler_choice
+	format = "FF_VALUE_FORMAT"
 }
 
 BMU_tooltip_feudal_elector_vote_myself_ruling_dynasty = {
-	if = {
-		limit = {
-			this = scope:score_contender
-			exists = this.dynasty
-			exists = scope:holder.dynasty
-			this.dynasty = scope:holder.dynasty
-			is_adult = yes
-		}
-		add = {
-			value = {
-				value = 80
-				if = {
-					limit = {
-						exists = scope:score_contender.dynasty
-						scope:score_contender.dynasty = { dynasty_prestige_level >= 10 }
-					}
-					add = 20
-				}
-				if = {
-					limit = {
-						exists = scope:score_contender.dynasty
-						scope:score_contender.dynasty = { dynasty_prestige_level >= 7 }
-					}
-					add = 20
-				}
+	value = {
+		value = 80
+		if = {
+			limit = {
+				exists = scope:score_contender.dynasty
+				scope:score_contender.dynasty = { dynasty_prestige_level >= 10 }
 			}
-			desc = BMU_tooltip_feudal_elector_vote_myself_ruling_dynasty
-			format = "FF_VALUE_FORMAT"
+			add = 20
+		}
+		if = {
+			limit = {
+				exists = scope:score_contender.dynasty
+				scope:score_contender.dynasty = { dynasty_prestige_level >= 7 }
+			}
+			add = 20
 		}
 	}
+	desc = BMU_tooltip_feudal_elector_vote_myself_ruling_dynasty
+	format = "FF_VALUE_FORMAT"
 }
 
 BMU_tooltip_feudal_elector_vote_myself_sick = {
-	if = {
-		limit = {
-			this = scope:score_contender
-			is_healthy = no
-			is_adult = yes
-		}
-		add = {
-			value = {
-				subtract = 20
-				if = {
-					limit = {
-						has_trait = pneumonic
-					}
-					subtract = 10
-				}
-				if = {
-					limit = {
-						has_trait = leper
-					}
-					subtract = 50
-				}
-				if = {
-					limit = {
-						has_trait = bubonic_plague
-					}
-					subtract = 50
-				}
-				if = {
-					limit = {
-						has_trait = wounded_3
-					}
-					subtract = 25
-				}
+	value = {
+		subtract = 20
+		if = {
+			limit = {
+				has_trait = pneumonic
 			}
-			desc = BMU_tooltip_feudal_elector_vote_myself_sick
-			format = "FF_VALUE_FORMAT"
+			subtract = 10
+		}
+		if = {
+			limit = {
+				has_trait = leper
+			}
+			subtract = 50
+		}
+		if = {
+			limit = {
+				has_trait = bubonic_plague
+			}
+			subtract = 50
+		}
+		if = {
+			limit = {
+				has_trait = wounded_3
+			}
+			subtract = 25
 		}
 	}
+	desc = BMU_tooltip_feudal_elector_vote_myself_sick
+	format = "FF_VALUE_FORMAT"
 }
 
 BMU_tooltip_feudal_elector_vote_myself_claimant = {
-	if = {
-		limit = {
-			this = scope:score_contender
-			scope:score_contender = {
-				OR = {
-					has_strong_claim_on = scope:title
-					has_weak_claim_on = scope:title
-				}
+	value = {
+		value = 30
+		if = {
+			limit = {
+				has_strong_claim_on = scope:title
 			}
-		}
-		add = {
-			value = {
-				value = 30
-				if = {
-					limit = {
-						has_strong_claim_on = scope:title
-					}
-					add = 30
-				}
-			}
-			desc = BMU_tooltip_feudal_elector_vote_myself_claimant
-			format = "FF_VALUE_FORMAT"
+			add = 30
 		}
 	}
+	desc = BMU_tooltip_feudal_elector_vote_myself_claimant
+	format = "FF_VALUE_FORMAT"
 }
 
 ##########################	Holder voting pattern	##########################

@@ -692,7 +692,7 @@ window = {
 								expand = {
 								}
 							}
-					 		#Stakeholders
+					 		#Supporters
 							vbox = {
 								visible = "[GetVariableSystem.HasValue('BMU_claim_window_tab','supporter')]"
 								margin_bottom = 10
@@ -768,7 +768,7 @@ window = {
 																# 	text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).AddScope('supporter_story',Scope.Story.MakeScope).ScriptValue('FF_BMU_supporter_diff_3')|0+V]"
 																# }
 																text_single = {
-																	
+																	text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).AddScope('contender',Scope.Var('contender').Var('stakeholder').Char.MakeScope).AddScope('top_contender',Scope.Var('top_contender').Var('stakeholder').Char.MakeScope).AddScope('player',GetPlayer.MakeScope).ScriptValue('BMU_score_diff')]"
 																}
 															}
 														}
@@ -1908,7 +1908,7 @@ template BMU_support_score_tooltip {
 					ignoreinvisible = yes
 					#Claim Target
 					flowcontainer = {
-						visible = "[And(Not(ObjectsEqual(Scope.Var('contender').Var('stakeholder').Char,Story.MakeScope.Var('pressed_claim_story').Var('claim_target').Char)),Not(ObjectsEqual(Scope.Var('top_contender').Var('stakeholder').Char,Story.MakeScope.Var('pressed_claim_story').Var('claim_target').Char)))]"
+						visible = "[Not(ObjectsEqual(Scope.Var('contender').Var('stakeholder').Char,Story.MakeScope.Var('claim_target').Char))]"
 						margin = { 10 5 }
 						direction = vertical
 
@@ -1935,67 +1935,89 @@ template BMU_support_score_tooltip {
 						}
 					}
 
-					# widget = {
-					# 	visible = "[Not( SuccessionElectionWindowElector.IsVoteForPlayer )]"
-					# 	size = { 5 0 }
-					# }
 					#Contender
-					# flowcontainer = {
-					# 	visible = "[Scope.Var('contender').IsSet]"
-					# 	margin = { 10 5 }
-					# 	direction = vertical
+					flowcontainer = {
+						margin = { 10 5 }
+						direction = vertical
 
-					# 	background = {
-					# 		using = Background_Area
-					# 	}
+						background = {
+							using = Background_Area
+						}
 
-					# 	text_multi = {
-					# 		autoresize = yes
-					# 		minimumsize = { 250 -1 }
-					# 		maximumsize = { 250 -1 }
-					# 		multiline = yes
-					# 		text = "BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_SUPPORTER_TT"
-					# 		fonttintcolor = "[TooltipInfo.GetTintColor]"
-					# 	}
+						text_multi = {
+							autoresize = yes
+							minimumsize = { 250 -1 }
+							maximumsize = { 250 -1 }
+							multiline = yes
+							text = "BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_CONTENDER_TT"
+							fonttintcolor = "[TooltipInfo.GetTintColor]"
+						}
 
-					# 	text_multi = {
-					# 		autoresize = yes
-					# 		minimumsize = { 250 -1 }
-					# 		maximumsize = { 350 -1 }
-					# 		multiline = yes
-					# 		fonttintcolor = "[TooltipInfo.GetTintColor]"
-					# 		text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).AddScope('gui_candidate',Scope.Var('contender').Var('stakeholder').Char.MakeScope).GetScriptValueDesc('gui_BMU_contender_score')]"
-					# 	}
-					# }
-					# #Player Pick
-					# flowcontainer = {
-					# 	visible = "[GetScriptedGui('BMU_contender_score_tooltip').IsShown(GuiScope.SetRoot(Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).AddScope('gui_candidate',Scope.Var('contender').Var('stakeholder').Char.MakeScope).End)]"
-					# 	margin = { 10 5 }
-					# 	direction = vertical
+						text_multi = {
+							autoresize = yes
+							minimumsize = { 250 -1 }
+							maximumsize = { 350 -1 }
+							multiline = no
+							fonttintcolor = "[TooltipInfo.GetTintColor]"
+							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',Scope.Var('contender').Var('stakeholder').Char.MakeScope).AddScope('score_supporter',Character.MakeScope).AddScope('holder',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('title',Story.MakeScope.Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
+						}
+					}
+					#Top Contender
+					flowcontainer = {
+						visible = "[Not(ObjectsEqual(Scope.Var('top_contender').Var('stakeholder').Char,Story.MakeScope.Var('claim_target').Char))]"
+						margin = { 10 5 }
+						direction = vertical
 
-					# 	background = {
-					# 		using = Background_Area
-					# 	}
+						background = {
+							using = Background_Area
+						}
 
-					# 	text_multi = {
-					# 		autoresize = yes
-					# 		minimumsize = { 250 -1 }
-					# 		maximumsize = { 250 -1 }
-					# 		multiline = yes
-					# 		text = "BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_PLAYER_CANDIDATE_TT"
-					# 		fonttintcolor = "[TooltipInfo.GetTintColor]"
-					# 	}
+						text_multi = {
+							autoresize = yes
+							minimumsize = { 250 -1 }
+							maximumsize = { 250 -1 }
+							multiline = yes
+							text = "BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_TOP_CONTENDER_TT"
+							fonttintcolor = "[TooltipInfo.GetTintColor]"
+						}
 
-					# 	text_multi = {
-					# 		autoresize = yes
-					# 		minimumsize = { 250 -1 }
-					# 		maximumsize = { 350 -1 }
-					# 		multiline = yes
-					# 		fonttintcolor = "[TooltipInfo.GetTintColor]"
-					# 		text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).AddScope('gui_candidate',GetPlayer.MakeScope).GetScriptValueDesc('gui_BMU_contender_score')]"
-					# 	}
-					# }
-					#Top Candidate
+						text_multi = {
+							autoresize = yes
+							minimumsize = { 250 -1 }
+							maximumsize = { 350 -1 }
+							multiline = no
+							fonttintcolor = "[TooltipInfo.GetTintColor]"
+							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',Scope.Var('top_contender').Var('stakeholder').Char.MakeScope).AddScope('score_supporter',Character.MakeScope).AddScope('holder',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('title',Story.MakeScope.Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
+						}
+					}
+					#Player Candidate
+					flowcontainer = {
+						visible = "[And(Not(ObjectsEqual(Scope.Var('top_contender').Var('stakeholder').Char,GetPlayer.Self)),Not(ObjectsEqual(Story.MakeScope.Var('claim_target').Char,GetPlayer.Self)))]"
+						margin = { 10 5 }
+						direction = vertical
+
+						background = {
+							using = Background_Area
+						}
+
+						text_multi = {
+							autoresize = yes
+							minimumsize = { 250 -1 }
+							maximumsize = { 250 -1 }
+							multiline = yes
+							text = "BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_PLAYER_CONTENDER_TT"
+							fonttintcolor = "[TooltipInfo.GetTintColor]"
+						}
+
+						text_multi = {
+							autoresize = yes
+							minimumsize = { 250 -1 }
+							maximumsize = { 350 -1 }
+							multiline = no
+							fonttintcolor = "[TooltipInfo.GetTintColor]"
+							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',GetPlayer.MakeScope).AddScope('score_supporter',Character.MakeScope).AddScope('holder',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('title',Story.MakeScope.Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
+						}
+					}
 				}
 
 				# text_multi = {
