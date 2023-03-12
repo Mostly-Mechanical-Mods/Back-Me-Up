@@ -41,8 +41,9 @@
 				trigger_if = {
 					limit = { has_variable = pressed_claim }
 					NOR = {
-						custom_tooltip = {
+						custom_description = {
 							text = BMU_too_late_to_join_pressed_claim
+							object = var:pressed_claim
 							var:pressed_claim = {
 								OR = {
 									var:phase = declaration_phase
@@ -120,7 +121,7 @@
 
 	# ai_frequency = 1
 
-	ai_potential = {
-		is_claimant = yes
-	}
+	# ai_potential = {
+	# 	is_claimant = yes
+	# }
 }

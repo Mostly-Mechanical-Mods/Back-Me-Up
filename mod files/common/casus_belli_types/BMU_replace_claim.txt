@@ -238,8 +238,8 @@
 		
 		run_interaction = {
 			interaction = BMU_press_claim_interaction
-			scope:actor = scope:attacker
-			scope:recipient = scope:defender
+			actor = scope:attacker
+			recipient = scope:defender
 			send_threshold = decline
 		}
 	}

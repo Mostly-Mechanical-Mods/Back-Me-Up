@@ -46,6 +46,10 @@
 							name = pressed_claim_gui
 							target = scope:pressed_claim
 						}
+						set_variable = {
+							name = pressed_claim_interaction
+							value = scope:pressed_claim
+						}
 					}
 				}
 				scope:pressed_claim = {

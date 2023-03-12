@@ -1,2 +1,3 @@
 ﻿gui/BMU_widgets.gui = BMU_claim_window
 gui/BMU_widgets.gui = BMU_claim_icon
+# gui/test.gui = test

@@ -34,8 +34,8 @@ BMU_bargain_title = {
 		trigger_if = {
 			limit = { NOT = { exists = scope:target }}
 			trigger_if = {
-				limit = { scope:actor = { has_variable = BMU_press_claim_interaction_AI }}
-				scope:actor.var:BMU_press_claim_interaction_AI = { save_temporary_scope_as = target }
+				limit = { scope:actor = { has_variable = BMU_press_claim_interaction_script }}
+				scope:actor.var:BMU_press_claim_interaction_script = { save_temporary_scope_as = target }
 			}
 			trigger_else_if = {
 				scope:actor = { is_ai = yes }

@@ -1,0 +1,128 @@
+﻿BMU_player_contender_score = {
+	category = interaction_category_pressed_claim
+	use_diplomatic_range = no
+	common_interaction = yes
+	ignores_pending_interaction_block = yes
+	interface_priority = -1
+	icon = bargain_council_position
+
+	desc = BMU_player_contender_score_desc
+
+	# auto_accept = yes
+
+	popup_on_receive = no
+	pause_on_receive = no
+	ignores_pending_interaction_block = yes
+	auto_accept = yes
+
+	redirect = {
+	}
+
+	populate_actor_list = {
+		scope:actor.var:pressed_claim_interaction = {
+			every_in_list = {
+				variable = BMU_pressed_claim_stakeholders
+				limit = { var:status = flag:contender }
+				story_owner = { add_to_list = characters }
+			}
+		}
+	}
+
+	populate_recipient_list = {
+		# scope:actor = { add_to_list = characters }
+		scope:actor = {
+			every_ally = {
+				add_to_list = characters
+			}
+		}
+		# 	every_relation = {
+		# 		type = friend
+		# 		limit = { is_landed = yes }
+		# 		add_to_list = characters
+		# 	}
+		# 	every_close_family_member = {
+		# 		limit = { is_landed = yes }
+		# 		add_to_list = characters
+		# 	}
+		# }
+		# scope:actor.var:pressed_claim_interaction = {
+		# 	every_in_list = {
+		# 		variable = BMU_pressed_claim_stakeholders
+		# 		limit = { var:status = flag:supporter }
+		# 		story_owner = {
+		# 			add_to_list = characters
+		# 			every_relation = {
+		# 				type = rival
+		# 				limit = { is_landed = yes }
+		# 				add_to_list = characters
+		# 			}
+		# 		}
+		# 	}
+		# }
+	}
+
+	is_shown = {
+		scope:actor = { has_variable = pressed_claim_interaction }
+		exists = scope:actor.var:pressed_claim_interaction
+		NOT = { scope:actor = scope:recipient }
+		scope:recipient = { is_landed = yes }
+		scope:actor = {
+			any_contender_story = {
+				var:pressed_claim_story = scope:actor.var:pressed_claim_interaction
+			}
+			OR = {
+				BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:recipient }
+				OR = {
+					scope:recipient = {
+						any_supporter_story = {
+							var:pressed_claim_story = scope:pressed_claim
+							count > 0
+						}
+					}
+					scope:recipient = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }}
+				}
+			}
+		}
+	}
+
+	
+	is_valid_showing_failures_only = {
+	}
+
+	can_send = {
+		always = no
+	}
+
+	on_send = {
+		scope:actor.var:pressed_claim_interaction = { save_scope_as = pressed_claim }
+	}
+	
+	on_accept = {
+		scope:actor = { add_gold = 10 }
+	}
+
+	
+	ai_accept = {
+		base = 1
+		modifier = {
+			trigger_if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+			}
+			trigger_if = {
+				limit = { exists = scope:pressed_claim }
+				scope:secondary_actor = { save_temporary_scope_as = candidate }
+				scope:pressed_claim.var:claim_target = { save_temporary_scope_as = holder }
+				scope:pressed_claim.var:claim_target = { save_temporary_scope_as = holder_candidate }
+				scope:pressed_claim.var:claimed_title = { save_temporary_scope_as = title }
+			}
+			add = 0
+		}
+		BMU_elector_self_voting_pattern_feudal_elective_modifier = yes
+		BMU_holder_voting_pattern_feudal_elective_modifier = yes
+		BMU_elector_voting_pattern_circumstances_feudal_elective_modifier = yes
+		BMU_elector_voting_pattern_prestige_piety_feudal_elective_modifier = yes
+		BMU_elector_voting_pattern_traits_feudal_elective_modifier = yes
+		BMU_elector_voting_pattern_opinion_feudal_elective_modifier = yes
+	}
+}

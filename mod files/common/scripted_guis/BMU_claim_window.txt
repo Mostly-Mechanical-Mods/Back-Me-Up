@@ -631,3 +631,18 @@ BMU_bargain_for_council_position = {
 # 		remove_variable = bargain_for_contender_select
 # 	}
 # }
+
+
+BMU_contender_score_tooltip = {
+	scope = character
+	saved_scopes = {
+		pressed_claim
+		claim_target
+		claimed_title
+		supporter
+		gui_candidate
+	}
+	is_shown = {
+		
+	}
+}

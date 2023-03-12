@@ -1,0 +1,15 @@
+﻿ShortName = {
+	type = character
+	random_valid = no
+
+	text = {
+		trigger = {	
+			is_player = no
+		}
+		localization_key = BMU_ShortName_AI
+	}
+	text = {
+		localization_key = BMU_ShortName
+	}
+}
+

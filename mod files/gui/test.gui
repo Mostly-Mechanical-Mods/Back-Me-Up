@@ -1,0 +1,36 @@
+window = {
+	name = "test"
+	widgetid = "test"
+	parentanchor = center
+	size = { 1000 750 }
+	position = { 0 0 }
+	layer = windows_layer
+	filter_mouse = all
+	alwaystransparent = no
+
+	# visible = "[GetVariableSystem.Exists('BMU_claim_window')]"
+	
+	using = Background_Fade
+	using = Window_Background_Popup
+
+
+	
+	margin_widget = {
+		size = { 100% 100% }
+		margin = { 0 5 }
+		# # margin_right = 13
+
+		widget = {
+			size = { 100% 100% }
+			vbox = {
+				text_single = {
+					text = "[GuiScope.SetRoot(GetTitleByKey('k_france').GetHolder.MakeScope).AddScope('test_char',GetTitleByKey('k_lotharingia').GetHolder.MakeScope).AddScope('test_title',GetTitleByKey('k_lotharingia').MakeScope).ScriptValue('test_value')]"
+					tooltip = "[GuiScope.SetRoot(GetTitleByKey('k_france').GetHolder.MakeScope).AddScope('test_char',GetTitleByKey('k_lotharingia').GetHolder.MakeScope).AddScope('test_title',GetTitleByKey('k_lotharingia').MakeScope).GetScriptValueDesc('test_value')]"
+				}
+				text_single = {
+					text = "test"
+				}
+			}
+		}
+	}
+}

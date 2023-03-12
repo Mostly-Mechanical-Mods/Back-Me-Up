@@ -72,9 +72,11 @@ BMU_have_unique_common_pressed_claim = {
 	global_not = BMU_SEVERAL_COMMON_PRESSED_CLAIM
 }
 
-# BMU_too_late_to_join_pressed_claim = {
-# 	global = BMU_TOO_LATE_TO_JOIN_PRESSED_CLAIM
-# }
+BMU_too_late_to_join_pressed_claim = {
+	first = BMU_TOO_LATE_TO_JOIN_PRESSED_CLAIM
+	third = BMU_TOO_LATE_TO_JOIN_PRESSED_CLAIM
+	global = BMU_TOO_LATE_TO_JOIN_PRESSED_CLAIM
+}
 
 BMU_involved_in_another_pressed_claim = {
 	global = BMU_INVOLVED_IN_ANOTHER_PRESSED_CLAIM

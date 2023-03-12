@@ -1,0 +1,30 @@
+﻿test_value = {
+	if = {
+		limit = { this = scope:test_char }
+		add = {
+			value = 1
+			desc = test_1
+		}
+	}
+	if = {
+		limit = { NOT = { this = scope:test_char }}
+		add = {
+			value = 10
+			desc = test_2
+		}
+	}
+	if = {
+		limit = { has_title = scope:test_title }
+		add = {
+			value = 100
+			desc = test_3
+		}
+	}
+	if = {
+		limit = { NOT = { has_title = scope:test_title }}
+		add = {
+			value = 1000
+			desc = test_4
+		}
+	}
+}

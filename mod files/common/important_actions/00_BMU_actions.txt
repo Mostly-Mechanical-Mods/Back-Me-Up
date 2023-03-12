@@ -1,0 +1,307 @@
+﻿# ### DECLARE WAR
+
+# action_can_join_pressed_claim = {
+# 	priority = 600
+# 	combine_into_one = no
+# 	icon = generic_reactive_advice
+# 	check_create_action = {
+# 		if = {
+# 			limit = {
+# 				is_claimant = yes
+# 			}
+# 			every_claim = {
+# 				limit = {
+# 					exists = holder
+# 					save_temporary_scope_as = claimed_title
+# 					holder = {
+# 						any_pressed_claim = {
+# 							var:claimed_title = scope:claimed_title
+# 							save_temporary_scope_as = pressed_claim
+# 							root = {
+# 								any_contender_story = {
+# 									var:pressed_claim_story = scope:pressed_claim
+# 									count = 0
+# 								}
+# 							}
+# 						}
+# 					}
+# 				}
+# 				save_scope_as = claimed_title
+# 				try_create_important_action = {
+# 					important_action_type = action_can_join_pressed_claim
+# 					actor = root
+# 					recipient = holder
+# 					landed_title = this
+# 				}
+# 			}
+# 		}
+# 	}
+
+# 	unimportant = {
+# 	}
+
+# 	effect = {
+# 		open_interaction_window = {
+# 			interaction = BMU_press_claim_interaction
+# 			actor = scope:actor
+# 			recipient = scope:recipient
+# 			target_title = scope:claimed_title
+# 		}
+# 	}
+# }
+
+# action_can_see_pressed_claim = {
+# 	type = action
+# 	priority = 600
+# 	combine_into_one = yes
+# 	icon = generic_reactive_advice
+# 	check_create_action = {
+# 		every_pretender_title = {
+# 			limit = {
+# 				exists = holder
+# 				has_variable = pressed_claim
+# 				var:pressed_claim = { root = { NOT = { is_target_in_variable_list = { name = pressed_claim_gui target = prev }}}}
+# 			}
+# 			try_create_important_action = {
+# 				important_action_type = action_can_see_pressed_claim
+# 				actor = root
+# 				recipient = this.holder
+# 				landed_title = this
+# 			}
+# 		}
+# 		every_claim = {
+# 			limit = {
+# 				exists = holder
+# 				has_variable = pressed_claim
+# 				var:pressed_claim = { root = { NOT = { is_target_in_variable_list = { name = pressed_claim_gui target = prev }}}}
+# 			}
+# 			try_create_important_action = {
+# 				important_action_type = action_can_see_pressed_claim
+# 				actor = root
+# 				recipient = this.holder
+# 				landed_title = this
+# 			}
+# 		}
+# 		every_ally = {
+# 			limit = { any_pressed_claim = { root = { NOT = { is_target_in_variable_list = { name = pressed_claim_gui target = prev }}} count > 0 }}
+# 			every_pressed_claim = {
+# 				try_create_important_action = {
+# 					important_action_type = action_can_see_pressed_claim
+# 					actor = root
+# 					recipient = var:claim_target
+# 					landed_title = var:claimed_title
+# 				}
+# 			}
+# 		}
+# 		every_close_family_member = {
+# 			limit = { any_pressed_claim = { root = { NOT = { is_target_in_variable_list = { name = pressed_claim_gui target = prev }}} count > 0 }}
+# 			every_pressed_claim = {
+# 				try_create_important_action = {
+# 					important_action_type = action_can_see_pressed_claim
+# 					actor = root
+# 					recipient = var:claim_target
+# 					landed_title = var:claimed_title
+# 				}
+# 			}
+# 		}
+# 		every_relation = {
+# 			type = friend
+# 			limit = { any_pressed_claim = { root = { NOT = { is_target_in_variable_list = { name = pressed_claim_gui target = prev }}} count > 0 }}
+# 			every_pressed_claim = {
+# 				try_create_important_action = {
+# 					important_action_type = action_can_join_pressed_claim
+# 					actor = root
+# 					recipient = var:claim_target
+# 					landed_title = var:claimed_title
+# 				}
+# 			}
+# 		}
+# 		every_relation = {
+# 			type = lover
+# 			limit = { any_pressed_claim = { root = { NOT = { is_target_in_variable_list = { name = pressed_claim_gui target = prev }}} count > 0 }}
+# 			every_pressed_claim = {
+# 				try_create_important_action = {
+# 					important_action_type = action_can_join_pressed_claim
+# 					actor = root
+# 					recipient = var:claim_target
+# 					landed_title = var:claimed_title
+# 				}
+# 			}
+# 		}
+# 		every_relation = {
+# 			type = rival
+# 			limit = { any_pressed_claim = { root = { NOT = { is_target_in_variable_list = { name = pressed_claim_gui target = prev }}} count > 0 }}
+# 			every_pressed_claim = {
+# 				try_create_important_action = {
+# 					important_action_type = action_can_join_pressed_claim
+# 					actor = root
+# 					recipient = var:claim_target
+# 					landed_title = var:claimed_title
+# 				}
+# 			}
+# 		}
+# 		if = {
+# 			limit = { dynasty.dynast = this }
+# 			dynasty = {
+# 				every_dynasty_member = {
+# 					limit = { any_pressed_claim = { root = { NOT = { is_target_in_variable_list = { name = pressed_claim_gui target = prev }}} count > 0 }}
+# 					every_pressed_claim = {
+# 						try_create_important_action = {
+# 							important_action_type = action_can_join_pressed_claim
+# 							actor = root
+# 							recipient = var:claim_target
+# 							landed_title = var:claimed_title
+# 						}
+# 					}
+# 				}
+# 			}
+# 		}
+# 		if = {
+# 			limit = { house.house_head = this }
+# 			house = {
+# 				every_house_member = {
+# 					limit = { any_pressed_claim = { root = { NOT = { is_target_in_variable_list = { name = pressed_claim_gui target = prev }}} count > 0 }}
+# 					every_pressed_claim = {
+# 						try_create_important_action = {
+# 							important_action_type = action_can_join_pressed_claim
+# 							actor = root
+# 							recipient = var:claim_target
+# 							landed_title = var:claimed_title
+# 						}
+# 					}
+# 				}
+# 			}
+# 		}
+# 	}
+
+# 	unimportant = {
+# 	}
+
+# 	effect = {
+# 		open_interaction_window = {
+# 			interaction = BMU_see_pressed_claim_interaction
+# 			actor = scope:actor
+# 			recipient = scope:actor
+# 			secondary_actor = scope:recipient
+# 			target_title = scope:landed_title
+# 		}
+# 	}
+# }
+
+# action_request_support_in_pressed_claim = {
+# 	priority = 600
+# 	combine_into_one = no
+# 	icon = generic_reactive_advice
+# 	check_create_action = {
+# 		if = {
+# 			limit = {
+# 				any_contender_story = { count > 0 }
+# 			}
+# 			# every_ally = {
+# 			# 	add_to_list = supporters
+# 			# }
+# 			# every_close_family_member = {
+# 			# 	add_to_list = supporters
+# 			# }
+# 			# every_relation = {
+# 			# 	type = friend
+# 			# 	add_to_list = supporters
+# 			# }
+# 			# every_relation = {
+# 			# 	type = lover
+# 			# 	add_to_list = supporters
+# 			# }
+# 			every_contender_story = {
+# 				var:pressed_claim_story = { save_scope_as = pressed_claim }
+# 				var:pressed_claim_story.var:claim_target = {
+# 					every_vassal = {
+# 						limit = {
+# 							BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim }
+# 							root = {
+# 								is_character_interaction_potentially_accepted = {
+# 									recipient = prev
+# 									interaction = BMU_call_in_supporter_interaction_v2
+# 								}
+# 							}
+# 						}
+# 						try_create_important_action = {
+# 							important_action_type = action_request_support_in_pressed_claim
+# 							actor = root
+# 							recipient = this
+# 							landed_title = scope:pressed_claim.var:claimed_title
+# 						}
+# 					}
+# 				}
+# 				# every_in_list = {
+# 				# 	variable = BMU_pressed_claim_stakeholders
+# 				# 	limit = { NOT = { story_owner = root }}
+# 				# 	story_owner = {
+# 				# 		every_relation = {
+# 				# 			type = rival
+# 				# 			add_to_list = supporters
+# 				# 		}
+# 				# 	}
+# 				# }
+# 			}
+# 			# ordered_pressed_claim = {
+# 			# 	order_by = var:claimed_title.tier
+# 			# 	save_scope_as = pressed_claim
+# 			# 	ordered_in_list = {
+# 			# 		list = supporter
+# 			# 		limit = {
+# 			# 			is_landed = yes
+# 			# 			root = {
+# 			# 				is_character_interaction_valid = {
+# 			# 					recipient = scope:supporter
+# 			# 					interaction = BMU_call_in_supporter_interaction
+# 			# 				}
+# 			# 			}
+# 			# 		}
+# 			# 		try_create_important_action = {
+# 			# 			important_action_type = action_request_support_in_pressed_claim
+# 			# 			actor = root
+# 			# 			recipient = this
+# 			# 			landed_title = scope:pressed_claim.var:claimed_title
+# 			# 		}
+# 			# 		remove_from_list = supporter
+# 			# 	}
+# 			# }
+# 			# ordered_contender_story = {
+# 			# 	limit = { NOT = { var:pressed_claim_story.var:claim_target = root }}
+# 			# 	order_by = var:pressed_claim_story.var:claimed_title.tier
+# 			# 	var:pressed_claim_story.var:claimed_title = { save_scope_as = claimed_title }
+# 			# 	ordered_in_list = {
+# 			# 		list = supporter
+# 			# 		limit = {
+# 			# 			is_landed = yes
+# 			# 			root = {
+# 			# 				is_character_interaction_valid = {
+# 			# 					recipient = scope:supporter
+# 			# 					interaction = BMU_call_in_supporter_interaction
+# 			# 				}
+# 			# 			}
+# 			# 		}
+# 			# 		try_create_important_action = {
+# 			# 			important_action_type = action_request_support_in_pressed_claim
+# 			# 			actor = root
+# 			# 			recipient = this
+# 			# 			landed_title = scope:claimed_title
+# 			# 		}
+# 			# 		remove_from_list = supporter
+# 			# 	}
+# 			# }
+# 		}
+# 	}
+
+# 	unimportant = {
+# 	}
+
+# 	effect = {
+# 		open_interaction_window = {
+# 			interaction = BMU_call_in_supporter_interaction_v2
+# 			actor = scope:actor
+# 			recipient = scope:recipient
+# 			# target_title = scope:landed_title
+# 		}
+# 	}
+# }
