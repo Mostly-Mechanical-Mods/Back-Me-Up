@@ -1,0 +1,47 @@
+﻿l_english:
+
+# Interactions
+
+BMU_RECIPIENT_BECOMES_SUPPORTER: "BMU_RECIPIENT_BECOMES_SUPPORTER"
+BMU_contender_negotiate_support_interaction_desc: "BMU_contender_negotiate_support_interaction_desc"
+
+# Character Interactions
+
+# interaction_category_pressed_claim: "[SelectLocalization(GetPlayer.MakeScope.Var('pressed_claim_interaction').IsSet,'Pressed Claim','Pressed Claim on [GetPlayer.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.GetBaseName]')]"
+interaction_category_pressed_claim: "Pressed Claim"
+
+
+BMU_call_in_supporter_interaction: "Request Support"
+BMU_call_in_supporter_interaction_desc: "Call on [recipient.GetShortUINameNoTooltip] to support your claim on the [GetPlayer.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.GetName]\n#help [AddTextIf(GreaterThan_int32(GetDataModelSize(GetPlayer.MakeScope.GetList('pressed_claim_gui')),'(int32)0'),'You are involved in several Pressed Claims.\nRight-click on Pressed Claim icons to select another one to bargain for.')]#!"
+
+BMU_see_pressed_claim_interaction: "See Pressed Claim"
+actor_secondary_BMU_see_pressed_claim_interaction: "Claim Target"
+actor_secondary_BMU_call_in_supporter_interaction_v2: "Claim Target"
+
+actor_BMU_call_in_supporter_interaction: "Contender"
+recipient_BMU_call_in_supporter_interaction: "Supporter"
+actor_secondary_BMU_call_in_supporter_interaction: "Claim Target"
+recipient_secondary_BMU_call_in_supporter_interaction: "Favorite Contender"
+
+
+BMU_modifier_tooltip_recipient_likes_secondary_recipient: "[secondary_recipient.GetShortUINameNoTooltip] is a worthy Contender: $VALUE|+0$"
+BMU_modifier_tooltip_recipient_prefers_secondary_recipient: "[secondary_recipient.GetShortUINameNoTooltip] is a better Contender: $VALUE|+0$"
+BMU_modifier_tooltip_recipient_likes_secondary_actor: "[secondary_actor.GetShortUINameNoTooltip] is a worthy Contender: $VALUE|+0$"
+BMU_modifier_tooltip_recipient_prefers_secondary_actor: "[secondary_actor.GetShortUINameNoTooltip] is a better Contender: $VALUE|+0$"
+
+# Press Claim interaction
+
+BMU_press_claim_interaction: "Press Claim"
+BMU_press_claim_interaction_desc: "#DEBUG BMU_press_claim_interaction_desc#!"
+BMU_press_claim_interaction_notification: "The time has come to recognize my claim as the rightful ruler of [target.GetBaseNameNoTierNoTooltip]."
+
+BMU_call_in_supporter_interaction_notification: "#DEBUG BMU_call_in_supporter_interaction_notification#!"
+
+
+BMU_bargain_with_council_position_interaction: "Promise Council Appointment"
+BMU_bargain_with_council_position_interaction_desc: "Offer [recipient.GetShortUINameNoTooltip] a Council Position in exchange for [recipient.GetHerHis] support"
+BMU_bargain_council_position_interaction_option: "Promised Council Position:"
+BMU_bargain_council_position_interaction_option_chancellor: "@skill_diplomacy_icon! [chancellor|E]"
+BMU_bargain_council_position_interaction_option_steward: "@skill_stewardship_icon! [steward|E]"
+BMU_bargain_council_position_interaction_option_marshal: "@skill_martial_icon! [marshal|E]"
+BMU_bargain_council_position_interaction_option_spymaster: "@skill_intrigue_icon! [spymaster|E]"

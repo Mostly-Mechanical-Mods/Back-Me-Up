@@ -1,12 +1,15 @@
 ﻿BMU_call_in_supporter_interaction = {
-	category = interaction_category_pressed_claim
+	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
 	ignores_pending_interaction_block = yes
 	interface_priority = -1
-	icon = bargain_council_position
+	icon = icon_claim_pressed
 
 	desc = BMU_call_in_supporter_interaction_desc
+
+	greeting = positive
+	notification_text = BMU_call_in_supporter_interaction_notification
 
 	auto_accept = no
 	ai_min_reply_days = 4
@@ -16,6 +19,8 @@
 	pause_on_receive = yes
 	can_send_despite_rejection = no
 	ignores_pending_interaction_block = no
+
+	
 
 	redirect = {
 		scope:actor = {
@@ -37,9 +42,8 @@
 						}
 						scope:pressed_claim = {
 							ordered_in_list = {
-								variable = BMU_pressed_claim_stakeholders
+								variable = contenders
 								limit = {
-									var:status = flag:contender
 									NOR = {
 										story_owner = scope:actor
 										story_owner = scope:secondary_actor
@@ -85,12 +89,11 @@
 						count > 0
 					}
 				}
-				BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:recipient }
+				BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:recipient PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }
 				scope:recipient = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }}
 			}
 		}
 	}
-
 	
 	is_valid_showing_failures_only = {
 		scope:recipient = {
@@ -101,6 +104,23 @@
 					count = 0
 				}
 			}
+			trigger_if = {
+				limit = {
+					NAND = {
+						exists = joined_faction
+						joined_faction = {
+							faction_is_type = claimant_faction
+							faction_target = scope:secondary_actor
+							special_title = scope:actor.var:pressed_claim_interaction.var:claimed_title
+							special_character = scope:actor
+						}
+					}
+				}
+				# custom_tooltip = {
+				# 	text = BMU_pressed_claim_contention_phase
+				# 	NOT = { scope:actor.var:pressed_claim_interaction.var:phase = flag:contention_phase }
+				# }
+			}
 		}
 	}
 
@@ -108,11 +128,20 @@
 	}
 
 	on_send = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_call_in_supporter_interaction on_send"
+			debug_log_scopes = yes
+		}
 		scope:actor.var:pressed_claim_interaction = { save_scope_as = pressed_claim }
 	}
 	
 	on_accept = {
-		
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_call_in_supporter_interaction on_accept"
+			debug_log_scopes = yes
+		}
 		if = {
 			limit = { NOT = { exists = scope:pressed_claim }}
 			scope:actor.var:pressed_claim_interaction = { save_scope_as = pressed_claim }
@@ -172,7 +201,7 @@
 			}
 			scope:recipient = {
 				create_story = {
-					type = BMU_stakeholder_story
+					type = BMU_supporter_story
 					save_scope_as = supporter
 				}
 				if = {
@@ -207,12 +236,17 @@
 								target = scope:pressed_claim
 							}
 						}
+						BMU_calc_best_contenders = { PRESSED_CLAIM = scope:pressed_claim }
 					}
 					scope:pressed_claim = {
 						add_to_variable_list = {
 							name = BMU_stakeholder_stories
 							target = scope:supporter
 						}
+					}
+					random_stakeholder_story = {
+						limit = { var:pressed_claim_story = scope:pressed_claim }
+						end_story = yes
 					}
 				}
 			}
@@ -257,30 +291,12 @@
 							name = contender
 							value = scope:contender
 						}
+						BMU_calc_best_contenders = { PRESSED_CLAIM = scope:pressed_claim }
 					}
 					scope:pressed_claim = {
 						add_to_variable_list = {
-							name = BMU_pressed_claim_stakeholders
+							name = supporters
 							target = scope:supporter
-						}
-						ordered_in_list = {
-							variable = BMU_pressed_claim_stakeholders
-							limit = {
-								var:status = flag:contender
-								NOR = { story_owner = scope:actor }
-							}
-							order_by = {
-								story_owner = {
-									save_temporary_scope_as = score_contender
-									scope:recipient = { add = BMU_contender_score }}
-								min = 0
-							}
-							scope:supporter = {
-								set_variable = {
-									name = top_contender
-									value = prev
-								}
-							}
 						}
 					}
 				}
@@ -476,10 +492,7 @@
 				scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
 			}
 			trigger_if = {
-				limit = {
-					exists = scope:pressed_claim
-				
-				}
+				limit = { exists = scope:pressed_claim }
 				scope:pressed_claim.var:claimed_title = { save_temporary_scope_as = target }
 			}
 			save_temporary_scope_as = score_supporter
@@ -543,19 +556,80 @@
 			add = { subtract = scope:top_contender_score }
 			desc = BMU_modifier_tooltip_recipient_prefers_secondary_actor
 		}
-		BMU_actor_contender_score = yes
+
+		modifier = {
+			add = BMU_contender_score_gui
+			desc = "[GuiScope.SetRoot(recipient.MakeScope).AddScope('score_contender',actor.MakeScope).AddScope('score_supporter',recipient.MakeScope).AddScope('claim_target',secondary_actor.MakeScope).AddScope('holder_candidate',secondary_actor.MakeScope).AddScope('claimed_title',actor.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
+		}
 	}
 
 	ai_will_do = {
-		base = 0
-		# BMU_bargain_setup = yes
-
+		base = 100
+		modifier = {
+			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+			add = 0
+		}
+		modifier = {
+			scope:actor = {
+				any_contender_story = {
+					var:pressed_claim_story = scope:pressed_claim
+					save_temporary_scope_as = actor_contender
+				}
+			}
+			scope:recipient = {
+				any_supporter_story = {
+					var:pressed_claim_story = scope:pressed_claim
+					var:contender = { save_temporary_scope_as = recipient_contender }
+				}
+			}
+			add = 0
+		}
+		# modifier = {
+		# 	add = {
+		# 		value = 1
+		# 		subtract = 
+		# 	}
+		# }
+		modifier = {
+			add = scope:recipient.max_military_strength
+		}
+		modifier = {
+			exists = scope:recipient_contender
+			scope:recipient_contender.var:confidence_score > scope:actor_contender.var:confidence_score
+			factor = 2
+		}
 	}
+
+	ai_targets = {
+		ai_recipients = liege
+	}
+
+	ai_targets = {
+		ai_recipients = scripted_relations
+	}
+
+	ai_targets = {
+		ai_recipients = vassals
+		max = 10
+	}
+
+	ai_targets = {
+		ai_recipients = family
+		max = 10
+	}
+
+	ai_potential = {
+		any_contender_story = {
+			count > 0
+		}
+	}
+
+	ai_frequency = 1
 }
 
 BMU_call_in_supporter_interaction_v2 = {
 	hidden = yes
-	category = interaction_category_pressed_claim
+	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
 	ignores_pending_interaction_block = yes
@@ -586,7 +660,7 @@ BMU_call_in_supporter_interaction_v2 = {
 					save_scope_as = secondary_actor
 				}
 				else_if = {
-					limit = { has_variable = pressed_claim_interaction}
+					limit = { has_variable = pressed_claim_interaction }
 					var:pressed_claim_interaction.story_owner = { save_scope_as = secondary_actor }
 				}
 			}
@@ -604,9 +678,8 @@ BMU_call_in_supporter_interaction_v2 = {
 				scope:actor.var:pressed_claim_interaction = {
 					save_scope_as = pressed_claim
 					ordered_in_list = {
-						variable = BMU_pressed_claim_stakeholders
+						variable = contenders
 						limit = {
-							var:status = flag:contender
 							NOR = {
 								story_owner = scope:actor
 								story_owner = scope:secondary_actor
@@ -722,6 +795,16 @@ BMU_call_in_supporter_interaction_v2 = {
 					count = 0
 				}
 			}
+			NOT = {
+				custom_description = {
+					text = BMU_already_support_contender
+					subject = scope:recipient
+					object = scope:actor
+					any_supporter_story = {
+						var:contender.story_owner = scope:actor
+					}
+				}
+			}
 		}
 	}
 
@@ -791,7 +874,7 @@ BMU_call_in_supporter_interaction_v2 = {
 						}
 						scope:pressed_claim = {
 							add_to_variable_list = {
-								name = BMU_stakeholder_stories
+								name = stakeholders
 								target = scope:supporter
 							}
 						}
@@ -840,7 +923,7 @@ BMU_call_in_supporter_interaction_v2 = {
 						}
 						scope:pressed_claim = {
 							add_to_variable_list = {
-								name = BMU_pressed_claim_stakeholders
+								name = supporters
 								target = scope:supporter
 							}
 						}
@@ -1180,7 +1263,7 @@ BMU_call_in_supporter_interaction_v2 = {
 
 	ai_accept = {
 		base = 0
-		BMU_actor_contender_score = yes
+		# BMU_actor_contender_score = yes
 	}
 
 	ai_will_do = {

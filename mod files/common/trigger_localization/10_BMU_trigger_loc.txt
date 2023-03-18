@@ -103,3 +103,9 @@ BMU_supporter_in_pressed_claim = {
 	third = BMU_THEY_ARE_SUPPORTER_IN_PRESSED_CLAIM
 	global = BMU_SUPPORTER_IN_PRESSED_CLAIM
 }
+
+BMU_already_support_contender = {
+	first = BMU_I_ALREADY_SUPPORT_CONTENDER
+	third = BMU_THEY_ALREADY_SUPPORT_CONTENDER
+	global = BMU_ALREADY_SUPPORT_CONTENDER
+}

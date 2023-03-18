@@ -15,5 +15,6 @@ BMU_compat = {
 			name = mods_loaded
 			target = global_var:BMU_is_loaded
 		}
+		set_global_variable = boolean
 	}
 }

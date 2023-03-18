@@ -1,20 +1,94 @@
-﻿bargain_min = {
-	value = 5
-	add = {
-		value = 5
-		multiply = {
-			add = 100
-			subtract = scope:story.story_owner.ai_energy
-			divide = 100
+﻿BMU_contender_mil_strength = {
+	value = max_military_strength
+	if = {
+		limit = {
+			exists = scope:pressed_claim
+			save_temporary_scope_as = temp_contender
+		}
+		scope:pressed_claim = {
+			every_in_list = {
+				variable = supporters
+				limit = { var:contender.story_owner = scope:temp_contender }
+				add = story_owner.max_military_strength
+			}
 		}
 	}
-	min = 1
 }
 
-bargain_max = {
-	value = bargain_min
-	add = 10
+BMU_confidence = {
+	if = { limit = { save_temporary_scope_as = PoV }}
+	add = story_owner.BMU_contender_mil_strength
+	divide = {
+		scope:pressed_claim = {
+			ordered_in_list = {
+				variable = contenders
+				limit = { NOT = { this = scope:PoV }}
+				order_by = story_owner.BMU_contender_mil_strength
+				position = 0
+				add = story_owner.BMU_contender_mil_strength
+			}
+		}
+		min = 1
+	}
 }
+
+FF_confidence_mod = {
+	value = {
+		if = {
+			limit = {
+				save_temporary_scope_as = temp_supporter
+				trigger_if = {
+					limit = { NOT = { exists = scope:pressed_claim }}
+					var:pressed_claim_story = { save_temporary_scope_as = pressed_claim }
+				}
+			}
+		}
+		scope:player_contender.story_owner = { add = FF_BMU_contender_mil_strength }
+		story_owner = { add = max_military_strength }
+		divide = {
+			scope:pressed_claim = {
+				ordered_in_list = {
+					variable = contenders
+					limit = { NOT = { story_owner = scope:player_contender.story_owner }}
+					order_by = {
+						story_owner = { add = FF_BMU_contender_mil_strength }
+						if = {
+							limit = {
+								is_target_in_variable_list = {
+									name = supporters
+									target = scope:supporter_story
+								}
+							}
+							scope:supporter_story.story_owner = { subtract = max_military_strength }
+						}
+					}
+					position = 0
+					story_owner = { add = FF_BMU_contender_mil_strength }
+					if = {
+						limit = {
+							is_target_in_variable_list = {
+								name = supporters
+								target = scope:supporter_story
+							}
+						}
+						scope:supporter_story.story_owner = { subtract = max_military_strength }
+					}
+				}
+			}
+			min = 1
+		}
+		scope:player_contender.story_owner = {
+			subtract = {
+				add = FF_confidence
+				# multiply = 100
+			}
+		}
+		multiply = 100
+		max = 100
+	}
+	desc = "BMU_supporter_bargaining_power"
+}
+
 
 BMU_neg_contender_score = {
 	subtract = BMU_contender_score

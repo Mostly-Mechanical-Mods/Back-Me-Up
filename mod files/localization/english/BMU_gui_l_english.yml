@@ -1,0 +1,42 @@
+﻿l_english:
+
+# Succession Window
+
+  CLAIMANT_FACTION_WINDOW_TITLE: "Claim for the [SuccessionElectionWindow.GetTitle.GetName]"
+  CLAIMANT_FACTION_WINDOW_LAW: "Faction members use their influence to legitimize their favorite claimant"
+  CLAIMANT_FACTION_WINDOW_RULES_ELECTORS: "Independent ruler Claimants may try to intervene"
+  CLAIMANT_FACTION_WINDOW_RULES_CANDIDATES: "A Claimant with enough support might challenge the current ruler"
+  CLAIMANT_FACTION_WINDOW_CANDIDATES: "Claimants ([GetDataModelSize( SuccessionElectionWindow.GetCandidates.GetList )])"
+  CLAIMANT_FACTION_WINDOW_ELECTORS: "Supporters ([GetDataModelSize( SuccessionElectionWindow.GetElectors.GetList )])"
+
+  VANILLA_SUCCESSION_ELECTION_WINDOW_TITLE:1 "Election for the [title_heir|E]"
+  VANILLA_SUCCESSION_ELECTION_WINDOW_LAW:0 "Succession Law: [SuccessionElectionWindow.GetSuccessionLaw.GetName]"
+  VANILLA_SUCCESSION_ELECTION_WINDOW_RULES_ELECTORS:0 "Electors: #bold [SuccessionElectionWindow.GetElectorsGrouping|E]#!"
+  VANILLA_SUCCESSION_ELECTION_WINDOW_RULES_CANDIDATES:0 "Candidates: #bold [SuccessionElectionWindow.GetCandidatesGrouping|E]#!"
+  VANILLA_SUCCESSION_ELECTION_WINDOW_CANDIDATES:2 "Candidates ([GetDataModelSize( SuccessionElectionWindow.GetCandidates.GetList )])"
+  VANILLA_SUCCESSION_ELECTION_WINDOW_ELECTORS:2 "Electors ([GetDataModelSize( SuccessionElectionWindow.GetElectors.GetList )])"
+
+# Claim Window
+
+BMU_CLAIM_WINDOW_TITLE: "Claim for the [Title.GetName]"
+BMU_CLAIM_WINDOW_CONTENDERS: "Contenders"
+BMU_CLAIM_WINDOW_TOP_CONTENDER: "[Concept('contender','Top Contender')|E]"
+BMU_CLAIM_WINDOW_SUPPORTERS: "Supporters"
+BMU_CLAIM_WINDOW_CLAIMANTS: "Claimants"
+BMU_CLAIM_WINDOW_STAKEHOLDERS: "Stakeholders"
+BMU_CLAIM_WINDOW_SUPPORTER_COUNT: "Supporters: #high [GuiScope.SetRoot(Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('FF_BMU_contender_supporter_count')|0] #!"
+
+BMU_CLAIM_WINDOW_TARGET: "Claim Target"
+BMU_CLAIM_WINDOW_STRONGEST_CONTENDER: "Strongest Contender"
+
+BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_TARGET_TT:1 "#T Claim Target\n[Story.MakeScope.Var('claim_target').Char.GetShortUINameNoTooltip]: [GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('score_supporter',Scope.Var('stakeholder').Char.MakeScope).AddScope('candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).ScriptValue('BMU_contender_score_gui')|+=0]#!"
+
+BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_CONTENDER_TT:1 "#T Preferred Contender\n[Scope.Var('contender').Var('stakeholder').Char.GetShortUINameNoTooltip]: [GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',Scope.Var('contender').Var('stakeholder').Char.MakeScope).AddScope('score_supporter',Scope.Var('stakeholder').Char.MakeScope).AddScope('candidate',Scope.Var('contender').Var('stakeholder').Char.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).ScriptValue('BMU_contender_score_gui')|+=0]#!"
+
+BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_TOP_CONTENDER_TT: "#T Worthy Contender\n[Scope.Var('top_contender').Var('stakeholder').Char.GetShortUINameNoTooltip]: [GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',Scope.Var('top_contender').Var('stakeholder').Char.MakeScope).AddScope('score_supporter',Scope.Var('stakeholder').Char.MakeScope).AddScope('candidate',Scope.Var('top_contender').Var('stakeholder').Char.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).ScriptValue('BMU_contender_score_gui')|+=0]#!"
+
+BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_PLAYER_CONTENDER_TT: "#T Not Supporting\n[GetPlayer.GetShortUINameNoTooltip]: [GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',GetPlayer.MakeScope).AddScope('score_supporter',Scope.Var('stakeholder').Char.MakeScope).AddScope('candidate',GetPlayer.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).ScriptValue('BMU_contender_score_gui')|+=0]#!"
+
+BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_BEST_CONTENDER_TT: "#T Not Supporting\n[Scope.Var('best_contender').Char.GetShortUINameNoTooltip]: [GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',Scope.Var('best_contender').Char.MakeScope).AddScope('score_supporter',Scope.Var('stakeholder').Char.MakeScope).AddScope('candidate',Scope.Var('best_contender').Char.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).ScriptValue('BMU_contender_score_gui')|+=0]#!"
+
+BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_WORTHY_CONTENDER_TT: "#T Not Supporting\n[Scope.Var('worthy_contender').Char.GetShortUINameNoTooltip]: [GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',Scope.Var('worthy_contender').Char.MakeScope).AddScope('score_supporter',Scope.Var('stakeholder').Char.MakeScope).AddScope('candidate',Scope.Var('worthy_contender').Char.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).ScriptValue('BMU_contender_score_gui')|+=0]#!"

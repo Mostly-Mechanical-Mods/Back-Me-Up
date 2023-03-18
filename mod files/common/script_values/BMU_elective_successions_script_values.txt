@@ -1,129 +1,60 @@
-﻿BMU_score_diff = {
-	if = {
-		limit = {
-			scope:player = {
-				any_owned_story = {
-					story_type = BMU_stakeholder_story
-					var:pressed_claim_story = scope:pressed_claim
-					var:status = flag:contender
-				}
-			}
-		}
-		scope:player = {
-			if = { limit = { save_temporary_scope_as = score_contender }}
-			prev = { add = BMU_contender_score }
-		}
-		if = {
-			limit = { NOT = { scope:contender = scope:player }}
-			scope:contender = {
-				if = { limit = { save_temporary_scope_as = score_contender }}
-				prev = { add = BMU_contender_score }
-			}
-		}
-		else_if = {
-			limit = { exists = scope:top_contender }
-			scope:top_contender = {
-				if = { limit = { save_temporary_scope_as = score_contender }}
-				prev = {
-					subtract = {
-						add = BMU_contender_score
-						min = 0
-					}
-				}
-			}
-		}
-	}
-}
-
-BMU_contender_score = {
-	if = {
-		limit = {
-			exists = scope:pressed_claim
-			this = { save_temporary_scope_as = score_supporter }
-			scope:pressed_claim.var:claim_target = { save_temporary_scope_as = holder save_temporary_scope_as = holder_candidate }
-			scope:pressed_claim.var:claimed_title = { save_temporary_scope_as = title }
-		}
-		add = BMU_contender_score_gui
-	}
-	else_if = {
-		limit = {
-			exists = scope:actor.var:pressed_claim_interaction
-			this = { save_temporary_scope_as = score_supporter }
-			scope:actor.var:pressed_claim_interaction.var:claim_target = { save_temporary_scope_as = holder save_temporary_scope_as = holder_candidate }
-			scope:actor.var:pressed_claim_interaction.var:claimed_title = { save_temporary_scope_as = title }
-		}
-		add = BMU_contender_score_gui
-	}
-}
-
-BMU_contender_score_gui = {
-	if = {
-		limit = { this = scope:score_contender }
-		add = BMU_elector_self_voting_pattern_feudal_elective_modifier
-	}
-	else = {
-		add = BMU_holder_voting_pattern_feudal_elective_modifier
-		add = BMU_elector_voting_pattern_circumstances_feudal_elective_modifier
-		add = BMU_elector_voting_pattern_prestige_piety_feudal_elective_modifier
-		add = BMU_elector_voting_pattern_traits_feudal_elective_modifier
-		add = BMU_elector_voting_pattern_opinion_feudal_elective_modifier
-	}
-}
-
-##########################	Elector voting himself	##########################
+﻿##########################	Elector voting himself	##########################
 BMU_elector_self_voting_pattern_feudal_elective_modifier = {
 	if = {
-		limit = {
-			NOR = {
-				has_trait = humble
-				has_trait = content
-				has_trait = craven
-				has_trait = lazy
-				has_trait = depressed
-				has_trait = ambitious
+		limit = { this = scope:score_contender }
+		if = {
+			limit = {
+				NOR = {
+					has_trait = humble
+					has_trait = content
+					has_trait = craven
+					has_trait = lazy
+					has_trait = depressed
+					has_trait = ambitious
+				}
 			}
+			if = {
+				limit = { NOT = { scope:claim_target = { is_parent_of = scope:score_supporter }}}
+				add = BMU_tooltip_feudal_elector_vote_myself
+			}
+			else = { add = BMU_tooltip_feudal_elector_vote_myself_heir }
+		}
+		else_if = {
+			limit = { NOT = { has_trait = ambitious }}
+			add = BMU_tooltip_feudal_elector_vote_not_myself
+		}
+		else_if = {
+			limit = { is_adult = yes }
+			add = BMU_tooltip_feudal_elector_vote_myself_ambitious
 		}
 		if = {
-			limit = { NOT = { scope:holder = { is_parent_of = scope:score_supporter }}}
-			add = BMU_tooltip_feudal_elector_vote_myself
-		}
-		else = { add = BMU_tooltip_feudal_elector_vote_myself_heir }
-	}
-	else_if = {
-		limit = { NOT = { has_trait = ambitious }}
-		add = BMU_tooltip_feudal_elector_vote_not_myself
-	}
-	else_if = {
-		limit = { is_adult = yes }
-		add = BMU_tooltip_feudal_elector_vote_myself_ambitious
-	}
-	if = {
-		limit = { is_adult = yes }
-		if = {
-			limit = { this = scope:holder_candidate }
-			add = BMU_tooltip_feudal_elector_vote_myself_ruler_choice
+			limit = { is_adult = yes }
+			if = {
+				limit = { this = scope:holder_candidate }
+				add = BMU_tooltip_feudal_elector_vote_myself_ruler_choice
+			}
+			if = {
+				limit = {
+					exists = this.dynasty
+					exists = scope:claim_target.dynasty
+					this.dynasty = scope:claim_target.dynasty
+				}
+				add = BMU_tooltip_feudal_elector_vote_myself_ruling_dynasty
+			}
+			if = {
+				limit = { is_healthy = no }
+				add = BMU_tooltip_feudal_elector_vote_myself_sick
+			}
 		}
 		if = {
 			limit = {
-				exists = this.dynasty
-				exists = scope:holder.dynasty
-				this.dynasty = scope:holder.dynasty
+				OR = {
+					has_strong_claim_on = scope:claimed_title
+					has_weak_claim_on = scope:claimed_title
+				}
 			}
-			add = BMU_tooltip_feudal_elector_vote_myself_ruling_dynasty
+			add = BMU_tooltip_feudal_elector_vote_myself_claimant
 		}
-		if = {
-			limit = { is_healthy = no }
-			add = BMU_tooltip_feudal_elector_vote_myself_sick
-		}
-	}
-	if = {
-		limit = {
-			OR = {
-				has_strong_claim_on = scope:title
-				has_weak_claim_on = scope:title
-			}
-		}
-		add = BMU_tooltip_feudal_elector_vote_myself_claimant
 	}
 }#############################################################################
 
@@ -244,7 +175,7 @@ BMU_tooltip_feudal_elector_vote_myself_claimant = {
 		value = 30
 		if = {
 			limit = {
-				has_strong_claim_on = scope:title
+				has_strong_claim_on = scope:claimed_title
 			}
 			add = 30
 		}
@@ -265,7 +196,7 @@ BMU_tooltip_feudal_holder_elector_vote_player_heir = {
 		limit = {
 			player_heir = scope:score_contender
 			NOT = { player_heir = scope:score_supporter }
-			scope:holder = {
+			scope:claim_target = {
 				this = scope:score_supporter
 				NOT = {
 					has_relation_rival = scope:score_contender #Unless is rival.
@@ -283,11 +214,11 @@ BMU_tooltip_feudal_holder_elector_vote_player_heir = {
 BMU_tooltip_feudal_holder_elector_vote_not_child = {
 	if = {
 		limit = {
-			scope:holder = {
+			scope:claim_target = {
 				this = scope:score_supporter
 				NOT = {
 					scope:score_contender = {
-						is_child_of = scope:holder
+						is_child_of = scope:claim_target
 					}
 				}
 			}
@@ -325,7 +256,7 @@ BMU_tooltip_feudal_holder_elector_vote_not_child = {
 BMU_tooltip_feudal_holder_elector_vote_infertile = {
 	if = {
 		limit = {
-			scope:holder = scope:score_supporter
+			scope:claim_target = scope:score_supporter
 			scope:score_contender = {
 				NOT = {
 					any_child = {
@@ -350,20 +281,108 @@ BMU_tooltip_feudal_holder_elector_vote_infertile = {
 
 ##########################	Elector voting patterns (circumstances)	##########################
 BMU_elector_voting_pattern_circumstances_feudal_elective_modifier = {
-	add = BMU_tooltip_feudal_elector_vote_agnatic_woman
-	add = BMU_tooltip_feudal_elector_vote_enatic_man
-	add = BMU_tooltip_feudal_elector_vote_baby
-	add = BMU_tooltip_feudal_elector_vote_child
-	add = BMU_tooltip_feudal_elector_vote_youngster
-	add = BMU_tooltip_feudal_elector_vote_oldtimer
-	add = BMU_tooltip_feudal_elector_vote_decrepit
-	add = BMU_tooltip_feudal_elector_vote_fellow_culture
-	add = BMU_tooltip_feudal_elector_vote_stranger
-	add = BMU_tooltip_feudal_elector_vote_foreigner
+#Sexism
+	if = {
+		limit = {
+			OR = {
+				scope:claimed_title = { #Title might have different law than realm's.
+					has_title_law = male_preference_law
+				}
+				AND = { #If title has neither the required law nor its opposites, check for realm law.
+					scope:claim_target = { has_realm_law = male_preference_law }
+					scope:claimed_title = {
+						NOR = {
+							has_title_law = female_preference_law
+							has_title_law = equal_law
+						}
+					}
+				}
+				faith = { has_doctrine = doctrine_gender_male_dominated }
+			}
+			scope:score_contender = { is_female = yes }
+		}
+		add = BMU_tooltip_feudal_elector_vote_agnatic_woman
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:claimed_title = { #Title might have different law than realm's.
+					has_title_law = female_preference_law
+				}
+				AND = { #If title has neither the required law nor its opposites, check for realm law.
+					scope:claim_target = { has_realm_law = female_preference_law }
+					scope:claimed_title = {
+						NOR = {
+							has_title_law = male_preference_law
+							has_title_law = equal_law
+						}
+					}
+				}
+				faith = { has_doctrine = doctrine_gender_female_dominated }
+			}
+			scope:score_contender = {
+				is_female = no
+			}
+		}
+		add = BMU_tooltip_feudal_elector_vote_enatic_man
+	}
+	if = {
+		limit = { NOT = { this = scope:score_contender }}
+#Ageism
+		if = {
+			limit = { scope:score_contender.age < 5 }
+			add = BMU_tooltip_feudal_elector_vote_baby
+		}
+		else_if = {
+			limit = {
+				scope:score_contender.age > 5
+				scope:score_contender.age < 16
+			}
+			add = BMU_tooltip_feudal_elector_vote_child
+		}
+		else_if = {
+			limit = {
+				age > 40
+				scope:score_contender.age >= 16
+				scope:score_contender.age < 25
+			}
+			add = BMU_tooltip_feudal_elector_vote_youngster
+		}
+		else_if = {
+			limit = {
+				age < 30
+				scope:score_contender.age >= 40
+				scope:score_contender.age < 50
+			}
+			add = BMU_tooltip_feudal_elector_vote_oldtimer
+		}
+		else_if = {
+			limit = { scope:score_contender.age >= 50 }
+			add = BMU_tooltip_feudal_elector_vote_decrepit
+		}
+#Culturism
+		if = {
+			limit = { culture = scope:score_contender.culture }
+			add = BMU_tooltip_feudal_elector_vote_fellow_culture
+		}
+		else_if = {
+			limit = {
+				scope:claim_target.culture = culture #Only a concern if Elector and current ruler share culture.
+				NOT = { is_close_family_of = scope:score_contender }
+			}
+			if = {
+				limit = { culture = { has_same_culture_heritage = scope:score_contender.culture }}
+				add = BMU_tooltip_feudal_elector_vote_stranger
+			}
+			else = {
+				add = BMU_tooltip_feudal_elector_vote_foreigner
+			}
+		}
+	}
 	add = BMU_tooltip_feudal_elector_vote_strangers_pet
 	add = BMU_tooltip_feudal_elector_vote_foreigners_pet_2
-	add = BMU_tooltip_feudal_elector_vote_political_concerns
-	add = BMU_tooltip_feudal_elector_vote_encroaching_foreigner
+	add = BMU_tooltip_feudal_elector_vote_political_concerns # Penalty increased to make-up for isolating encroaching_ruler
+	# add = BMU_tooltip_feudal_elector_vote_encroaching_foreigner # Isolated
 	add = BMU_tooltip_feudal_elector_vote_different_faith
 	add = BMU_tooltip_feudal_elector_vote_astray
 	add = BMU_tooltip_feudal_elector_vote_heretic
@@ -377,285 +396,162 @@ BMU_elector_voting_pattern_circumstances_feudal_elective_modifier = {
 	add = BMU_tooltip_feudal_elector_vote_martial_education
 	add = BMU_tooltip_feudal_elector_vote_diplomatic_education
 	add = BMU_tooltip_feudal_elector_vote_spiritual_education
+	add = BMU_tooltip_title_holder
 	add = BMU_tooltip_feudal_elector_vote_strong_claimant
 	add = BMU_tooltip_feudal_elector_vote_weak_claimant
 }#############################################################################################
 
 #Sexism
 BMU_tooltip_feudal_elector_vote_agnatic_woman = {
-	if = {
-		limit = {
-			OR = {
-				scope:title = { #Title might have different law than realm's.
-					has_title_law = male_preference_law
-				}
-				AND = { #If title has neither the required law nor its opposites, check for realm law.
-					scope:holder = { has_realm_law = male_preference_law }
-					scope:title = {
-						NOR = {
-							has_title_law = female_preference_law
-							has_title_law = equal_law
+	value = {
+		subtract = 100
+		if = { #Increase if both.
+			limit = {
+				OR = {
+					scope:claimed_title = { #Title might have different law than realm's.
+						has_title_law = male_preference_law
+					}
+					AND = { #If title has neither the required law nor its opposites, check for realm law.
+						scope:claim_target = { has_realm_law = male_preference_law }
+						scope:claimed_title = {
+							NOR = {
+								has_title_law = female_preference_law
+								has_title_law = equal_law
+							}
 						}
 					}
 				}
 				faith = { has_doctrine = doctrine_gender_male_dominated }
 			}
-			scope:score_contender = { is_female = yes }
+			multiply = 1.5
 		}
-		add = {
-			value = {
-				subtract = 100
-				if = { #Increase if both.
-					limit = {
-						OR = {
-							scope:title = { #Title might have different law than realm's.
-								has_title_law = male_preference_law
-							}
-							AND = { #If title has neither the required law nor its opposites, check for realm law.
-								scope:holder = { has_realm_law = male_preference_law }
-								scope:title = {
-									NOR = {
-										has_title_law = female_preference_law
-										has_title_law = equal_law
-									}
-								}
-							}
-						}
-						faith = { has_doctrine = doctrine_gender_male_dominated }
-					}
-					multiply = 1.5
-				}
-				if = { #Halve if talking about myself.
-					limit = {
-						this = scope:score_contender
-						scope:score_contender = scope:holder_candidate
-					}
-					multiply = 0.5
-				}
+		if = { #Halve if talking about myself.
+			limit = {
+				this = scope:score_contender
+				scope:score_contender = scope:holder_candidate
 			}
-			desc = BMU_tooltip_feudal_elector_vote_agnatic_woman
-			format = "FF_VALUE_FORMAT"
+			multiply = 0.5
 		}
 	}
+	desc = BMU_tooltip_feudal_elector_vote_agnatic_woman
+	format = "FF_VALUE_FORMAT"
 }
 
 BMU_tooltip_feudal_elector_vote_enatic_man = {
-	if = {
-		limit = {
-			OR = {
-				scope:title = { #Title might have different law than realm's.
-					has_title_law = female_preference_law
-				}
-				AND = { #If title has neither the required law nor its opposites, check for realm law.
-					scope:holder = { has_realm_law = female_preference_law }
-					scope:title = {
-						NOR = {
-							has_title_law = male_preference_law
-							has_title_law = equal_law
+	value = {
+		subtract = 100
+		if = { #Increase if both.
+			limit = {
+				OR = {
+					scope:claimed_title = { #Title might have different law than realm's.
+						has_title_law = female_preference_law
+					}
+					AND = { #If title has neither the required law nor its opposites, check for realm law.
+						scope:claim_target = { has_realm_law = female_preference_law }
+						scope:claimed_title = {
+							NOR = {
+								has_title_law = male_preference_law
+								has_title_law = equal_law
+							}
 						}
 					}
 				}
 				faith = { has_doctrine = doctrine_gender_female_dominated }
 			}
-			scope:score_contender = {
-				is_female = no
-			}
+			multiply = 1.5
 		}
-		add = {
-			value = {
-				subtract = 100
-				if = { #Increase if both.
-					limit = {
-						OR = {
-							scope:title = { #Title might have different law than realm's.
-								has_title_law = female_preference_law
-							}
-							AND = { #If title has neither the required law nor its opposites, check for realm law.
-								scope:holder = { has_realm_law = female_preference_law }
-								scope:title = {
-									NOR = {
-										has_title_law = male_preference_law
-										has_title_law = equal_law
-									}
-								}
-							}
-						}
-						faith = { has_doctrine = doctrine_gender_female_dominated }
-					}
-					multiply = 1.5
-				}
-				if = { #Halve if talking about myself.
-					limit = {
-						this = scope:score_contender
-						scope:score_contender = scope:holder_candidate
-					}
-					multiply = 0.5
-				}
+		if = { #Halve if talking about myself.
+			limit = {
+				this = scope:score_contender
+				scope:score_contender = scope:holder_candidate
 			}
-			desc = BMU_tooltip_feudal_elector_vote_enatic_man
-			format = "FF_VALUE_FORMAT"
+			multiply = 0.5
 		}
 	}
+	desc = BMU_tooltip_feudal_elector_vote_enatic_man
+	format = "FF_VALUE_FORMAT"
 }
+
 #Ageism
 BMU_tooltip_feudal_elector_vote_baby = {
-	if = {
-		limit = {
-			NOT = { this = scope:score_contender }
-			scope:score_contender = {
-				age < 5
-			}
-		}
-		add = {
-			value = -30
-			desc = BMU_tooltip_feudal_elector_vote_baby
-			format = "FF_VALUE_FORMAT"
-		}
-	}
+	value = -30
+	desc = BMU_tooltip_feudal_elector_vote_baby
+	format = "FF_VALUE_FORMAT"
 }
 
 BMU_tooltip_feudal_elector_vote_child = {
-	if = {
-		limit = {
-			NOT = { this = scope:score_contender }
-			scope:score_contender = {
-				age > 5
-				age < 16
+	value = {
+		subtract = 10
+		if = {
+			limit = {
+				age < 10
 			}
-		}
-		add = {
-			value = {
-				subtract = 10
-				if = {
-					limit = {
-						age < 10
-					}
-					subtract = 15
-				}
-			}
-			desc = BMU_tooltip_feudal_elector_vote_child
-			format = "FF_VALUE_FORMAT"
+			subtract = 15
 		}
 	}
+	desc = BMU_tooltip_feudal_elector_vote_child
+	format = "FF_VALUE_FORMAT"
 }
 
 BMU_tooltip_feudal_elector_vote_youngster = {
-	if = {
-		limit = {
-			NOT = { this = scope:score_contender }
-			age > 40
-			scope:score_contender = {
-				age > 16
-				age < 25
-			}
-		}
-		add = {
-			value = -10
-			desc = BMU_tooltip_feudal_elector_vote_youngster
-			format = "FF_VALUE_FORMAT"
-		}
-	}
+	value = -10
+	desc = BMU_tooltip_feudal_elector_vote_youngster
+	format = "FF_VALUE_FORMAT"
 }
 
 BMU_tooltip_feudal_elector_vote_oldtimer = {
-	if = {
-		limit = {
-			NOT = { this = scope:score_contender }
-			age < 30
-			scope:score_contender = {
-				age > 40
-				age < 50
-			}
-		}
-		add = {
-			value = -10
-			desc = BMU_tooltip_feudal_elector_vote_oldtimer
-			format = "FF_VALUE_FORMAT"
-		}
-	}
+	value = -10
+	desc = BMU_tooltip_feudal_elector_vote_oldtimer
+	format = "FF_VALUE_FORMAT"
 }
 
 BMU_tooltip_feudal_elector_vote_decrepit = {
-	if = {
-		limit = {
-			NOT = { this = scope:score_contender }
-			scope:score_contender = { age > 50 }
-		}
-		add = {
-			value = -15
-			desc = BMU_tooltip_feudal_elector_vote_decrepit
-			format = "FF_VALUE_FORMAT"
-		}
-	}
+	value = -15
+	desc = BMU_tooltip_feudal_elector_vote_decrepit
+	format = "FF_VALUE_FORMAT"
 }
+
 #Culturism
 BMU_tooltip_feudal_elector_vote_fellow_culture = {
-	if = {
-		limit = {
-			NOT = { this = scope:score_contender }
-			scope:score_supporter.culture = scope:score_contender.culture
-		}
-		add = {
-			value = {
-				add = 10
-				if = { #Boost for Scandinavian Elective.
-					limit = {
-						scope:title = { has_title_law = scandinavian_elective_succession_law }
-					}
-					add = 10
-				}
+	value = {
+		add = 10
+		if = { #Boost for Scandinavian Elective.
+			limit = {
+				scope:claimed_title = { has_title_law = scandinavian_elective_succession_law }
 			}
-			desc = BMU_tooltip_feudal_elector_vote_fellow_culture
-			format = "FF_VALUE_FORMAT"
+			add = 10
 		}
 	}
+	desc = BMU_tooltip_feudal_elector_vote_fellow_culture
+	format = "FF_VALUE_FORMAT"
 }
 
 BMU_tooltip_feudal_elector_vote_stranger = {
-	if = {
-		limit = {
-			scope:holder.culture = scope:score_supporter.culture #Only a concern if Elector and current ruler share culture.
-			NOT = { scope:score_supporter.culture = scope:score_contender.culture }
-			culture = { has_same_culture_heritage = scope:score_contender.culture }
-			NOT = { is_close_family_of = scope:score_contender }
-		}
-		add = {
-			value = {
-				subtract = 15
-				if = { #Boost for Scandinavian Elective.
-					limit = {
-						scope:title = { has_title_law = scandinavian_elective_succession_law }
-					}
-					subtract = 15
-				}
+	value = {
+		subtract = 15
+		if = { #Boost for Scandinavian Elective.
+			limit = {
+				scope:claimed_title = { has_title_law = scandinavian_elective_succession_law }
 			}
-			desc = BMU_tooltip_feudal_elector_vote_stranger
-			format = "FF_VALUE_FORMAT"
+			subtract = 15
 		}
 	}
+	desc = BMU_tooltip_feudal_elector_vote_stranger
+	format = "FF_VALUE_FORMAT"
 }
 
 BMU_tooltip_feudal_elector_vote_foreigner = {
-	if = {
-		limit = {
-			scope:holder.culture = scope:score_supporter.culture #Only a concern if Elector and current ruler share culture.
-			NOT = { culture = { has_same_culture_heritage = scope:score_contender.culture } }
-			NOT = { is_close_family_of = scope:score_contender }
-		}
-		add = {
-			value = {
-				subtract = 30
-				if = { #Boost for Scandinavian Elective.
-					limit = {
-						scope:title = { has_title_law = scandinavian_elective_succession_law }
-					}
-					subtract = 30
-				}
+	value = {
+		subtract = 30
+		if = { #Boost for Scandinavian Elective.
+			limit = {
+				scope:claimed_title = { has_title_law = scandinavian_elective_succession_law }
 			}
-			desc = BMU_tooltip_feudal_elector_vote_foreigner
-			format = "FF_VALUE_FORMAT"
+			subtract = 30
 		}
 	}
+	desc = BMU_tooltip_feudal_elector_vote_foreigner
+	format = "FF_VALUE_FORMAT"
 }
 
 BMU_tooltip_feudal_elector_vote_strangers_pet = { #Candidate is a foreigner's pet
@@ -665,7 +561,7 @@ BMU_tooltip_feudal_elector_vote_strangers_pet = { #Candidate is a foreigner's pe
 				this = scope:holder_candidate
 				NOT = { this.culture = scope:score_supporter.culture }
 				culture = { has_same_culture_heritage = scope:score_supporter.culture }
-				this.culture = scope:holder.culture
+				this.culture = scope:claim_target.culture
 			}
 			NOT = { is_close_family_of = scope:score_contender }
 		}
@@ -674,7 +570,7 @@ BMU_tooltip_feudal_elector_vote_strangers_pet = { #Candidate is a foreigner's pe
 				subtract = 10
 				if = { #Boost for Scandinavian Elective.
 					limit = {
-						scope:title = { has_title_law = scandinavian_elective_succession_law }
+						scope:claimed_title = { has_title_law = scandinavian_elective_succession_law }
 					}
 					subtract = 10
 				}
@@ -691,7 +587,7 @@ BMU_tooltip_feudal_elector_vote_foreigners_pet_2 = { #Candidate is a foreigner's
 			scope:score_contender = {
 				this = scope:holder_candidate
 				NOT = { culture = { has_same_culture_heritage = scope:score_supporter.culture } }
-				this.culture = scope:holder.culture
+				this.culture = scope:claim_target.culture
 			}
 			NOT = { is_close_family_of = scope:score_contender }
 		}
@@ -700,7 +596,7 @@ BMU_tooltip_feudal_elector_vote_foreigners_pet_2 = { #Candidate is a foreigner's
 				subtract = 15
 				if = { #Boost for Scandinavian Elective.
 					limit = {
-						scope:title = { has_title_law = scandinavian_elective_succession_law }
+						scope:claimed_title = { has_title_law = scandinavian_elective_succession_law }
 					}
 					subtract = 15
 				}
@@ -716,34 +612,34 @@ BMU_tooltip_feudal_elector_vote_political_concerns = {
 		limit = {
 			is_landed = yes
 			exists = capital_county
-			capital_county = { scope:title = { is_de_jure_liege_or_above_target = prev } }
+			capital_county = { scope:claimed_title = { is_de_jure_liege_or_above_target = prev } }
 
 			OR = { # If the current holder is reigning from within the title, there is no reason to believe a lower tier candidate would not.
-				scope:holder = { 
+				scope:claim_target = { 
 					capital_county = {
-						scope:title = {
+						scope:claimed_title = {
 							NOT = { is_de_jure_liege_or_above_target = prev }
 						}
 					}
 				}
 				scope:score_contender = {
-					highest_held_title_tier >= scope:title.tier
+					highest_held_title_tier >= scope:claimed_title.tier
 				}
 			}
 
 			scope:score_contender = {
 				is_ruler = yes
-				is_vassal_of = scope:holder
+				# is_vassal_of = scope:claim_target
 				exists = capital_county
-				NOT = { capital_county = { scope:title = { is_de_jure_liege_or_above_target = prev } } }
+				NOT = { capital_county = { scope:claimed_title = { is_de_jure_liege_or_above_target = prev } } }
 			}
 		}
 		add = {
 			value = {
-				subtract = 15
+				subtract = 30 # Increased from 15 to 30
 				if = { #Boost for Scandinavian Elective.
 					limit = {
-						scope:title = { has_title_law = scandinavian_elective_succession_law }
+						scope:claimed_title = { has_title_law = scandinavian_elective_succession_law }
 					}
 					subtract = 15
 				}
@@ -759,27 +655,32 @@ BMU_tooltip_feudal_elector_vote_encroaching_foreigner = { #Candidate is a foreig
 		limit = {
 			is_landed = yes
 			exists = capital_county
+			target_is_liege_or_above = scope:claim_target
 			scope:score_contender = {
 				is_ruler = yes
-				NOT = { target_is_liege_or_above = scope:holder }
+				NOR = {
+					target_is_liege_or_above = scope:claim_target
+					is_de_jure_liege_or_above_target = prev
+				}
 			}
 		}
 		add = {
-			value = {
-				subtract = 30
-				if = { #Candidate is a foreign non-dejure ruler.
-					limit = {
-						NOT = { capital_county = { scope:title = { is_de_jure_liege_or_above_target = prev } } }
-					}
-					subtract = 470
-				}
-				if = { #Boost for Scandinavian Elective.
-					limit = {
-						scope:title = { has_title_law = scandinavian_elective_succession_law }
-					}
-					subtract = 50
-				}
-			}
+			# value = {
+			# 	subtract = 30
+			# 	if = { #Candidate is a foreign non-dejure ruler.
+			# 		limit = {
+			# 			NOT = { scope:score_contender.capital_county = { scope:claimed_title = { is_de_jure_liege_or_above_target = prev } } }
+			# 		}
+			# 		subtract = 470
+			# 	}
+			# 	if = { #Boost for Scandinavian Elective.
+			# 		limit = {
+			# 			scope:claimed_title = { has_title_law = scandinavian_elective_succession_law }
+			# 		}
+			# 		subtract = 50
+			# 	}
+			# }
+			value = 0
 			desc = BMU_tooltip_feudal_elector_vote_encroaching_foreigner
 			format = "FF_VALUE_FORMAT"
 		}
@@ -803,7 +704,7 @@ BMU_tooltip_feudal_elector_vote_different_faith = { #Accepted but different fait
 				subtract = 25
 				if = { #Further increased for Princely Elective.
 					limit = {
-						scope:title = { has_title_law = princely_elective_succession_law }
+						scope:claimed_title = { has_title_law = princely_elective_succession_law }
 					}
 					subtract = 25
 				}
@@ -830,7 +731,7 @@ BMU_tooltip_feudal_elector_vote_astray = { #Astray (Catholic vs Orthodox)
 				subtract = 50
 				if = { #Further increased for Princely Elective.
 					limit = {
-						scope:title = { has_title_law = princely_elective_succession_law }
+						scope:claimed_title = { has_title_law = princely_elective_succession_law }
 					}
 					subtract = 50
 				}
@@ -875,7 +776,7 @@ BMU_tooltip_feudal_elector_vote_heretic = { #Heretic (Catholic vs Cathar)
 				}
 				if = { #Further increased for Princely Elective.
 					limit = {
-						scope:title = { has_title_law = princely_elective_succession_law }
+						scope:claimed_title = { has_title_law = princely_elective_succession_law }
 					}
 					subtract = 100
 				}
@@ -920,7 +821,7 @@ BMU_tooltip_feudal_elector_vote_evil_heathen = { #Infidel (Catholic vs Ashari)
 				}
 				if = { #Further increased for Princely Elective.
 					limit = {
-						scope:title = { has_title_law = princely_elective_succession_law }
+						scope:claimed_title = { has_title_law = princely_elective_succession_law }
 					}
 					subtract = 150
 				}
@@ -1015,7 +916,7 @@ BMU_tooltip_feudal_elector_vote_parent = {
 			value = {
 				value = 30
 				if = { #Current Ruler should tend to often pick one of his own children as potential heirs.
-					limit = { this = scope:holder }
+					limit = { this = scope:claim_target }
 					add = 30
 				}
 			}
@@ -1034,9 +935,9 @@ BMU_tooltip_feudal_elector_vote_distant_relative = { #Elector AI should not pick
 				scope:score_contender = scope:holder_candidate #Avoid if he's being specifically picked by the current ruler.
 			}
 			exists = scope:score_contender.dynasty
-			exists = scope:holder.dynasty
+			exists = scope:claim_target.dynasty
 			scope:score_contender = { #Candidate in question must not be of the same house as the Elector.
-				dynasty = scope:holder.dynasty
+				dynasty = scope:claim_target.dynasty
 				NOT = {
 					house = scope:score_supporter.house
 				}
@@ -1070,7 +971,7 @@ BMU_tooltip_feudal_elector_vote_martial_education = { # Warrior society prefers 
 				add = 15
 				if = {
 					limit = { # Scandinavian elective boost
-						scope:title = { has_title_law = scandinavian_elective_succession_law }
+						scope:claimed_title = { has_title_law = scandinavian_elective_succession_law }
 					}
 					multiply = 2
 				}
@@ -1141,11 +1042,24 @@ BMU_tooltip_feudal_elector_vote_spiritual_education = {
 	}
 }
 #Claims
+BMU_tooltip_title_holder = {
+	if = {
+		limit = {
+			NOT = { this = scope:score_contender}
+			scope:score_contender = scope:claim_target
+		}
+		add = {
+			value = 45
+			desc = BMU_tooltip_title_holder
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+}
 BMU_tooltip_feudal_elector_vote_strong_claimant = {
 	if = {
 		limit = {
 			NOT = { this = scope:score_contender }
-			scope:score_contender = { has_strong_claim_on = scope:title }
+			scope:score_contender = { has_strong_claim_on = scope:claimed_title }
 		}
 		add = {
 			value = 30
@@ -1159,7 +1073,7 @@ BMU_tooltip_feudal_elector_vote_weak_claimant = {
 	if = {
 		limit = {
 			NOT = { this = scope:score_contender }
-			scope:score_contender = { has_weak_claim_on = scope:title }
+			scope:score_contender = { has_weak_claim_on = scope:claimed_title }
 		}
 		add = {
 			value = 15
@@ -1247,7 +1161,7 @@ BMU_tooltip_feudal_elector_vote_piety_negative = {
 	if = {
 		limit = {
 			NOT = { this = scope:score_contender }
-			NOT = { scope:title = { has_title_law = princely_elective_succession_law } }
+			NOT = { scope:claimed_title = { has_title_law = princely_elective_succession_law } }
 			ai_zeal > 0
 			scope:score_contender = { piety_level < 1 }
 		}
@@ -1262,7 +1176,7 @@ BMU_tooltip_feudal_elector_vote_piety_negative = {
 BMU_tooltip_feudal_elector_vote_piety_negative_2 = {
 	if = {
 		limit = {
-			scope:title = { has_title_law = princely_elective_succession_law }
+			scope:claimed_title = { has_title_law = princely_elective_succession_law }
 			NOT = { this = scope:score_contender }
 			ai_zeal > -30
 			scope:score_contender = { piety_level < 1 }
@@ -1278,7 +1192,7 @@ BMU_tooltip_feudal_elector_vote_piety_negative_2 = {
 BMU_tooltip_feudal_elector_vote_piety_positive = {
 	if = {
 		limit = {
-			NOT = { scope:title = { has_title_law = princely_elective_succession_law } }
+			NOT = { scope:claimed_title = { has_title_law = princely_elective_succession_law } }
 			NOT = { this = scope:score_contender }
 			faith = scope:score_contender.faith
 			ai_zeal > 0
@@ -1299,7 +1213,7 @@ BMU_tooltip_feudal_elector_vote_piety_positive = {
 BMU_tooltip_feudal_elector_vote_piety_positive_2 = {
 	if = {
 		limit = {
-			scope:title = { has_title_law = princely_elective_succession_law }
+			scope:claimed_title = { has_title_law = princely_elective_succession_law }
 			NOT = { this = scope:score_contender }
 			faith = scope:score_contender.faith
 			ai_zeal > -30
@@ -1417,7 +1331,7 @@ BMU_tooltip_feudal_elector_vote_sinful = {
 				}
 				if = { #Princely elective more unforgiving.
 					limit = {
-						scope:title = { has_title_law = princely_elective_succession_law }
+						scope:claimed_title = { has_title_law = princely_elective_succession_law }
 					}
 					multiply = 2
 				}
@@ -1469,7 +1383,7 @@ BMU_tooltip_feudal_elector_vote_virtuous = {
 				}
 				if = { #Princely elective more unforgiving.
 					limit = {
-						scope:title = { has_title_law = princely_elective_succession_law }
+						scope:claimed_title = { has_title_law = princely_elective_succession_law }
 					}
 					multiply = 2
 				}
@@ -1507,7 +1421,7 @@ BMU_tooltip_feudal_elector_vote_excommunication = {
 				}
 				if = { #Princely Elective doubles.
 					limit = {
-						scope:title = { has_title_law = princely_elective_succession_law }
+						scope:claimed_title = { has_title_law = princely_elective_succession_law }
 					}
 					multiply = 2
 				}
@@ -1751,7 +1665,7 @@ BMU_tooltip_feudal_elector_vote_kinslayer = {
 				}
 				if = { #Boost for Scandinavian Elective.
 					limit = {
-						scope:title = { has_title_law = scandinavian_elective_succession_law }
+						scope:claimed_title = { has_title_law = scandinavian_elective_succession_law }
 					}
 					multiply = 1.5
 				}
@@ -2115,7 +2029,7 @@ BMU_tooltip_feudal_elector_vote_incapable_warrior = {
 				subtract = 50
 				if = { #Scandinavian elective more unforgiving.
 					limit = {
-						scope:title = { has_title_law = scandinavian_elective_succession_law }
+						scope:claimed_title = { has_title_law = scandinavian_elective_succession_law }
 					}
 					multiply = 2
 				}
@@ -2200,7 +2114,7 @@ BMU_tooltip_feudal_elector_vote_disfigured_warrior = {
 				}
 				if = { #Scandinavian elective more unforgiving.
 					limit = {
-						scope:title = { has_title_law = scandinavian_elective_succession_law }
+						scope:claimed_title = { has_title_law = scandinavian_elective_succession_law }
 					}
 					multiply = 2
 				}
@@ -2236,7 +2150,7 @@ BMU_tooltip_feudal_elector_vote_maimed_warrior = {
 				subtract = 15
 				if = { #Scandinavian elective more unforgiving.
 					limit = {
-						scope:title = { has_title_law = scandinavian_elective_succession_law }
+						scope:claimed_title = { has_title_law = scandinavian_elective_succession_law }
 					}
 					multiply = 2
 				}
@@ -2443,7 +2357,7 @@ BMU_tooltip_feudal_elector_vote_strong_warrior = {
 				}
 				if = { #Scandinavian elective more unforgiving.
 					limit = {
-						scope:title = { has_title_law = scandinavian_elective_succession_law }
+						scope:claimed_title = { has_title_law = scandinavian_elective_succession_law }
 					}
 					multiply = 2
 				}
@@ -2601,7 +2515,7 @@ BMU_tooltip_feudal_elector_vote_dwarf_warrior = {
 				}
 				if = { #Scandinavian elective more unforgiving.
 					limit = {
-						scope:title = { has_title_law = scandinavian_elective_succession_law }
+						scope:claimed_title = { has_title_law = scandinavian_elective_succession_law }
 					}
 					multiply = 2
 				}
@@ -2649,7 +2563,7 @@ BMU_tooltip_feudal_elector_vote_hunchback_warrior = {
 				}
 				if = { #Scandinavian elective more unforgiving.
 					limit = {
-						scope:title = { has_title_law = scandinavian_elective_succession_law }
+						scope:claimed_title = { has_title_law = scandinavian_elective_succession_law }
 					}
 					multiply = 2
 				}
@@ -2970,7 +2884,7 @@ BMU_tooltip_feudal_elector_vote_blinded_negative_warrior = { #Shunned for being 
 				}
 				if = { #Scandinavian elective more unforgiving.
 					limit = {
-						scope:title = { has_title_law = scandinavian_elective_succession_law }
+						scope:claimed_title = { has_title_law = scandinavian_elective_succession_law }
 					}
 					multiply = 2
 				}
@@ -3124,7 +3038,7 @@ BMU_tooltip_feudal_elector_anti_vote_ruler_lunatic = { #Ruler is lunatic, vote a
 				has_trait = zealous #Might be the gods speaking
 				faith = { has_doctrine_parameter = spirit_possession_active } #Actually blessed
 			}
-			scope:holder = {
+			scope:claim_target = {
 				has_trait = lunatic
 			}
 		}
@@ -3148,7 +3062,7 @@ BMU_tooltip_feudal_elector_anti_vote_ruler_possessed = { #Ruler is possessed, vo
 				has_trait = arbitrary #Don't care
 				faith = { has_doctrine_parameter = spirit_possession_active } #Actually blessed
 			}
-			scope:holder = {
+			scope:claim_target = {
 				has_trait = possessed
 			}
 		}
@@ -3166,7 +3080,7 @@ BMU_tooltip_feudal_elector_anti_vote_ruler_possessed_positive = { #Unless adorci
 			scope:score_contender = { this = scope:holder_candidate }
 			faith = { has_doctrine_parameter = spirit_possession_active } #Actually blessed
 			ai_zeal > 0
-			scope:holder = {
+			scope:claim_target = {
 				has_trait = possessed
 			}
 		}
@@ -3183,7 +3097,7 @@ BMU_tooltip_feudal_elector_pro_vote_ruler_just = { #Ruler is just, trust his pic
 		limit = {
 			scope:score_contender = { this = scope:holder_candidate }
 			NOR = {
-				this = scope:holder  #But not if it's me.
+				this = scope:claim_target  #But not if it's me.
 				this = scope:score_contender  #But not if it's me.
 			}
 			NOR = {
@@ -3193,7 +3107,7 @@ BMU_tooltip_feudal_elector_pro_vote_ruler_just = { #Ruler is just, trust his pic
 				has_trait = sadistic #Don't care
 				faith = { trait_is_sin = just } #Not a positive.
 			}
-			scope:holder = { has_trait = just }
+			scope:claim_target = { has_trait = just }
 		}
 		add = {
 			value = {
@@ -3216,7 +3130,7 @@ BMU_tooltip_feudal_elector_anti_vote_ruler_tyrant = { #Ruler is a Tyrant, vote a
 		limit = {
 			scope:score_contender = { this = scope:holder_candidate }
 			NOR = {
-				this = scope:holder  #But not if it's me.
+				this = scope:claim_target  #But not if it's me.
 				this = scope:score_contender  #But not if it's me.
 			}
 			NOR = {
@@ -3226,7 +3140,7 @@ BMU_tooltip_feudal_elector_anti_vote_ruler_tyrant = { #Ruler is a Tyrant, vote a
 				has_trait = sadistic #Don't care
 				has_trait = callous #Don't care
 			}
-			scope:holder = {
+			scope:claim_target = {
 				tyranny >= low_tyranny
 			}
 		}
@@ -3257,16 +3171,16 @@ BMU_tooltip_feudal_elector_anti_vote_ruler_dreaded = { #Ruler is Dreaded, vote f
 		limit = {
 			scope:score_contender = { this = scope:holder_candidate }
 			NOR = {
-				this = scope:holder  #But not if it's me.
+				this = scope:claim_target  #But not if it's me.
 				this = scope:score_contender  #But not if it's me.
 			}
 			NOR = {
 				has_trait = lunatic #Don't care
 				has_trait = arbitrary #Don't care
 			}
-			scope:holder = { dread >= low_dread	}
+			scope:claim_target = { dread >= low_dread	}
 			dread_modified_ai_boldness = {
-				dreaded_character = scope:holder
+				dreaded_character = scope:claim_target
 				value <= -25
 			}
 		}
@@ -3276,7 +3190,7 @@ BMU_tooltip_feudal_elector_anti_vote_ruler_dreaded = { #Ruler is Dreaded, vote f
 				if = {
 					limit = {
 						dread_modified_ai_boldness = {
-							dreaded_character = scope:holder
+							dreaded_character = scope:claim_target
 							value <= -50
 						}
 					}
@@ -3285,7 +3199,7 @@ BMU_tooltip_feudal_elector_anti_vote_ruler_dreaded = { #Ruler is Dreaded, vote f
 				if = {
 					limit = {
 						dread_modified_ai_boldness = {
-							dreaded_character = scope:holder
+							dreaded_character = scope:claim_target
 							value <= -75
 						}
 					}
@@ -3294,7 +3208,7 @@ BMU_tooltip_feudal_elector_anti_vote_ruler_dreaded = { #Ruler is Dreaded, vote f
 				if = {
 					limit = {
 						dread_modified_ai_boldness = {
-							dreaded_character = scope:holder
+							dreaded_character = scope:claim_target
 							value <= -95
 						}
 					}
@@ -3346,7 +3260,7 @@ BMU_tooltip_feudal_elector_vote_opinion_negative = { #Raw Opinion bonus (negativ
 				}
 				if = { #Further increased for Tanistry.
 					limit = {
-						scope:title = { has_title_law = gaelic_elective_succession_law }
+						scope:claimed_title = { has_title_law = gaelic_elective_succession_law }
 					}
 					multiply = 1.5
 				}
@@ -3402,7 +3316,7 @@ BMU_tooltip_feudal_elector_vote_opinion_positive = { #Raw Opinion bonus (positiv
 				}
 				if = { #Further increased for Tanistry.
 					limit = {
-						scope:title = { has_title_law = gaelic_elective_succession_law }
+						scope:claimed_title = { has_title_law = gaelic_elective_succession_law }
 					}
 					multiply = 1.5
 				}
@@ -3418,12 +3332,12 @@ BMU_tooltip_feudal_elector_anti_vote_ruler_opinion_negative = { #Vassal hates ru
 		limit = {
 			scope:score_contender = scope:holder_candidate
 			NOR = {
-				this = scope:holder  #But not if it's me.
+				this = scope:claim_target  #But not if it's me.
 				this = scope:score_contender  #But not if it's me.
 			}
 			save_temporary_opinion_value_as = {
 				name = opinion_of_holder
-				target = scope:holder
+				target = scope:claim_target
 			}
 			scope:opinion_of_holder <= low_negative_opinion
 		}
@@ -3450,7 +3364,7 @@ BMU_tooltip_feudal_elector_anti_vote_ruler_opinion_negative = { #Vassal hates ru
 				}
 				if = { #Even less so if rival.
 					limit = {
-						has_relation_rival = scope:holder
+						has_relation_rival = scope:claim_target
 					}
 					subtract = 50 #-150 total
 				}
@@ -3466,12 +3380,12 @@ BMU_tooltip_feudal_elector_pro_vote_ruler_opinion_positive = { #Vassal loves rul
 		limit = {
 			scope:score_contender = scope:holder_candidate
 			NOR = {
-				this = scope:holder  #But not if it's me.
+				this = scope:claim_target  #But not if it's me.
 				this = scope:score_contender  #But not if it's me.
 			}
 			save_temporary_opinion_value_as = {
 				name = opinion_of_holder
-				target = scope:holder
+				target = scope:claim_target
 			}
 			scope:opinion_of_holder >= low_positive_opinion
 		}
@@ -3481,7 +3395,7 @@ BMU_tooltip_feudal_elector_pro_vote_ruler_opinion_positive = { #Vassal loves rul
 				if = { #Even more so if higher opinion.
 					limit = {
 						opinion = {
-							target = scope:holder
+							target = scope:claim_target
 							value >= medium_positive_opinion
 						}
 					}
@@ -3490,7 +3404,7 @@ BMU_tooltip_feudal_elector_pro_vote_ruler_opinion_positive = { #Vassal loves rul
 				if = { #Even more so if higher opinion.
 					limit = {
 						opinion = {
-							target = scope:holder
+							target = scope:claim_target
 							value >= high_positive_opinion
 						}
 					}
@@ -3499,7 +3413,7 @@ BMU_tooltip_feudal_elector_pro_vote_ruler_opinion_positive = { #Vassal loves rul
 				if = { #Even more so if higher opinion.
 					limit = {
 						opinion = {
-							target = scope:holder
+							target = scope:claim_target
 							value >= very_high_positive_opinion
 						}
 					}
@@ -3508,8 +3422,8 @@ BMU_tooltip_feudal_elector_pro_vote_ruler_opinion_positive = { #Vassal loves rul
 				if = { #Even more so if friend/lover.
 					limit = {
 						OR = {
-							has_relation_friend = scope:holder
-							has_relation_lover = scope:holder
+							has_relation_friend = scope:claim_target
+							has_relation_lover = scope:claim_target
 						}
 					}
 					add = 50 #150 total

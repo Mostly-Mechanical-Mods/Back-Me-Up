@@ -212,7 +212,7 @@ BMU_claimant_tracker_off = {
 		exists = scope:title.holder
 		any_claim = {
 			exists = holder
-			holder = scope:title_holder
+			holder = scope:title.holder
 			count = 0
 		}
 	}
@@ -239,5 +239,23 @@ BMU_claimant_tracker_init = {
 				}
 			}
 		}
+	}
+}
+
+on_set_relation_rival = {
+	on_actions = {
+		BMU_on_set_relation_rival
+	}
+}
+
+BMU_on_set_relation_rival = {
+	trigger = {
+		OR = {
+			owns_story_of_type = BMU_contender_story
+			scope:target = { owns_story_of_type = BMU_contender_story }
+		}
+	}
+	effect = {
+		
 	}
 }

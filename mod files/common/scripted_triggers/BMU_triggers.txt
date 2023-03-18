@@ -46,8 +46,10 @@ BMU_target_is_relevant_in_pressed_claim_v2 = {
 BMU_target_is_relevant_in_pressed_claims = {
 	save_temporary_scope_as = PoV
 	$TARGET$ = { save_temporary_scope_as = target }
+	if = { limit = { NOT = { exists = scope:pressed_claim }} $PRESSED_CLAIM$ = { save_temporary_scope_as = pressed_claim }}
 	OR = {
 		liege = scope:target
+		is_vassal_of = scope:target
 		is_close_family_of = scope:target
 		has_relation_friend = scope:target
 		trigger_if = {
@@ -60,17 +62,8 @@ BMU_target_is_relevant_in_pressed_claims = {
 		}
 		any_relation = {
 			type = rival
-			any_owned_story = {
-				story_type = BMU_stakeholder_story
-				var:status = flag:contender
-				var:pressed_claim_story = { save_temporary_scope_as = common_rival_pressed_claim }
-				scope:PoV = {
-					any_owned_story = {
-						story_type = BMU_stakeholder_story
-						var:status = flag:contender
-						var:pressed_claim_story = scope:common_rival_pressed_claim
-					}
-				}
+			any_contender_story = {
+				var:pressed_claim_story = scope:pressed_claim
 			}
 		}
 	}
@@ -87,10 +80,8 @@ BMU_supporter_is_relevant = {
 			house = prev.story_owner.house
 			any_relation = {
 				type = rival
-				any_owned_story = {
-					story_type = BMU_stakeholder_story
+				any_contender_story = {
 					var:pressed_claim_story = scope:relevant_supporter.var:pressed_claim_story
-					var:status = flag:contender
 				}
 			}
 		}

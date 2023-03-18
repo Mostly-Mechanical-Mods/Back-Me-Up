@@ -1,0 +1,311 @@
+﻿BMU_score_diff = {
+	if = {
+		limit = {
+			scope:player = {
+				any_owned_story = {
+					story_type = BMU_contender_story
+					var:pressed_claim_story = scope:pressed_claim
+				}
+			}
+		}
+		scope:player = {
+			if = { limit = { save_temporary_scope_as = score_contender }}
+			prev = { add = BMU_contender_score }
+		}
+	}
+	subtract = {
+		ordered_owned_story = {
+			limit = { story_type = BMU_stakeholder_story var:pressed_claim_story = scope:pressed_claim }
+			if = {
+				limit = { scope:player = var:best_contender }
+				value = var:worthy_contender_score
+				min = 0
+			}
+			else = {
+				value = var:best_contender_score
+				min = 0
+			}
+		}
+	}
+}
+
+BMU_contender_score = {
+	if = {
+		limit = {
+			exists = scope:pressed_claim
+			this = { save_temporary_scope_as = score_supporter }
+			scope:pressed_claim.var:claim_target = { save_temporary_scope_as = claim_target save_temporary_scope_as = holder_candidate }
+			scope:pressed_claim.var:claimed_title = { save_temporary_scope_as = claimed_title }
+		}
+		add = BMU_contender_score_gui
+	}
+	else_if = {
+		limit = {
+			exists = scope:actor.var:pressed_claim_interaction
+			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+			this = { save_temporary_scope_as = score_supporter }
+			scope:actor.var:pressed_claim_interaction.var:claim_target = { save_temporary_scope_as = claim_target save_temporary_scope_as = holder_candidate }
+			scope:actor.var:pressed_claim_interaction.var:claimed_title = { save_temporary_scope_as = claimed_title }
+		}
+		add = BMU_contender_score_gui
+	}
+}
+
+BMU_contender_score_gui = {
+	add = BMU_contender_legitimacy
+	# Vassal Loyalty
+	if = {
+		limit = { is_vassal_of = scope:score_contender }
+		add = {
+			value = FF_loyalty
+			desc = BMU_tooltip_FF_loyalty
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+	# Allied
+	if = {
+		limit = { is_allied_to = scope:score_contender }
+		add = {
+			value = {
+				add = 100
+				add = ai_honor
+				if = {
+					limit = { scope:score_contender = scope:holder_candidate }
+					multiply = 2
+				}
+			}
+			desc = BMU_tooltip_ally
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+	#Reluctance to fight
+	if = {
+		limit = { ai_boldness < 0 }
+		add = {
+			value = ai_boldness
+			desc = BMU_tooltip_reluctance_to_fight
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+	#Greed
+	if = {
+		limit = {
+			# any_owned_story = {
+			# 	story_type = BMU_stakeholder_story
+			# 	var:pressed_claim_story = scope:pressed_claim
+			# 	has_variable = status
+			# 	trigger_if = {
+			# 		limit = { var:status = flag:supporter }
+			# 		NOT = { var:contender.story_owner = scope:candidate }
+			# 	}
+			# 	save_temporary_scope_as = supporter_contender
+			# }	
+			always = yes
+		}
+		if = {
+			limit = {
+				# any_owned_story = {
+				# 	story_type = BMU_ambition_story
+				# 	var:stakeholder_story.var:pressed_claim_story = scope:pressed_claim
+				# 	has_variable = bargained
+				# }
+				always = no
+			}
+			# add = {
+			# 	value = {
+			# 		ordered_owned_story = {
+			# 			limit = {
+			# 				story_type = BMU_ambition_story
+			# 				var:stakeholder_story.var:pressed_claim_story = scope:pressed_claim
+			# 				has_variable = bargain
+			# 			}
+			# 			position = 0
+			# 			subtract = var:ambition_score
+			# 		}
+			# 	}
+			# 	desc = BMU_tooltip_bargain
+			# 	format = "FF_VALUE_FORMAT"
+			# }
+		}
+		else_if = {
+			limit = { ai_greed > 0 }
+			add = {
+				value = {
+					subtract = ai_greed
+				}
+				desc = BMU_tooltip_unfulfilled_ambitions
+				format = "FF_VALUE_FORMAT"
+			}
+		}
+	}
+	#In Position of Power
+	if = { 
+		limit = {
+			NOT = { scope:score_contender = scope:holder_candidate }
+			is_councillor_of = scope:holder_candidate
+			trigger_if = {
+				limit = { has_council_position = councillor_chancellor }
+				global_var:boolean = { save_temporary_scope_as = councillor_chancellor }
+			}
+			trigger_else_if = {
+				limit = { has_council_position = councillor_steward }
+				global_var:boolean = { save_temporary_scope_as = councillor_steward }
+			}
+			trigger_else_if = {
+				limit = { has_council_position = councillor_marshal }
+				global_var:boolean = { save_temporary_scope_as = councillor_marshal }
+			}
+			trigger_else_if = {
+				limit = { has_council_position = councillor_spymaster }
+				global_var:boolean = { save_temporary_scope_as = councillor_spymaster }
+			}
+			trigger_else = { always = no }
+		}
+		subtract = {
+			value = BMU_ambition_get_council_position
+			desc = BMU_tooltip_is_councillor_of_claim_target
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+}
+
+BMU_contender_legitimacy = {
+	if = {
+		limit = { this = scope:score_contender }
+		add = BMU_elector_self_voting_pattern_feudal_elective_modifier
+	}
+	else = {
+		add = BMU_holder_voting_pattern_feudal_elective_modifier
+		add = BMU_elector_voting_pattern_circumstances_feudal_elective_modifier
+		add = BMU_elector_voting_pattern_prestige_piety_feudal_elective_modifier
+		add = BMU_elector_voting_pattern_traits_feudal_elective_modifier
+		add = BMU_elector_voting_pattern_opinion_feudal_elective_modifier
+	}
+}
+
+BMU_ambition_get_council_position = {
+	if = {
+		limit = {
+			exists = scope:councillor_chancellor
+			scope:councillor_chancellor = yes
+		}
+		value = BMU_ambition_get_council_position_chancellor
+	}
+	else_if = {
+		limit = {
+			exists = scope:councillor_steward
+			scope:councillor_steward = yes
+		}
+		value = BMU_ambition_get_council_position_steward
+	}
+	else_if = {
+		limit = {
+			exists = scope:councillor_marshal
+			scope:councillor_marshal = yes
+		}
+		value = BMU_ambition_get_council_position_marshal
+	}
+	else_if = {
+		limit = {
+			exists = scope:councillor_spymaster
+			scope:councillor_spymaster = yes
+		}
+		value = BMU_ambition_get_council_position_spymaster
+	}
+}
+
+BMU_ambition_get_council_position_base = {
+	if = {
+		limit = {
+			is_independent_ruler = no
+			is_adult = yes
+		}
+		add = {
+			value = ai_energy
+			desc = "BMU_ambition_get_council_position_energy"
+			format = "FF_VALUE_FORMAT"
+		}
+		if = {
+			limit = { is_powerful_vassal = yes }
+			add = {
+				value = 50
+				desc = "BMU_ambition_get_council_position_powerful_vassal"
+				format = "FF_VALUE_FORMAT"
+			}
+		}
+	}
+}
+
+BMU_ambition_get_council_position_chancellor = {
+	value = {
+		if = {
+			limit = {
+				is_independent_ruler = no
+				is_adult = yes
+				trigger_if = {
+					limit = { exists = scope:contender }
+					# BMU_can_be_chancellor_of = { COURT_OWNER = scope:contender.story_owner }
+				}
+			}
+			value = BMU_ambition_get_council_position_base
+			add = ai_sociability
+		}
+	}
+	desc = "BMU_ambition_get_council_position_chancellor"
+	format = "FF_VALUE_FORMAT"
+}
+
+BMU_ambition_get_council_position_steward = {
+	if = {
+		limit = {
+			is_independent_ruler = no
+			is_adult = yes
+			trigger_if = {
+				limit = { exists = scope:contender }
+				BMU_can_be_steward_of = { COURT_OWNER = scope:contender.story_owner }
+			}
+		}
+		value = BMU_ambition_get_council_position_base
+		add = {
+			value = ai_greed
+			desc = "BMU_ambition_get_council_position_steward"
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+}
+
+BMU_ambition_get_council_position_marshal = {
+	if = {
+		limit = {
+			is_independent_ruler = no
+			is_adult = yes
+			trigger_if = {
+				limit = { exists = scope:contender }
+				BMU_can_be_marshal_of = { COURT_OWNER = scope:contender.story_owner }
+			}
+		}
+		value = BMU_ambition_get_council_position_base
+		add = {
+			value = ai_boldness
+			desc = "BMU_ambition_get_council_position_marshal"
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+}
+
+BMU_ambition_get_council_position_spymaster = {
+	if = {
+		limit = {
+			trigger_if = {
+				limit = { exists = scope:contender }
+				BMU_can_be_spymaster_of = { COURT_OWNER = scope:contender.story_owner }
+			}
+		}
+		value = BMU_ambition_get_council_position_base
+		add = {
+			value = ai_vengefulness
+			desc = "BMU_ambition_get_council_position_spymaster"
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+}

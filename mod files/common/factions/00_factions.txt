@@ -515,32 +515,16 @@ claimant_faction = {
 
 	demand = { # The effect of pressing demand
 		#BMU
-		debug_log = "BMU claimant faction pressed"
-		debug_log_scopes = yes
-
-		BMU_create_claim_press = {
-			TARGET = faction_target
-			TARGET_TITLE = special_title
-			CONTENDER = faction_leader
-			UNWILLING_CONTENDER = special_character
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU claimant faction pressed"
+			debug_log_scopes = yes
 		}
 
-		faction_target = {
-			every_targeting_faction = {
-				limit = { faction_is_type = claimant_faction }
-				set_variable = {
-					name = pressed_claim
-					value = scope:pressed_claim
-				}
-				every_faction_member = {
-					prev = {
-						add_to_variable_list = {
-							name = pressed_claim_supporters
-							target = prev
-						}
-					}
-				}
-			}
+		BMU_interaction_press_claim = {
+			CLAIMANT = special_character
+			CLAIM_TARGET = faction_target
+			CLAIMED_TITLE = special_title
 		}
 		#[/BMU]
 	}

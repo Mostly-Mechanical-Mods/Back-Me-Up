@@ -1,10 +1,11 @@
 ﻿BMU_player_contender_score = {
-	category = interaction_category_pressed_claim
+	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
 	ignores_pending_interaction_block = yes
 	interface_priority = -1
 	icon = bargain_council_position
+	hidden = yes
 
 	desc = BMU_player_contender_score_desc
 
@@ -21,8 +22,7 @@
 	populate_actor_list = {
 		scope:actor.var:pressed_claim_interaction = {
 			every_in_list = {
-				variable = BMU_pressed_claim_stakeholders
-				limit = { var:status = flag:contender }
+				variable = contenders
 				story_owner = { add_to_list = characters }
 			}
 		}

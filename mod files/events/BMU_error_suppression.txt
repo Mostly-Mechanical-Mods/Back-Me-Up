@@ -74,7 +74,6 @@ BMU_error_suppression.0001 = {
 		fix_variable_error = { X = bargain_contender }
 		fix_variable_error = { X = pending_status }
 		fix_variable_error = { X = unlanded_contender }
-
 		fix_variable_error = { X = contention }
 		fix_variable_error = { X = councillor_chancellor }
 		fix_variable_error = { X = councillor_steward }
@@ -91,6 +90,15 @@ BMU_error_suppression.0001 = {
 		fix_variable_error = { X = top_candidate }
 		fix_variable_error = { X = broken }
 		fix_variable_error = { X = bargained_with }
+		fix_variable_error = { X = confidence_cocky }
+		fix_variable_error = { X = confidence_confident }
+		fix_variable_error = { X = confidence_concerned }
+		fix_variable_error = { X = confidence_fearful }
+		fix_variable_error = { X = BMU_call_in_supporter_interaction }
+		fix_variable_error = { X = confidence_flag }
+		fix_variable_error = { X = bargaining_phase }
+		fix_variable_error = { X = test_1 }
+		fix_variable_error = { X = previous_contender }
 		
 
 		trigger_event = faction_demand.2001

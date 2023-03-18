@@ -210,10 +210,8 @@
 		}
 
 		scope:defender = {
-			random_owned_story = {
+			random_pressed_claim = {
 				limit = {
-					# debug_log_details = yes
-					story_type = BMU_pressed_claim_story
 					has_variable = claim_target
 					var:claim_target = scope:defender
 					save_temporary_scope_as = pressed_claim
@@ -228,24 +226,8 @@
 					}
 				}
 				every_in_list = {
-					variable = BMU_pressed_claim_stakeholders
-					if = {
-						limit = {
-							has_variable = status
-							OR = {
-								var:status = flag:dropout
-								var:status = flag:stakeholder
-							}
-						}
-						end_story = yes
-					}
-					else = {
-						every_in_list = {
-							variable = BMU_stakeholder_ambitions
-							limit = { NOT = { has_variable = bargained_with }}
-							end_story = yes
-						}
-					}
+					variable = stakeholders
+					end_story = yes
 				}
 			}
 		}
@@ -437,7 +419,7 @@
 				limit = { NOT = { this = scope:defender }}
 				every_owned_story = {
 					limit = {
-						story_type = BMU_stakeholder_story
+						story_type = BMU_supporter_story
 						has_variable = pressed_claim
 						var:pressed_claim = scope:war.var:pressed_claim
 					}
@@ -461,18 +443,6 @@
 				}
 			}
 			debug_log = "Last Pressed Claim war, end Pressed Claim"
-			scope:attacker = {
-				random_owned_story = {
-					limit = {
-						story_type = BMU_stakeholder_story
-						var:pressed_claim_story = scope:war.var:pressed_claim
-					}
-					every_in_list = {
-						variable = BMU_bargains
-						BMU_execute_bargain = { CONTENDER = var:bargained_with }
-					}
-				}
-			}
 			scope:war.var:pressed_claim = { end_story = yes } 
 		}
 
@@ -576,20 +546,20 @@
 		# Truce
 		add_truce_white_peace_effect = yes
 
-		if = {
-			limit = {
-				scope:defender = {
-					any_character_war = {
-						using_cb = BMU_pressed_claim_cb
-						var:pressed_claim = scope:war.var:pressed_claim
-						NOT = { this = scope:war }
-						count = 0
-					}
-					scope:war = { has_variable = contender }
-				}
-			}
-			scope:war.var:pressed_claim = { end_story = yes }
-		}
+		# if = {
+		# 	limit = {
+		# 		scope:defender = {
+		# 			any_character_war = {
+		# 				using_cb = BMU_pressed_claim_cb
+		# 				var:pressed_claim = scope:war.var:pressed_claim
+		# 				NOT = { this = scope:war }
+		# 				count = 0
+		# 			}
+		# 			scope:war = { has_variable = contender }
+		# 		}
+		# 	}
+		# 	scope:war.var:pressed_claim = { end_story = yes }
+		# }
 
 		if = {
 			limit = {
@@ -605,11 +575,8 @@
 				}
 			}
 			scope:defender = {
-				random_owned_story = {
-					limit = {
-						story_type = BMU_stakeholder_story
-						var:pressed_claim_story = scope:war.var:pressed_claim
-					}
+				random_contender_story = {
+					limit = { var:pressed_claim_story = scope:war.var:pressed_claim }
 					every_in_list = {
 						variable = BMU_bargains
 						BMU_execute_bargain = {
@@ -626,6 +593,12 @@
 			BMU_dropout_supporters_of = {
 				PRESSED_CLAIM = scope:war.var:pressed_claim
 				CONTENDER = scope:attacker
+			}
+			scope:defender = {
+				random_contender_story = {
+					limit = { var:pressed_claim_story = scope:war.var:pressed_claim }
+					end_story = yes
+				}
 			}
 		}
 	}
@@ -728,11 +701,8 @@
 				}
 			}
 			scope:defender = {
-				random_owned_story = {
-					limit = {
-						story_type = BMU_stakeholder_story
-						var:pressed_claim_story = scope:war.var:pressed_claim
-					}
+				random_contender_story = {
+					limit = { var:pressed_claim_story = scope:war.var:pressed_claim }
 					every_in_list = {
 						variable = BMU_bargains
 						BMU_execute_bargain = {
@@ -749,6 +719,12 @@
 			BMU_dropout_supporters_of = {
 				PRESSED_CLAIM = scope:war.var:pressed_claim
 				CONTENDER = scope:attacker
+			}
+			scope:defender = {
+				random_contender_story = {
+					limit = { var:pressed_claim_story = scope:war.var:pressed_claim }
+					end_story = yes
+				}
 			}
 		}
 	}

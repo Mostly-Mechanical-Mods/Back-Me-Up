@@ -14,10 +14,8 @@
 		}
 
 		scope:recipient = {
-			any_owned_story = {
-				story_type = BMU_stakeholder_story
+			any_supporter_story = {
 				var:pressed_claim_story = scope:common_pressed_claim
-				has_variable = contender
 				var:contender.story_owner = { save_temporary_scope_as = candidate }
 				save_temporary_scope_value_as = {
 					name = previous_contender_score

@@ -1,53 +1,5 @@
 ﻿l_english:
 
-# Succession Window
-
-  CLAIMANT_FACTION_WINDOW_TITLE: "Claim for the [SuccessionElectionWindow.GetTitle.GetName]"
-  CLAIMANT_FACTION_WINDOW_LAW: "Faction members use their influence to legitimize their favorite claimant"
-  CLAIMANT_FACTION_WINDOW_RULES_ELECTORS: "Independent ruler Claimants may try to intervene"
-  CLAIMANT_FACTION_WINDOW_RULES_CANDIDATES: "A Claimant with enough support might challenge the current ruler"
-  CLAIMANT_FACTION_WINDOW_CANDIDATES: "Claimants ([GetDataModelSize( SuccessionElectionWindow.GetCandidates.GetList )])"
-  CLAIMANT_FACTION_WINDOW_ELECTORS: "Supporters ([GetDataModelSize( SuccessionElectionWindow.GetElectors.GetList )])"
-
-  VANILLA_SUCCESSION_ELECTION_WINDOW_TITLE:1 "Election for the [title_heir|E]"
-  VANILLA_SUCCESSION_ELECTION_WINDOW_LAW:0 "Succession Law: [SuccessionElectionWindow.GetSuccessionLaw.GetName]"
-  VANILLA_SUCCESSION_ELECTION_WINDOW_RULES_ELECTORS:0 "Electors: #bold [SuccessionElectionWindow.GetElectorsGrouping|E]#!"
-  VANILLA_SUCCESSION_ELECTION_WINDOW_RULES_CANDIDATES:0 "Candidates: #bold [SuccessionElectionWindow.GetCandidatesGrouping|E]#!"
-  VANILLA_SUCCESSION_ELECTION_WINDOW_CANDIDATES:2 "Candidates ([GetDataModelSize( SuccessionElectionWindow.GetCandidates.GetList )])"
-  VANILLA_SUCCESSION_ELECTION_WINDOW_ELECTORS:2 "Electors ([GetDataModelSize( SuccessionElectionWindow.GetElectors.GetList )])"
-
-# Claimant Faction
-
-DEPOSE_FACTION_TITLE_NAME:0 "[claimed_title.GetBaseNameNoTierNoTooltip] Claimant Faction"
-DEPOSE_FACTION_DYNAMIC_NAME: "[Scope.Var('claimant_faction').Title.GetBaseName]"
-depose_faction_short_effect_desc: "This faction wants to install their claimant on the throne"
-feudal_claimant_elective_law: "Claimant Faction"
-feudal_claimant_elective_electors: "Faction members"
-feudal_claimant_elective_candidates: "Title claimants"
-
-claimant_faction_already_exists: "There is already a Claimant Faction against your Liege"
-
-# Claim Window
-
-BMU_CLAIM_WINDOW_TITLE: "Claim for the [Title.GetName]"
-BMU_CLAIM_WINDOW_CONTENDERS: "Contenders"
-BMU_CLAIM_WINDOW_TOP_CONTENDER: "[Concept('contender','Top Contender')|E]"
-BMU_CLAIM_WINDOW_SUPPORTERS: "Supporters"
-BMU_CLAIM_WINDOW_CLAIMANTS: "Claimants"
-BMU_CLAIM_WINDOW_STAKEHOLDERS: "Stakeholders"
-BMU_CLAIM_WINDOW_SUPPORTER_COUNT: "Supporters: #high [GuiScope.SetRoot(Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('FF_BMU_contender_supporter_count')|0] #!"
-
-BMU_CLAIM_WINDOW_TARGET: "Claim Target"
-BMU_CLAIM_WINDOW_STRONGEST_CONTENDER: "Strongest Contender"
-
-BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_TARGET_TT:1 "#T Claim Target\n[Story.MakeScope.Var('claim_target').Char.GetShortUINameNoTooltip]: [GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('score_supporter',Scope.Var('stakeholder').Char.MakeScope).AddScope('candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('title',Story.MakeScope.Var('claimed_title').Title.MakeScope).ScriptValue('BMU_contender_score_gui')|+=0]#!"
-
-BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_CONTENDER_TT:1 "#T Preferred Contender\n[Scope.Var('contender').Var('stakeholder').Char.GetShortUINameNoTooltip]: [GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',Scope.Var('contender').Var('stakeholder').Char.MakeScope).AddScope('score_supporter',Scope.Var('stakeholder').Char.MakeScope).AddScope('candidate',Scope.Var('contender').Var('stakeholder').Char.MakeScope).AddScope('holder',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('title',Story.MakeScope.Var('claimed_title').Title.MakeScope).ScriptValue('BMU_contender_score_gui')|+=0]#!"
-
-BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_TOP_CONTENDER_TT: "#T Worthy Contender\n[Scope.Var('top_contender').Var('stakeholder').Char.GetShortUINameNoTooltip]: [GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',Scope.Var('top_contender').Var('stakeholder').Char.MakeScope).AddScope('score_supporter',Scope.Var('stakeholder').Char.MakeScope).AddScope('candidate',Scope.Var('top_contender').Var('stakeholder').Char.MakeScope).AddScope('holder',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('title',Story.MakeScope.Var('claimed_title').Title.MakeScope).ScriptValue('BMU_contender_score_gui')|+=0]#!"
-
-BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_PLAYER_CONTENDER_TT: "#T Not Supporting\n[GetPlayer.GetShortUINameNoTooltip]: [GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',GetPlayer.MakeScope).AddScope('score_supporter',Scope.Var('stakeholder').Char.MakeScope).AddScope('candidate',GetPlayer.MakeScope).AddScope('holder',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('title',Story.MakeScope.Var('claimed_title').Title.MakeScope).ScriptValue('BMU_contender_score_gui')|+=0]#!"
-
 # Important Actions
 
 action_can_join_pressed_claim: "action_can_join_pressed_claim"
@@ -77,119 +29,6 @@ action_request_support_in_pressed_claim_group_label: "action_request_support_in_
 action_request_support_in_pressed_claim_group_name: "action_request_support_in_pressed_claim_group_name"
 action_request_support_in_pressed_claim_group_description: "action_request_support_in_pressed_claim_group_description"
 
-
-# Interactions
-
-BMU_RECIPIENT_BECOMES_SUPPORTER: "BMU_RECIPIENT_BECOMES_SUPPORTER"
-BMU_contender_negotiate_support_interaction_desc: "BMU_contender_negotiate_support_interaction_desc"
-
-# Events
-
-BMU_CLAIMANT_INVITE: "[contender.MakeScope.Var('stakeholder').Char.Custom2('AppropriateGreeting',ROOT.Char)]"
-BMU_CLAIMANT_INVITE_DESC: "The right to rule [story.MakeScope.Var('claimed_title').Title.GetNameNoTier] belongs to me by divine right, and I finally have the means to make it so. Accept this fact peacefully or I will make you do so by force!"
-
-BMU_CLAIMANT_INVITE_CONTENDER: "I will press my own claim on [story.MakeScope.Var('claimed_title').Title.GetNameNoTierNoTooltip]!"
-BMU_CLAIMANT_INVITE_CONTENDER_TARGET: "I will defend my title!"
-BMU_CLAIMANT_INVITE_CONTENDER_TOOLTIP: "You become [contender|E] in the [BMU_pressed_claim|E] for [story.MakeScope.Var('claimed_title').Title.GetNameNoTierNoTooltip]"
-
-BMU_CLAIMANT_INVITE_STAKEHOLDER: "Let's see how this plays out..."
-BMU_CLAIMANT_INVITE_STAKEHOLDER_TOOLTIP: "You become [stakeholder|E] in the [BMU_pressed_claim|E] for [story.MakeScope.Var('claimed_title').Title.GetNameNoTierNoTooltip]"
-
-BMU_CLAIMANT_INVITE_DROPOUT: "I could care less about the fate of [story.MakeScope.Var('claimed_title').Title.GetNameNoTierNoTooltip]"
-BMU_CLAIMANT_INVITE_CONTENDER_UNWILLING_CONTENDER: "I don't want the [story.MakeScope.Var('claimed_title').Title.GetNameNoTooltip]!"
-
-BMU_TARGET_INVITE_ALLIES: "BMU_TARGET_INVITE_ALLIES"
-BMU_TARGET_INVITE_ALLIES_DESC: "BMU_TARGET_INVITE_ALLIES_DESC"
-BMU_TARGET_INVITE_ALLIES_SUPPORTER: "BMU_TARGET_INVITE_ALLIES_SUPPORTER"
-BMU_TARGET_INVITE_ALLIES_STAKEHOLDER: "BMU_TARGET_INVITE_ALLIES_STAKEHOLDER"
-BMU_TARGET_INVITE_ALLIES_DROPOUT: "BMU_TARGET_INVITE_ALLIES_DROPOUT"
-BMU_CONTENDER_INVITE_ALLIES: "BMU_CONTENDER_INVITE_ALLIES"
-BMU_CONTENDER_INVITE_ALLIES_DESC: "BMU_CONTENDER_INVITE_ALLIES_DESC"
-BMU_CONTENDER_INVITE_ALLIES_SUPPORTER: "BMU_CONTENDER_INVITE_ALLIES_SUPPORTER"
-BMU_CONTENDER_INVITE_ALLIES_STAKEHOLDER: "BMU_CONTENDER_INVITE_ALLIES_STAKEHOLDER"
-BMU_TARGET_INVITE_VASSALS: "BMU_TARGET_INVITE_VASSALS"
-BMU_TARGET_INVITE_VASSALS_DESC: "BMU_TARGET_INVITE_VASSALS_DESC"
-BMU_TARGET_INVITE_VASSALS_SUPPORTER: "BMU_TARGET_INVITE_VASSALS_SUPPORTER"
-BMU_TARGET_INVITE_VASSALS_SUPPORT_LIEGE: "BMU_TARGET_INVITE_VASSALS_SUPPORT_LIEGE"
-BMU_TARGET_INVITE_VASSALS_SUPPORT_CONTENDER: "BMU_TARGET_INVITE_VASSALS_SUPPORT_CONTENDER"
-BMU_TARGET_INVITE_VASSALS_STAKEHOLDER: "BMU_TARGET_INVITE_VASSALS_STAKEHOLDER"
-BMU_TARGET_INVITE_VASSALS_DROPOUT: "BMU_TARGET_INVITE_VASSALS_DROPOUT"
-
-
-BMU_BREAK_SUPPORT_TOOLTIP: "You stop supporting [bargain_temp.MakeScope.Var('stakeholder_story').Var('contender').Var('stakeholder').Char.GetShortUIName] in the claim on [contender.MakeScope.Var('pressed_claim_story').Var('claimed_title').Title.GetName]."
-BMU_ACCEPT_BARGAIN_TOOLTIP: "You accept the bargain, and pledge your support to [contender.MakeScope.Var('stakeholder').Char.GetShortUIName] in the claim on [contender.MakeScope.Var('pressed_claim_story').Var('claimed_title').Title.GetName]."
-BMU_REFUSE_BARGAIN_TOOLTIP: "You refuse the bargain."
-
-BMU_BARGAIN_PROPOSAL: "I am seeking your support for my claim on [bargain.MakeScope.Var('stakeholder_story').Var('pressed_claim_story').Var('claimed_title').Title.GetName].\nShould you chose to side with me, once I get the title, "
-BMU_BARGAIN_PROPOSAL_COUNCIL_POSITION: "I would make you my [Localize(Concatenate(bargain.MakeScope.Var('council_position').GetFlagName,'_name_notooltip'))]."
-BMU_BARGAIN_ACCEPTED: "BMU_BARGAIN_ACCEPTED"
-BMU_BARGAIN_REFUSED: "BMU_BARGAIN_REFUSED"
-
-BMU_SUPPORTER_LOST: "BMU_SUPPORTER_LOST"
-BMU_SUPPORTER_GAIN: "BMU_SUPPORTER_GAIN"
-
-# Game Concepts
-
-game_concept_stakeholder: "Stakeholder"
-game_concept_stakeholders: "Stakeholders"
-game_concept_stakeholder_desc: "A $game_concept_stakeholder$ in a [BMU_pressed_claim|E] can chose to become [supporter|E] of a [contender|E] to help them assert their right to the title - by any means necessary."
-
-game_concept_contender: "Contender"
-game_concept_contenders: "Contenders"
-game_concept_contender_desc: "A $game_concept_contender$ in a [BMU_pressed_claim|E] is trying to gather support in order to get the upper hand - either diplomatically or militarily."
-
-game_concept_supporter: "Supporter"
-game_concept_supporters: "Supporters"
-game_concept_supporter_desc: "A $game_concept_supporter$ on a [BMU_pressed_claim|E] has chosen a [contender|E] that they will back until the end - for better or for worse."
-
-game_concept_BMU_pressed_claim: "Pressed Claim"
-game_concept_BMU_pressed_claim_desc: "When a [contender|E] asserts their right to a title, other [claimants|E] to the title can press their own [claim|E].\n\n[contenders|E] will try to gather support in the hope of getting other [contenders|E] to back down - or to help in the inevitable war to come, should diplomacy fail."
-
-game_concept_contention_phase: "Contention Phase"
-game_concept_contention_phase_desc: "Contention"
-game_concept_rallying_phase: "Rallying Phase"
-game_concept_rallying_phase_desc: "Rallying"
-game_concept_bargaining_phase: "Bargaining Phase"
-game_concept_bargaining_phase_desc: "Bargaining"
-game_concept_declaration_phase: "Declaration Phase"
-game_concept_declaration_phase_desc: "Declaration"
-
-# Character Interactions
-
-# interaction_category_pressed_claim: "[SelectLocalization(GetPlayer.MakeScope.Var('pressed_claim_interaction').IsSet,'Pressed Claim','Pressed Claim on [GetPlayer.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.GetBaseName]')]"
-interaction_category_pressed_claim: "Pressed Claim"
-BMU_press_claim_interaction_notification: "The time has come to recognize my claim as the rightful ruler of [target.GetBaseNameNoTierNoTooltip]."
-
-BMU_call_in_supporter_interaction: "Request Support"
-BMU_call_in_supporter_interaction_desc: "Call on [recipient.GetShortUINameNoTooltip] to support your claim on the [GetPlayer.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.GetName]\n#help [AddTextIf(GreaterThan_int32(GetDataModelSize(GetPlayer.MakeScope.GetList('pressed_claim_gui')),'(int32)0'),'You are involved in several Pressed Claims.\nRight-click on Pressed Claim icons to select another one to bargain for.')]#!"
-
-BMU_see_pressed_claim_interaction: "See Pressed Claim"
-actor_secondary_BMU_see_pressed_claim_interaction: "Claim Target"
-actor_secondary_BMU_call_in_supporter_interaction_v2: "Claim Target"
-
-actor_BMU_call_in_supporter_interaction: "Contender"
-recipient_BMU_call_in_supporter_interaction: "Supporter"
-actor_secondary_BMU_call_in_supporter_interaction: "Claim Target"
-recipient_secondary_BMU_call_in_supporter_interaction: "Favorite Contender"
-
-
-BMU_modifier_tooltip_recipient_likes_secondary_recipient: "[secondary_recipient.GetShortUINameNoTooltip] is a worthy Contender: $VALUE|+0$"
-BMU_modifier_tooltip_recipient_prefers_secondary_recipient: "[secondary_recipient.GetShortUINameNoTooltip] is a better Contender: $VALUE|+0$"
-BMU_modifier_tooltip_recipient_likes_secondary_actor: "[secondary_actor.GetShortUINameNoTooltip] is a worthy Contender: $VALUE|+0$"
-BMU_modifier_tooltip_recipient_prefers_secondary_actor: "[secondary_actor.GetShortUINameNoTooltip] is a better Contender: $VALUE|+0$"
-
-# Press Claim interaction
-
-BMU_press_claim_interaction: "Press Claim"
-
-BMU_bargain_with_council_position_interaction: "Promise Council Appointment"
-BMU_bargain_with_council_position_interaction_desc: "Offer [recipient.GetShortUINameNoTooltip] a Council Position in exchange for [recipient.GetHerHis] support"
-BMU_bargain_council_position_interaction_option: "Promised Council Position:"
-BMU_bargain_council_position_interaction_option_chancellor: "@skill_diplomacy_icon! [chancellor|E]"
-BMU_bargain_council_position_interaction_option_steward: "@skill_stewardship_icon! [steward|E]"
-BMU_bargain_council_position_interaction_option_marshal: "@skill_martial_icon! [marshal|E]"
-BMU_bargain_council_position_interaction_option_spymaster: "@skill_intrigue_icon! [spymaster|E]"
-
 # Trigger Localization
 
 # I_WANT_COUNCIL_POSITION: "I_WANT_COUNCIL_POSITION"
@@ -218,6 +57,13 @@ NOT_BMU_THEY_ARE_SUPPORTER_IN_PRESSED_CLAIM: "NOT_BMU_THEY_ARE_SUPPORTER_IN_PRES
 BMU_SUPPORTER_IN_PRESSED_CLAIM: "BMU_SUPPORTER_IN_PRESSED_CLAIM"
 NOT_BMU_SUPPORTER_IN_PRESSED_CLAIM: "NOT_BMU_SUPPORTER_IN_PRESSED_CLAIM"
 
+BMU_I_ALREADY_SUPPORT_CONTENDER: "BMU_I_ALREADY_SUPPORT_CONTENDER"
+NOT_BMU_I_ALREADY_SUPPORT_CONTENDER: "NOT_BMU_I_ALREADY_SUPPORT_CONTENDER"
+BMU_THEY_ALREADY_SUPPORT_CONTENDER: "BMU_THEY_ALREADY_SUPPORT_CONTENDER"
+NOT_BMU_I_ALREADY_SUPPORT_CONTENDER: "BMU_I_ALREADY_SUPPORT_CONTENDER"
+BMU_ALREADY_SUPPORT_CONTENDER: "BMU_ALREADY_SUPPORT_CONTENDER"
+NOT_BMU_ALREADY_SUPPORT_CONTENDER: "NOT_BMU_ALREADY_SUPPORT_CONTENDER"
+
 BMU_is_not_in_pressed_claim: "BMU_is_in_pressed_claim"
 BMU_already_involved_in_pressed_claim: "BMU_already_involved_in_pressed_claim"
 
@@ -229,13 +75,13 @@ BMU_TOO_LATE_TO_JOIN_PRESSED_CLAIM: "Too late to press your claim on [pressed_cl
 BMU_debug_ai_accept_value: "#warning Debug:#! AI Accept chance should be #!$VALUE|+0$"
 BMU_debug_ai_accept_value_neg: "#warning Debug:#! AI Accept chance should be #warning -#!$VALUE|-0$"
 test: "BMU_debug_ai_accept_value_tooltip"
-BMU_debug_ai_accept_value_tooltip: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('score_contender',SCOPE.sC('actor').MakeScope).AddScope('score_supporter',SCOPE.sC('recipient').MakeScope).AddScope('candidate',SCOPE.sC('actor').MakeScope).AddScope('holder',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('title',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
+BMU_debug_ai_accept_value_tooltip: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('score_contender',SCOPE.sC('actor').MakeScope).AddScope('score_supporter',SCOPE.sC('recipient').MakeScope).AddScope('candidate',SCOPE.sC('actor').MakeScope).AddScope('claim_target',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('claimed_title',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
 
-BMU_debug_ai_accept_value_tooltip_secondary_recipient: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('score_contender',SCOPE.sC('secondary_recipient').MakeScope).AddScope('score_supporter',SCOPE.sC('recipient').MakeScope).AddScope('candidate',SCOPE.sC('actor').MakeScope).AddScope('holder',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('title',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
+BMU_debug_ai_accept_value_tooltip_secondary_recipient: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('score_contender',SCOPE.sC('secondary_recipient').MakeScope).AddScope('score_supporter',SCOPE.sC('recipient').MakeScope).AddScope('candidate',SCOPE.sC('actor').MakeScope).AddScope('claim_target',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('claimed_title',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
 
-BMU_debug_ai_accept_value_tooltip_2: "[GuiScope.SetRoot(recipient.MakeScope).AddScope('score_contender',actor.MakeScope).AddScope('score_supporter',recipient.MakeScope).AddScope('candidate',actor.MakeScope).AddScope('holder',actor.MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',actor.MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('title',actor.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
+BMU_debug_ai_accept_value_tooltip_2: "[GuiScope.SetRoot(recipient.MakeScope).AddScope('score_contender',actor.MakeScope).AddScope('score_supporter',recipient.MakeScope).AddScope('candidate',actor.MakeScope).AddScope('claim_target',actor.MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',actor.MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('claimed_title',actor.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
 
-BMU_debug_ai_accept_value_tooltip_3: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('score_contender',SCOPE.sC('secondary_recipient').MakeScope).AddScope('score_supporter',SCOPE.sC('recipient').MakeScope).AddScope('candidate',SCOPE.sC('secondary_recipient').MakeScope).AddScope('holder',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('title',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
+BMU_debug_ai_accept_value_tooltip_3: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('score_contender',SCOPE.sC('secondary_recipient').MakeScope).AddScope('score_supporter',SCOPE.sC('recipient').MakeScope).AddScope('candidate',SCOPE.sC('secondary_recipient').MakeScope).AddScope('claim_target',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('claimed_title',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
 
 
 BMU_GLOBAL_IF_PRESSED_CLAIM_WON: "If [CHARACTER.GetSheHe] gets [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetNameNoTooltip]:"
@@ -341,9 +187,10 @@ FF_VALUE_FORMAT: "$KEY$: $VALUE|+=0$"
 
 # TEST
 
-# test_1: "[Character.GetShortUIName]"
-# test_2: "[Character.GetShortUIName]"
+test_1: "[GetPlayer.GetPrimarySpouse.GetShortUIName]"
+test_2: "fail"
 
+test_loc: "[GetPlayer.MakeScope.GetScriptValueDesc('test_value')]"
 
 # MISC
 
@@ -378,7 +225,7 @@ BMU_THEY_WOULD_NOT_ACCEPT_BARGAIN: "[TARGET_CHARACTER.GetShortUIName] will not a
 BMU_BARGAIN_STRUCK_WITH: "Bargain struck with [Scope.Var('bargained').Var('stakeholder').Char.GetShortUIName]"
 BMU_BARGAIN_STRUCK_FOR: "for the [Localize(Concatenate(Scope.Var('council_position').GetFlagName,'_name'))] position."
 
-BMU_tooltip_unfulfilled_ambitions: "Wants something for [Character.GetHerHis] trouble."
+
 BMU_ONGOING_PRESSED_CLAIM: "There already is a Pressed Claim on [Title.GetNameNoTooltip]"
 BMU_ALREADY_BARGAINED_WITH_CONTENDER: "BMU_ALREADY_BARGAINED_WITH_CONTENDER"
 BMU_CLAIMANT_SUPPORTS_ANOTHER: "[CHARACTER.GetShortUIName] supports the claim of [TARGET_CHARACTER.GetShortUIName]"
@@ -420,7 +267,7 @@ test_modifier_desc: "[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('contender'
 test_modifier_desc: "test"
 
 
-test_1: "test 1 [SCOPE.sC('test_char').GetName]"
-test_2: "test 2 [SCOPE.sC('test_char').GetName]"
-test_3: "test 3 [SCOPE.sC('test_title').GetName]"
-test_4: "test 4 [SCOPE.sC('test_title').GetName]"
+# test_1: "test 1 [SCOPE.sC('test_char').GetName]"
+# test_2: "test 2 [SCOPE.sC('test_char').GetName]"
+# test_3: "test 3 [SCOPE.sC('test_title').GetName]"
+# test_4: "test 4 [SCOPE.sC('test_title').GetName]"

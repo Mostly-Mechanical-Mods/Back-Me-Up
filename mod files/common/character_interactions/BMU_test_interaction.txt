@@ -1,6 +1,6 @@
 ﻿BMU_test_interaction = {
 	hidden = yes
-	category = interaction_category_pressed_claim
+	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
 	ignores_pending_interaction_block = yes

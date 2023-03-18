@@ -35,11 +35,13 @@
 			}
 			trigger_if = {
 				limit = { scope:recipient = { is_ai = yes }}
-				custom_description = {
-					text = BMU_contender_score_trigger
-					subject = scope:recipient
-					object = scope:secondary_actor
-					scope:recipient = { scope:secondary_actor = { BMU_contender_score < 0 }}
+				NOT = {
+					custom_description = {
+						text = BMU_contender_score_trigger
+						subject = scope:recipient
+						object = scope:secondary_actor
+						scope:recipient = { scope:secondary_actor = { BMU_contender_score > 0 }}
+					}
 				}
 			}
 			trigger_if = {

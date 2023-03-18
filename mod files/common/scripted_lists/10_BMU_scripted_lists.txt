@@ -8,16 +8,14 @@
 supporter_story = {
 	base = owned_story
 	conditions = {
-		story_type = BMU_stakeholder_story
-		var:status = flag:supporter
+		story_type = BMU_supporter_story
 	}
 }
 
 contender_story = {
 	base = owned_story
 	conditions = {
-		story_type = BMU_stakeholder_story
-		var:status = flag:contender
+		story_type = BMU_contender_story
 	}
 }
 

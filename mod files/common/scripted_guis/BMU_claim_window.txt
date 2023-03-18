@@ -20,7 +20,7 @@ BMU_has_strong_claim = {
 		title
 	}
 	is_shown = {
-		has_strong_claim_on = scope:title
+		has_strong_claim_on = scope:claimed_title
 	}
 }
 
@@ -30,7 +30,7 @@ BMU_has_weak_claim = {
 		title
 	}
 	is_shown = {
-		has_weak_claim_on = scope:title
+		has_weak_claim_on = scope:claimed_title
 	}
 }
 
@@ -41,8 +41,8 @@ BMU_has_implicit_claim = {
 	}
 	is_shown = {
 		NOR = {
-			has_claim_on = scope:title
-			has_title = scope:title
+			has_claim_on = scope:claimed_title
+			has_title = scope:claimed_title
 		}
 	}
 }
@@ -644,5 +644,94 @@ BMU_contender_score_tooltip = {
 	}
 	is_shown = {
 		
+	}
+}
+
+BMU_request_support_sgui = {
+	scope = character
+	saved_scopes = {
+		recipient
+	}
+	is_shown = {
+
+	}
+	is_valid = {
+		is_character_interaction_valid = {
+			recipient = scope:recipient
+			interaction = BMU_call_in_supporter_interaction
+		}
+	}
+	effect = {
+		open_interaction_window = {
+			interaction = BMU_call_in_supporter_interaction
+			actor = root
+			recipient = scope:recipient
+		}
+	}
+}
+
+BMU_set_pressed_claim_interaction = {
+	scope = character
+	saved_scopes = { claimed_title }
+	effect = {
+		random_in_list = {
+			variable = pressed_claim_gui
+			limit = { var:claimed_title = scope:claimed_title }
+			save_scope_as = pressed_claim
+		}
+		set_variable = {
+			name = pressed_claim_interaction
+			value = scope:pressed_claim
+		}
+		clear_variable_list = stakeholders_gui
+		if = {
+			limit = { any_contender_story = { var:pressed_claim_story = scope:pressed_claim }}
+			every_ally = { add_to_list = stakeholders }
+			every_close_family_member = { add_to_list = stakeholders }
+			every_vassal = { add_to_list = stakeholders }
+			liege = { add_to_list = stakeholders }
+			every_relation = {
+				type = friend
+				add_to_list = stakeholders
+			}
+			every_relation = {
+				type = lover
+				add_to_list = stakeholders
+			}
+			dynasty.dynast = { add_to_list = stakeholders }
+			house.house_head = { add_to_list = stakeholders }
+			every_relation = {
+				type = stakeholder_proxy
+				limit = {
+					OR = {
+						any_relation = {
+							type = rival
+							 any_contender_story = { var:pressed_claim_story = scope:pressed_claim }
+						}
+						BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim }
+					}
+				}
+				add_to_list = stakeholders
+			}
+		}
+		ordered_in_list = {
+			list = stakeholders
+			max = 1000
+			check_range_bounds = no
+			limit = {
+				is_landed = yes
+				NOT = { this = root }
+			}
+			order_by = max_military_strength
+			random_stakeholder_story = {
+				limit = { var:pressed_claim_story = scope:pressed_claim }
+				root = {
+					add_to_variable_list = {
+						name = stakeholders_gui
+						target = prev
+					}
+				}
+			}
+		}
 	}
 }

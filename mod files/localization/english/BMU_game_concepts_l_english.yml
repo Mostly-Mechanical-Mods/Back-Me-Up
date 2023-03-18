@@ -1,0 +1,27 @@
+﻿l_english:
+
+# Game Concepts
+
+game_concept_stakeholder: "Stakeholder"
+game_concept_stakeholders: "Stakeholders"
+game_concept_stakeholder_desc: "A $game_concept_stakeholder$ in a [BMU_pressed_claim|E] can chose to become [supporter|E] of a [contender|E] to help them assert their right to the title - by any means necessary."
+
+game_concept_contender: "Contender"
+game_concept_contenders: "Contenders"
+game_concept_contender_desc: "A $game_concept_contender$ in a [BMU_pressed_claim|E] is trying to gather support in order to get the upper hand - either diplomatically or militarily."
+
+game_concept_supporter: "Supporter"
+game_concept_supporters: "Supporters"
+game_concept_supporter_desc: "A $game_concept_supporter$ on a [BMU_pressed_claim|E] has chosen a [contender|E] that they will back until the end - for better or for worse."
+
+game_concept_BMU_pressed_claim: "Pressed Claim"
+game_concept_BMU_pressed_claim_desc: "When a [contender|E] asserts their right to a title, other [claimants|E] to the title can press their own [claim|E].\n\n[contenders|E] will try to gather support in the hope of getting other [contenders|E] to back down - or to help in the inevitable war to come, should diplomacy fail."
+
+game_concept_contention_phase: "Contention Phase"
+game_concept_contention_phase_desc: "Contention"
+game_concept_rallying_phase: "Rallying Phase"
+game_concept_rallying_phase_desc: "Rallying"
+game_concept_bargaining_phase: "Bargaining Phase"
+game_concept_bargaining_phase_desc: "Bargaining"
+game_concept_declaration_phase: "Declaration Phase"
+game_concept_declaration_phase_desc: "Declaration"

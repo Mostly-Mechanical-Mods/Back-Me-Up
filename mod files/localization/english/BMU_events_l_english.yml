@@ -1,0 +1,46 @@
+﻿l_english:
+
+# Events
+
+BMU_CLAIMANT_INVITE: "[contender.MakeScope.Var('stakeholder').Char.Custom2('AppropriateGreeting',ROOT.Char)]"
+BMU_CLAIMANT_INVITE_DESC: "The right to rule [story.MakeScope.Var('claimed_title').Title.GetNameNoTier] belongs to me by divine right, and I finally have the means to make it so. Accept this fact peacefully or I will make you do so by force!"
+
+BMU_CLAIMANT_INVITE_CONTENDER: "I will press my own claim on [story.MakeScope.Var('claimed_title').Title.GetNameNoTierNoTooltip]!"
+BMU_CLAIMANT_INVITE_CONTENDER_TARGET: "I will defend my title!"
+BMU_CLAIMANT_INVITE_CONTENDER_TOOLTIP: "You become [contender|E] in the [BMU_pressed_claim|E] for [story.MakeScope.Var('claimed_title').Title.GetNameNoTierNoTooltip]"
+
+BMU_CLAIMANT_INVITE_STAKEHOLDER: "Let's see how this plays out..."
+BMU_CLAIMANT_INVITE_STAKEHOLDER_TOOLTIP: "You become [stakeholder|E] in the [BMU_pressed_claim|E] for [story.MakeScope.Var('claimed_title').Title.GetNameNoTierNoTooltip]"
+
+BMU_CLAIMANT_INVITE_DROPOUT: "I could care less about the fate of [story.MakeScope.Var('claimed_title').Title.GetNameNoTierNoTooltip]"
+BMU_CLAIMANT_INVITE_CONTENDER_UNWILLING_CONTENDER: "I don't want the [story.MakeScope.Var('claimed_title').Title.GetNameNoTooltip]!"
+
+BMU_TARGET_INVITE_ALLIES: "BMU_TARGET_INVITE_ALLIES"
+BMU_TARGET_INVITE_ALLIES_DESC: "BMU_TARGET_INVITE_ALLIES_DESC"
+BMU_TARGET_INVITE_ALLIES_SUPPORTER: "BMU_TARGET_INVITE_ALLIES_SUPPORTER"
+BMU_TARGET_INVITE_ALLIES_STAKEHOLDER: "BMU_TARGET_INVITE_ALLIES_STAKEHOLDER"
+BMU_TARGET_INVITE_ALLIES_DROPOUT: "BMU_TARGET_INVITE_ALLIES_DROPOUT"
+BMU_CONTENDER_INVITE_ALLIES: "BMU_CONTENDER_INVITE_ALLIES"
+BMU_CONTENDER_INVITE_ALLIES_DESC: "BMU_CONTENDER_INVITE_ALLIES_DESC"
+BMU_CONTENDER_INVITE_ALLIES_SUPPORTER: "BMU_CONTENDER_INVITE_ALLIES_SUPPORTER"
+BMU_CONTENDER_INVITE_ALLIES_STAKEHOLDER: "BMU_CONTENDER_INVITE_ALLIES_STAKEHOLDER"
+BMU_TARGET_INVITE_VASSALS: "BMU_TARGET_INVITE_VASSALS"
+BMU_TARGET_INVITE_VASSALS_DESC: "BMU_TARGET_INVITE_VASSALS_DESC"
+BMU_TARGET_INVITE_VASSALS_SUPPORTER: "BMU_TARGET_INVITE_VASSALS_SUPPORTER"
+BMU_TARGET_INVITE_VASSALS_SUPPORT_LIEGE: "BMU_TARGET_INVITE_VASSALS_SUPPORT_LIEGE"
+BMU_TARGET_INVITE_VASSALS_SUPPORT_CONTENDER: "BMU_TARGET_INVITE_VASSALS_SUPPORT_CONTENDER"
+BMU_TARGET_INVITE_VASSALS_STAKEHOLDER: "BMU_TARGET_INVITE_VASSALS_STAKEHOLDER"
+BMU_TARGET_INVITE_VASSALS_DROPOUT: "BMU_TARGET_INVITE_VASSALS_DROPOUT"
+
+
+BMU_BREAK_SUPPORT_TOOLTIP: "You stop supporting [bargain_temp.MakeScope.Var('stakeholder_story').Var('contender').Var('stakeholder').Char.GetShortUIName] in the claim on [contender.MakeScope.Var('pressed_claim_story').Var('claimed_title').Title.GetName]."
+BMU_ACCEPT_BARGAIN_TOOLTIP: "You accept the bargain, and pledge your support to [contender.MakeScope.Var('stakeholder').Char.GetShortUIName] in the claim on [contender.MakeScope.Var('pressed_claim_story').Var('claimed_title').Title.GetName]."
+BMU_REFUSE_BARGAIN_TOOLTIP: "You refuse the bargain."
+
+BMU_BARGAIN_PROPOSAL: "I am seeking your support for my claim on [bargain.MakeScope.Var('stakeholder_story').Var('pressed_claim_story').Var('claimed_title').Title.GetName].\nShould you chose to side with me, once I get the title, "
+BMU_BARGAIN_PROPOSAL_COUNCIL_POSITION: "I would make you my [Localize(Concatenate(bargain.MakeScope.Var('council_position').GetFlagName,'_name_notooltip'))]."
+BMU_BARGAIN_ACCEPTED: "BMU_BARGAIN_ACCEPTED"
+BMU_BARGAIN_REFUSED: "BMU_BARGAIN_REFUSED"
+
+BMU_SUPPORTER_LOST: "BMU_SUPPORTER_LOST"
+BMU_SUPPORTER_GAIN: "BMU_SUPPORTER_GAIN"

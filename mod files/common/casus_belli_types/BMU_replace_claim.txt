@@ -200,9 +200,9 @@
 	}
 
 	should_invalidate = {
-		#BMU
-		always = yes
-		#[/BMU]
+		# #BMU
+		# always = yes
+		# #[/BMU]
 	}
 
 	on_invalidated_desc = {
@@ -233,15 +233,15 @@
 	}
 	
 	on_invalidated = {
-		debug_log = "claim_cb on_invalidated"
-		debug_log_scopes = yes
+		# debug_log = "claim_cb on_invalidated"
+		# debug_log_scopes = yes
 		
-		run_interaction = {
-			interaction = BMU_press_claim_interaction
-			actor = scope:attacker
-			recipient = scope:defender
-			send_threshold = decline
-		}
+		# run_interaction = {
+		# 	interaction = BMU_press_claim_interaction_script
+		# 	actor = scope:attacker
+		# 	recipient = scope:defender
+		# 	send_threshold = decline
+		# }
 	}
 
 	on_victory_desc = {

@@ -1,20 +1,24 @@
 ﻿BMU_interaction_press_claim = {
+	$CLAIMANT$ = { save_scope_as = claimant }
+	$CLAIM_TARGET$ = { save_scope_as = claim_target }
+	$CLAIMED_TITLE$ = { save_scope_as = claimed_title }
+
 	hidden_effect = {
 		scope:claimant = {
 			create_story = {
-				type = BMU_stakeholder_story
+				type = BMU_contender_story
 				save_scope_as = contender
 			}
 		}
 	}
 	if = {
-		limit = { scope:target = { has_variable = pressed_claim }}
-		scope:target.var:pressed_claim = { save_scope_as = pressed_claim }
+		limit = { scope:claimed_title = { has_variable = pressed_claim }}
+		scope:claimed_title.var:pressed_claim = { save_scope_as = pressed_claim }
 		scope:claimant = {
 			custom_description = {
 				text = BMU_contender_join_pressed_claim
 				subject = scope:claimant
-				object = scope:pressed_claim.var:claimed_title
+				object = scope:claimed_title
 			}
 		}
 		hidden_effect = {
@@ -54,7 +58,7 @@
 				}
 				scope:pressed_claim = {
 					add_to_variable_list = {
-						name = BMU_pressed_claim_stakeholders
+						name = contenders
 						target = scope:contender
 					}
 				}
@@ -62,43 +66,14 @@
 		}
 	}
 	else = {
-		scope:actor = {
-			custom_description = {
-				text = BMU_contender_create_pressed_claim
-				subject = scope:claimant
-				object = scope:target
-			}
-		}
-		scope:recipient = {
-			custom_description = {
-				text = BMU_claim_target_defend_pressed_claim
-				subject = scope:claim_target
-				object = scope:target
-			}
-		}
-		scope:target = {
-			every_claimant = {
-				limit = {
-					NOR = {
-						this = scope:claimant
-						this = scope:claim_target
-					}
-				}
-				custom_description = {
-					text = BMU_claimant_might_join_pressed_claim
-					subject = this
-					object = scope:target
-				}
-			}
-		}
 		hidden_effect = {
-			scope:recipient = {
+			scope:claim_target = {
 				create_story = {
 					type = BMU_pressed_claim_story
 					save_scope_as = pressed_claim
 				}
 				create_story = {
-					type = BMU_stakeholder_story
+					type = BMU_contender_story
 					save_scope_as = claim_target_contender
 				}
 			}
@@ -179,18 +154,18 @@
 					}
 					set_variable = {
 						name = claimed_title
-						value = scope:target
+						value = scope:claimed_title
 					}
 					add_to_variable_list = {
-						name = BMU_pressed_claim_stakeholders
+						name = contenders
 						target = scope:contender
 					}
 					add_to_variable_list = {
-						name = BMU_pressed_claim_stakeholders
+						name = contenders
 						target = scope:claim_target_contender
 					}
 				}
-				scope:target = {
+				scope:claimed_title = {
 					every_claimant = {
 						scope:pressed_claim = {
 							add_to_variable_list = {
@@ -204,7 +179,7 @@
 						value = scope:pressed_claim
 					}
 				}
-				scope:recipient = {
+				scope:claim_target = {
 					every_heir = {
 						scope:pressed_claim = {
 							add_to_variable_list = {
@@ -216,11 +191,255 @@
 				}
 			}
 		}
+
+		scope:claimant = {
+			custom_description = {
+				text = BMU_contender_create_pressed_claim
+				subject = scope:claimant
+				object = scope:claimed_title
+			}
+		}
+		scope:claim_target = {
+			custom_description = {
+				text = BMU_claim_target_defend_pressed_claim
+				subject = scope:claim_target
+				object = scope:claimed_title
+			}
+		}
+		scope:claimant = { add_to_list = claimants }
+		scope:claim_target = { add_to_list = claimants }
+		scope:claim_target = {
+			every_targeting_faction = {
+				limit = {
+					faction_is_type = claimant_faction
+					special_title = scope:claimed_title
+					NOT = { has_variable = pressed_claim }
+				}
+				set_variable = {
+					name = pressed_claim
+					value = scope:pressed_claim
+				}
+				if = {
+					limit = { NOT = { special_character = scope:claimant }}
+					special_character = {
+						custom_description = {
+							text = BMU_contender_join_pressed_claim
+							subject = this
+							object = scope:claimed_title
+							add_to_list = claimants
+							create_story = {
+								type = BMU_contender_story
+								save_scope_as = faction_claimant
+							}
+							if = {
+								limit = { exists = scope:faction_claimant }
+								scope:faction_claimant = {
+									set_variable = {
+										name = pressed_claim_story
+										value = scope:pressed_claim
+									}
+									set_variable = {
+										name = stakeholder
+										value = story_owner
+									}
+									set_variable = {
+										name = story_owner
+										value = story_owner
+									}
+									set_variable = {
+										name = status
+										value = flag:contender
+									}
+									set_variable = {
+										name = contender
+										value = this
+									}
+									story_owner = {
+										add_to_variable_list = {
+											name = pressed_claim_gui
+											target = scope:pressed_claim
+										}
+										set_variable = {
+											name = pressed_claim_interaction
+											value = scope:pressed_claim
+										}
+									}
+									scope:pressed_claim = {
+										add_to_variable_list = {
+											name = contenders
+											target = prev
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				add_to_variable_list = {
+					name = pressed_claim_supporters
+					target = special_character
+				}
+				every_faction_member = {
+					limit = { NOT = { this = prev.special_character }}
+					custom_description = {
+						text = BMU_start_supporting_contender
+						subject = this
+						object = prev.special_character
+						run_interaction = {
+							interaction = BMU_call_in_supporter_interaction
+							actor = prev.special_character
+							recipient = this
+							redirect = yes
+							execute_threshold = decline
+						}
+					}
+					prev = {
+						add_to_variable_list = {
+							name = pressed_claim_supporters
+							target = prev
+						}
+					}
+				}
+			}
+		}
 	}
+	
+	scope:claimed_title = {
+		every_claimant = {
+			limit = { NOT = { is_in_list = claimants }}
+			custom_description = {
+				text = BMU_claimant_might_join_pressed_claim
+				subject = this
+				object = scope:claimed_title
+			}
+		}
+	}
+	if = {
+		limit = { exists = scope:pressed_claim }
+		scope:pressed_claim = {
+			every_in_list = {
+				variable = contenders
+				limit = { NOT = { story_owner = { is_in_list = claimants }}}
+				send_interface_message = {
+					type = event_generic_bad_text # default: send_interface_message
+					title = BMU_notification_pressed_claim
+					desc = BMU_notification_pressed_claim_desc
+					left_icon = scope:claimant
+					right_icon = scope:claimed_title
+				}
+			}
+		}
+	}
+
 	hidden_effect = {
 		if = {
 			limit = { exists = scope:pressed_claim }
 			BMU_pressed_claim_update_top_contender_v2 = { PRESSED_CLAIM = scope:pressed_claim }
+			# scope:claim_target = {
+			# 	every_vassal = {
+			# 		limit = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim }}
+			# 		scope:claimant = { BMU_set_relation_stakeholder = { FLAG = future_vassal TARGET = prev PRESSED_CLAIM = scope:pressed_claim }}
+			# 	}
+			# 	every_relation = {
+			# 		type = rival
+			# 		scope:claimant = { BMU_set_relation_stakeholder = { FLAG = contender_rival TARGET = prev PRESSED_CLAIM = scope:pressed_claim }}
+			# 	}
+			# }
+			# scope:claimant = {
+			# 	every_relation = {
+			# 		type = rival
+			# 		save_scope_as = rival
+			# 		scope:pressed_claim = {
+			# 			every_in_list = {
+			# 				variable = contenders
+
+			# 			}
+			# 		}
+			# 	}
+			# }
 		}
 	}
+}
+
+BMU_update_confidence = {
+	set_variable = {
+		name = confidence_score
+		value = BMU_confidence
+	}
+	if = {
+		limit = { var:confidence_score >= 1.2 }
+		set_variable = { name = confidence_flag value = flag:confidence_cocky }
+	}
+	else_if = {
+		limit = { var:confidence_score >= 1 }
+		set_variable = { name = confidence_flag value = flag:confidence_confident }
+	}
+	else_if = {
+		limit = { var:confidence_score >= 1 }
+		set_variable = { name = confidence_flag value = flag:confidence_concerned }
+	}
+	else = { set_variable = { name = confidence_flag value = flag:confidence_fearful }}
+}
+
+BMU_set_relation_stakeholder = {
+	$TARGET$ = { save_scope_as = stakeholder }
+	if = {
+		limit = { NOT = { has_relation_stakeholder_proxy = scope:stakeholder }}
+		set_relation_stakeholder_proxy = scope:stakeholder
+	}
+	add_relation_flag = {
+		flag = $FLAG$
+		target = scope:stakeholder
+		relation = stakeholder_proxy
+	}
+	clear_saved_scope = stakeholder
+}
+
+BMU_calc_best_contenders = {
+	save_scope_as = temp_story
+	if  = {
+		limit = { NOT = { exists = scope:pressed_claim }}
+		$PRESSED_CLAIM$ = { save_scope_as = pressed_claim }
+	}
+	remove_variable = best_contender
+	remove_variable = worthy_contender
+	scope:pressed_claim = {
+		ordered_in_list = {
+			variable = contenders
+			order_by = {
+				story_owner = {
+					save_temporary_scope_as = score_contender
+					scope:temp_story.story_owner = { add = BMU_contender_score }
+				}
+			}
+			max = 2
+			check_range_bounds = no
+			if = { limit = { story_owner = { save_temporary_scope_as = score_contender }}}
+			scope:temp_story = {
+				if = {
+					limit = { NOT = { has_variable = best_contender }}
+					set_variable = {
+						name = best_contender
+						value = prev.story_owner
+					}
+					set_variable = {
+						name = best_contender_score
+						value = { scope:temp_story.story_owner = { add = BMU_contender_score }}
+					}
+				}
+				else = {
+					set_variable = {
+						name = worthy_contender
+						value = prev.story_owner
+					}
+					set_variable = {
+						name = worthy_contender_score
+						value = { scope:temp_story.story_owner = { add = BMU_contender_score }}
+					}
+				}
+			}
+		}
+	}
+	clear_saved_scope = temp_pressed_claim
+	clear_saved_scope = temp_story
 }

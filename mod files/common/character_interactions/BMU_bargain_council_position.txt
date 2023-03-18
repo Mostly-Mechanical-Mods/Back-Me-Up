@@ -1,5 +1,5 @@
 ﻿BMU_bargain_with_council_position_interaction = {
-	category = interaction_category_pressed_claim
+	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
 	ignores_pending_interaction_block = yes

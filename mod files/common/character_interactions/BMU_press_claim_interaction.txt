@@ -1,5 +1,5 @@
 ﻿BMU_press_claim_interaction = {
-	category = interaction_category_pressed_claim
+	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
 	ignores_pending_interaction_block = yes
@@ -14,7 +14,7 @@
 		}
 	}
 
-	desc = BMU_press_claim_interaction
+	desc = BMU_press_claim_interaction_desc
 
 	# auto_accept = yes
 
@@ -25,7 +25,6 @@
 
 	greeting = negative
 	notification_text = BMU_press_claim_interaction_notification
-	prompt = test
 
 	ai_min_reply_days = 0							# Minimum days before ai replies
 	ai_max_reply_days = 0
@@ -80,16 +79,15 @@
 							object = var:pressed_claim
 							var:pressed_claim = {
 								OR = {
-									var:phase = declaration_phase
-									var:phase = war_phase
+									var:phase = flag:declaration_phase
+									var:phase = flag:war_phase
 								}
 							}
 						}
 						custom_description = {
 							text = BMU_already_involved_in_pressed_claim
 							scope:actor = {
-								any_owned_story = {
-									story_type = BMU_stakeholder_story
+								any_contender_story = {
 									var:pressed_claim_story.var:claimed_title = scope:claim
 								}
 							}
@@ -125,9 +123,8 @@
 					custom_description = {
 						text = BMU_already_involved_in_pressed_claim
 						scope:actor = {
-							any_owned_story = {
-								story_type = BMU_stakeholder_story
-								var:pressed_claim_story.var:claimed_title = scope:claim
+							any_contender_story = {
+								var:pressed_claim_story.var:claimed_title = scope:target
 							}
 						}
 					}
@@ -143,19 +140,28 @@
 	
 
 	on_send = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_press_claim_interaction on_send"
+			debug_log_scopes = yes
+		}
 	}
 	
 	on_accept = {
 		if = {
 			limit = { debug_only = yes }
-			debug_log = "BMU_press_claim_interaction"
+			debug_log = "BMU_press_claim_interaction on_accept"
 			debug_log_scopes = yes
 		}
 
 		scope:actor = { save_scope_as = claimant }
 		scope:recipient = { save_scope_as = claim_target }
 
-		BMU_interaction_press_claim = yes
+		BMU_interaction_press_claim = {
+			CLAIMANT = scope:actor
+			CLAIM_TARGET = scope:recipient
+			CLAIMED_TITLE = scope:target
+		}
 	}
 
 	ai_potential = { is_claimant = yes }
@@ -169,19 +175,17 @@
 	ai_will_do = {
 		base = 0
 		modifier = {
+			save_temporary_scope_as = score_supporter
+			scope:target = { save_temporary_scope_as = claimed_title }
 			scope:target.holder = {
 				save_temporary_scope_as = score_contender
-				save_temporary_scope_value_as = {
-					name = actor_score
-					value = BMU_contender_score
-				}
+				save_temporary_scope_as = holder_candidate
+				save_temporary_scope_as = claim_target
 			}
-			add = 0
+			add = BMU_contender_legitimacy
 		}
-		BMU_bargain_title = yes
 		modifier = {
-			scope:target = title:k_france
-			add = 10000000
+			factor = -1
 		}
 	}
 }
@@ -193,6 +197,7 @@ BMU_press_claim_interaction_script = {
 	ignores_pending_interaction_block = yes
 	interface_priority = -1
 	icon = icon_claim_pressed
+	hidden = yes
 
 	desc = BMU_press_claim_interaction
 
@@ -207,58 +212,30 @@ BMU_press_claim_interaction_script = {
 	notification_text = BMU_press_claim_interaction_notification
 	prompt = test
 
+	ai_min_reply_days = 0							# Minimum days before ai replies
+	ai_max_reply_days = 0
+
 	cooldown_against_recipient = { years = 1 }
 
 	redirect = {
 	}
 
 	is_shown = {
-		scope:actor = {
-			custom_tooltip = {
-				text = debug_1
-				is_ai = yes
-			}
-			custom_tooltip = {
-				text = debug_1
-				has_variable = BMU_press_claim_interaction_script
-			}
-		}
 	}
 	
 	is_valid_showing_failures_only = {
-		custom_tooltip = {
-			text = debug_3
-			exists = scope:actor.var:BMU_press_claim_interaction_script
-		}
-		custom_tooltip = {
-			text = debug_4
-			OR = {
-				scope:recipient = scope:actor.var:BMU_press_claim_interaction_script.holder.top_liege
-				scope:recipient = scope:actor.var:BMU_press_claim_interaction_script.holder
-			}
-		}
 	}
 
 	can_send = {
-		scope:actor = {
-			custom_tooltip = {
-				text = debug_5
-				is_ai = yes
-			}
-			custom_tooltip = {
-				text = debug_6
-				has_variable = BMU_press_claim_interaction_script
-			}
-		}
 	}
 	
-
 	on_send = {
-		scope:actor.var:BMU_press_claim_interaction_script = { save_scope_as = target }
-		scope:actor = { save_scope_as = claimant }
+		scope:actor = {
+			var:BMU_press_claim_interaction_script = { save_scope_as = target }
+			remove_variable = BMU_press_claim_interaction_script
+			save_scope_as = claimant
+		}
 		scope:recipient = { save_scope_as = claim_target }
-
-		scope:actor = { remove_variable = BMU_press_claim_interaction_script}
 	}
 	
 	on_accept = {
@@ -268,7 +245,11 @@ BMU_press_claim_interaction_script = {
 			debug_log_scopes = yes
 		}
 
-		BMU_interaction_press_claim = yes
+		BMU_interaction_press_claim = {
+			CLAIMANT = scope:actor
+			CLAIM_TARGET = scope:recipient
+			CLAIMED_TITLE = scope:target
+		}
 	}
 
 }
@@ -381,6 +362,10 @@ BMU_see_pressed_claim_interaction = {
 						name = pressed_claim_gui
 						target = prev
 					}
+				}
+				add_to_variable_list = {
+					name = pressed_claim_gui
+					target = scope:actor
 				}
 			}
 		}

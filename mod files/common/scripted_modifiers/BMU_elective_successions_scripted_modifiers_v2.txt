@@ -1,11 +1,19 @@
 ﻿BMU_contender_legitimacy = {
 	modifier = {
+		exists = $CONTENDER$
+		exists = $CLAIM_TARGET$
+		exists = $CLAIMED_TITLE$
 		$CONTENDER$ = { save_temporary_scope_as = candidate }
 		$CLAIM_TARGET$ = { save_temporary_scope_as = holder_candidate }
 		$CLAIM_TARGET$ = { save_temporary_scope_as = holder }
 		$CLAIMED_TITLE$ = { save_temporary_scope_as = title }
+		add = 0
 	}
-	BMU_elector_self_voting_pattern_feudal_elective_modifier = yes
+	# BMU_elector_self_voting_pattern_feudal_elective_modifier = yes
+	modifier = {
+		add = BMU_elector_self_voting_pattern_feudal_elective
+		desc = "[GuiScope.SetRoot(recipient.MakeScope).AddScope('score_contender',actor.MakeScope).AddScope('score_supporter',recipient.MakeScope).AddScope('claim_target',secondary_recipient.MakeScope).AddScope('holder_candidate',secondary_recipient.MakeScope).AddScope('claimed_title',actor.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_elector_self_voting_pattern_feudal_elective')]"
+	}
 	BMU_holder_voting_pattern_feudal_elective_modifier = yes
 	BMU_elector_voting_pattern_circumstances_feudal_elective_modifier = yes
 	BMU_elector_voting_pattern_prestige_piety_feudal_elective_modifier = yes

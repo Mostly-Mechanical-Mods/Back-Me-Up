@@ -1,0 +1,12 @@
+﻿l_english:
+
+# Claimant Faction
+
+DEPOSE_FACTION_TITLE_NAME:0 "[claimed_title.GetBaseNameNoTierNoTooltip] Claimant Faction"
+DEPOSE_FACTION_DYNAMIC_NAME: "[Scope.Var('claimant_faction').Title.GetBaseName]"
+depose_faction_short_effect_desc: "This faction wants to install their claimant on the throne"
+feudal_claimant_elective_law: "Claimant Faction"
+feudal_claimant_elective_electors: "Faction members"
+feudal_claimant_elective_candidates: "Title claimants"
+
+claimant_faction_already_exists: "There is already a Claimant Faction against your Liege"
