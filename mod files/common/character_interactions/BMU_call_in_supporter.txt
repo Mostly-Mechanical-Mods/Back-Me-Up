@@ -83,12 +83,7 @@
 				var:pressed_claim_story = scope:actor.var:pressed_claim_interaction
 			}
 			OR = {
-				scope:recipient = {
-					any_supporter_story = {
-						var:pressed_claim_story = scope:actor.var:pressed_claim_interaction
-						count > 0
-					}
-				}
+				scope:recipient = { any_supporter_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }}
 				BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:recipient PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }
 				scope:recipient = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }}
 			}
@@ -102,6 +97,17 @@
 				subject = scope:recipient
 				any_contender_story = {
 					count = 0
+				}
+			}
+			NOT = {
+				custom_description = {
+					text = BMU_already_support_contender
+					subject = scope:recipient
+					object = scope:actor
+					any_supporter_story = {
+						var:pressed_claim_story = scope:actor.var:pressed_claim_interaction
+						var:contender.story_owner = scope:actor
+					}
 				}
 			}
 			trigger_if = {

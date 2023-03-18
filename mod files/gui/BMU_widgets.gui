@@ -449,6 +449,7 @@ window = {
 						}
 
 						button_tab = {
+							visible = "[GetScriptedGui('BMU_stakeholder_tab_gui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('pressed_claim',Story.MakeScope).End)]"
 							layoutpolicy_horizontal = expanding
 							text = "BMU_CLAIM_WINDOW_STAKEHOLDERS"
 
@@ -864,7 +865,7 @@ window = {
 											item = {
 												vbox = {
 													datacontext = "[Scope.Var('stakeholder').Char]"
-													visible = "[ScriptedGui.IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('pressed_claim',Story.MakeScope).AddScope('stakeholder',Character.MakeScope).End)]"
+													visible = "[ScriptedGui.IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('pressed_claim',Story.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 													layoutpolicy_horizontal = expanding
 													hbox = {
 														layoutpolicy_horizontal = expanding

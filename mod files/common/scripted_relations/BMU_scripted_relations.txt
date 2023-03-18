@@ -1,26 +1,25 @@
 ﻿claimant = {
-	# hidden = yes
+	hidden = yes
 }
 
 stakeholder = {
+	hidden = yes
 	corresponding = contender
 	flags = { family friend lover ally vassal liege dynast house_head }
 }
 
 stakeholder_proxy = {
-	corresponding = contender
-	flags = { future_vassal contender_rival }
-}
-
-stakeholder_proxy = {
+	hidden = yes
 	corresponding = contender
 	flags = { future_vassal contender_rival }
 }
 
 contender = {
+	hidden = yes
 	corresponding = stakeholder
 }
 
 contender_proxy = {
+	hidden = yes
 	corresponding = stakeholder_proxy
 }

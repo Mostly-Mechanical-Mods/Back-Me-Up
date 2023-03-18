@@ -653,7 +653,10 @@ BMU_request_support_sgui = {
 		recipient
 	}
 	is_shown = {
-
+		is_character_interaction_shown = {
+			recipient = scope:recipient
+			interaction = BMU_call_in_supporter_interaction
+		}
 	}
 	is_valid = {
 		is_character_interaction_valid = {
@@ -732,6 +735,16 @@ BMU_set_pressed_claim_interaction = {
 					}
 				}
 			}
+		}
+	}
+}
+
+BMU_stakeholder_tab_gui = {
+	scope = character
+	saved_scopes = { pressed_claim }
+	is_shown = {
+		any_contender_story = {
+			var:pressed_claim_story = scope:pressed_claim
 		}
 	}
 }

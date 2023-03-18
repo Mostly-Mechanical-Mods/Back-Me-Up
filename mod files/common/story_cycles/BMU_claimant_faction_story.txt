@@ -110,6 +110,13 @@
 									set_no_automatic_claims = yes
 									set_definitive_form = yes
 									set_can_be_named_after_dynasty = no
+									if = {
+										limit = { exists = prev.court_owner }
+										set_variable = {
+											name = previous_court
+											value = prev.court_owner
+										}
+									}
 									change_title_holder = {
 										holder = prev
 										change = scope:change
@@ -543,6 +550,28 @@ BMU_contender_story = {
 			if = {
 				limit = { var:pressed_claim_interaction = scope:story.var:pressed_claim_story }
 				remove_variable = pressed_claim_interaction
+			}
+			if = {
+				limit = { any_held_title = { has_variable = unlanded_contender }}
+				if = {
+					limit = { is_landed = no }
+					random_held_title = {
+						limit = {
+							has_variable = unlanded_contender
+							has_variable = previous_court
+							var:previous_court = { is_landed = yes }
+						}
+						var:previous_court = { save_scope_as = previous_court }
+					}
+				}
+				every_held_title = {
+					limit = { has_variable = unlanded_contender }
+					prev = { destroy_title = prev }
+				}
+				if = {
+					limit = { exists = scope:previous_court }
+					scope:previous_court = { add_courtier = prev }
+				}
 			}
 		}
 		var:pressed_claim_story = {

@@ -12,23 +12,12 @@
 }
 
 BMU_target_is_relevant_in_pressed_claim_v2 = {
-	trigger_if = {
-		limit = {
-			$TARGET$ = { save_temporary_scope_as = temp_target }
-			# $PRESSED_CLAIM$ = { save_temporary_scope_as = temp_pressed_claim }
-			save_temporary_scope_as = temp_contender
-		}
-	}
+	$TARGET$ = { save_temporary_scope_as = temp_target }
+	$PRESSED_CLAIM$ = { save_temporary_scope_as = temp_pressed_claim }
+	save_temporary_scope_as = temp_contender
 	OR = {
-		trigger_if = {
-			limit = {
-				any_pressed_claim = {
-					count > 0
-				}
-			}
-			scope:temp_target = { is_vassal_of = prev }
-		}
 		is_vassal_of = scope:temp_target
+		scope:temp_target = { is_vassal_of = scope:temp_contender }
 		is_close_family_of = scope:temp_target
 		has_relation_friend = scope:temp_target
 		trigger_if = {
@@ -39,8 +28,9 @@ BMU_target_is_relevant_in_pressed_claim_v2 = {
 			limit = { exists = house.house_head }
 			house.house_head = scope:temp_target
 		}
+		has_relation_stakeholder_proxy = scope:temp_target
 	}
-	
+	# always = no
 }
 
 BMU_target_is_relevant_in_pressed_claims = {

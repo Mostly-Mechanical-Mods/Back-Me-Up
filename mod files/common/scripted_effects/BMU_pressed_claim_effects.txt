@@ -302,18 +302,19 @@
 				}
 			}
 		}
-	}
-	
-	scope:claimed_title = {
-		every_claimant = {
-			limit = { NOT = { is_in_list = claimants }}
-			custom_description = {
-				text = BMU_claimant_might_join_pressed_claim
-				subject = this
-				object = scope:claimed_title
+		scope:claimed_title = {
+			every_claimant = {
+				limit = { NOT = { is_in_list = claimants }}
+				custom_description = {
+					text = BMU_claimant_might_join_pressed_claim
+					subject = this
+					object = scope:claimed_title
+				}
 			}
 		}
 	}
+	
+	
 	if = {
 		limit = { exists = scope:pressed_claim }
 		scope:pressed_claim = {
