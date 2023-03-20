@@ -1,6 +1,7 @@
 ﻿on_game_start_after_lobby = {
 	on_actions = {
 		BMU_compat
+		BMU_on_game_start
 	}
 }
 
@@ -16,5 +17,14 @@ BMU_compat = {
 			target = global_var:BMU_is_loaded
 		}
 		set_global_variable = boolean
+	}
+}
+
+BMU_on_game_start = {
+	effect = {
+		# debug_log = "FF_on_game_start"
+		add_to_global_variable_list = { name = BMU_gui_sort_options target = flag:BMU_gui_sort_options_max_mil_power }
+		add_to_global_variable_list = { name = BMU_gui_sort_options target = flag:BMU_gui_sort_options_score_dif }
+		add_to_global_variable_list = { name = BMU_gui_sort_options target = flag:BMU_gui_sort_options_rank }
 	}
 }

@@ -40,3 +40,8 @@ BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_PLAYER_CONTENDER_TT: "#T Not Supporting\n[Get
 BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_BEST_CONTENDER_TT: "#T Not Supporting\n[Scope.Var('best_contender').Char.GetShortUINameNoTooltip]: [GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',Scope.Var('best_contender').Char.MakeScope).AddScope('score_supporter',Scope.Var('stakeholder').Char.MakeScope).AddScope('candidate',Scope.Var('best_contender').Char.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).ScriptValue('BMU_contender_score_gui')|+=0]#!"
 
 BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_WORTHY_CONTENDER_TT: "#T Not Supporting\n[Scope.Var('worthy_contender').Char.GetShortUINameNoTooltip]: [GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',Scope.Var('worthy_contender').Char.MakeScope).AddScope('score_supporter',Scope.Var('stakeholder').Char.MakeScope).AddScope('candidate',Scope.Var('worthy_contender').Char.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).ScriptValue('BMU_contender_score_gui')|+=0]#!"
+
+
+
+
+BMU_STAKEHOLDER_SORT_BY:0 "#T Sort Order: [Select_CString( GetVariableSystem.Exists('BMU_stakeholder_sort_by'), 'Ascending', 'Descending' )]\n#!#I Click to toggle#!"

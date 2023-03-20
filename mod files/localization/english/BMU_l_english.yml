@@ -108,7 +108,7 @@ BMU_DEFENDED_PRESSED_CLAIM: "Defended [CHARACTER.GetHerHis] claim on the [TARGET
 BMU_I_JOIN_PRESSED_CLAIM: "#DEBUG BMU_I_JOIN_PRESSED_CLAIM#!"
 BMU_I_JOINED_PRESSED_CLAIM: "#DEBUG BMU_I_JOINED_PRESSED_CLAIM#!"
 BMU_THEY_JOIN_PRESSED_CLAIM: "#DEBUG BMU_THEY_JOIN_PRESSED_CLAIM#!"
-BMU_THEY_JOINED_PRESSED_CLAIM: #DEBUG "BMU_THEY_JOINED_PRESSED_CLAIM#!"
+BMU_THEY_JOINED_PRESSED_CLAIM: "#DEBUG "BMU_THEY_JOINED_PRESSED_CLAIM#!"
 BMU_JOIN_PRESSED_CLAIM: "Presses [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
 BMU_JOINED_PRESSED_CLAIM: "#DEBUG BMU_JOINED_PRESSED_CLAIM#!"
 
@@ -175,7 +175,7 @@ BMU_ShortName: "[actor.GetTitledFirstNameNoTooltip]"
 
 BMU_msg_claim_war_invalidated_claimant_unavailable_dead_message: "#DEBUG BMU_msg_claim_war_invalidated_claimant_unavailable_dead_message#!"
 BMU_msg_claim_war_invalidated_claimant_unavailable_not_vassal_message: "#DEBUG BMU_msg_claim_war_invalidated_claimant_unavailable_not_vassal_message#!"
-BMU_msg_claim_war_invalidated_message: #DEBUG BMU_msg_claim_war_invalidated_message#!"
+BMU_msg_claim_war_invalidated_message: "#DEBUG BMU_msg_claim_war_invalidated_message#!"
 
 
 FF_ambition_get_council_position: "#DEBUG FF_ambition_get_council_position#!"

@@ -15,7 +15,13 @@
 	}
 	subtract = {
 		ordered_owned_story = {
-			limit = { story_type = BMU_stakeholder_story var:pressed_claim_story = scope:pressed_claim }
+			limit = {
+				OR = {
+					story_type = BMU_stakeholder_story
+					story_type = BMU_supporter_story
+				}
+				var:pressed_claim_story = scope:pressed_claim
+			}
 			if = {
 				limit = { scope:player = var:best_contender }
 				value = var:worthy_contender_score

@@ -1,13 +1,13 @@
 ﻿BMU_stakeholder_count = {
-	every_in_list = {
-		variable = stakeholders_gui
-		limit = {
-			story_owner = {
-				highest_held_title_tier >= tier_county
-				any_pressed_claim = { count = 0 }
-				any_contender_story = { count = 0 }
-			}
-		}
-		add = 1
-	}
+	# every_in_list = {
+	# 	variable = stakeholders_gui
+	# 	limit = {
+	# 		story_owner = {
+	# 			highest_held_title_tier >= tier_county
+	# 			any_pressed_claim = { count = 0 }
+	# 			any_contender_story = { count = 0 }
+	# 		}
+	# 	}
+	# 	add = 1
+	# }
 }

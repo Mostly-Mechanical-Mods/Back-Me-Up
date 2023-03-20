@@ -17,6 +17,7 @@ window = {
 	state = {
 		name = _show
 		on_start = "[GetVariableSystem.Set('BMU_claim_window_tab','contender')]"
+		next = a
 	}
 
 	state = {
@@ -422,11 +423,11 @@ window = {
 							text_single = {
 								parentanchor = vcenter|right
 								position = { -20 -2 }
-								text = "[Story.MakeScope.ScriptValue('FF_BMU_contender_count')|0]"
+								text = "[GetDataModelSize(Story.MakeScope.GetList('contenders'))|0]"
 
 								default_format = "#low"
 
-								alpha = "[Select_float( GreaterThan_CFixedPoint(Story.MakeScope.ScriptValue('FF_BMU_contender_count'), '(CFixedPoint)0'), '(float)1.0', '(float)0.5' )]"
+								alpha = "[Select_float( GreaterThan_CFixedPoint(GetDataModelSize(Story.MakeScope.GetList('contenders')), '(CFixedPoint)0'), '(float)1.0', '(float)0.5' )]"
 							}
 						}
 
@@ -440,11 +441,11 @@ window = {
 							text_single = {
 								parentanchor = vcenter|right
 								position = { -20 -2 }
-								text = "[Story.MakeScope.ScriptValue('FF_BMU_stakeholder_count')|0]"
+								text = "[GetDataModelSize(Story.MakeScope.GetList('supporters'))|0]"
 
 								default_format = "#low"
 
-								alpha = "[Select_float( GreaterThan_CFixedPoint(Story.MakeScope.ScriptValue('FF_BMU_stakeholder_count'), '(CFixedPoint)0'), '(float)1.0', '(float)0.5' )]"
+								alpha = "[Select_float( GreaterThan_CFixedPoint(GetDataModelSize(Story.MakeScope.GetList('supporters')), '(CFixedPoint)0'), '(float)1.0', '(float)0.5' )]"
 							}
 						}
 
@@ -459,11 +460,11 @@ window = {
 							text_single = {
 								parentanchor = vcenter|right
 								position = { -20 -2 }
-								text = "[GetPlayer.MakeScope.ScriptValue('BMU_stakeholder_count')|0]"
+								text = "[GetPlayer.MakeScope.Var('stakeholder_count').GetValue|0]"
 
 								default_format = "#low"
 
-								alpha = "[Select_float( GreaterThan_int32(GetPlayer.MakeScope.ScriptValue('BMU_stakeholder_count'), '(int32)0'), '(float)1.0', '(float)0.5' )]"
+								alpha = "[Select_float( GreaterThan_int32(GetPlayer.MakeScope.Var('stakeholder_count').GetValue, '(int32)0'), '(float)1.0', '(float)0.5' )]"
 							}
 						}
 					}
@@ -764,11 +765,8 @@ window = {
 																vote_chance_icon = {}
 																spacer = { size = { 10 0 }}
 																expand = {}
-																# text_single = {
-																# 	text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).AddScope('supporter_story',Scope.Story.MakeScope).ScriptValue('FF_BMU_supporter_diff_3')|0+V]"
-																# }
 																text_single = {
-																	text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).AddScope('contender',Scope.Var('contender').Var('stakeholder').Char.MakeScope).AddScope('top_contender',Scope.Var('top_contender').Var('stakeholder').Char.MakeScope).AddScope('player',GetPlayer.MakeScope).ScriptValue('BMU_score_diff')]"
+																	text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).AddScope('player',GetPlayer.MakeScope).ScriptValue('BMU_score_diff')|+0]"
 																}
 															}
 														}
@@ -854,6 +852,9 @@ window = {
 								margin_bottom = 10
 								layoutpolicy_horizontal = expanding
 								layoutpolicy_vertical = expanding
+								BMU_hbox_list_sort_buttons = {
+
+								}
 								scrollbox = {
 									layoutpolicy_horizontal = expanding
 									layoutpolicy_vertical = expanding
@@ -861,16 +862,16 @@ window = {
 										vbox = {
 											datacontext = "[GetScriptedGui('BMU_request_support_sgui')]"
 											layoutpolicy_horizontal = expanding
-											datamodel = "[Story.MakeScope.GetList('stakeholders')]"
+											datamodel = "[GetPlayer.MakeScope.GetList('stakeholders_gui')]"
 											item = {
 												vbox = {
 													datacontext = "[Scope.Var('stakeholder').Char]"
-													visible = "[ScriptedGui.IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('pressed_claim',Story.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+													# visible = "[ScriptedGui.IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('pressed_claim',Story.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 													layoutpolicy_horizontal = expanding
 													hbox = {
 														layoutpolicy_horizontal = expanding
 														margin = { 0 5 }
-		
+
 														text_single = {
 															layoutpolicy_horizontal = expanding
 															text = "[Character.GetNameNoTooltip] [Character.GetRelationToString(GetPlayer))]"
@@ -917,7 +918,7 @@ window = {
 														}
 														# spacing = { size = { 10 0 }}
 														button = {
-															# enabled = "[GetScriptedGui('BMU_request_support_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+															enabled = "[GetScriptedGui('BMU_request_support_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 															texture = "gfx/interface/icons/character_interactions/icon_claim_pressed.dds"
 															size = { 50 50 }
 															# tooltipwidget = BMU_stakeholder_ambition_tooltip
@@ -1878,6 +1879,221 @@ types BMU_Lists {
 			# }
 		}
 	}
+	type BMU_hbox_list_sort_buttons = hbox {
+		datacontext = "[GetScriptedGui('BMU_stakeholder_sorting')]"
+		layoutpolicy_horizontal = expanding
+		name = "sort_buttons"
+		margin_left = 20
+		margin_right = 20
+		margin_top = 10
+		spacing = 5
+
+		button_standard = {
+			name = "filters"
+			size = { 25 25 }
+
+			down = "[CharacterSelectionList.FiltersShown]"
+			frame = "[BoolTo1And2(CharacterSelectionList.IsAllDefault)]"
+			onclick = "[CharacterSelectionList.OnToggleFilters]"
+
+			tooltip = "TOGGLE_FILTERS"
+			using = tooltip_nw
+
+			button_search = {
+				alwaystransparent = yes
+				parentanchor = center
+				size = { 20 20 }
+			}
+
+			block "filters_visible" {}
+		}
+
+		divider_light = {
+			size = { 3 20 }
+			block "filters_visible" {}
+		}
+
+		text_single = {
+			text = "SORT_BY"
+			align = nobaseline
+		}
+
+		block "sort_dropdown" {
+			# dropdown_sort_characterlist = {
+			# 	datacontext = "[GetScriptedGui('BMU_gui_sort_options')]"
+			# 	datamodel = "[GetGlobalList('BMU_gui_sort_options')]"
+			# 	onselectionchanged = "[ScriptedGui.Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('sort_option',MakeScopeFlag(Scope.GetFlagName)).End)]"
+			# 	# selectedindex = "[AnimationTestWindow.GetSelectedAnimationGroupIndex]"
+			# 	blockoverride "text_button_drop" {
+			# 		text = "[Scope.GetFlagName]"
+			# 	}
+			# }
+			button = {
+				name = "sort_mil_power"
+				size = { 25 25 }
+				texture = "gfx/interface/icons/icon_soldier.dds"
+				onclick = "[GetVariableSystem.Set('BMU_stakeholder_order_by','max_military_strength')]"
+				onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('order_by',MakeScopeFlag(GetVariableSystem.Get('BMU_stakeholder_order_by'))).AddScope('pressed_claim',Story.MakeScope).AddScope('player',GetPlayer.MakeScope).AddScope('sort_by',MakeScopeFlag(Select_CString(GetVariableSystem.Exists('BMU_stakeholder_sort_by'), 'Ascending', 'Descending'))).End)]"
+				skillitem_sort_icon = {
+					visible = "[GetVariableSystem.HasValue('BMU_stakeholder_order_by','max_military_strength')]"
+				}
+			}
+			button = {
+				name = "sort_score_diff"
+				size = { 25 25 }
+				texture = "gfx/interface/icons/flat_icons/election_preference_over_my_candidate.dds"
+				modify_texture = {
+					texture = "gfx/interface/colors/colors_textured.dds"
+					blend_mode = add
+					framesize = { 96 96 }
+
+					block "master_color_frame" {
+						frame = 7
+					}
+				}
+				skillitem_sort_icon = {
+					visible = "[GetVariableSystem.HasValue('BMU_stakeholder_order_by','score_diff')]"
+				}
+				onclick = "[GetVariableSystem.Set('BMU_stakeholder_order_by','score_diff')]"
+				onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('order_by',MakeScopeFlag(GetVariableSystem.Get('BMU_stakeholder_order_by'))).AddScope('pressed_claim',Story.MakeScope).AddScope('player',GetPlayer.MakeScope).AddScope('sort_by',MakeScopeFlag(Select_CString(GetVariableSystem.Exists('BMU_stakeholder_sort_by'), 'Ascending', 'Descending'))).End)]"
+			}
+		}
+
+		button_standard = {
+			name = "sort_order"
+			size = { 25 25 }
+			onclick = "[GetVariableSystem.Toggle('BMU_stakeholder_sort_by')]"
+			onclick = "[ScriptedGui.Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('order_by',MakeScopeFlag(GetVariableSystem.Get('BMU_stakeholder_order_by'))).AddScope('pressed_claim',Story.MakeScope).AddScope('player',GetPlayer.MakeScope).AddScope('sort_by',MakeScopeFlag(Select_CString(GetVariableSystem.Exists('BMU_stakeholder_sort_by'), 'Ascending', 'Descending'))).End)]"
+
+			tooltip = "BMU_STAKEHOLDER_SORT_BY"
+			using = tooltip_nw
+
+			button_icon = {
+				alwaystransparent = yes
+				parentanchor = center
+				size = { 25 25 }
+				texture = "gfx/interface/icons/flat_icons/sort_icon.dds"
+				framesize = { 66 66 }
+
+				frame = "[BoolTo1And2(GetVariableSystem.Exists('BMU_stakeholder_sort_by'))]"
+
+				blockoverride "button_frames"
+				{
+					effectname = "NoHighlight"
+				}
+				
+			}
+		}
+
+		expand = {}
+
+		# block "skill_sort_buttons"
+		# {
+		# 	hbox = {
+		# 		button_standard_hover = {
+		# 			name = "skill_diplomacy"
+		# 			size = { 32 32 }
+
+		# 			icon = {
+		# 				texture = "gfx/interface/icons/icon_skills.dds"
+		# 				size = { 32 32 }
+		# 				framesize = { 60 60 }
+		# 				frame = 1
+		# 			}
+
+		# 			onclick = "[CharacterSelectionList.SortBySkill('(int32)0')]"
+
+		# 			tooltip = "SORT_BY_DIPLOMACY"
+		# 			using = tooltip_ne
+
+		# 			skillitem_sort_icon = {
+		# 				visible = "[CharacterSelectionList.IsSortingBySkill('(int32)0')]"
+		# 			}
+		# 		}
+
+		# 		button_standard_hover = {
+		# 			name = "skill_martial"
+		# 			size = { 32 32 }
+
+		# 			icon = {
+		# 				texture = "gfx/interface/icons/icon_skills.dds"
+		# 				size = { 32 32 }
+		# 				framesize = { 60 60 }
+		# 				frame = 2
+		# 			}
+
+		# 			onclick = "[CharacterSelectionList.SortBySkill('(int32)1')]"
+
+		# 			tooltip = "SORT_BY_MARTIAL"
+		# 			using = tooltip_ne
+
+		# 			skillitem_sort_icon = {
+		# 				visible = "[CharacterSelectionList.IsSortingBySkill('(int32)1')]"
+		# 			}
+		# 		}
+
+		# 		button_standard_hover = {
+		# 			name = "skill_stewardship"
+		# 			size = { 32 32 }
+
+		# 			icon = {
+		# 				texture = "gfx/interface/icons/icon_skills.dds"
+		# 				size = { 32 32 }
+		# 				framesize = { 60 60 }
+		# 				frame = 3
+		# 			}
+
+		# 			onclick = "[CharacterSelectionList.SortBySkill('(int32)2')]"
+		# 			tooltip = "SORT_BY_STEWARDSHIP"
+		# 			using = tooltip_ne
+
+		# 			skillitem_sort_icon = {
+		# 				visible = "[CharacterSelectionList.IsSortingBySkill('(int32)2')]"
+		# 			}
+		# 		}
+
+		# 		button_standard_hover = {
+		# 			name = "skill_intrigue"
+		# 			size = { 32 32 }
+
+		# 			icon = {
+		# 				texture = "gfx/interface/icons/icon_skills.dds"
+		# 				size = { 32 32 }
+		# 				framesize = { 60 60 }
+		# 				frame = 4
+		# 			}
+
+		# 			onclick = "[CharacterSelectionList.SortBySkill('(int32)3')]"
+		# 			tooltip = "SORT_BY_INTRIGUE"
+		# 			using = tooltip_ne
+
+		# 			skillitem_sort_icon = {
+		# 				visible = "[CharacterSelectionList.IsSortingBySkill('(int32)3')]"
+		# 			}
+		# 		}
+
+		# 		button_standard_hover = {
+		# 			name = "skill_learning"
+		# 			size = { 32 32 }
+
+		# 			icon = {
+		# 				texture = "gfx/interface/icons/icon_skills.dds"
+		# 				size = { 32 32 }
+		# 				framesize = { 60 60 }
+		# 				frame = 5
+		# 			}
+
+		# 			onclick = "[CharacterSelectionList.SortBySkill('(int32)4')]"
+		# 			tooltip = "SORT_BY_LEARNING"
+		# 			using = tooltip_ne
+
+		# 			skillitem_sort_icon = {
+		# 				visible = "[CharacterSelectionList.IsSortingBySkill('(int32)4')]"
+		# 			}
+		# 		}
+		# 	}
+		# }
+	}
 }
 
 types BMU_portraits {
@@ -2483,3 +2699,5 @@ types BMU_bargains {
 		}
 	}
 }
+
+
