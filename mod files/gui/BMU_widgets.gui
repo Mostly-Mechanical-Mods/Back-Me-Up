@@ -1886,6 +1886,7 @@ types BMU_Lists {
 		margin_left = 20
 		margin_right = 20
 		margin_top = 10
+		margin_bottom = 5
 		spacing = 5
 
 		button_standard = {
