@@ -308,6 +308,26 @@
 				}
 			}
 		}
+
+		scope:pressed_claim = {
+			every_in_list = {
+				variable = contenders
+				limit = { NOT = { this = scope:actor }}
+				story_owner = {
+					send_interface_message = {
+						type = BMU_contender_gains_support # default: send_interface_message
+						# desc = event_message_effect
+						left_icon = scope:actor
+						right_icon = scope:claimed_title
+						custom_description = {
+							text = BMU_start_supporting_contender
+							subject = scope:recipient
+							object = scope:actor
+						}
+					}
+				}
+			}
+		}
 	}
 
 	

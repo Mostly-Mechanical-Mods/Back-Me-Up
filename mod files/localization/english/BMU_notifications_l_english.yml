@@ -1,4 +1,6 @@
 ﻿l_english:
 
-BMU_notification_pressed_claim: "#DEBUG BMU_notification_pressed_claim#!"
+BMU_notification_pressed_claim: "Contender presses their Claim!"
 BMU_notification_pressed_claim_desc: "#DEBUG BMU_notification_pressed_claim_desc#!"
+
+BMU_notification_supporter: "Contender gains Supporter"

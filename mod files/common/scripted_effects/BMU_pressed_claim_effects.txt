@@ -321,12 +321,18 @@
 			every_in_list = {
 				variable = contenders
 				limit = { NOT = { story_owner = { is_in_list = claimants }}}
-				send_interface_message = {
-					type = event_generic_bad_text # default: send_interface_message
-					title = BMU_notification_pressed_claim
-					desc = BMU_notification_pressed_claim_desc
-					left_icon = scope:claimant
-					right_icon = scope:claimed_title
+				story_owner = {
+					send_interface_message = {
+						type = BMU_contender_join_pressed_claim # default: send_interface_message
+						# desc = event_message_effect
+						left_icon = scope:claimant
+						right_icon = scope:claimed_title
+						custom_description = {
+							text = BMU_contender_join_pressed_claim
+							subject = scope:claimant
+							object = scope:claimed_title
+						}
+					}
 				}
 			}
 		}

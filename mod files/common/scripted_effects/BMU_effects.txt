@@ -1017,7 +1017,7 @@ BMU_transfer_claimed_press = {
 
 	scope:old_claim_target = {
 		random_pressed_claim = {
-			limit = { var:pressed_claim_story = scope:pressed_claim }
+			limit = { this = scope:pressed_claim }
 			save_scope_as = old_claim_target_stakeholder_story
 		}
 	}

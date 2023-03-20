@@ -717,7 +717,7 @@ window = {
 		
 														text_single = {
 															layoutpolicy_horizontal = expanding
-															raw_text = "[Character.GetNameNoTooltip] [Character.GetRelationToString(GetPlayer))]"
+															raw_text = "[Character.GetNameNoTooltip] [Character.GetRelationToString(GetPlayer)]"
 															align = left
 															max_width = 535
 														}
@@ -874,7 +874,7 @@ window = {
 
 														text_single = {
 															layoutpolicy_horizontal = expanding
-															text = "[Character.GetNameNoTooltip] [Character.GetRelationToString(GetPlayer))]"
+															text = "[Character.GetNameNoTooltip] [Character.GetRelationToString(GetPlayer)]"
 															align = left
 															max_width = 535
 														}
@@ -918,7 +918,7 @@ window = {
 														}
 														# spacing = { size = { 10 0 }}
 														button = {
-															enabled = "[GetScriptedGui('BMU_request_support_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+															# enabled = "[GetScriptedGui('BMU_request_support_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 															texture = "gfx/interface/icons/character_interactions/icon_claim_pressed.dds"
 															size = { 50 50 }
 															# tooltipwidget = BMU_stakeholder_ambition_tooltip
