@@ -276,3 +276,7 @@ test_modifier_desc: "test"
 # test_2: "test 2 [SCOPE.sC('test_char').GetName]"
 # test_3: "test 3 [SCOPE.sC('test_title').GetName]"
 # test_4: "test 4 [SCOPE.sC('test_title').GetName]"
+
+
+
+BMU_pressed_claim_cb: "Pressed Claim CB"
