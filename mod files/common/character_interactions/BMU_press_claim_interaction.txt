@@ -16,7 +16,7 @@
 
 	desc = BMU_press_claim_interaction_desc
 
-	# auto_accept = yes
+	auto_accept = yes
 
 	popup_on_receive = yes
 	pause_on_receive = yes
@@ -48,8 +48,10 @@
 		scope:actor = {
 			trigger_if = {
 				limit = { is_ai = yes }
-				any_contender_story = {
-					var:claimed_title.holder = scope:recipient
+				scope:recipient = {
+					any_pressed_claim = {
+						count > 0
+					}
 				}
 			}
 		}
@@ -78,9 +80,15 @@
 							text = BMU_too_late_to_join_pressed_claim
 							object = var:pressed_claim
 							var:pressed_claim = {
-								OR = {
-									var:phase = flag:declaration_phase
-									var:phase = flag:war_phase
+								trigger_if = {
+									limit = { scope:actor = { is_ai = yes }}
+									NOT = { var:phase = flag:contention_phase }
+								}
+								trigger_else = {
+									OR = {
+										var:phase = flag:declaration_phase
+										var:phase = flag:war_phase
+									}
 								}
 							}
 						}
@@ -183,6 +191,24 @@
 				save_temporary_scope_as = claim_target
 			}
 			add = BMU_contender_legitimacy
+		}
+		modifier = {
+			factor = -1
+		}
+	}
+
+	ai_accept = {
+		base = 0
+		modifier = {
+			scope:actor = { save_temporary_scope_as = score_supporter }
+			scope:target = { save_temporary_scope_as = claimed_title }
+			scope:target.holder = {
+				save_temporary_scope_as = score_contender
+				save_temporary_scope_as = holder_candidate
+				save_temporary_scope_as = claim_target
+			}
+			add = { scope:actor = { add = BMU_contender_legitimacy }}
+			desc = "[GuiScope.SetRoot(actor.MakeScope).AddScope('score_contender',recipient.MakeScope).AddScope('score_supporter',actor.MakeScope).AddScope('claim_target',recipient.MakeScope).AddScope('holder_candidate',recipient.MakeScope).AddScope('claimed_title',target.MakeScope).GetScriptValueDesc('BMU_contender_legitimacy')]"
 		}
 		modifier = {
 			factor = -1
