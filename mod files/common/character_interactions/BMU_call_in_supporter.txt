@@ -76,8 +76,12 @@
 	is_shown = {
 		scope:actor = { has_variable = pressed_claim_interaction }
 		exists = scope:actor.var:pressed_claim_interaction
+		scope:actor.var:pressed_claim_interaction.var:phase = flag:rallying_phase
 		NOT = { scope:actor = scope:recipient }
-		scope:recipient = { is_landed = yes }
+		scope:recipient = {
+			is_landed = yes
+			highest_held_title_tier >= tier_county
+		}
 		scope:actor = {
 			any_contender_story = {
 				var:pressed_claim_story = scope:actor.var:pressed_claim_interaction
@@ -246,7 +250,7 @@
 					}
 					scope:pressed_claim = {
 						add_to_variable_list = {
-							name = BMU_stakeholder_stories
+							name = supporters
 							target = scope:supporter
 						}
 					}

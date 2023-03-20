@@ -212,12 +212,14 @@
 		scope:defender = {
 			random_pressed_claim = {
 				limit = {
-					has_variable = claim_target
-					var:claim_target = scope:defender
 					save_temporary_scope_as = pressed_claim
 					var:claimed_title = { is_in_list = target_titles }
 				}
 				debug_log = "pressed_claim found"
+				every_in_list = {
+					variable = stakeholders
+					end_story = yes
+				}
 				scope:war = {
 					debug_log_scopes = no
 					set_variable = {
@@ -226,8 +228,14 @@
 					}
 				}
 				every_in_list = {
-					variable = stakeholders
-					end_story = yes
+					variable = supporters
+					limit = { var:contender.story_owner = scope:defender }
+					scope:war = { add_defender = prev.story_owner }
+				}
+				every_in_list = {
+					variable = supporters
+					limit = { var:contender.story_owner = scope:attacker }
+					scope:war = { add_attacker = prev.story_owner }
 				}
 			}
 		}
