@@ -99,6 +99,17 @@ BMU_error_suppression.0001 = {
 		fix_variable_error = { X = bargaining_phase }
 		fix_variable_error = { X = test_1 }
 		fix_variable_error = { X = previous_contender }
+		fix_variable_error = { X = BMU_gui_sort_options_max_mil_power }
+		fix_variable_error = { X = BMU_gui_sort_options_score_dif }
+		fix_variable_error = { X = BMU_gui_sort_options_rank }
+		fix_variable_error = { X = max_military_strength }
+		fix_variable_error = { X = score_diff }
+		fix_variable_error = { X = Ascending }
+		fix_variable_error = { X = BMU_gui_sort_options }
+		fix_variable_error = { X = bargains }
+		fix_variable_error = { X = coveted_title_holder }
+		fix_variable_error = { X = faction_claimant }
+		fix_variable_error = { X = boolean }
 		
 
 		trigger_event = faction_demand.2001

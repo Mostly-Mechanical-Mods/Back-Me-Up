@@ -25,3 +25,10 @@ pressed_claim = {
 		story_type = BMU_pressed_claim_story
 	}
 }
+
+bargain = {
+	base = owned_story
+	conditions = {
+		story_type = BMU_bargain_story
+	}
+}

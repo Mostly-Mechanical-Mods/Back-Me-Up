@@ -67,20 +67,11 @@
 		NOT = { scope:actor = scope:recipient }
 		scope:recipient = { is_landed = yes }
 		scope:actor = {
-			any_contender_story = {
-				var:pressed_claim_story = scope:actor.var:pressed_claim_interaction
-			}
+			any_contender_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }
 			OR = {
-				BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:recipient }
-				OR = {
-					scope:recipient = {
-						any_supporter_story = {
-							var:pressed_claim_story = scope:pressed_claim
-							count > 0
-						}
-					}
-					scope:recipient = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }}
-				}
+				BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:recipient PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }
+				scope:recipient = { any_supporter_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }}
+				scope:recipient = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }}
 			}
 		}
 	}

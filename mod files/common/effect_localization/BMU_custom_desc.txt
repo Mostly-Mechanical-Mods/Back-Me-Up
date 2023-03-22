@@ -71,3 +71,9 @@ BMU_claimant_might_join_pressed_claim = {
 	third = BMU_THEY_MIGHT_JOIN_PRESSED_CLAIM
 	global = BMU_MIGHT_JOIN_PRESSED_CLAIM
 }
+
+BMU_spend_manoeuvers = {
+	first = BMU_I_SPEND_MANOEUVERS
+	third = BMU_THEY_SPEND_MANOEUVERS
+	global = BMU_SPEND_MANOEUVERS
+}

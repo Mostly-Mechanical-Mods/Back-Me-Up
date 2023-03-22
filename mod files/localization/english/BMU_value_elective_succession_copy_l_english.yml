@@ -125,6 +125,7 @@
  BMU_tooltip_FF_loyalty: "I am loyal to my Liege"
  BMU_tooltip_is_councillor_of_claim_target: "I could lose my position of power"
  BMU_tooltip_unfulfilled_ambitions: "I want something for my trouble"
+ BMU_tooltip_struck_bargain: "I struck a bargain with [SCOPE.sC('score_contender').GetHerHim|U]"
 
 
 

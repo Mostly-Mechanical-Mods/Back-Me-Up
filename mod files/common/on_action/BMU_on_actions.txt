@@ -177,7 +177,59 @@ BMU_claimant_tracker_on = {
 		NOT = { has_relation_claimant = scope:title.holder }
 	}
 	effect = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_claimant_tracker_on"
+			debug_log_scopes = yes
+		}
 		set_relation_claimant = scope:title.holder
+		if = {
+			limit = { scope:transfer_type = flag:inheritance }
+			if = { limit = { debug_only = yes } debug_log = "scope:transfer_type = flag:inheritance" }
+			if = {
+				limit = {
+					any_claim = {
+						pressed = yes
+						this = scope:title
+					}
+				}
+				if = { limit = { debug_only = yes } debug_log = "pressed = yes" }
+				scope:title = { add_to_variable_list = { name = claim_level_4 target = root }}
+			}
+			else_if = {
+				limit = {
+					any_claim = {
+						pressed = no
+						this = scope:title
+					}
+				}
+				if = { limit = { debug_only = yes } debug_log = "pressed = no" }
+				scope:title = { add_to_variable_list = { name = claim_level_3 target = root }}
+			}
+		}
+		else = {
+			if = { limit = { debug_only = yes } debug_log = "scope:transfer_type = none" }
+			if = {
+				limit = {
+					any_claim = {
+						pressed = yes
+						this = scope:title
+					}
+				}
+				if = { limit = { debug_only = yes } debug_log = "pressed = yes" }
+				scope:title = { add_to_variable_list = { name = claim_level_2 target = root }}
+			}
+			else_if = {
+				limit = {
+					any_claim = {
+						pressed = no
+						this = scope:title
+					}
+				}
+				if = { limit = { debug_only = yes } debug_log = "pressed = no" }
+				scope:title = { add_to_variable_list = { name = claim_level_1 target = root }}
+			}
+		}
 	}
 }
 
@@ -217,7 +269,20 @@ BMU_claimant_tracker_off = {
 		}
 	}
 	effect = {
-		remove_relation_claimant = scope:title.holder
+		remove_list_variable = { name = claim_level_4 target = root }
+		remove_list_variable = { name = claim_level_3 target = root }
+		remove_list_variable = { name = claim_level_2 target = root }
+		remove_list_variable = { name = claim_level_1 target = root }
+		if = {
+			limit = {
+				any_claim = {
+					exists = holder
+					holder = scope:title.holder
+					count = 0
+				}
+			}
+			remove_relation_claimant = scope:title.holder
+		}
 	}
 }
 
@@ -237,6 +302,16 @@ BMU_claimant_tracker_init = {
 					limit = { NOT = { prev = { has_relation_claimant = prev.holder }}}
 					prev = { set_relation_claimant = prev.holder }
 				}
+			}
+			every_claim = {
+				explicit = yes
+				pressed = yes
+				add_to_variable_list = { name = claim_level_4 target = prev }
+			}
+			every_claim = {
+				explicit = yes
+				pressed = no
+				add_to_variable_list = { name = claim_level_3 target = prev }
 			}
 		}
 	}

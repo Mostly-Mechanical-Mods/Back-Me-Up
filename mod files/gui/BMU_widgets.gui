@@ -622,34 +622,38 @@ window = {
 														size = { 20 0 }
 													}
 													vbox = {
-														spacing = 10
+														spacing = 5
 														text_single = {
 															text = "BMU_CLAIM_WINDOW_SUPPORTER_COUNT"
 															# text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('story',Scope.Var('pressed_claim_story').Story.MakeScope).ScriptValue('FF_BMU_contender_supporter_count')|0]"
 															
 															using = Font_Size_Small
 														}
-					
 														hbox = {
+															spacing = 10
 															icon = {
 																name = "icon_combat_strength"
 																size = { 20 20 }
 																texture = "gfx/interface/icons/icon_soldier.dds"
 															}
-															spacer = {
-																size = { 10 0 }
-															}
 															text_single = {
 																default_format = "#high"
 																text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('BMU_contender_mil_strength')|0]"
-															}
-															spacer = {
-																size = { 10 0 }
 															}
 														}
 														text_single = {
 															default_format = "#high"
 															text = "[Scope.Var('confidence_flag').GetFlagName]"
+														}
+														hbox = {
+															spacing = 10
+															icon_doctrine = {
+																size = { 20 20 }
+																texture = "gfx/interface/icons/press_claim_bargain.dds"
+															}
+															text_single = {
+																raw_text = "[Scope.Var('manoeuver_spent').GetValue] / [Scope.Var('manoeuver_budget').GetValue]"
+															}
 														}
 													}
 													expand = {}
@@ -736,19 +740,20 @@ window = {
 															datacontext = "[Scope.Var('contender').Var('stakeholder').Char]"
 														}
 														vbox = {
+															spacing = 5
 															hbox = {
+																spacing = 10
 																min_width = 75
 																layoutpolicy_horizontal = expanding
 																icon = {
 																	name = "icon_combat_strength"
-																	size = { 30 30 }
+																	size = { 20 20 }
 																	texture = "gfx/interface/icons/icon_soldier.dds"
 																}
-																spacer = { size = { 10 0 }}
-																expand = {}
 																text_single = {
 																	text = "[Character.GetMaxMilitaryStrength|0V]"
 																}
+																expand = {}
 															}
 															# hbox = {
 															# 	min_width = 75
@@ -759,20 +764,43 @@ window = {
 															# 	expand = {}
 															# }
 															hbox = {
+																spacing = 10
 																layoutpolicy_horizontal = expanding
 																# visible = "[And(ObjectsEqual(Scope.Var('contender').Var('stakeholder').Char,Scope.Var('contender').Var('stakeholder').Char))]"
 																tooltipwidget = BMU_stakeholder_score_tooltip
 																vote_chance_icon = {}
-																spacer = { size = { 10 0 }}
-																expand = {}
 																text_single = {
 																	text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).AddScope('player',GetPlayer.MakeScope).ScriptValue('BMU_score_diff')|+0]"
 																}
+																expand = {}
+															}
+															hbox = {
+																spacing = 10
+																icon_doctrine = {
+																	size = { 20 20 }
+																	texture = "gfx/interface/icons/press_claim_bargain.dds"
+																}
+																text_single = {
+																	raw_text = "[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('BMU_supporter_manoeuver_cost')|0V]"
+																}
+																expand = {}
 															}
 														}
 														spacer = { size = { 20 0 }}
 														hbox = {
-															visible = "[EqualTo_string(Scope.Var('status').GetFlagName,'contender')]"
+															visible = "[Not(ObjectsEqual(Scope.Var('contender').Var('stakeholder').Char,GetPlayer.Self))]"
+															button = {
+																texture = "gfx/interface/icons/character_interactions/icon_claim_pressed.dds"
+																size = { 50 50 }
+																onclick = "[GetScriptedGui('BMU_request_support_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+															}
+															button = {
+																enabled = "[GetScriptedGui('BMU_bargain_with_council_position_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+																tooltip = "[GetScriptedGui('BMU_bargain_with_council_position_sgui').BuildTooltip(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+																texture = "gfx/interface/icons/character_interactions/bargain_council_position.dds"
+																size = { 50 50 }
+																onclick = "[GetScriptedGui('BMU_bargain_with_council_position_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+															}
 															# button = {
 															# 	# visible = "[GetScriptedGui('BMU_ambition_get_title').IsShown(GuiScope.SetRoot(Scope.Story.MakeScope).AddScope('contender',GetPlayer.MakeScope).End)]"
 															# 	enabled = "[GetScriptedGui('BMU_ambition_get_title').IsValid(GuiScope.SetRoot(Scope.Story.MakeScope).AddScope('contender',GetPlayer.MakeScope).End)]"
@@ -813,29 +841,27 @@ window = {
 															# }
 														}
 														expand = {}
-														# hbox = {
-														# 	datamodel = "[Scope.GetList('BMU_stakeholder_ambitions')]"
-														# 	item = {
-														# 		hbox = {
-														# 			visible = "[Scope.Var('bargained').IsSet]"
-														# 			spacing = 10
-														# 			icon_doctrine = {
-														# 				size = { 44 44 }
-														# 				texture = "gfx/interface/icons/press_claim_bargain.dds"
-														# 			}
-														# 			vbox = {
-														# 				text_single = {
-														# 					visible = "[EqualTo_string(Scope.Var('ambition').GetFlagName,'FF_ambition_get_council_position')]"
-														# 					text = "BMU_BARGAIN_STRUCK_WITH"
-														# 				}
-														# 				text_single = {
-														# 					visible = "[EqualTo_string(Scope.Var('ambition').GetFlagName,'FF_ambition_get_council_position')]"
-														# 					text = "BMU_BARGAIN_STRUCK_FOR"
-														# 				}
-														# 			}
-														# 		}
-														# 	}
-														# }
+														hbox = {
+															visible = "[Scope.Var('bargain').IsSet]"
+															spacing = 10
+															icon_doctrine = {
+																size = { 44 44 }
+																texture = "gfx/interface/icons/press_claim_bargain.dds"
+															}
+															vbox = {
+																text_single = {
+																	text = "[Localize(Concatenate(Scope.Var('bargain').Var('bargain_type').GetFlagName,'_desc'))]"
+																}
+																# text_single = {
+																# 	# visible = "[EqualTo_string(Scope.Var('bargain').Var('bargain_type').GetFlagName,'FF_ambition_get_council_position')]"
+																# 	text = "BMU_BARGAIN_STRUCK_WITH"
+																# }
+																# text_single = {
+																# 	# visible = "[EqualTo_string(Scope.Var('bargain').Var('bargain_type').GetFlagName,'FF_ambition_get_council_position')]"
+																# 	text = "BMU_BARGAIN_STRUCK_FOR"
+																# }
+															}
+														}
 													}
 													expand = {}
 												}
@@ -891,39 +917,61 @@ window = {
 														portrait_head_small = {
 														}
 														vbox = {
+															spacing = 5
 															hbox = {
+																spacing = 10
 																min_width = 75
 																layoutpolicy_horizontal = expanding
+																layoutpolicy_vertical = expanding
 																icon = {
 																	name = "icon_combat_strength"
-																	size = { 30 30 }
+																	size = { 20 20 }
 																	texture = "gfx/interface/icons/icon_soldier.dds"
 																}
-																spacer = { size = { 10 0 }}
-																expand = {}
 																text_single = {
 																	text = "[Character.GetMaxMilitaryStrength|0V]"
 																}
+																expand = {}
 															}
 															hbox = {
+																spacing = 10
 																layoutpolicy_horizontal = expanding
+																layoutpolicy_vertical = expanding
 																tooltipwidget = BMU_stakeholder_score_tooltip
-																vote_chance_icon = {}
-																spacer = { size = { 10 0 }}
-																expand = {}
+																vote_chance_icon = {
+																	size = { 20 20 }
+																}
 																text_single = {
 																	text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).AddScope('player',GetPlayer.MakeScope).ScriptValue('BMU_score_diff')|+0]"
 																}
+																expand = {}
+															}
+															hbox = {
+																spacing = 10
+																layoutpolicy_horizontal = expanding
+																layoutpolicy_vertical = expanding
+																icon_doctrine = {
+																	size = { 20 20 }
+																	texture = "gfx/interface/icons/press_claim_bargain.dds"
+																}
+																text_single = {
+																	raw_text = "[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('BMU_supporter_manoeuver_cost')|0V]"
+																}
+																expand = {}
 															}
 														}
 														# spacing = { size = { 10 0 }}
 														button = {
-															# enabled = "[GetScriptedGui('BMU_request_support_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 															texture = "gfx/interface/icons/character_interactions/icon_claim_pressed.dds"
 															size = { 50 50 }
-															# tooltipwidget = BMU_stakeholder_ambition_tooltip
-															# using = BMU_claim_window_clear_system_variables
 															onclick = "[GetScriptedGui('BMU_request_support_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+														}
+														button = {
+															enabled = "[GetScriptedGui('BMU_bargain_with_council_position_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+															tooltip = "[GetScriptedGui('BMU_bargain_with_council_position_sgui').BuildTooltip(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+															texture = "gfx/interface/icons/character_interactions/bargain_council_position.dds"
+															size = { 50 50 }
+															onclick = "[GetScriptedGui('BMU_bargain_with_council_position_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 														}
 														expand = {}
 
@@ -2432,7 +2480,7 @@ template BMU_stakeholder_score_tooltip {
 							maximumsize = { 350 -1 }
 							multiline = no
 							fonttintcolor = "[TooltipInfo.GetTintColor]"
-							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',Scope.Var('best_contender').Char.MakeScope).AddScope('score_supporter',Character.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
+							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',Scope.Var('best_contender').Char.MakeScope).AddScope('score_supporter',Character.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).AddScope('pressed_claim',Story.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
 						}
 					}
 
@@ -2461,7 +2509,7 @@ template BMU_stakeholder_score_tooltip {
 							maximumsize = { 350 -1 }
 							multiline = no
 							fonttintcolor = "[TooltipInfo.GetTintColor]"
-							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',Scope.Var('worthy_contender').Char.MakeScope).AddScope('score_supporter',Character.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
+							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',Scope.Var('worthy_contender').Char.MakeScope).AddScope('score_supporter',Character.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).AddScope('pressed_claim',Story.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
 						}
 					}
 					#Player Contender
@@ -2489,7 +2537,7 @@ template BMU_stakeholder_score_tooltip {
 							maximumsize = { 350 -1 }
 							multiline = no
 							fonttintcolor = "[TooltipInfo.GetTintColor]"
-							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',GetPlayer.MakeScope).AddScope('score_supporter',Character.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
+							text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('score_contender',GetPlayer.MakeScope).AddScope('score_supporter',Character.MakeScope).AddScope('claim_target',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('holder_candidate',Story.MakeScope.Var('claim_target').Char.MakeScope).AddScope('claimed_title',Story.MakeScope.Var('claimed_title').Title.MakeScope).AddScope('pressed_claim',Story.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
 						}
 					}
 				}

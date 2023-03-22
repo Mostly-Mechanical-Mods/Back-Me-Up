@@ -1,0 +1,12 @@
+﻿l_english:
+
+BMU_title_not_claim_target: "There is no Pressed Claim on the [target.GetName]"
+BMU_see_pressed_claim_effect: "See Pressed Claim"
+BMU_recipient_supports_actor_claim: "Supports [actor.GetShortUINamePossessiveNoTooltip] Claim on [pressed_claim.MakeScope.Var('claimed_title').Title.GetNameNoTooltip]"
+
+BMU_ShortName_AI: "[actor.GetShortUINameNoTooltip]"
+BMU_ShortName: "[actor.GetTitledFirstNameNoTooltip]"
+
+BMU_spend_manoeuvers: "Spends $MANOEUVER_COST|0$ Manoeuvers"
+
+debug_hide: "#low debug_hide#!"

@@ -138,7 +138,6 @@
 	can_be_picked = {
 		can_join_war_liege_vassal_check_trigger = { WARRIOR = scope:actor JOINER = scope:recipient }
 		NOT = { scope:target = { using_cb = BMU_pressed_claim_cb }}
-		NOT = { scope:target = { using_cb = claim_cb }}
 		scope:target = {
 			is_war_leader = scope:actor
 

@@ -1,0 +1,61 @@
+﻿l_english:
+
+BMU_debug_ai_accept_value: "#warning Debug:#! AI Accept chance should be #!$VALUE|+0$"
+BMU_debug_ai_accept_value_neg: "#warning Debug:#! AI Accept chance should be #warning -#!$VALUE|-0$"
+test: "BMU_debug_ai_accept_value_tooltip"
+BMU_debug_ai_accept_value_tooltip: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('score_contender',SCOPE.sC('actor').MakeScope).AddScope('score_supporter',SCOPE.sC('recipient').MakeScope).AddScope('candidate',SCOPE.sC('actor').MakeScope).AddScope('claim_target',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('claimed_title',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
+
+BMU_debug_ai_accept_value_tooltip_secondary_recipient: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('score_contender',SCOPE.sC('secondary_recipient').MakeScope).AddScope('score_supporter',SCOPE.sC('recipient').MakeScope).AddScope('candidate',SCOPE.sC('actor').MakeScope).AddScope('claim_target',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('claimed_title',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
+
+BMU_debug_ai_accept_value_tooltip_2: "[GuiScope.SetRoot(recipient.MakeScope).AddScope('score_contender',actor.MakeScope).AddScope('score_supporter',recipient.MakeScope).AddScope('candidate',actor.MakeScope).AddScope('claim_target',actor.MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',actor.MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('claimed_title',actor.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
+
+BMU_debug_ai_accept_value_tooltip_3: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('score_contender',SCOPE.sC('secondary_recipient').MakeScope).AddScope('score_supporter',SCOPE.sC('recipient').MakeScope).AddScope('candidate',SCOPE.sC('secondary_recipient').MakeScope).AddScope('claim_target',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('claimed_title',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
+
+
+BMU_GLOBAL_IF_PRESSED_CLAIM_WON: "If [CHARACTER.GetSheHe] gets [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetNameNoTooltip]:"
+
+BMU_GLOBAL_STOP_SUPPORTING_CONTENDER: "Stops supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]"
+
+BMU_I_START_SUPPORTING_CONTENDER: "You start supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]"
+BMU_I_STARTED_SUPPORTING_CONTENDER: "You started supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]"
+BMU_THEY_START_SUPPORTING_CONTENDER: "[CHARACTER.GetShortUIName], [CHARACTER.GetRelationToString(GetPlayer)], starts supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]"
+BMU_THEY_STARTED_SUPPORTING_CONTENDER: "[CHARACTER.GetShortUIName], [CHARACTER.GetRelationToString(GetPlayer)], started supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]"
+BMU_GLOBAL_START_SUPPORTING_CONTENDER: "Starts supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]"
+BMU_GLOBAL_STARTED_SUPPORTING_CONTENDER: ""Started supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]""
+
+
+BMU_I_CREATE_PRESSED_CLAIM: "Presses [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
+BMU_I_CREATED_PRESSED_CLAIM: "#DEBUG BMU_I_CREATED_PRESSED_CLAIM#!"
+BMU_THEY_CREATE_PRESSED_CLAIM: "#DEBUG BMU_THEY_CREATE_PRESSED_CLAIM#!"
+BMU_THEY_CREATED_PRESSED_CLAIM: "#DEBUG BMU_THEY_CREATED_PRESSED_CLAIM#!"
+BMU_CREATE_PRESSED_CLAIM: "Presses [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
+BMU_CREATED_PRESSED_CLAIM: "Pressed [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
+
+BMU_I_DEFEND_PRESSED_CLAIM: "#DEBUG BMU_I_DEFEND_PRESSED_CLAIM#!"
+BMU_I_DEFENDED_PRESSED_CLAIM: "#DEBUG BMU_I_DEFENDED_PRESSED_CLAIM#!"
+BMU_THEY_DEFEND_PRESSED_CLAIM: "#DEBUG BMU_THEY_DEFEND_PRESSED_CLAIM#!"
+BMU_THEY_DEFENDED_PRESSED_CLAIM: "#DEBUG BMU_THEY_DEFENDED_PRESSED_CLAIM#!"
+BMU_DEFEND_PRESSED_CLAIM: "Defends [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
+BMU_DEFENDED_PRESSED_CLAIM: "Defended [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
+
+BMU_I_JOIN_PRESSED_CLAIM: "You press your claim on the [TARGET_TITLE.GetName]"
+BMU_I_JOINED_PRESSED_CLAIM: "You pressed your claim on the [TARGET_TITLE.GetName]"
+BMU_THEY_JOIN_PRESSED_CLAIM: "[CHARACTER.GetShortUINameNoTooltip] presses [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
+BMU_THEY_JOINED_PRESSED_CLAIM: "[CHARACTER.GetShortUINameNoTooltip] pressed [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
+BMU_JOIN_PRESSED_CLAIM: "Presses [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
+BMU_JOINED_PRESSED_CLAIM: "Pressed [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
+
+BMU_THEY_MIGHT_JOIN_PRESSED_CLAIM: "#DEBUG BMU_THEY_MIGHT_JOIN_PRESSED_CLAIM#!"
+BMU_MIGHT_JOIN_PRESSED_CLAIM: "Might press [CHARACTER.GetHerHis] own claim on the [TARGET_TITLE.GetName]"
+
+
+BMU_VASSAL_I_FOLLOW_PRESSED_CLAIM: "BMU_VASSAL_I_FOLLOW_PRESSED_CLAIM"
+NOT_BMU_VASSAL_I_FOLLOW_PRESSED_CLAIM: "NOT_BMU_VASSAL_I_FOLLOW_PRESSED_CLAIM"
+BMU_VASSAL_THEY_FOLLOW_PRESSED_CLAIM: "BMU_VASSAL_THEY_FOLLOW_PRESSED_CLAIM"
+NOT_BMU_VASSAL_THEY_FOLLOW_PRESSED_CLAIM: "[CHARACTER.GetShortUINameNoTooltip] will not be a vassal of the Contender that gains the [TARGET_TITLE.GetName]"
+
+
+# BMU_spend_manoeuvers
+BMU_I_SPEND_MANOEUVERS: "#DEBUG BMU_I_SPEND_MANOEUVERS#!"
+BMU_THEY_SPEND_MANOEUVERS: "#DEBUG BMU_THEY_SPEND_MANOEUVERS#!"
+BMU_SPEND_MANOEUVERS: "Spends $VALUE|0-$ Manoeuvers"

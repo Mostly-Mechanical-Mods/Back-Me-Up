@@ -93,86 +93,122 @@ BMU_contender_score_gui = {
 			format = "FF_VALUE_FORMAT"
 		}
 	}
-	#Greed
-	if = {
-		limit = {
-			# any_owned_story = {
-			# 	story_type = BMU_stakeholder_story
-			# 	var:pressed_claim_story = scope:pressed_claim
-			# 	has_variable = status
-			# 	trigger_if = {
-			# 		limit = { var:status = flag:supporter }
-			# 		NOT = { var:contender.story_owner = scope:candidate }
-			# 	}
-			# 	save_temporary_scope_as = supporter_contender
-			# }	
-			always = yes
-		}
-		if = {
-			limit = {
-				# any_owned_story = {
-				# 	story_type = BMU_ambition_story
-				# 	var:stakeholder_story.var:pressed_claim_story = scope:pressed_claim
-				# 	has_variable = bargained
-				# }
-				always = no
-			}
-			# add = {
-			# 	value = {
-			# 		ordered_owned_story = {
-			# 			limit = {
-			# 				story_type = BMU_ambition_story
-			# 				var:stakeholder_story.var:pressed_claim_story = scope:pressed_claim
-			# 				has_variable = bargain
-			# 			}
-			# 			position = 0
-			# 			subtract = var:ambition_score
-			# 		}
-			# 	}
-			# 	desc = BMU_tooltip_bargain
-			# 	format = "FF_VALUE_FORMAT"
-			# }
-		}
-		else_if = {
-			limit = { ai_greed > 0 }
-			add = {
-				value = {
-					subtract = ai_greed
-				}
-				desc = BMU_tooltip_unfulfilled_ambitions
-				format = "FF_VALUE_FORMAT"
-			}
-		}
-	}
 	#In Position of Power
 	if = { 
 		limit = {
 			NOT = { scope:score_contender = scope:holder_candidate }
 			is_councillor_of = scope:holder_candidate
-			trigger_if = {
-				limit = { has_council_position = councillor_chancellor }
-				global_var:boolean = { save_temporary_scope_as = councillor_chancellor }
-			}
-			trigger_else_if = {
-				limit = { has_council_position = councillor_steward }
-				global_var:boolean = { save_temporary_scope_as = councillor_steward }
-			}
-			trigger_else_if = {
-				limit = { has_council_position = councillor_marshal }
-				global_var:boolean = { save_temporary_scope_as = councillor_marshal }
-			}
-			trigger_else_if = {
-				limit = { has_council_position = councillor_spymaster }
-				global_var:boolean = { save_temporary_scope_as = councillor_spymaster }
-			}
-			trigger_else = { always = no }
 		}
 		subtract = {
-			value = BMU_ambition_get_council_position
+			value = {
+				if = {
+					limit = { has_council_position = councillor_chancellor }
+					value = BMU_ambition_get_council_position_councillor_chancellor
+				}
+				else_if = {
+					limit = { has_council_position = councillor_steward }
+					value = BMU_ambition_get_council_position_councillor_steward
+				}
+				else_if = {
+					limit = { has_council_position = councillor_marshal }
+					value = BMU_ambition_get_council_position_councillor_marshal
+				}
+				else_if = {
+					limit = { has_council_position = councillor_spymaster }
+					value = BMU_ambition_get_council_position_councillor_spymaster
+				}
+			}
 			desc = BMU_tooltip_is_councillor_of_claim_target
 			format = "FF_VALUE_FORMAT"
 		}
 	}
+	#Bargain
+	if = {
+		limit = {
+			exists = scope:pressed_claim
+			# scope:score_contender = {
+			# 	any_owned_story = {
+			# 		story_type = BMU_bargain_story
+			# 		var:pressed_claim = scope:pressed_claim
+			# 		var:supporter.story_owner = scope:score_supporter
+			# 		save_temporary_scope_as = bargain
+			# 	}
+			# }
+			any_owned_story = {
+				story_type = BMU_supporter_story
+				var:pressed_claim_story = scope:pressed_claim
+				exists = var:bargain
+				var:bargain.var:contender.story_owner = scope:score_contender
+				var:bargain = { save_temporary_scope_as = bargain }
+			}
+		}
+		add = {
+			value = {
+				if = {
+					limit = { exists = scope:bargain }
+					if = {
+						limit = { scope:bargain.var:bargain_type = flag:FF_ambition_get_council_position }
+						if = {
+							limit = { scope:bargain.var:council_position = flag:councillor_chancellor }
+							add = BMU_ambition_get_council_position_councillor_chancellor
+						}
+						else_if = {
+							limit = { scope:bargain.var:council_position = flag:councillor_steward }
+							add = BMU_ambition_get_council_position_councillor_steward
+						}
+						else_if = {
+							limit = { scope:bargain.var:council_position = flag:councillor_marshal }
+							add = BMU_ambition_get_council_position_councillor_marshal
+						}
+						else_if = {
+							limit = { scope:bargain.var:council_position = flag:councillor_spymaster }
+							add = BMU_ambition_get_council_position_councillor_spymaster
+						}
+					}
+				}
+			}
+			desc = BMU_tooltip_struck_bargain
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+	#Greed
+	# if = {
+	# 	if = {
+	# 		limit = {
+	# 			# any_owned_story = {
+	# 			# 	story_type = BMU_ambition_story
+	# 			# 	var:stakeholder_story.var:pressed_claim_story = scope:pressed_claim
+	# 			# 	has_variable = bargained
+	# 			# }
+	# 			always = no
+	# 		}
+	# 		# add = {
+	# 		# 	value = {
+	# 		# 		ordered_owned_story = {
+	# 		# 			limit = {
+	# 		# 				story_type = BMU_ambition_story
+	# 		# 				var:stakeholder_story.var:pressed_claim_story = scope:pressed_claim
+	# 		# 				has_variable = bargain
+	# 		# 			}
+	# 		# 			position = 0
+	# 		# 			subtract = var:ambition_score
+	# 		# 		}
+	# 		# 	}
+	# 		# 	desc = BMU_tooltip_bargain
+	# 		# 	format = "FF_VALUE_FORMAT"
+	# 		# }
+	# 	}
+	# 	else_if = {
+	# 		limit = { ai_greed > 0 }
+	# 		add = {
+	# 			value = {
+	# 				subtract = ai_greed
+	# 			}
+	# 			desc = BMU_tooltip_unfulfilled_ambitions
+	# 			format = "FF_VALUE_FORMAT"
+	# 		}
+	# 	}
+	# }
 }
 
 BMU_contender_legitimacy = {

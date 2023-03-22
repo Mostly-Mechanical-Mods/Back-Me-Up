@@ -723,6 +723,7 @@ BMU_set_pressed_claim_interaction = {
 			# check_range_bounds = no
 			limit = {
 				is_landed = yes
+				highest_held_title_tier >= tier_county
 				NOT = { this = root }
 			}
 			# order_by = max_military_strength
@@ -806,6 +807,32 @@ BMU_stakeholder_sorting = {
 					target = prev
 				}
 			}
+		}
+	}
+}
+
+BMU_bargain_with_council_position_sgui = {
+	scope = character
+	saved_scopes = {
+		recipient
+	}
+	is_shown = {
+		is_character_interaction_shown = {
+			recipient = scope:recipient
+			interaction = BMU_bargain_with_council_position_interaction
+		}
+	}
+	is_valid = {
+		is_character_interaction_valid = {
+			recipient = scope:recipient
+			interaction = BMU_bargain_with_council_position_interaction
+		}
+	}
+	effect = {
+		open_interaction_window = {
+			interaction = BMU_bargain_with_council_position_interaction
+			actor = root
+			recipient = scope:recipient
 		}
 	}
 }

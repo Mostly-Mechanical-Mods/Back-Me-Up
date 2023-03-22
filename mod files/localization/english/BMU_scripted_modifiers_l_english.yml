@@ -1,0 +1,29 @@
+﻿l_english:
+
+FF_bargain_acceptance_support_for_bargainer_modifier: "$FF_bargain_acceptance_support_for_bargainer$: $VALUE|+0$"
+FF_bargain_acceptance_military_leverage_modifier: "$FF_bargain_acceptance_military_leverage$: $VALUE|+0$"
+FF_bargain_acceptance_ambition_score_modifier: "$FF_bargain_acceptance_ambition_score$: $VALUE|+0$"
+FF_ambition_get_council_position_chancellor_modifier: "$FF_ambition_get_council_position_chancellor$: $VALUE|+0$"
+FF_ambition_get_council_position_steward_modifier: "$FF_ambition_get_council_position_steward$: $VALUE|+0$"
+FF_ambition_get_council_position_marshal_modifier: "$FF_ambition_get_council_position_marshal$: $VALUE|+0$"
+FF_ambition_get_council_position_spymaster_modifier: "$FF_ambition_get_council_position_spymaster$: $VALUE|+0$"
+
+
+
+BMU_interaction_tooltip_support_for_claim: "Support for [actor.GetShortUINamePossessiveNoTooltip] claim: $VALUE|+0$"
+BMU_interaction_tooltip_previous_contender_score: "Already supports another Contender: $VALUE|+0$"
+BMU_interaction_tooltip_top_contender_score: "Likes another Contender: $VALUE|+0$"
+BMU_interaction_tooltip_faction_claimant: "Joined a Claimant Faction: $VALUE|+0$"
+BMU_interaction_tooltip_ally: "Allied to [actor.GetShortUIName]: $VALUE|+0$"
+BMU_interaction_tooltip_loyalty: "Loyalty to [actor.GetShortUIName]: $VALUE|+0$"
+BMU_interaction_tooltip_reluctance_to_fight: "Reluctant to fight: $VALUE|+0$"
+BMU_interaction_tooltip_is_councillor_of_claim_target: "Is in position of power: $VALUE|+0$"
+
+FF_loyalty_personality_honor_desc: "[ROOT.Char.GetShortUIName]"
+
+BMU_preferred_contender_score: "Prefers [secondary_recipient.GetShortUIName]: #TOOLTIP:BMU_debug_ai_accept_value_tooltip_3 $VALUE|+0$#!"
+
+
+FF_modifier_tooltip_loyalty: ""
+
+FF_bargain_already_councillor_modifier: "I am already on his council: $VALUE|+0$"

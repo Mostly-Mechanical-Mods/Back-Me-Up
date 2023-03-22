@@ -1,0 +1,28 @@
+﻿l_english:
+
+action_can_join_pressed_claim: "Claim is contested"
+action_can_join_pressed_claim_label: "You can Press a Claim" 
+action_can_join_pressed_claim_desc: "Someone pressed their Claim on the [claimed_title.GetName]"
+action_can_join_pressed_claim_click: "#I Click to view the Pressed Claim#!"
+action_can_join_pressed_claim_combined_label: "#DEBUG action_can_join_pressed_claim_combined_label#!"
+action_can_join_pressed_claim_combined_group_label: "#DEBUG action_can_join_pressed_claim_combined_group_label#!"
+action_can_join_pressed_claim_combined_group_name: "#DEBUG action_can_join_pressed_claim_combined_group_name#!"
+action_can_join_pressed_claim_combined_group_description: "#DEBUG action_can_join_pressed_claim_combined_group_description#!"
+
+action_can_see_pressed_claim: "Pressed Claim on [landed_title.GetNameNoTooltip]"
+action_can_see_pressed_claim_label: "Pressed Claim on [landed_title.GetNameNoTooltip]"
+action_can_see_pressed_claim_desc: "[recipient.GetShortUINamePossessive] title is being claimed."
+action_can_see_pressed_claim_click: "#DEBUG action_can_see_pressed_claim_click#!"
+action_can_see_pressed_claim_combined_label: "#DEBUG action_can_see_pressed_claim_combined_label#!"
+action_can_see_pressed_claim_combined_group_label: "#DEBUG action_can_see_pressed_claim_combined_group_label#!"
+action_can_see_pressed_claim_combined_group_name: "#DEBUG action_can_see_pressed_claim_combined_group_name#!"
+action_can_see_pressed_claim_combined_group_description: "#DEBUG action_can_see_pressed_claim_combined_group_description#!"
+
+action_request_support_in_pressed_claim: "#DEBUG action_request_support_in_pressed_claim#!"
+action_request_support_in_pressed_claim_label: "#DEBUG action_request_support_in_pressed_claim_label#!"
+action_request_support_in_pressed_claim_desc: "#DEBUG action_request_support_in_pressed_claim_desc#!"
+action_request_support_in_pressed_claim_click: "#DEBUG action_request_support_in_pressed_claim_click#!"
+action_request_support_in_pressed_claim_combined_label: "#DEBUG action_request_support_in_pressed_claim_combined_label#!"
+action_request_support_in_pressed_claim_group_label: "#DEBUG action_request_support_in_pressed_claim_group_label#!"
+action_request_support_in_pressed_claim_group_name: "#DEBUG action_request_support_in_pressed_claim_group_name#!"
+action_request_support_in_pressed_claim_group_description: "#DEBUG action_request_support_in_pressed_claim_group_description#!"

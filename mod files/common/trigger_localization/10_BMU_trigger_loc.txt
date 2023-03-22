@@ -59,9 +59,9 @@ BMU_claimant_already_in_claimant_faction = {
 
 BMU_vassal_follows_pressed_claim = {
 	first = BMU_VASSAL_I_FOLLOW_PRESSED_CLAIM
-	first_not = BMU_VASSAL_I_NOT_FOLLOW_PRESSED_CLAIM
+	# first_not = BMU_VASSAL_I_NOT_FOLLOW_PRESSED_CLAIM
 	third = BMU_VASSAL_THEY_FOLLOW_PRESSED_CLAIM
-	third_not = BMU_VASSAL_THEY_NOT_FOLLOW_PRESSED_CLAIM
+	# third_not = BMU_VASSAL_THEY_NOT_FOLLOW_PRESSED_CLAIM
 }
 
 BMU_have_common_pressed_claim = {
@@ -108,4 +108,38 @@ BMU_already_support_contender = {
 	first = BMU_I_ALREADY_SUPPORT_CONTENDER
 	third = BMU_THEY_ALREADY_SUPPORT_CONTENDER
 	global = BMU_ALREADY_SUPPORT_CONTENDER
+}
+
+BMU_ambition_get_council_position_councillor_chancellor = {
+	third = BMU_THEY_WANT_COUNCIL_POSITION_CHANCELLOR
+}
+BMU_ambition_get_council_position_councillor_steward = {
+	third = BMU_THEY_WANT_COUNCIL_POSITION_STEWARD
+}
+BMU_ambition_get_council_position_councillor_marshal = {
+	third = BMU_THEY_WANT_COUNCIL_POSITION_MARSHAL
+}
+BMU_ambition_get_council_position_councillor_spymaster = {
+	third = BMU_THEY_WANT_COUNCIL_POSITION_SPYMASTER
+}
+
+BMU_bargained_with_council_position_councillor_chancellor = {
+	first = BMU_I_BARGAINED_WITH_COUNCIL_POSITION_CHANCELLOR
+	third = BMU_THEY_BARGAINED_WITH_COUNCIL_POSITION_CHANCELLOR
+	global = BMU_BARGAINED_WITH_COUNCIL_POSITION_CHANCELLOR
+}
+BMU_bargained_with_council_position_councillor_steward = {
+	first = BMU_I_BARGAINED_WITH_COUNCIL_POSITION_STEWARD
+	third = BMU_THEY_BARGAINED_WITH_COUNCIL_POSITION_STEWARD
+	global = BMU_BARGAINED_WITH_COUNCIL_POSITION_STEWARD
+}
+BMU_bargained_with_council_position_councillor_marshal = {
+	first = BMU_I_BARGAINED_WITH_COUNCIL_POSITION_MARSHAL
+	third = BMU_THEY_BARGAINED_WITH_COUNCIL_POSITION_MARSHAL
+	global = BMU_BARGAINED_WITH_COUNCIL_POSITION_MARSHAL
+}
+BMU_bargained_with_council_position_councillor_spymaster = {
+	first = BMU_I_BARGAINED_WITH_COUNCIL_POSITION_SPYMASTER
+	third = BMU_THEY_BARGAINED_WITH_COUNCIL_POSITION_SPYMASTER
+	global = BMU_BARGAINED_WITH_COUNCIL_POSITION_SPYMASTER
 }

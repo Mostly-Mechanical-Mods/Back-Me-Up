@@ -1119,27 +1119,42 @@ BMU_create_bargain_get_council_position = {
 			type = BMU_bargain_story
 			save_scope_as = bargain
 		}
-		scope:bargain = {
-			set_variable = {
-				name = pressed_claim
-				value = scope:common_pressed_claim
+		if = {
+			limit = { exists = scope:bargain }
+			scope:bargain = {
+				set_variable = {
+					name = pressed_claim
+					value = scope:pressed_claim
+				}
+				set_variable = {
+					name = contender
+					value = scope:contender
+				}
+				set_variable = {
+					name = supporter
+					value = scope:supporter
+				}
+				set_variable = {
+					name = bargain_type
+					value = flag:FF_ambition_get_council_position
+				}
+				if = { limit = { scope:councillor_chancellor = yes } set_variable = { name = council_position value = flag:councillor_chancellor }}
+				else_if = { limit = { scope:councillor_steward = yes } set_variable = { name = council_position value = flag:councillor_steward }}
+				else_if = { limit = { scope:councillor_marshal = yes } set_variable = { name = council_position value = flag:councillor_marshal }}
+				else_if = { limit = { scope:councillor_spymaster = yes } set_variable = { name = council_position value = flag:councillor_spymaster }}
 			}
-			set_variable = {
-				name = contender
-				value = scope:contender
+			scope:contender = {
+				add_to_variable_list = {
+					name = bargains
+					target = scope:bargain
+				}
 			}
-			set_variable = {
-				name = supporter
-				value = scope:supporter
+			scope:supporter = {
+				set_variable = {
+					name = bargain
+					value = scope:bargain
+				}
 			}
-			set_variable = {
-				name = bargain_type
-				value = flag:FF_ambition_get_council_position
-			}
-			if = { limit = { scope:councillor_chancellor = yes } set_variable = { name = council_position value = flag:councillor_chancellor }}
-			else_if = { limit = { scope:councillor_steward = yes } set_variable = { name = council_position value = flag:councillor_steward }}
-			else_if = { limit = { scope:councillor_marshal = yes } set_variable = { name = council_position value = flag:councillor_marshal }}
-			else_if = { limit = { scope:councillor_spymaster = yes } set_variable = { name = council_position value = flag:councillor_spymaster }}
 		}
 	}
 }

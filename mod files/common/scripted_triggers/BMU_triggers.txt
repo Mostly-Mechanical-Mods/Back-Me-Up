@@ -1,15 +1,15 @@
-﻿BMU_can_be_councillor_of = {
-	$COURT_OWNER$ = { save_temporary_scope_as = court_owner }
-	$PRESSED_CLAIM$ = { save_temporary_scope_as = pressed_claim_temp }
-	trigger_if = {
-		# limit = { NOT = { FF_can_be_councillor_of = { COURT_OWNER = scope:court_owner }}}
-		OR = {
-			is_vassal_of = scope:court_owner
-			is_courtier_of = scope:court_owner
-			BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim_temp }
-		}
-	}
-}
+﻿# BMU_can_be_councillor_of = {
+# 	$COURT_OWNER$ = { save_temporary_scope_as = court_owner }
+# 	$PRESSED_CLAIM$ = { save_temporary_scope_as = pressed_claim_temp }
+# 	trigger_if = {
+# 		# limit = { NOT = { FF_can_be_councillor_of = { COURT_OWNER = scope:court_owner }}}
+# 		OR = {
+# 			is_vassal_of = scope:court_owner
+# 			is_courtier_of = scope:court_owner
+# 			BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim_temp }
+# 		}
+# 	}
+# }
 
 BMU_target_is_relevant_in_pressed_claim_v2 = {
 	$TARGET$ = { save_temporary_scope_as = temp_target }
@@ -181,6 +181,23 @@ BMU_bargain_can_be_struck = {
 	}
 }
 
+
+BMU_can_be_councillor_of = {
+	is_capable_adult = yes
+	is_imprisoned = no
+	is_at_war_with_liege = no
+	trigger_if = {
+		limit = { has_variable = block_hire_councillor }
+		NOT = { var:block_hire_councillor = $TARGET$ }
+	}
+	OR = {
+		is_vassal_of = $TARGET$
+		trigger_if = {
+			limit = { exists = scope:pressed_claim }
+			BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim }
+		}
+	}
+}
 
 
 BMU_ambition_can_be_councillor_of = {
@@ -408,6 +425,8 @@ BMU_is_claim_target_vassal_that_follows_pressed_claim = {
 	$PRESSED_CLAIM$ = { save_temporary_scope_as = temp_pressed_claim }
 	custom_description = {
 		text = BMU_vassal_follows_pressed_claim
+		subject = this
+		object = scope:temp_pressed_claim.var:claimed_title
 		is_landed = yes
 		is_vassal_of = scope:temp_pressed_claim.story_owner
 		primary_title = {
@@ -437,5 +456,33 @@ BMU_allowed_to_imprison_character_trigger = {
 			}
 		}
 		BMU_vassal_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim_temp }
+	}
+}
+
+BMU_bargained_with_council_position = {
+	custom_tooltip = {
+		text = debug_hide
+		any_bargain = {
+			has_variable = bargain_type
+			var:bargain_type = flag:FF_ambition_get_council_position
+			var:council_position = flag:$POSITION$
+			save_temporary_scope_as = temp_bargain
+		}
+	}
+	trigger_if = {
+		limit = { exists = scope:temp_bargain }
+		custom_description = {
+			text = BMU_bargained_with_council_position_$POSITION$
+			subject = this
+			object = scope:temp_bargain.var:supporter.story_owner
+		}
+	}
+}
+
+BMU_wants_council_position = {
+	custom_description = {
+		text = BMU_ambition_get_council_position_$POSITION$
+		subject = this
+		BMU_ambition_get_council_position_$POSITION$ > 0
 	}
 }

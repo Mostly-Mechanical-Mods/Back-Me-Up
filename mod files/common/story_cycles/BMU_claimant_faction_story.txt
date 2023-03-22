@@ -323,6 +323,76 @@
 		}
 	}
 
+	effect_group = {
+		weeks = 1
+		triggered_effect = {
+			effect = {
+				every_in_list = {
+					variable = contenders
+					save_scope_as = contender
+					set_variable = {
+						name = max_military_strength
+						value = {
+							add = story_owner.max_military_strength
+							scope:story = {
+								every_in_list = {
+									variable = supporters
+									limit = { var:contender = scope:contender }
+									add = story_owner.max_military_strength
+								}
+							}
+						}
+					}
+				}
+				ordered_in_list = {
+					variable = contenders
+					order_by = var:max_military_strength
+					scope:story = {
+						set_variable = {
+							name = top_contender
+							value = prev.story_owner
+						}
+					}
+					save_scope_as = top_contender
+				}
+				every_in_list = {
+					variable = contenders
+					save_scope_as = contender
+					set_variable = {
+						name = confidence_score
+						value = {
+							add = var:max_military_strength
+							divide = {
+								scope:story = {
+									ordered_in_list = {
+										variable = contenders
+										limit = { NOT = { this = scope:contender }}
+										order_by = var:max_military_strength
+										position = 0
+										add = var:max_military_strength
+									}
+								}
+							}
+						}
+					}
+					if = {
+						limit = { var:confidence_score >= 1.2 }
+						set_variable = { name = confidence_flag value = flag:confidence_cocky }
+					}
+					else_if = {
+						limit = { var:confidence_score >= 0.9 }
+						set_variable = { name = confidence_flag value = flag:confidence_confident }
+					}
+					else_if = {
+						limit = { var:confidence_score >= 0.75 }
+						set_variable = { name = confidence_flag value = flag:confidence_concerned }
+					}
+					else = { set_variable = { name = confidence_flag value = flag:confidence_fearful }}
+				}
+			}
+		}
+	}
+
 	# effect_group = {
 	# 	days = 1
 	# 	triggered_effect = {
@@ -518,6 +588,14 @@ BMU_contender_story = {
 		set_variable = {
 			name = bargainer
 			value = story_owner
+		}
+		set_variable = {
+			name = max_military_strength
+			value = story_owner.max_military_strength
+		}
+		set_variable = {
+			name = manoeuver_spent
+			value = 0
 		}
 		# story_owner = {
 		# 	every_close_family_member = { add_to_list = stakeholders }
@@ -737,6 +815,15 @@ BMU_stakeholder_story = {
 			remove_list_variable = {
 				name = stakeholders
 				target = prev
+			}
+			every_in_list = {
+				variable = contenders
+				story_owner = {
+					remove_list_variable = {
+						name = stakeholders_gui
+						target = root
+					}
+				}
 			}
 		}
 	}

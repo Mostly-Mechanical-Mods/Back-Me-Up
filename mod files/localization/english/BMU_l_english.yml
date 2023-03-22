@@ -1,194 +1,10 @@
 ﻿l_english:
 
-# Important Actions
-
-action_can_join_pressed_claim: "Claim is contested"
-action_can_join_pressed_claim_label: "You can Press a Claim" 
-action_can_join_pressed_claim_desc: "Someone pressed their Claim on the [claimed_title.GetName]"
-action_can_join_pressed_claim_click: "#I Click to view the Pressed Claim#!"
-action_can_join_pressed_claim_combined_label: "#DEBUG action_can_join_pressed_claim_combined_label#!"
-action_can_join_pressed_claim_combined_group_label: "#DEBUG action_can_join_pressed_claim_combined_group_label#!"
-action_can_join_pressed_claim_combined_group_name: "#DEBUG action_can_join_pressed_claim_combined_group_name#!"
-action_can_join_pressed_claim_combined_group_description: "#DEBUG action_can_join_pressed_claim_combined_group_description#!"
-
-action_can_see_pressed_claim: "Pressed Claim on [landed_title.GetNameNoTooltip]"
-action_can_see_pressed_claim_label: "Pressed Claim on [landed_title.GetNameNoTooltip]"
-action_can_see_pressed_claim_desc: "[recipient.GetShortUINamePossessive] title is being claimed."
-action_can_see_pressed_claim_click: "#DEBUG action_can_see_pressed_claim_click#!"
-action_can_see_pressed_claim_combined_label: "#DEBUG action_can_see_pressed_claim_combined_label#!"
-action_can_see_pressed_claim_combined_group_label: "#DEBUG action_can_see_pressed_claim_combined_group_label#!"
-action_can_see_pressed_claim_combined_group_name: "#DEBUG action_can_see_pressed_claim_combined_group_name#!"
-action_can_see_pressed_claim_combined_group_description: "#DEBUG action_can_see_pressed_claim_combined_group_description#!"
-
-action_request_support_in_pressed_claim: "#DEBUG action_request_support_in_pressed_claim#!"
-action_request_support_in_pressed_claim_label: "#DEBUG action_request_support_in_pressed_claim_label#!"
-action_request_support_in_pressed_claim_desc: "#DEBUG action_request_support_in_pressed_claim_desc#!"
-action_request_support_in_pressed_claim_click: "#DEBUG action_request_support_in_pressed_claim_click#!"
-action_request_support_in_pressed_claim_combined_label: "#DEBUG action_request_support_in_pressed_claim_combined_label#!"
-action_request_support_in_pressed_claim_group_label: "#DEBUG action_request_support_in_pressed_claim_group_label#!"
-action_request_support_in_pressed_claim_group_name: "#DEBUG action_request_support_in_pressed_claim_group_name#!"
-action_request_support_in_pressed_claim_group_description: "#DEBUG action_request_support_in_pressed_claim_group_description#!"
-
-# Trigger Localization
-
-# I_WANT_COUNCIL_POSITION: "#DEBUG I_WANT_COUNCIL_POSITION#!"
-# NOT_I_WANT_COUNCIL_POSITION: "#DEBUG NOT_I_WANT_COUNCIL_POSITION#!"
-# THEY_WANT_COUNCIL_POSITION: "#DEBUG THEY_WANT_COUNCIL_POSITION#!"
-# NOT_THEY_WANT_COUNCIL_POSITION: "#DEBUG NOT_THEY_WANT_COUNCIL_POSITION#!"
-
-BMU_I_AM_RELEVANT_SUPPORTER_IN_PRESSED_CLAIM: "#DEBUG BMU_I_AM_RELEVANT_SUPPORTER_IN_PRESSED_CLAIM#!"
-NOT_BMU_I_AM_RELEVANT_SUPPORTER_IN_PRESSED_CLAIM: "#DEBUG NOT_BMU_I_AM_RELEVANT_SUPPORTER_IN_PRESSED_CLAIM#!"
-BMU_THEY_ARE_RELEVANT_SUPPORTER_IN_PRESSED_CLAIM: "#DEBUG BMU_THEY_ARE_RELEVANT_SUPPORTER_IN_PRESSED_CLAIM#!"
-NOT_BMU_THEY_ARE_RELEVANT_SUPPORTER_IN_PRESSED_CLAIM: "#DEBUG NOT_BMU_THEY_ARE_RELEVANT_SUPPORTER_IN_PRESSED_CLAIM#!"
-BMU_RELEVANT_SUPPORTER_IN_PRESSED_CLAIM: "#DEBUG BMU_RELEVANT_SUPPORTER_IN_PRESSED_CLAIM#!"
-NOT_BMU_RELEVANT_SUPPORTER_IN_PRESSED_CLAIM: "#DEBUG NOT_BMU_RELEVANT_SUPPORTER_IN_PRESSED_CLAIM#!"
-
-BMU_I_AM_RIVAL_OF_PRESSED_CLAIM_CONTENDER: "#DEBUG BMU_I_AM_RIVAL_OF_PRESSED_CLAIM_CONTENDER#!"
-NOT_BMU_I_AM_RIVAL_OF_PRESSED_CLAIM_CONTENDER: "#DEBUG NOT_BMU_I_AM_RIVAL_OF_PRESSED_CLAIM_CONTENDER#!"
-BMU_THEY_ARE_RIVAL_OF_PRESSED_CLAIM_CONTENDER: "#DEBUG BMU_THEY_ARE_RIVAL_OF_PRESSED_CLAIM_CONTENDER#!"
-NOT_BMU_THEY_ARE_RIVAL_OF_PRESSED_CLAIM_CONTENDER: "#DEBUG NOT_BMU_THEY_ARE_RIVAL_OF_PRESSED_CLAIM_CONTENDER#!"
-BMU_RIVAL_OF_PRESSED_CLAIM_CONTENDER: "#DEBUG BMU_RIVAL_OF_PRESSED_CLAIM_CONTENDER#!"
-NOT_BMU_RIVAL_OF_PRESSED_CLAIM_CONTENDER: "#DEBUG NOT_BMU_RIVAL_OF_PRESSED_CLAIM_CONTENDER#!"
-
-BMU_I_AM_SUPPORTER_IN_PRESSED_CLAIM: "#DEBUG BMU_I_AM_SUPPORTER_IN_PRESSED_CLAIM#!"
-NOT_BMU_I_AM_SUPPORTER_IN_PRESSED_CLAIM: "#DEBUG NOT_BMU_I_AM_SUPPORTER_IN_PRESSED_CLAIM#!"
-BMU_THEY_ARE_SUPPORTER_IN_PRESSED_CLAIM: "#DEBUG BMU_THEY_ARE_SUPPORTER_IN_PRESSED_CLAIM#!"
-NOT_BMU_THEY_ARE_SUPPORTER_IN_PRESSED_CLAIM: "#DEBUG NOT_BMU_THEY_ARE_SUPPORTER_IN_PRESSED_CLAIM#!"
-BMU_SUPPORTER_IN_PRESSED_CLAIM: "#DEBUG BMU_SUPPORTER_IN_PRESSED_CLAIM#!"
-NOT_BMU_SUPPORTER_IN_PRESSED_CLAIM: "#DEBUG NOT_BMU_SUPPORTER_IN_PRESSED_CLAIM#!"
-
-BMU_I_ALREADY_SUPPORT_CONTENDER: "You already support [TARGET_CHARACTER.GetShortUINamePossessiveNoTooltip] Claim"
-NOT_BMU_I_ALREADY_SUPPORT_CONTENDER: "#DEBUG NOT_BMU_I_ALREADY_SUPPORT_CONTENDER#!"
-BMU_THEY_ALREADY_SUPPORT_CONTENDER: "[CHARACTER.GetShortUINameNoTooltip] already supports [TARGET_CHARACTER.GetShortUINamePossessiveNoTooltip] Claim"
-NOT_BMU_I_ALREADY_SUPPORT_CONTENDER: "#DEBUG BMU_I_ALREADY_SUPPORT_CONTENDER#!"
-BMU_ALREADY_SUPPORT_CONTENDER: "Already supports [TARGET_CHARACTER.GetShortUINamePossessiveNoTooltip] Claim"
-NOT_BMU_ALREADY_SUPPORT_CONTENDER: "#DEBUG NOT_BMU_ALREADY_SUPPORT_CONTENDER#!"
-
-BMU_is_not_in_pressed_claim: "#DEBUG BMU_is_in_pressed_claim#!"
-BMU_already_involved_in_pressed_claim: "#DEBUG BMU_already_involved_in_pressed_clai#!m"
-
-BMU_too_late_to_join_pressed_claim: "Too late to press your claim on [pressed_claim.MakeScope.Var('claimed_title').GetName]"
-BMU_TOO_LATE_TO_JOIN_PRESSED_CLAIM: "Too late to press your claim on [pressed_claim.MakeScope.Var('claimed_title').GetName]"
-
-# Effect Localization
-
-BMU_debug_ai_accept_value: "#warning Debug:#! AI Accept chance should be #!$VALUE|+0$"
-BMU_debug_ai_accept_value_neg: "#warning Debug:#! AI Accept chance should be #warning -#!$VALUE|-0$"
-test: "BMU_debug_ai_accept_value_tooltip"
-BMU_debug_ai_accept_value_tooltip: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('score_contender',SCOPE.sC('actor').MakeScope).AddScope('score_supporter',SCOPE.sC('recipient').MakeScope).AddScope('candidate',SCOPE.sC('actor').MakeScope).AddScope('claim_target',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('claimed_title',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
-
-BMU_debug_ai_accept_value_tooltip_secondary_recipient: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('score_contender',SCOPE.sC('secondary_recipient').MakeScope).AddScope('score_supporter',SCOPE.sC('recipient').MakeScope).AddScope('candidate',SCOPE.sC('actor').MakeScope).AddScope('claim_target',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('claimed_title',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
-
-BMU_debug_ai_accept_value_tooltip_2: "[GuiScope.SetRoot(recipient.MakeScope).AddScope('score_contender',actor.MakeScope).AddScope('score_supporter',recipient.MakeScope).AddScope('candidate',actor.MakeScope).AddScope('claim_target',actor.MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',actor.MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('claimed_title',actor.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
-
-BMU_debug_ai_accept_value_tooltip_3: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('score_contender',SCOPE.sC('secondary_recipient').MakeScope).AddScope('score_supporter',SCOPE.sC('recipient').MakeScope).AddScope('candidate',SCOPE.sC('secondary_recipient').MakeScope).AddScope('claim_target',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('claimed_title',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
-
-
-BMU_GLOBAL_IF_PRESSED_CLAIM_WON: "If [CHARACTER.GetSheHe] gets [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetNameNoTooltip]:"
-
-BMU_GLOBAL_STOP_SUPPORTING_CONTENDER: "Stops supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]"
-
-BMU_I_START_SUPPORTING_CONTENDER: "You start supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]"
-BMU_I_STARTED_SUPPORTING_CONTENDER: "You started supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]"
-BMU_THEY_START_SUPPORTING_CONTENDER: "[CHARACTER.GetShortUIName], [CHARACTER.GetRelationToString(GetPlayer)], starts supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]"
-BMU_THEY_STARTED_SUPPORTING_CONTENDER: "[CHARACTER.GetShortUIName], [CHARACTER.GetRelationToString(GetPlayer)], started supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]"
-BMU_GLOBAL_START_SUPPORTING_CONTENDER: "Starts supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]"
-BMU_GLOBAL_STARTED_SUPPORTING_CONTENDER: ""Started supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]""
-
-
-BMU_I_CREATE_PRESSED_CLAIM: "Presses [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
-BMU_I_CREATED_PRESSED_CLAIM: "#DEBUG BMU_I_CREATED_PRESSED_CLAIM#!"
-BMU_THEY_CREATE_PRESSED_CLAIM: "#DEBUG BMU_THEY_CREATE_PRESSED_CLAIM#!"
-BMU_THEY_CREATED_PRESSED_CLAIM: "#DEBUG BMU_THEY_CREATED_PRESSED_CLAIM#!"
-BMU_CREATE_PRESSED_CLAIM: "Presses [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
-BMU_CREATED_PRESSED_CLAIM: "Pressed [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
-
-BMU_I_DEFEND_PRESSED_CLAIM: "#DEBUG BMU_I_DEFEND_PRESSED_CLAIM#!"
-BMU_I_DEFENDED_PRESSED_CLAIM: "#DEBUG BMU_I_DEFENDED_PRESSED_CLAIM#!"
-BMU_THEY_DEFEND_PRESSED_CLAIM: "#DEBUG BMU_THEY_DEFEND_PRESSED_CLAIM#!"
-BMU_THEY_DEFENDED_PRESSED_CLAIM: "#DEBUG BMU_THEY_DEFENDED_PRESSED_CLAIM#!"
-BMU_DEFEND_PRESSED_CLAIM: "Defends [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
-BMU_DEFENDED_PRESSED_CLAIM: "Defended [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
-
-BMU_I_JOIN_PRESSED_CLAIM: "You press your claim on the [TARGET_TITLE.GetName]"
-BMU_I_JOINED_PRESSED_CLAIM: "You pressed your claim on the [TARGET_TITLE.GetName]"
-BMU_THEY_JOIN_PRESSED_CLAIM: "[CHARACTER.GetShortUINameNoTooltip] presses [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
-BMU_THEY_JOINED_PRESSED_CLAIM: "[CHARACTER.GetShortUINameNoTooltip] pressed [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
-BMU_JOIN_PRESSED_CLAIM: "Presses [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
-BMU_JOINED_PRESSED_CLAIM: "Pressed [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetName]"
-
-BMU_THEY_MIGHT_JOIN_PRESSED_CLAIM: "#DEBUG BMU_THEY_MIGHT_JOIN_PRESSED_CLAIM#!"
-BMU_MIGHT_JOIN_PRESSED_CLAIM: "Might press [CHARACTER.GetHerHis] own claim on the [TARGET_TITLE.GetName]"
-
-# CUSTOM TOOLTIPS
-
-
-BMU_title_not_claim_target: "There is no Pressed Claim on the [target.GetName]"
-BMU_see_pressed_claim_effect: "See Pressed Claim"
-BMU_recipient_supports_actor_claim: "Supports [actor.GetShortUINamePossessiveNoTooltip] Claim on [pressed_claim.MakeScope.Var('claimed_title').Title.GetNameNoTooltip]"
-
-# Scripted Modifiers
-
-FF_bargain_acceptance_support_for_bargainer_modifier: "$FF_bargain_acceptance_support_for_bargainer$: $VALUE|+0$"
-FF_bargain_acceptance_military_leverage_modifier: "$FF_bargain_acceptance_military_leverage$: $VALUE|+0$"
-FF_bargain_acceptance_ambition_score_modifier: "$FF_bargain_acceptance_ambition_score$: $VALUE|+0$"
-FF_ambition_get_council_position_chancellor_modifier: "$FF_ambition_get_council_position_chancellor$: $VALUE|+0$"
-FF_ambition_get_council_position_steward_modifier: "$FF_ambition_get_council_position_steward$: $VALUE|+0$"
-FF_ambition_get_council_position_marshal_modifier: "$FF_ambition_get_council_position_marshal$: $VALUE|+0$"
-FF_ambition_get_council_position_spymaster_modifier: "$FF_ambition_get_council_position_spymaster$: $VALUE|+0$"
-
-
-
-BMU_interaction_tooltip_support_for_claim: "Support for [actor.GetShortUINamePossessiveNoTooltip] claim: $VALUE|+0$"
-BMU_interaction_tooltip_previous_contender_score: "Already supports another Contender: $VALUE|+0$"
-BMU_interaction_tooltip_top_contender_score: "Likes another Contender: $VALUE|+0$"
-BMU_interaction_tooltip_faction_claimant: "Joined a Claimant Faction: $VALUE|+0$"
-BMU_interaction_tooltip_ally: "Allied to [actor.GetShortUIName]: $VALUE|+0$"
-BMU_interaction_tooltip_loyalty: "Loyalty to [actor.GetShortUIName]: $VALUE|+0$"
-BMU_interaction_tooltip_reluctance_to_fight: "Reluctant to fight: $VALUE|+0$"
-BMU_interaction_tooltip_is_councillor_of_claim_target: "Is in position of power: $VALUE|+0$"
-
-FF_loyalty_personality_honor_desc: "[ROOT.Char.GetShortUIName]"
-
-BMU_preferred_contender_score: "Prefers [secondary_recipient.GetShortUIName]: #TOOLTIP:BMU_debug_ai_accept_value_tooltip_3 $VALUE|+0$#!"
-
-
-FF_modifier_tooltip_loyalty: ""
-
-# Script Values
-
-FF_bargain_acceptance_support_for_bargainer: "Doesn't support you"
-FF_bargain_acceptance_military_leverage: "Military leverage"
-FF_bargain_acceptance_ambition_score: "FF_bargain_acceptance_ambition_score"
-FF_ambition_get_council_position_chancellor: "Wants to be Chancellor"
-FF_ambition_get_council_position_steward: "Wants to be Steward"
-FF_ambition_get_council_position_marshal: "Wants to be Marshal"
-FF_ambition_get_council_position_spymaster: "Wants to be Spymaster"
-
-# Custom Loc
-
-BMU_ShortName_AI: "[actor.GetShortUINameNoTooltip]"
-BMU_ShortName: "[actor.GetTitledFirstNameNoTooltip]"
-
-# Debug
-
-
-
-
-
 # Misc
 
 BMU_msg_claim_war_invalidated_claimant_unavailable_dead_message: "#DEBUG BMU_msg_claim_war_invalidated_claimant_unavailable_dead_message#!"
 BMU_msg_claim_war_invalidated_claimant_unavailable_not_vassal_message: "#DEBUG BMU_msg_claim_war_invalidated_claimant_unavailable_not_vassal_message#!"
 BMU_msg_claim_war_invalidated_message: "#DEBUG BMU_msg_claim_war_invalidated_message#!"
-
-
-FF_ambition_get_council_position: "#DEBUG FF_ambition_get_council_position#!"
-
-
-FF_VALUE_FORMAT: "$KEY$: $VALUE|+=0$"
-
-
 
 # TEST
 
@@ -202,34 +18,17 @@ test_loc: "[GetPlayer.MakeScope.GetScriptValueDesc('test_value')]"
 CONTENDER_TITLE_NAME:0 "Claim on [old_title.GetBaseNameNoTooltip]"
 pressed_claim_contender: "[contender|E]"
 
-contention_phase: "[contention_phase|E]"
-rallying_phase: "[rallying_phase|E]"
-bargaining_phase: "[bargaining_phase|E]"
-declaration_phase: "[declaration_phase|E]"
 
-chancellor_name: "[chancellor|E]"
-chancellor_name_notooltip: "$game_concept_chancellor$"
-steward_name: "[steward|E]"
-steward_name_notooltip: "$game_concept_steward$"
-marshal_name: "[marshal|E]"
-marshal_name_notooltip: "$game_concept_marshal$"
-spymaster_name: "[spymaster|E]"
-spymaster_name_notooltip: "$game_concept_spymaster$"
 
-BMU_THEY_ALREADY_BARGAINED_FOR: "[TARGET_CHARACTER.GetShortUIName] already bargained this with [CHARACTER.GetShortUIName]."
-BMU_YOU_ALREADY_BARGAINED_WITH: "You already bargained this with [TARGET_CHARACTER.GetShortUIName]"
-BMU_I_HAVE_NOT_SELECTED_BARGAIN: "Select something to bargain with."
-BMU_I_ALREADY_BARGAINED_WITH_TARGET: "You already struck a bargain with [TARGET_CHARACTER.GetShortUIName]."
-BMU_THEY_ARE_CONSIDERING_YOUR_BARGAIN: "[TARGET_CHARACTER.GetShortUIName] is already considering your proposal."
+
 
 BMU_ACCEPT_BARGAIN: "I will support your claim!"
 BMU_REFUSE_BARGAIN: "Nah, that bargain is not good enough..."
 BMU_THEY_WOULD_ACCEPT_BARGAIN: "[TARGET_CHARACTER.GetShortUIName] would probably accept this bargain."
 BMU_THEY_WOULD_NOT_ACCEPT_BARGAIN: "[TARGET_CHARACTER.GetShortUIName] will not accept this bargain."
 
-BMU_BARGAIN_STRUCK_WITH: "Bargain struck with [Scope.Var('bargained').Var('stakeholder').Char.GetShortUIName]"
-BMU_BARGAIN_STRUCK_FOR: "for the [Localize(Concatenate(Scope.Var('council_position').GetFlagName,'_name'))] position."
-
+BMU_BARGAIN_STRUCK_WITH: "Bargain struck with [Scope.Var('bargain').Var('contender').Var('stakeholder').Char.GetShortUIName]"
+BMU_BARGAIN_STRUCK_FOR: "for the [Localize(Concatenate(Scope.Var('bargain').Var('council_position').GetFlagName,'_name'))] position."
 
 BMU_ONGOING_PRESSED_CLAIM: "There already is a Pressed Claim on [Title.GetNameNoTooltip]"
 BMU_ALREADY_BARGAINED_WITH_CONTENDER: "BMU_ALREADY_BARGAINED_WITH_CONTENDER"

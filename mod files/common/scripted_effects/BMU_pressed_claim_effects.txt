@@ -45,6 +45,21 @@
 						name = contender
 						value = this
 					}
+					set_variable = {
+						name = manoeuver_budget
+						value = {
+							add = scope:claimed_title.tier
+							add = story_owner.highest_held_title_tier
+							scope:claimed_title = {
+								if = { limit = { holder = prev.story_owner } add = 5 }
+								else_if = { limit = { is_target_in_variable_list = { name = claim_level_4 target = prev.story_owner }} add = 4 }
+								else_if = { limit = { is_target_in_variable_list = { name = claim_level_3 target = prev.story_owner }} add = 3 }
+								else_if = { limit = { is_target_in_variable_list = { name = claim_level_2 target = prev.story_owner }} add = 2 }
+								else_if = { limit = { is_target_in_variable_list = { name = claim_level_1 target = prev.story_owner }} add = 1 }
+							}
+							multiply = 10
+						}
+					}
 					story_owner = {
 						add_to_variable_list = {
 							name = pressed_claim_gui
@@ -104,6 +119,21 @@
 						name = contender
 						value = this
 					}
+					set_variable = {
+						name = manoeuver_budget
+						value = {
+							add = scope:claimed_title.tier
+							add = story_owner.highest_held_title_tier
+							scope:claimed_title = {
+								if = { limit = { holder = prev.story_owner } add = 5 }
+								else_if = { limit = { is_target_in_variable_list = { name = claim_level_4 target = prev.story_owner }} add = 4 }
+								else_if = { limit = { is_target_in_variable_list = { name = claim_level_3 target = prev.story_owner }} add = 3 }
+								else_if = { limit = { is_target_in_variable_list = { name = claim_level_2 target = prev.story_owner }} add = 2 }
+								else_if = { limit = { is_target_in_variable_list = { name = claim_level_1 target = prev.story_owner }} add = 1 }
+							}
+							multiply = 10
+						}
+					}
 					story_owner = {
 						add_to_variable_list = {
 							name = pressed_claim_gui
@@ -135,6 +165,21 @@
 					set_variable = {
 						name = contender
 						value = this
+					}
+					set_variable = {
+						name = manoeuver_budget
+						value = {
+							add = scope:claimed_title.tier
+							add = story_owner.highest_held_title_tier
+							scope:claimed_title = {
+								if = { limit = { holder = prev.story_owner } add = 5 }
+								else_if = { limit = { is_target_in_variable_list = { name = claim_level_4 target = prev.story_owner }} add = 4 }
+								else_if = { limit = { is_target_in_variable_list = { name = claim_level_3 target = prev.story_owner }} add = 3 }
+								else_if = { limit = { is_target_in_variable_list = { name = claim_level_2 target = prev.story_owner }} add = 2 }
+								else_if = { limit = { is_target_in_variable_list = { name = claim_level_1 target = prev.story_owner }} add = 1 }
+							}
+							multiply = 10
+						}
 					}
 					story_owner = {
 						add_to_variable_list = {
@@ -253,6 +298,21 @@
 									set_variable = {
 										name = contender
 										value = this
+									}
+									set_variable = {
+										name = manoeuver_budget
+										value = {
+											add = scope:claimed_title.tier
+											add = story_owner.highest_held_title_tier
+											scope:claimed_title = {
+												if = { limit = { holder = prev.story_owner } add = 5 }
+												else_if = { limit = { is_target_in_variable_list = { name = claim_level_4 target = prev.story_owner }} add = 4 }
+												else_if = { limit = { is_target_in_variable_list = { name = claim_level_3 target = prev.story_owner }} add = 3 }
+												else_if = { limit = { is_target_in_variable_list = { name = claim_level_2 target = prev.story_owner }} add = 2 }
+												else_if = { limit = { is_target_in_variable_list = { name = claim_level_1 target = prev.story_owner }} add = 1 }
+											}
+											multiply = 10
+										}
 									}
 									story_owner = {
 										add_to_variable_list = {

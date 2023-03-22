@@ -1,0 +1,13 @@
+Mod-op to support modded council positions
+
+Back-Me-Up\mod files\common\character_interactions\BMU_bargain_council_position.txt
+add send_option
+on_accept modifier add BMU_ambition_get_council_position_<modded position>
+on_accept modifier subtract BMU_ambition_get_council_position_<modded position> if recipient already councillor of actor
+
+Script_values:
+add BMU_ambition_get_council_position_<modded position>
+
+Trigger Localization!
+add BMU_ambition_get_council_position_<modded position>
+add BMU_bargained_with_council_position_<modded position>
