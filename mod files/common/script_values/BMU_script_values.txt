@@ -141,3 +141,8 @@ BMU_contender_score_v3 = {
 		# }
 	}
 }
+
+BMU_gambit_remaining = {
+	add = var:gambit_budget
+	subtract = var:gambit_spent
+}

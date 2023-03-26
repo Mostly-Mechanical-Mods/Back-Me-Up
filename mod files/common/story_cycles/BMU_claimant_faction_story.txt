@@ -594,7 +594,7 @@ BMU_contender_story = {
 			value = story_owner.max_military_strength
 		}
 		set_variable = {
-			name = manoeuver_spent
+			name = gambit_spent
 			value = 0
 		}
 		# story_owner = {

@@ -7,6 +7,6 @@ BMU_recipient_supports_actor_claim: "Supports [actor.GetShortUINamePossessiveNoT
 BMU_ShortName_AI: "[actor.GetShortUINameNoTooltip]"
 BMU_ShortName: "[actor.GetTitledFirstNameNoTooltip]"
 
-BMU_spend_manoeuvers: "Spends $MANOEUVER_COST|0$ Manoeuvers"
+BMU_spend_gambits: "Spends $GAMBIT_COST|0$ Gambits"
 
 debug_hide: "#low debug_hide#!"

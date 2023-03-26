@@ -21,8 +21,8 @@
 	ignores_pending_interaction_block = no
 
 	localization_values = {
-		# MANOEUVER_COST = BMU_supporter_manoeuver_cost
-		MANOEUVER_COST = 100
+		# GAMBIT_COST = BMU_supporter_gambit_cost
+		GAMBIT_COST = 100
 	}
 
 	redirect = {
@@ -98,6 +98,13 @@
 	}
 	
 	is_valid_showing_failures_only = {
+		scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+		scope:actor = {
+			any_contender_story = {
+				var:pressed_claim_story = scope:pressed_claim
+				save_temporary_scope_as = contender
+			}
+		}
 		scope:recipient = {
 			custom_description = {
 				text = BMU_involved_in_another_pressed_claim
@@ -131,9 +138,13 @@
 				}
 			}
 		}
+		scope:actor = {
+			BMU_has_enough_remaining_gambits = yes
+		}
 	}
 
 	can_send = {
+		
 	}
 
 	on_send = {
@@ -141,21 +152,18 @@
 			limit = { debug_only = yes }
 			debug_log = "BMU_call_in_supporter_interaction on_send"
 			debug_log_scopes = yes
-		}
-		scope:actor.var:pressed_claim_interaction = { save_scope_as = pressed_claim }
-		scope:actor = {
-			random_contender_story = {
-				limit = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }
-				change_variable = {
-					name = manoeuver_spent
-					add = BMU_supporter_manoeuver_cost
-				}
+			if = {
+				limit = { exists = scope:pressed_claim }
+				scope:pressed_claim = { debug_log_scopes = no }
+			}
+			else = {
+				debug_log = "no scope:pressed_claim"
 			}
 		}
+		BMU_spend_gambits_effect = yes
 	}
 	
 	on_accept = {
-		
 		if = {
 			limit = { debug_only = yes }
 			debug_log = "BMU_call_in_supporter_interaction on_accept"
@@ -170,10 +178,10 @@
 				limit = { var:pressed_claim_story = scope:pressed_claim }
 				save_scope_as = contender
 				custom_description = {
-					text = BMU_spend_manoeuvers
+					text = BMU_spend_gambits
 					subject = scope:actor
 					object = scope:recipient
-					value = BMU_supporter_manoeuver_cost
+					value = BMU_supporter_gambit_cost
 				}
 			}
 		}
@@ -311,15 +319,7 @@
 	}
 
 	on_decline = {
-		scope:actor = {
-			random_contender_story = {
-				limit = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }
-				change_variable = {
-					name = manoeuver_spent
-					subtract = BMU_supporter_manoeuver_cost
-				}
-			}
-		}
+		BMU_refund_gambits_effect = yes
 	}
 
 	ai_accept = {

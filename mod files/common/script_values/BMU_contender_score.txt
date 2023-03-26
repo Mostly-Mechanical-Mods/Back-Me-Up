@@ -61,11 +61,27 @@ BMU_contender_score_gui = {
 	add = BMU_contender_legitimacy
 	# Vassal Loyalty
 	if = {
-		limit = { is_vassal_of = scope:score_contender }
-		add = {
-			value = FF_loyalty
-			desc = BMU_tooltip_FF_loyalty
-			format = "FF_VALUE_FORMAT"
+		limit = {
+			is_vassal_of = scope:score_contender
+			save_temporary_scope_value_as = {
+				name = FF_loyalty
+				value = FF_loyalty
+			}
+		}
+		if = {
+			limit = { FF_loyalty > 0 }
+			add = {
+				value = FF_loyalty
+				desc = BMU_tooltip_FF_loyalty_pos
+				format = "FF_VALUE_FORMAT"
+			}
+		}
+		else = {
+			add = {
+				value = FF_loyalty
+				desc = BMU_tooltip_FF_loyalty_neg
+				format = "FF_VALUE_FORMAT"
+			}
 		}
 	}
 	# Allied

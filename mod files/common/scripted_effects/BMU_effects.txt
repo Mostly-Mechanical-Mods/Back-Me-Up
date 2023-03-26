@@ -1114,7 +1114,27 @@ BMU_dropout_supporters_of = {
 # CLEAN
 
 BMU_create_bargain_get_council_position = {
-	scope:contender.story_owner = {
+	$PRESSED_CLAIM$ = { save_temporary_scope_as = pressed_claim_temp }
+	$CONTENDER$ = {
+		random_contender_story = {
+			limit = { var:pressed_claim_story = scope:pressed_claim_temp}
+			save_scope_as = contender_temp
+		}
+	}
+	$SUPPORTER$ = {
+		random_supporter_story = {
+			limit = { var:pressed_claim_story = scope:pressed_claim_temp}
+			save_scope_as = supporter_temp
+		}
+		if = {
+			limit = { NOT = { exists = scope:supporter_temp }}
+			random_stakeholder_story = {
+				limit = { var:pressed_claim_story = scope:pressed_claim_temp}
+				save_scope_as = supporter_temp
+			}
+		}
+	}
+	scope:contender_temp.story_owner = {
 		create_story = {
 			type = BMU_bargain_story
 			save_scope_as = bargain
@@ -1124,15 +1144,15 @@ BMU_create_bargain_get_council_position = {
 			scope:bargain = {
 				set_variable = {
 					name = pressed_claim
-					value = scope:pressed_claim
+					value = scope:pressed_claim_temp
 				}
 				set_variable = {
 					name = contender
-					value = scope:contender
+					value = scope:contender_temp
 				}
 				set_variable = {
 					name = supporter
-					value = scope:supporter
+					value = scope:supporter_temp
 				}
 				set_variable = {
 					name = bargain_type
@@ -1143,13 +1163,13 @@ BMU_create_bargain_get_council_position = {
 				else_if = { limit = { scope:councillor_marshal = yes } set_variable = { name = council_position value = flag:councillor_marshal }}
 				else_if = { limit = { scope:councillor_spymaster = yes } set_variable = { name = council_position value = flag:councillor_spymaster }}
 			}
-			scope:contender = {
+			scope:contender_temp = {
 				add_to_variable_list = {
 					name = bargains
 					target = scope:bargain
 				}
 			}
-			scope:supporter = {
+			scope:supporter_temp = {
 				set_variable = {
 					name = bargain
 					value = scope:bargain
@@ -1157,6 +1177,9 @@ BMU_create_bargain_get_council_position = {
 			}
 		}
 	}
+	clear_saved_scope = pressed_claim_temp
+	clear_saved_scope = contender_temp
+	clear_saved_scope = supporter_temp
 }
 
 BMU_accept_bargain = {

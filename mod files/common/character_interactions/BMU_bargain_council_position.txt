@@ -140,6 +140,13 @@
 	}
 
 	can_send = {
+		scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+		scope:actor = {
+			any_contender_story = {
+				var:pressed_claim_story = scope:pressed_claim
+				BMU_gambit_remaining >= BMU_supporter_gambit_cost
+			}
+		}
 	}
 
 	options_heading = BMU_bargain_council_position_interaction_option
@@ -234,7 +241,7 @@
 		if = {
 			limit = { debug_only = yes }
 			debug_log = "BMU_bargain_with_council_position_interaction on_send"
-			debug_log_scopes = no
+			debug_log_scopes = yes
 		}
 		scope:actor = {
 			set_variable = {
@@ -242,16 +249,14 @@
 				value = scope:recipient
 			}
 		}
-		scope:actor.var:pressed_claim_interaction = {
-			save_scope_as = pressed_claim
-		}
+		BMU_spend_gambits_effect = yes
 	}
 	
 	on_accept = {
 		if = {
 			limit = { debug_only = yes }
 			debug_log = "BMU_bargain_with_council_position_interaction on_accept"
-			debug_log_scopes = no
+			debug_log_scopes = yes
 			if = {
 				limit = { NOT = { exists = scope:pressed_claim }}
 				debug_log = "NO PRESSED CLAIM"
@@ -267,8 +272,20 @@
 			limit = { scope:actor = { has_variable = pressed_claim_interaction }}
 			scope:actor.var:pressed_claim_interaction = { save_scope_as = actor_pressed_claim_interaction }
 		}
-
 		scope:actor = { set_variable = { name = pressed_claim_interaction value = scope:pressed_claim }}
+
+		scope:actor = {
+			random_contender_story = {
+				limit = { var:pressed_claim_story = scope:pressed_claim }
+				save_scope_as = contender
+				custom_description = {
+					text = BMU_spend_gambits
+					subject = scope:actor
+					object = scope:recipient
+					value = BMU_supporter_gambit_cost
+				}
+			}
+		}
 
 		scope:recipient = {
 			custom_description = {
@@ -291,20 +308,24 @@
 		}
 		else = { scope:actor = { remove_variable = pressed_claim_interaction }}
 
-		scope:actor = {
-			random_contender_story = {
-				limit = { var:pressed_claim_story = scope:pressed_claim }
-				save_scope_as = contender
-			}
-		}
-		scope:recipient = {
-			random_supporter_story = {
-				limit = { var:pressed_claim_story = scope:pressed_claim }
-				save_scope_as = supporter
-			}
-		}
+		# scope:actor = {
+		# 	random_contender_story = {
+		# 		limit = { var:pressed_claim_story = scope:pressed_claim }
+		# 		save_scope_as = contender
+		# 	}
+		# }
+		# scope:recipient = {
+		# 	random_supporter_story = {
+		# 		limit = { var:pressed_claim_story = scope:pressed_claim }
+		# 		save_scope_as = supporter
+		# 	}
+		# }
 
-		BMU_create_bargain_get_council_position = yes
+		BMU_create_bargain_get_council_position = {
+			PRESSED_CLAIM = scope:pressed_claim
+			CONTENDER = scope:actor
+			SUPPORTER = scope:recipient
+		}
 				
 		scope:actor = {
 			custom_description_no_bullet = {
@@ -345,6 +366,10 @@
 		}
 
 		
+	}
+
+	on_decline = {
+		BMU_refund_gambits_effect = yes
 	}
 
 	

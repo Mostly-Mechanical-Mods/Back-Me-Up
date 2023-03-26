@@ -143,3 +143,18 @@ BMU_bargained_with_council_position_councillor_spymaster = {
 	third = BMU_THEY_BARGAINED_WITH_COUNCIL_POSITION_SPYMASTER
 	global = BMU_BARGAINED_WITH_COUNCIL_POSITION_SPYMASTER
 }
+
+BMU_gambit_remaining = {
+	first = MY_REMAINING_GAMBITS
+	third = THEIR_REMAINING_GAMBITS
+}
+
+BMU_gambit_remaining_greater_or_equal = {
+	first = MY_REMAINING_GAMBITS
+	third = THEIR_REMAINING_GAMBITS
+}
+
+BMU_has_enough_remaining_gambits = {
+	first = I_HAVE_ENOUGH_REMAINING_GAMBITS
+	third = THEY_HAVE_ENOUGH_REMAINING_GAMBITS
+}

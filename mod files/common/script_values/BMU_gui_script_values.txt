@@ -12,7 +12,7 @@
 	# }
 }
 
-BMU_supporter_manoeuver_cost = {
+BMU_supporter_gambit_cost = {
 	add = scope:recipient.highest_held_title_tier
 	if = {
 		limit = {
@@ -24,4 +24,17 @@ BMU_supporter_manoeuver_cost = {
 		multiply = 2
 	}
 	multiply = 10
+}
+
+BMU_gambits_cost_check_gui = {
+	scope:actor = {
+		ordered_owned_story = {
+			limit = {
+				story_type = BMU_contender_story
+				var:pressed_claim_story = scope:pressed_claim
+			}
+			add = BMU_gambit_remaining
+		}
+	}
+	subtract = BMU_supporter_gambit_cost
 }

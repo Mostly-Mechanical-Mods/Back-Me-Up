@@ -652,7 +652,7 @@ window = {
 																texture = "gfx/interface/icons/press_claim_bargain.dds"
 															}
 															text_single = {
-																raw_text = "[Scope.Var('manoeuver_spent').GetValue] / [Scope.Var('manoeuver_budget').GetValue]"
+																raw_text = "[Scope.Var('gambit_spent').GetValue] / [Scope.Var('gambit_budget').GetValue]"
 															}
 														}
 													}
@@ -781,7 +781,7 @@ window = {
 																	texture = "gfx/interface/icons/press_claim_bargain.dds"
 																}
 																text_single = {
-																	raw_text = "[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('BMU_supporter_manoeuver_cost')|0V]"
+																	raw_text = "[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('BMU_supporter_gambit_cost')|0V]"
 																}
 																expand = {}
 															}
@@ -885,10 +885,16 @@ window = {
 									layoutpolicy_horizontal = expanding
 									layoutpolicy_vertical = expanding
 									blockoverride "scrollbox_content" {
-										vbox = {
-											datacontext = "[GetScriptedGui('BMU_request_support_sgui')]"
+										fixedgridbox = {
 											layoutpolicy_horizontal = expanding
+											layoutpolicy_horizontal = expanding
+											datacontext = "[GetScriptedGui('BMU_request_support_sgui')]"
 											datamodel = "[GetPlayer.MakeScope.GetList('stakeholders_gui')]"
+											position = { 0 0 }
+											size = { 200 320 }
+											addcolumn = 1000
+											addrow = 120
+											maxhorizontalslots = 1
 											item = {
 												vbox = {
 													datacontext = "[Scope.Var('stakeholder').Char]"
@@ -955,13 +961,20 @@ window = {
 																	texture = "gfx/interface/icons/press_claim_bargain.dds"
 																}
 																text_single = {
-																	raw_text = "[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('BMU_supporter_manoeuver_cost')|0V]"
+																	visible = "[GreaterThanOrEqualTo_CFixedPoint(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('BMU_gambits_cost_check_gui'),'(CFixedPoint)0')]"
+																	text = "[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('BMU_supporter_gambit_cost')|0V]"
+																}
+																text_single = {
+																	visible = "[LessThan_CFixedPoint(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('BMU_gambits_cost_check_gui'),'(CFixedPoint)0')]"
+																	text = "[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('BMU_supporter_gambit_cost')|0V-]"
 																}
 																expand = {}
 															}
 														}
 														# spacing = { size = { 10 0 }}
 														button = {
+															enabled = "[GetScriptedGui('BMU_request_support_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+															tooltip = "[GetScriptedGui('BMU_request_support_sgui').BuildTooltip(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 															texture = "gfx/interface/icons/character_interactions/icon_claim_pressed.dds"
 															size = { 50 50 }
 															onclick = "[GetScriptedGui('BMU_request_support_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"

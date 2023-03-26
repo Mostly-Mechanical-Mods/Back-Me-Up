@@ -460,23 +460,23 @@ BMU_allowed_to_imprison_character_trigger = {
 }
 
 BMU_bargained_with_council_position = {
-	custom_tooltip = {
-		text = debug_hide
-		any_bargain = {
-			has_variable = bargain_type
-			var:bargain_type = flag:FF_ambition_get_council_position
-			var:council_position = flag:$POSITION$
-			save_temporary_scope_as = temp_bargain
-		}
-	}
 	trigger_if = {
-		limit = { exists = scope:temp_bargain }
+		limit = {
+			any_bargain = {
+				has_variable = bargain_type
+				has_variable = supporter
+				var:bargain_type = flag:FF_ambition_get_council_position
+				var:council_position = flag:$POSITION$
+				var:supporter.story_owner = { save_temporary_scope_as = supporter }
+			}
+		}
 		custom_description = {
 			text = BMU_bargained_with_council_position_$POSITION$
 			subject = this
-			object = scope:temp_bargain.var:supporter.story_owner
+			object = scope:supporter
 		}
 	}
+	trigger_else = { always = no }
 }
 
 BMU_wants_council_position = {
@@ -484,5 +484,16 @@ BMU_wants_council_position = {
 		text = BMU_ambition_get_council_position_$POSITION$
 		subject = this
 		BMU_ambition_get_council_position_$POSITION$ > 0
+	}
+}
+
+BMU_has_enough_remaining_gambits = {
+	custom_description = {
+		text = BMU_has_enough_remaining_gambits
+		subject = scope:actor
+		any_contender_story = {
+			var:pressed_claim_story = scope:pressed_claim
+			BMU_gambit_remaining >= BMU_supporter_gambit_cost
+		}
 	}
 }

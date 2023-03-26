@@ -46,7 +46,7 @@
 						value = this
 					}
 					set_variable = {
-						name = manoeuver_budget
+						name = gambit_budget
 						value = {
 							add = scope:claimed_title.tier
 							add = story_owner.highest_held_title_tier
@@ -120,7 +120,7 @@
 						value = this
 					}
 					set_variable = {
-						name = manoeuver_budget
+						name = gambit_budget
 						value = {
 							add = scope:claimed_title.tier
 							add = story_owner.highest_held_title_tier
@@ -167,7 +167,7 @@
 						value = this
 					}
 					set_variable = {
-						name = manoeuver_budget
+						name = gambit_budget
 						value = {
 							add = scope:claimed_title.tier
 							add = story_owner.highest_held_title_tier
@@ -300,7 +300,7 @@
 										value = this
 									}
 									set_variable = {
-										name = manoeuver_budget
+										name = gambit_budget
 										value = {
 											add = scope:claimed_title.tier
 											add = story_owner.highest_held_title_tier
@@ -509,4 +509,32 @@ BMU_calc_best_contenders = {
 	}
 	clear_saved_scope = temp_pressed_claim
 	clear_saved_scope = temp_story
+}
+
+BMU_spend_gambits_effect = {
+	scope:actor.var:pressed_claim_interaction = { save_scope_as = pressed_claim }
+	scope:actor = {
+		random_contender_story = {
+			limit = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }
+			change_variable = {
+				name = gambit_spent
+				add = BMU_supporter_gambit_cost
+			}
+		}
+	}
+}
+
+BMU_refund_gambits_effect = {
+	if = {
+		limit = { exists = scope:pressed_claim }
+		scope:actor = {
+			random_contender_story = {
+				limit = { var:pressed_claim_story = scope:pressed_claim }
+				change_variable = {
+					name = gambit_spent
+					subtract = BMU_supporter_gambit_cost
+				}
+			}
+		}
+	}
 }
