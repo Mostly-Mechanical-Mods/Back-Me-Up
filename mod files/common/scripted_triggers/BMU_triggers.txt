@@ -463,6 +463,18 @@ BMU_bargained_with_council_position = {
 	trigger_if = {
 		limit = {
 			any_bargain = {
+				has_variable = supporter
+				has_variable = bargain_type
+				var:bargain_type = flag:FF_ambition_get_council_position
+				has_variable = council_position
+				var:council_position = flag:$POSITION$
+				var:supporter.story_owner = { save_temporary_scope_as = supporter }
+			}
+		}
+	}
+	trigger_if = {
+		limit = {
+			any_bargain = {
 				has_variable = bargain_type
 				has_variable = supporter
 				var:bargain_type = flag:FF_ambition_get_council_position

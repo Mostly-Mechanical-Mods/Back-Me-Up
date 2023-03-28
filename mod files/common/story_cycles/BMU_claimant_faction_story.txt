@@ -21,6 +21,10 @@
 			}
 		}
 		var:claimed_title = {
+			set_variable = {
+				name = pressed_claim_cooldown
+				years = 5
+			}
 			remove_variable = pressed_claim
 		}
 		every_in_list = {
@@ -595,6 +599,10 @@ BMU_contender_story = {
 		}
 		set_variable = {
 			name = gambit_spent
+			value = 0
+		}
+		set_variable = {
+			name = confidence_score
 			value = 0
 		}
 		# story_owner = {

@@ -74,3 +74,8 @@ spymaster_name_notooltip: "$game_concept_spymaster$"
 # FLAGS
 
 FF_ambition_get_council_position: "FF_ambition_get_council_position"
+
+
+# COOLDOWN
+
+BMU_pressed_claim_cooldown: "You can't press a claim on the [target.GetNameNoTooltip] until [GetCurrentDateWithDiffShort(GetVarTimeRemaining(target.MakeScope,'pressed_claim_cooldown'))]"

@@ -74,6 +74,14 @@
 			any_claim = {
 				save_temporary_scope_as = claim
 				trigger_if = {
+					limit = { exists = holder }
+					holder = scope:recipient
+				}
+				custom_tooltip = {
+					text = BMU_pressed_claim_cooldown
+					NOT = { scope:target = { has_variable = pressed_claim_cooldown }}
+				}
+				trigger_if = {
 					limit = { has_variable = pressed_claim }
 					NOR = {
 						custom_description = {
@@ -107,6 +115,10 @@
 	}
 
 	can_be_picked_title = {
+		custom_tooltip = {
+			text = BMU_pressed_claim_cooldown
+			NOT = { scope:target = { has_variable = pressed_claim_cooldown }}
+		}
 		OR = {
 			scope:actor = { has_claim_on = scope:target }
 			AND = {
@@ -142,6 +154,10 @@
 	}
 
 	can_send = {
+		# custom_tooltip = {
+		# 	text = BMU_pressed_claim_cooldown
+		# 	NOT = { scope:target = { has_variable = pressed_claim_cooldown }}
+		# }
 	}
 
 	options_heading = BMU_bargain_council_position_interaction_option

@@ -442,28 +442,81 @@
 	}
 
 	ai_will_do = {
-		base = 0
-		BMU_bargain_setup = yes
 		modifier = {
-			any_councillor = {
-				trigger_if = { limit = { scope:councillor_chancellor = yes } has_council_position = councillor_chancellor }
-				trigger_else_if = { limit = { scope:councillor_steward = yes } has_council_position = councillor_steward }
-				trigger_else_if = { limit = { scope:councillor_marshal = yes } has_council_position = councillor_marshal }
-				trigger_else_if = { limit = { scope:councillor_spymaster = yes } has_council_position = councillor_spymaster }
-				trigger_else = { always = no }
-				any_supporter_story = {
-					var:pressed_claim_story = scope:actor.var:pressed_claim_interaction
-					var:contender.story_owner = scope:actor
-					prev = { save_temporary_scope_as = current_councillor }
+			trigger_if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+			}
+			any_owned_story = {
+				story_type = BMU_contender_story
+				var:pressed_claim_story = scope:pressed_claim
+				save_temporary_scope_as = actor_contender
+			}
+			scope:recipient = {
+				any_owned_story = {
+					story_type = BMU_contender_story
+					var:pressed_claim_story = scope:pressed_claim
+					save_temporary_scope_as = recipient_contender
 				}
 			}
-			add = {
-				add = scope:current_councillor.max_military_strength
-				divide = scope:recipient.max_military_strength
-				multiply = 100
-				subtract = 100
-			}
-			desc = "BMU_bargain_for_council_position_weaker_than_current_councillor_supporter"
+			add = 0
+		}
+		modifier = {
+			add = BMU_support_will_do
 		}
 	}
+
+	# ai_will_do = {
+	# 	base = 0
+	# 	BMU_bargain_setup = yes
+	# 	modifier = {
+	# 		any_councillor = {
+	# 			trigger_if = { limit = { scope:councillor_chancellor = yes } has_council_position = councillor_chancellor }
+	# 			trigger_else_if = { limit = { scope:councillor_steward = yes } has_council_position = councillor_steward }
+	# 			trigger_else_if = { limit = { scope:councillor_marshal = yes } has_council_position = councillor_marshal }
+	# 			trigger_else_if = { limit = { scope:councillor_spymaster = yes } has_council_position = councillor_spymaster }
+	# 			trigger_else = { always = no }
+	# 			any_supporter_story = {
+	# 				var:pressed_claim_story = scope:actor.var:pressed_claim_interaction
+	# 				var:contender.story_owner = scope:actor
+	# 				prev = { save_temporary_scope_as = current_councillor }
+	# 			}
+	# 		}
+	# 		add = {
+	# 			add = scope:current_councillor.max_military_strength
+	# 			divide = scope:recipient.max_military_strength
+	# 			multiply = 100
+	# 			subtract = 100
+	# 		}
+	# 		desc = "BMU_bargain_for_council_position_weaker_than_current_councillor_supporter"
+	# 	}
+	# }
+
+	ai_targets = {
+		ai_recipients = liege
+	}
+
+	ai_targets = {
+		ai_recipients = scripted_relations
+	}
+
+	ai_targets = {
+		ai_recipients = vassals
+		max = 10
+	}
+
+	ai_targets = {
+		ai_recipients = family
+		max = 10
+	}
+
+	ai_potential = {
+		any_contender_story = {
+			var:pressed_claim_story = {
+				var:phase = flag:rallying_phase
+			}
+		}
+	}
+
+	ai_frequency = 1
 }

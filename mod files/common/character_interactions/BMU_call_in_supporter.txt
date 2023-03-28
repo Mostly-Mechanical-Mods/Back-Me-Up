@@ -77,65 +77,78 @@
 	}
 
 	is_shown = {
-		scope:actor = { has_variable = pressed_claim_interaction }
-		exists = scope:actor.var:pressed_claim_interaction
-		scope:actor.var:pressed_claim_interaction.var:phase = flag:rallying_phase
-		NOT = { scope:actor = scope:recipient }
-		scope:recipient = {
-			is_landed = yes
-			highest_held_title_tier >= tier_county
-		}
-		scope:actor = {
-			any_contender_story = {
-				var:pressed_claim_story = scope:actor.var:pressed_claim_interaction
+		trigger_if = {
+			limit = { scope:actor = { NOT = { has_variable = BMU_call_in_supporter_interaction_script_override }}}
+			scope:actor = { has_variable = pressed_claim_interaction }
+			exists = scope:actor.var:pressed_claim_interaction
+			scope:actor.var:pressed_claim_interaction.var:phase = flag:rallying_phase
+			NOT = { scope:actor = scope:recipient }
+			scope:recipient = {
+				is_landed = yes
+				highest_held_title_tier >= tier_county
 			}
-			OR = {
-				scope:recipient = { any_supporter_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }}
-				BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:recipient PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }
-				scope:recipient = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }}
+			scope:actor = {
+				any_contender_story = {
+					var:pressed_claim_story = scope:actor.var:pressed_claim_interaction
+				}
+				OR = {
+					scope:recipient = { any_supporter_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }}
+					BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:recipient PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }
+					scope:recipient = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }}
+				}
 			}
 		}
 	}
 	
 	is_valid_showing_failures_only = {
-		scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
-		scope:actor = {
-			any_contender_story = {
-				var:pressed_claim_story = scope:pressed_claim
-				save_temporary_scope_as = contender
+		trigger_if = {
+			limit = { scope:actor = { NOT = { has_variable = BMU_call_in_supporter_interaction_script_override }}}
+			trigger_if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
 			}
-		}
-		scope:recipient = {
-			custom_description = {
-				text = BMU_involved_in_another_pressed_claim
-				subject = scope:recipient
+			scope:actor = {
 				any_contender_story = {
-					count = 0
+					var:pressed_claim_story = scope:pressed_claim
+					save_temporary_scope_as = contender
 				}
+				BMU_has_enough_remaining_gambits = yes
 			}
-			NOT = {
+			scope:recipient = {
 				custom_description = {
-					text = BMU_already_support_contender
+					text = BMU_involved_in_another_pressed_claim
 					subject = scope:recipient
-					object = scope:actor
-					any_supporter_story = {
-						var:pressed_claim_story = scope:actor.var:pressed_claim_interaction
-						var:contender.story_owner = scope:actor
+					any_contender_story = {
+						count = 0
 					}
 				}
-			}
-			trigger_if = {
-				limit = {
-					NAND = {
-						exists = joined_faction
-						joined_faction = {
-							faction_is_type = claimant_faction
-							faction_target = scope:secondary_actor
-							special_title = scope:actor.var:pressed_claim_interaction.var:claimed_title
-							special_character = scope:actor
+				NOT = {
+					custom_description = {
+						text = BMU_already_support_contender
+						subject = scope:recipient
+						object = scope:actor
+						any_supporter_story = {
+							var:pressed_claim_story = scope:actor.var:pressed_claim_interaction
+							var:contender.story_owner = scope:actor
 						}
 					}
 				}
+				trigger_if = {
+					limit = {
+						NAND = {
+							exists = joined_faction
+							joined_faction = {
+								faction_is_type = claimant_faction
+								faction_target = scope:secondary_actor
+								special_title = scope:actor.var:pressed_claim_interaction.var:claimed_title
+								special_character = scope:actor
+							}
+						}
+					}
+				}
+			}
+			scope:actor = {
+				BMU_has_enough_remaining_gambits = yes
 			}
 		}
 		scope:actor = {
@@ -168,6 +181,13 @@
 			limit = { debug_only = yes }
 			debug_log = "BMU_call_in_supporter_interaction on_accept"
 			debug_log_scopes = yes
+			if = {
+				limit = { exists = scope:pressed_claim }
+				scope:pressed_claim = { debug_log_scopes = no }
+			}
+			else = {
+				debug_log = "no scope:pressed_claim"
+			}
 		}
 		if = {
 			limit = { NOT = { exists = scope:pressed_claim }}
@@ -176,13 +196,35 @@
 		scope:actor = {
 			random_contender_story = {
 				limit = { var:pressed_claim_story = scope:pressed_claim }
+				save_scope_as = actor_contender
+			}
+		}
+		scope:recipient = {
+			random_supporter_story = {
+				limit = { var:pressed_claim_story = scope:pressed_claim }
+				var:contender = { save_scope_as = recipient_contender }
+			}
+		}
+		save_scope_value_as = {
+			name = ai_will_do
+			value = scope:actor.BMU_support_will_do
+		}
+		if = {
+			limit = { debug_only = yes }
+			scope:actor = {
+				add_prestige = scope:ai_will_do
+			}
+		}
+		scope:actor = {
+			random_contender_story = {
+				limit = { var:pressed_claim_story = scope:pressed_claim }
 				save_scope_as = contender
-				custom_description = {
-					text = BMU_spend_gambits
-					subject = scope:actor
-					object = scope:recipient
-					value = BMU_supporter_gambit_cost
-				}
+			}
+			custom_description = {
+				text = BMU_spend_gambits
+				subject = scope:actor
+				object = scope:recipient
+				value = BMU_supporter_gambit_cost
 			}
 		}
 		if = {
@@ -327,33 +369,57 @@
 		BMU_call_in_supporter_interaction = yes
 	}
 
+	# ai_will_do = {
+	# 	modifier = {
+	# 		trigger_if = {
+	# 			limit = { NOT = { exists = scope:pressed_claim }}
+	# 			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+	# 		}
+	# 		scope:actor = {
+	# 			any_contender_story = {
+	# 				var:pressed_claim_story = scope:pressed_claim
+	# 				save_temporary_scope_as = actor_contender
+	# 			}
+	# 		}
+	# 		scope:recipient = {
+	# 			any_supporter_story = {
+	# 				var:pressed_claim_story = scope:pressed_claim
+	# 				var:contender = { save_temporary_scope_as = recipient_contender }
+	# 			}
+	# 			save_temporary_scope_value_as = {
+	# 				name = gambit_cost
+	# 				value = BMU_supporter_gambit_cost
+	# 			}
+	# 		}
+	# 		add = 0
+	# 	}
+	# 	modifier = {
+	# 		add = BMU_support_will_do
+	# 	}
+	# }
+
 	ai_will_do = {
 		modifier = {
-			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
-			add = 0
-		}
-		modifier = {
-			scope:actor = {
-				any_contender_story = {
-					var:pressed_claim_story = scope:pressed_claim
-					save_temporary_scope_as = actor_contender
-				}
+			trigger_if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+			}
+			any_owned_story = {
+				story_type = BMU_contender_story
+				var:pressed_claim_story = scope:pressed_claim
+				save_temporary_scope_as = actor_contender
 			}
 			scope:recipient = {
-				any_supporter_story = {
+				any_owned_story = {
+					story_type = BMU_contender_story
 					var:pressed_claim_story = scope:pressed_claim
-					var:contender = { save_temporary_scope_as = recipient_contender }
+					save_temporary_scope_as = recipient_contender
 				}
 			}
 			add = 0
 		}
 		modifier = {
-			add = scope:recipient.max_military_strength
-		}
-		modifier = {
-			exists = scope:recipient_contender
-			scope:recipient_contender.var:confidence_score > scope:actor_contender.var:confidence_score
-			factor = 2
+			add = BMU_support_will_do
 		}
 	}
 
@@ -376,8 +442,13 @@
 	}
 
 	ai_potential = {
-		any_contender_story = {
-			count > 0
+		OR = {
+			any_contender_story = {
+				var:pressed_claim_story = {
+					var:phase = flag:rallying_phase
+				}
+			}
+			has_variable = BMU_call_in_supporter_interaction_script_override
 		}
 	}
 

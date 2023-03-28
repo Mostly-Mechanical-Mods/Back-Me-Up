@@ -264,6 +264,7 @@
 					name = pressed_claim
 					value = scope:pressed_claim
 				}
+				special_character = { set_variable = BMU_call_in_supporter_interaction_script_override }
 				if = {
 					limit = { NOT = { special_character = scope:claimant }}
 					special_character = {
@@ -360,6 +361,7 @@
 						}
 					}
 				}
+				special_character = { remove_variable = BMU_call_in_supporter_interaction_script_override }
 			}
 		}
 		scope:claimed_title = {
