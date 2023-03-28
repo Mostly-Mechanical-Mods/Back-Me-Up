@@ -39,6 +39,10 @@
 	# scope:attacker is the attacker
 	# scope:defender is the defender
 	is_allowed_claim_title = {
+		custom_tooltip = {
+			text = BMU_pressed_claim_cooldown
+			NOT = { has_variable = pressed_claim_cooldown }
+		}
 		custom_description = {
 			text = "claimant_titles_held_by_you_or_vassal"
 			NOR = {

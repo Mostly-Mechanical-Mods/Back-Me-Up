@@ -885,7 +885,8 @@ window = {
 									layoutpolicy_horizontal = expanding
 									layoutpolicy_vertical = expanding
 									blockoverride "scrollbox_content" {
-										vbox = {
+										fixedgridbox = {
+											layoutpolicy_horizontal = expanding
 											datacontext = "[GetScriptedGui('BMU_request_support_sgui')]"
 											layoutpolicy_horizontal = expanding
 											datamodel = "[GetPlayer.MakeScope.GetList('stakeholders_gui')]"

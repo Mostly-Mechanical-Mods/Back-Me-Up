@@ -460,13 +460,16 @@ BMU_allowed_to_imprison_character_trigger = {
 }
 
 BMU_bargained_with_council_position = {
-	custom_tooltip = {
-		text = debug_hide
-		any_bargain = {
-			has_variable = bargain_type
-			var:bargain_type = flag:FF_ambition_get_council_position
-			var:council_position = flag:$POSITION$
-			save_temporary_scope_as = temp_bargain
+	trigger_if = {
+		limit = {
+			any_bargain = {
+				has_variable = supporter
+				has_variable = bargain_type
+				var:bargain_type = flag:FF_ambition_get_council_position
+				has_variable = council_position
+				var:council_position = flag:$POSITION$
+				var:supporter.story_owner = { save_temporary_scope_as = supporter }
+			}
 		}
 	}
 	trigger_if = {

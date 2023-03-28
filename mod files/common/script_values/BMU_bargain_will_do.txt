@@ -1,0 +1,205 @@
+﻿BMU_support_will_do = {
+	add = {
+		value = {
+			add = scope:recipient.max_military_strength
+			divide = BMU_supporter_gambit_cost
+		}
+		desc = "BMU_support_will_do_recipient_max_mil_strength"
+		format = "FF_VALUE_FORMAT"
+	}
+	if = {
+		limit = { exists = scope:recipient_contender}
+		multiply = {
+			value = {
+				add = 1
+				if = {
+					limit = { scope:recipient_contender.story_owner = scope:pressed_claim.var:top_contender }
+					add = 1
+				}
+				else_if = {
+					limit = { scope:recipient_contender.var:max_military_strength > scope:actor_contender.var:max_military_strength }
+					add = 0.5
+				}
+			}
+			desc = "BMU_support_will_do_recipient_supports_stronger_contender"
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+	if = {
+		limit = {
+			exists = scope:FF_ambition_get_council_position
+			save_temporary_scope_as = score_contender
+		}
+		if = {
+			limit = {
+				scope:councillor_chancellor = yes
+				exists = cp:councillor_chancellor
+				cp:councillor_chancellor = {
+					any_owned_story = {
+						story_type = BMU_supporter_story
+						var:pressed_claim_story = scope:pressed_claim
+						var:contender.story_owner = scope:actor
+					}
+					BMU_contender_score < BMU_ambition_get_council_position_councillor_chancellor
+				}
+			}
+			subtract = {
+				value = {
+					add = cp:councillor_chancellor.max_military_strength
+					desc = "BMU_support_will_do_lost_support_ambition_get_council_position_councillor_chancellor"
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:councillor_steward = yes
+				exists = cp:councillor_steward
+				cp:councillor_steward = {
+					any_owned_story = {
+						story_type = BMU_supporter_story
+						var:pressed_claim_story = scope:pressed_claim
+						var:contender.story_owner = scope:actor
+					}
+					BMU_contender_score < BMU_ambition_get_council_position_councillor_steward
+				}
+			}
+			subtract = {
+				value = {
+					add = cp:councillor_steward.max_military_strength
+					desc = "BMU_support_will_do_lost_support_ambition_get_council_position_councillor_steward"
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:councillor_marshal = yes
+				exists = cp:councillor_marshal
+				cp:councillor_marshal = {
+					any_owned_story = {
+						story_type = BMU_supporter_story
+						var:pressed_claim_story = scope:pressed_claim
+						var:contender.story_owner = scope:actor
+					}
+					BMU_contender_score < BMU_ambition_get_council_position_councillor_marshal
+				}
+			}
+			subtract = {
+				value = {
+					add = cp:councillor_marshal.max_military_strength
+					desc = "BMU_support_will_do_lost_support_ambition_get_council_position_councillor_marshal"
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:councillor_spymaster = yes
+				exists = cp:councillor_spymaster
+				cp:councillor_spymaster = {
+					any_owned_story = {
+						story_type = BMU_supporter_story
+						var:pressed_claim_story = scope:pressed_claim
+						var:contender.story_owner = scope:actor
+					}
+					BMU_contender_score < BMU_ambition_get_council_position_councillor_spymaster
+				}
+			}
+			subtract = {
+				value = {
+					add = cp:councillor_spymaster.max_military_strength
+					desc = "BMU_support_will_do_lost_support_ambition_get_council_position_councillor_spymaster"
+				}
+			}
+		}
+	}
+	multiply = {
+		value = {
+			add = 1.2
+			subtract = scope:actor_contender.var:confidence_score
+		}
+		desc = "BMU_support_will_do_actor_confidence"
+		format = "FF_VALUE_FORMAT"
+	}
+	if = {
+		limit = { exists = scope:FF_ambition_get_council_position }
+		if = {
+			limit = { scope:councillor_chancellor = yes }
+			add = {
+				value = {
+					add = scope:recipient.diplomacy
+					multiply = 10
+				}
+				desc = "BMU_support_will_do_ambition_get_council_position_councillor_chancellor_recipient_skill"
+			}
+			if = {
+				limit = { exists = cp:councillor_chancellor }
+				subtract = {
+					value = {
+						add = cp:councillor_chancellor.diplomacy
+						multiply = 10
+					}
+					desc = "BMU_support_will_do_ambition_get_council_position_councillor_chancellor_current_skill"
+				}
+			}
+		}
+		else_if = {
+			limit = { scope:councillor_steward = yes }
+			add = {
+				value = {
+					add = scope:recipient.stewardship
+					multiply = 10
+				}
+				desc = "BMU_support_will_do_ambition_get_council_position_councillor_steward_recipient_skill"
+			}
+			if = {
+				limit = { exists = cp:councillor_steward }
+				subtract = {
+					value = {
+						add = cp:councillor_steward.stewardship
+						multiply = 10
+					}
+					desc = "BMU_support_will_do_ambition_get_council_position_councillor_steward_current_skill"
+				}
+			}
+		}
+		else_if = {
+			limit = { scope:councillor_marshal = yes }
+			add = {
+				value = {
+					add = scope:recipient.martial
+					multiply = 10
+				}
+				desc = "BMU_support_will_do_ambition_get_council_position_councillor_marshal_recipient_skill"
+			}
+			if = {
+				limit = { exists = cp:councillor_marshal }
+				subtract = {
+					value = {
+						add = cp:councillor_marshal.martial
+						multiply = 10
+					}
+					desc = "BMU_support_will_do_ambition_get_council_position_councillor_marshal_current_skill"
+				}
+			}
+		}
+		else_if = {
+			limit = { scope:councillor_spymaster = yes }
+			add = {
+				value = {
+					add = scope:recipient.intrigue
+					multiply = 10
+				}
+				desc = "BMU_support_will_do_ambition_get_council_position_councillor_spymaster_recipient_skill"
+			}
+			if = {
+				limit = { exists = cp:councillor_spymaster }
+				subtract = {
+					value = {
+						add = cp:councillor_spymaster.intrigue
+						multiply = 10
+					}
+					desc = "BMU_support_will_do_ambition_get_council_position_councillor_spymaster_current_skill"
+				}
+			}
+		}
+	}	
+}

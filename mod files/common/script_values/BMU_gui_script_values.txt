@@ -15,12 +15,7 @@
 BMU_supporter_manoeuver_cost = {
 	add = scope:recipient.highest_held_title_tier
 	if = {
-		limit = {
-			NOR = {
-				scope:recipient = { any_supporter_story = { var:pressed_claim_story = scope:pressed_claim }}
-				scope:actor = { BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:recipient PRESSED_CLAIM = scope:pressed_claim }}
-			}
-		}
+		limit = { NOT = { scope:actor = { BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:recipient PRESSED_CLAIM = scope:pressed_claim }}}}
 		multiply = 2
 	}
 	multiply = 10

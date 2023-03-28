@@ -501,11 +501,24 @@ claimant_faction = {
 			}
 			exists = faction_war
 		}
+		# trigger_if = {
+		# 	limit = { special_character = { is_ai = yes }}
+		# 	special_title = { save_temporary_scope_as = claimed_title }
+		# 	faction_target = { save_temporary_scope_as = claim_target }
+		# 	special_character = { prev.faction_target = { BMU_contender_score < 0 }}
+		# }
 		trigger_if = {
-			limit = { special_character = { is_ai = yes }}
-			special_title = { save_temporary_scope_as = claimed_title }
-			faction_target = { save_temporary_scope_as = claim_target }
-			special_character = { prev.faction_target = { BMU_contender_score < 0 }}
+			limit = {
+				exists = scope:faction
+				exists = scope:faction.special_title
+				special_character = { is_ai = yes }
+			}
+			scope:faction.faction_target = { save_temporary_scope_as = claim_target }
+			scope:faction.faction_target = { save_temporary_scope_as = holder_candidate }
+			scope:faction.faction_target = { save_temporary_scope_as = score_contender }
+			scope:faction.special_title = { save_temporary_scope_as = claimed_title }
+			scope:faction.special_character = { save_temporary_scope_as = score_supporter }
+			scope:faction.special_character = { BMU_contender_score_gui < 0 }
 		}
 	}
 
@@ -588,18 +601,22 @@ claimant_faction = {
 		common_character_validity_trigger = {
 			FACTION_TARGET = scope:faction.faction_target
 		}
-		#[BMU]
-		trigger_if = {
-			limit = {
-				is_ai = yes
-				exists = scope:faction
-				exists = scope:faction.special_title
-			}
-			scope:faction.faction_target = { save_temporary_scope_as = claim_target }
-			scope:faction.special_title = { save_temporary_scope_as = claimed_title }
-			scope:faction.special_character = { BMU_contender_score > 0 }
-		}
-		#[/BMU]
+		# #[BMU]
+		# trigger_if = {
+		# 	limit = {
+		# 		is_ai = yes
+		# 		exists = scope:faction
+		# 		exists = scope:faction.special_title
+		# 	}
+		# 	scope:faction.faction_target = { save_temporary_scope_as = claim_target }
+		# 	scope:faction.faction_target = { save_temporary_scope_as = holder_candidate }
+		# 	scope:faction.special_character = { save_temporary_scope_as = candidate }
+		# 	scope:faction.special_character = { save_temporary_scope_as = score_contender }
+		# 	scope:faction.special_title = { save_temporary_scope_as = claimed_title }
+		# 	save_temporary_scope_as = score_supporter
+		# 	BMU_contender_score_gui < 0
+		# }
+		# #[/BMU]
 	}
 
 	can_character_create_ui = {
@@ -705,13 +722,12 @@ claimant_faction = {
 		#[BMU]
 		modifier = {
 			scope:target = { save_temporary_scope_as = claim_target }
+			scope:target = { save_temporary_scope_as = holder_candidate }
 			scope:claimant = { save_temporary_scope_as = candidate }
 			scope:title = { save_temporary_scope_as = claimed_title }
-			add = {
-				value = {
-					scope:claimant = { add = BMU_contender_score }
-				}
-			}
+			scope:claimant = { save_temporary_scope_as = score_contender }
+			save_temporary_scope_as = score_supporter
+			add = BMU_contender_score_gui
 		}
 		#[/BMU]
 
@@ -763,9 +779,12 @@ claimant_faction = {
 
 		modifier = {
 			scope:target = { save_temporary_scope_as = claim_target }
+			scope:target = { save_temporary_scope_as = holder_candidate }
 			scope:claimant = { save_temporary_scope_as = candidate }
 			scope:title = { save_temporary_scope_as = claimed_title }
-			scope:claimant = { BMU_contender_score < 0 }
+			scope:claimant = { save_temporary_scope_as = score_contender }
+			save_temporary_scope_as = score_supporter
+			BMU_contender_score_gui < 0
 			factor = 0
 		}
 
@@ -799,14 +818,13 @@ claimant_faction = {
 
 		#[BMU]
 		modifier = {
-			scope:faction.faction_target  = { save_temporary_scope_as = claim_target }
+			scope:faction.faction_target = { save_temporary_scope_as = claim_target }
+			scope:faction.faction_target = { save_temporary_scope_as = holder_candidate }
 			scope:faction.special_character = { save_temporary_scope_as = candidate }
 			scope:faction.special_title = { save_temporary_scope_as = claimed_title }
-			add = {
-				value = {
-					scope:faction.special_character = { add = BMU_contender_score }
-				}
-			}
+			scope:faction.special_character = { save_temporary_scope_as = score_contender }
+			save_temporary_scope_as = score_supporter
+			add = BMU_contender_score_gui
 		}
 		#[/BMU]
 
@@ -824,6 +842,18 @@ claimant_faction = {
 			scope:faction.faction_power >= scope:faction.faction_power_threshold
 			factor = faction_weight_factor_power_exceeds_threshold
 		}
+		# [BMU]
+		modifier = {
+			scope:faction.faction_target = { save_temporary_scope_as = claim_target }
+			scope:faction.faction_target = { save_temporary_scope_as = holder_candidate }
+			scope:faction.special_character = { save_temporary_scope_as = candidate }
+			scope:faction.special_title = { save_temporary_scope_as = claimed_title }
+			scope:faction.special_character = { save_temporary_scope_as = score_contender }
+			save_temporary_scope_as = score_supporter
+			BMU_contender_score_gui < 0
+			factor = 0
+		}
+		# [/BMU]
 	}
 
 	is_county_valid = {
