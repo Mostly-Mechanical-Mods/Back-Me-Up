@@ -5,112 +5,137 @@ BMU_error_suppression.0001 = {
 	orphan = yes
 
 	immediate = {
-		fix_variable_error = { X = succession_rights }
-		fix_variable_error = { X = claimed_title }
-		fix_variable_error = { X = faction_target }
-		fix_variable_error = { X = faction_leader }
+		# fix_variable_error = { X = succession_rights }
+		# fix_variable_error = { X = claimed_title }
+		# fix_variable_error = { X = faction_target }
+		# fix_variable_error = { X = faction_leader }
+		# 
+		# fix_variable_error = { X = StA_title_allegiance }
+		# fix_variable_error = { X = opinion_liege }
+		# fix_variable_error = { X = claimants }
+		# fix_variable_error = { X = BMU_claim_stories }
+		# fix_variable_error = { X = claim_target }
+		# fix_variable_error = { X = claimed_titles }
+		# fix_variable_error = { X = claim_support }
+		# fix_variable_error = { X = contender }
+		# 
+		# fix_variable_error = { X = supporter }
+		# 
+		# fix_variable_error = { X = declaration_phase }
+		# fix_variable_error = { X = claimant_refused }
+		# fix_variable_error = { X = status }
+		# fix_variable_error = { X = BMU_pressed_claim_stakeholders }
+		# fix_variable_error = { X = supporters }
+		# fix_variable_error = { X = supporter_count }
+		# fix_variable_error = { X = top_contender }
+		# fix_variable_error = { X = FF_ambition_get_title }
+		# fix_variable_error = { X = FF_ambition_get_child_title }
+		# fix_variable_error = { X = FF_ambition_get_gold }
+		# fix_variable_error = { X = FF_ambition_screw_rival }
+		# fix_variable_error = { X = FF_ambition_help_friend }
+		# fix_variable_error = { X = FF_ambition_get_council_position }
+		# fix_variable_error = { X = marshal }
+		# fix_variable_error = { X = claim_target_score }
+		# fix_variable_error = { X = top_candidate_score }
+		# 
+		# fix_variable_error = { X = BMU_stakeholder_ambitions }
+		# fix_variable_error = { X = BMU_pressed_claim }
+		# fix_variable_error = { X = stakeholder_story }
+		# fix_variable_error = { X = ambition }
+		# fix_variable_error = { X = coveted_title }
+		# fix_variable_error = { X = ambition_score }
+		# fix_variable_error = { X = rival }
+		# fix_variable_error = { X = BMU_vote_stories }
+		# fix_variable_error = { X = claim_story }
+		# fix_variable_error = { X = FF_council_position_datamodel }
+		# fix_variable_error = { X = top_alternate_candidate }
+		# fix_variable_error = { X = player_score }
+		# fix_variable_error = { X = score_to_beat }
+		# fix_variable_error = { X = player_story }
+		# fix_variable_error = { X = gui_candidate }
+		# fix_variable_error = { X = BMU_stakeholder_stories }
+		# fix_variable_error = { X = bar_phase }
+		# fix_variable_error = { X = rallying }
+		# fix_variable_error = { X = war_phase }
+		# 
+		# fix_variable_error = { X = contention_phase }
+		# 
+		# fix_variable_error = { X = player_contender }
+		# fix_variable_error = { X = BMU_bargains }
+		# fix_variable_error = { X = promised }
+		# fix_variable_error = { X = fulfilled }
+		# fix_variable_error = { X = bargained }
+		# fix_variable_error = { X = BMU_bargains_refused }
+		# fix_variable_error = { X = pressed_claim_won }
+		# 
+		# fix_variable_error = { X = pending_bargain_proposal }
+		# fix_variable_error = { X = bargain }
+		# fix_variable_error = { X = fullfilled }
+		# fix_variable_error = { X = bargain_contender }
+		# fix_variable_error = { X = pending_status }
+		# fix_variable_error = { X = unlanded_contender }
+		# fix_variable_error = { X = contention }
+		# fix_variable_error = { X = councillor_chancellor }
+		# fix_variable_error = { X = councillor_steward }
+		# fix_variable_error = { X = councillor_marshal }
+		# fix_variable_error = { X = councillor_spymaster }
+		# 
+		# fix_variable_error = { X = bargain_blocker }
+		# fix_variable_error = { X = bargain_type }
+		# fix_variable_error = { X = pressed_claim_phase }
+		# fix_variable_error = { X = gui_active_pressed_claim }
+		# fix_variable_error = { X = pending }
+		# fix_variable_error = { X = test_value }
+		# fix_variable_error = { X = bargain_supporter_value }
+		# fix_variable_error = { X = top_candidate }
+
+		# fix_variable_error = { X = bargained_with }
+		
+		# fix_variable_error = { X = BMU_call_in_supporter_interaction }
+		# 
+		# fix_variable_error = { X = bargaining_phase }
+		# fix_variable_error = { X = test_1 }
+		# fix_variable_error = { X = previous_contender }
+		
+		
+		
+		
+		# 
+		# fix_variable_error = { X = bargains }
+		# fix_variable_error = { X = coveted_title_holder }
+		# fix_variable_error = { X = faction_claimant }
+		# fix_variable_error = { X = boolean }
+
+		# Compat
 		fix_variable_error = { X = mods_loaded }
-		fix_variable_error = { X = StA_title_allegiance }
-		fix_variable_error = { X = opinion_liege }
-		fix_variable_error = { X = claimants }
-		fix_variable_error = { X = BMU_claim_stories }
-		fix_variable_error = { X = claim_target }
-		fix_variable_error = { X = claimed_titles }
-		fix_variable_error = { X = claim_support }
-		fix_variable_error = { X = contender }
-		fix_variable_error = { X = stakeholder }
-		fix_variable_error = { X = supporter }
-		fix_variable_error = { X = dropout }
-		fix_variable_error = { X = declaration_phase }
-		fix_variable_error = { X = claimant_refused }
-		fix_variable_error = { X = status }
-		fix_variable_error = { X = BMU_pressed_claim_stakeholders }
-		fix_variable_error = { X = supporters }
-		fix_variable_error = { X = supporter_count }
-		fix_variable_error = { X = top_contender }
-		fix_variable_error = { X = FF_ambition_get_title }
-		fix_variable_error = { X = FF_ambition_get_child_title }
-		fix_variable_error = { X = FF_ambition_get_gold }
-		fix_variable_error = { X = FF_ambition_screw_rival }
-		fix_variable_error = { X = FF_ambition_help_friend }
-		fix_variable_error = { X = FF_ambition_get_council_position }
-		fix_variable_error = { X = marshal }
-		fix_variable_error = { X = claim_target_score }
-		fix_variable_error = { X = top_candidate_score }
-		fix_variable_error = { X = story_owner }
-		fix_variable_error = { X = BMU_stakeholder_ambitions }
-		fix_variable_error = { X = BMU_pressed_claim }
-		fix_variable_error = { X = stakeholder_story }
-		fix_variable_error = { X = ambition }
-		fix_variable_error = { X = coveted_title }
-		fix_variable_error = { X = ambition_score }
-		fix_variable_error = { X = rival }
-		fix_variable_error = { X = BMU_vote_stories }
-		fix_variable_error = { X = claim_story }
-		fix_variable_error = { X = FF_council_position_datamodel }
-		fix_variable_error = { X = top_alternate_candidate }
-		fix_variable_error = { X = player_score }
-		fix_variable_error = { X = score_to_beat }
-		fix_variable_error = { X = player_story }
-		fix_variable_error = { X = gui_candidate }
-		fix_variable_error = { X = BMU_stakeholder_stories }
-		fix_variable_error = { X = bar_phase }
-		fix_variable_error = { X = rallying }
-		fix_variable_error = { X = war_phase }
-		fix_variable_error = { X = flavorization_contender }
-		fix_variable_error = { X = contention_phase }
-		fix_variable_error = { X = stakeholders_added }
-		fix_variable_error = { X = player_contender }
-		fix_variable_error = { X = BMU_bargains }
-		fix_variable_error = { X = promised }
-		fix_variable_error = { X = fulfilled }
-		fix_variable_error = { X = bargained }
-		fix_variable_error = { X = BMU_bargains_refused }
-		fix_variable_error = { X = pressed_claim_won }
-		fix_variable_error = { X = pending_bargain }
-		fix_variable_error = { X = pending_bargain_proposal }
-		fix_variable_error = { X = bargain }
-		fix_variable_error = { X = fullfilled }
-		fix_variable_error = { X = bargain_contender }
-		fix_variable_error = { X = pending_status }
-		fix_variable_error = { X = unlanded_contender }
-		fix_variable_error = { X = contention }
-		fix_variable_error = { X = councillor_chancellor }
-		fix_variable_error = { X = councillor_steward }
-		fix_variable_error = { X = councillor_marshal }
-		fix_variable_error = { X = councillor_spymaster }
-		fix_variable_error = { X = bargainer }
-		fix_variable_error = { X = bargain_blocker }
-		fix_variable_error = { X = bargain_type }
-		fix_variable_error = { X = pressed_claim_phase }
-		fix_variable_error = { X = gui_active_pressed_claim }
-		fix_variable_error = { X = pending }
-		fix_variable_error = { X = test_value }
-		fix_variable_error = { X = bargain_supporter_value }
-		fix_variable_error = { X = top_candidate }
-		fix_variable_error = { X = broken }
-		fix_variable_error = { X = bargained_with }
+
+		# gui
+		# Confidence flag
+		fix_variable_error = { X = confidence_flag }
 		fix_variable_error = { X = confidence_cocky }
 		fix_variable_error = { X = confidence_confident }
 		fix_variable_error = { X = confidence_concerned }
 		fix_variable_error = { X = confidence_fearful }
-		fix_variable_error = { X = BMU_call_in_supporter_interaction }
-		fix_variable_error = { X = confidence_flag }
-		fix_variable_error = { X = bargaining_phase }
-		fix_variable_error = { X = test_1 }
-		fix_variable_error = { X = previous_contender }
+		# GUI sorting options
+		fix_variable_error = { X = BMU_gui_sort_options }
 		fix_variable_error = { X = BMU_gui_sort_options_max_mil_power }
 		fix_variable_error = { X = BMU_gui_sort_options_score_dif }
 		fix_variable_error = { X = BMU_gui_sort_options_rank }
+		fix_variable_error = { X = BMU_gui_sort_options_gambit_cost }
+		fix_variable_error = { X = Ascending }
+		# sgui
 		fix_variable_error = { X = max_military_strength }
 		fix_variable_error = { X = score_diff }
-		fix_variable_error = { X = Ascending }
-		fix_variable_error = { X = BMU_gui_sort_options }
-		fix_variable_error = { X = bargains }
-		fix_variable_error = { X = coveted_title_holder }
-		fix_variable_error = { X = faction_claimant }
-		fix_variable_error = { X = boolean }
-		
+
+		# reevaluate
+		fix_variable_error = { X = broken }
+		fix_variable_error = { X = stakeholder }
+		fix_variable_error = { X = dropout }
+		fix_variable_error = { X = pending_bargain }
+		fix_variable_error = { X = story_owner }
+		fix_variable_error = { X = flavorization_contender }
+		fix_variable_error = { X = stakeholders_added }
+		fix_variable_error = { X = bargainer }
 
 		trigger_event = faction_demand.2001
 		trigger_event = faction_demand.2005

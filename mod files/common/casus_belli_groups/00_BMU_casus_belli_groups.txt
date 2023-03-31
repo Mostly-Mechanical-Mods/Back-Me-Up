@@ -2,10 +2,8 @@
 	should_check_for_interface_availability = no
 	can_only_start_via_script = yes # Only fired by event
 	allowed_for_character = {
-		any_owned_story = {
-			story_type = BMU_pressed_claim_story
-			has_variable = status
-			var:status = flag:contender
+		any_contender_story = {
+			count > 0
 		}
 	}
 }

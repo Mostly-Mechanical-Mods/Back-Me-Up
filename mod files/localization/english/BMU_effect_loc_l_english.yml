@@ -1,17 +1,5 @@
 ﻿l_english:
 
-BMU_debug_ai_accept_value: "#warning Debug:#! AI Accept chance should be #!$VALUE|+0$"
-BMU_debug_ai_accept_value_neg: "#warning Debug:#! AI Accept chance should be #warning -#!$VALUE|-0$"
-test: "BMU_debug_ai_accept_value_tooltip"
-BMU_debug_ai_accept_value_tooltip: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('score_contender',SCOPE.sC('actor').MakeScope).AddScope('score_supporter',SCOPE.sC('recipient').MakeScope).AddScope('candidate',SCOPE.sC('actor').MakeScope).AddScope('claim_target',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('claimed_title',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
-
-BMU_debug_ai_accept_value_tooltip_secondary_recipient: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('score_contender',SCOPE.sC('secondary_recipient').MakeScope).AddScope('score_supporter',SCOPE.sC('recipient').MakeScope).AddScope('candidate',SCOPE.sC('actor').MakeScope).AddScope('claim_target',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('claimed_title',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
-
-BMU_debug_ai_accept_value_tooltip_2: "[GuiScope.SetRoot(recipient.MakeScope).AddScope('score_contender',actor.MakeScope).AddScope('score_supporter',recipient.MakeScope).AddScope('candidate',actor.MakeScope).AddScope('claim_target',actor.MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',actor.MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('claimed_title',actor.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
-
-BMU_debug_ai_accept_value_tooltip_3: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('score_contender',SCOPE.sC('secondary_recipient').MakeScope).AddScope('score_supporter',SCOPE.sC('recipient').MakeScope).AddScope('candidate',SCOPE.sC('secondary_recipient').MakeScope).AddScope('claim_target',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('holder_candidate',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claim_target').Char.MakeScope).AddScope('claimed_title',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
-
-
 BMU_GLOBAL_IF_PRESSED_CLAIM_WON: "If [CHARACTER.GetSheHe] gets [CHARACTER.GetHerHis] claim on the [TARGET_TITLE.GetNameNoTooltip]:"
 
 BMU_GLOBAL_STOP_SUPPORTING_CONTENDER: "Stops supporting [TARGET_CHARACTER.GetShortUINameNoTooltip]"

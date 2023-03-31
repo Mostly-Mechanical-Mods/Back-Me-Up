@@ -3,6 +3,12 @@
 	}
 	
 	on_end = {
+		var:contender = {
+			remove_list_variable = {
+				name = bargains
+				target = prev
+			}
+		}
 	}
 
 	on_owner_death = {

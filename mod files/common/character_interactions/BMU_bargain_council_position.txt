@@ -368,7 +368,7 @@
 	
 	ai_accept = {
 		base = 0
-		BMU_bargain_setup = yes
+		# BMU_bargain_setup = yes
 		BMU_call_in_supporter_interaction = yes
 		modifier = {
 			scope:councillor_chancellor = yes

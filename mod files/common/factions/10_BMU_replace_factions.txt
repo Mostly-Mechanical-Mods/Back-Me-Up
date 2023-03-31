@@ -1,12 +1,12 @@
-﻿BMU_claimant_faction = {
-	casus_belli = depose_war
+﻿claimant_faction = {
+	casus_belli = claimant_faction_war
 
 	short_effect_desc = claimant_faction_short_effect_desc
 
-	sort_order = 2
+	sort_order = 1
 
 	show_special_title = yes
-	name = BMU_CLAIMANT_FACTION
+	name = FACTION_CLAMAINT_DYNAMIC_NAME
 
 	discontent_progress = {
 		base = 0
@@ -36,161 +36,101 @@
 	is_valid = { # If the FACTION itself is valid
 		# see also invalidate_claimant_factions_on_death_effect for what happens when the claimant dies
 		
-		# exists = special_character
-		# special_title.holder = faction_target
-		# OR = {
-		# 	special_character = {
-		# 		is_alive = yes
-		# 		has_claim_on = root.special_title
-		# 		NOT = { has_trait = incapable }
-		# 		trigger_if = { #If they're imprisoned by the faction target they can only be so for five years before invalidating
-		# 			limit = {
-		# 				is_imprisoned_by = root.faction_target
-		# 			}
-		# 			time_in_prison_type = {
-		# 				years < 5
-		# 			}
-		# 		}
-		# 	}
-		# 	exists = faction_war
-		# }
-	}
+		exists = special_character
+		special_title.holder = faction_target
+		OR = {
+			special_character = {
+				is_alive = yes
+				#has_claim_on = root.special_title
+				NOR = { 
+					has_trait = incapable
+					this = root.faction_target
+				}
+				trigger_if = { #If they're imprisoned by the faction target they can only be so for five years before invalidating
+					limit = {
+						is_imprisoned_by = root.faction_target
+					}
+					time_in_prison_type = {
+						years < 5
+					}
+				}
+			}
+			exists = faction_war
+		}
+		# [BMU]
+		trigger_if = {
+			limit = {
+				exists = scope:faction
+				exists = scope:faction.special_title
+				special_character = { is_ai = yes }}
+			scope:faction.faction_target = { save_temporary_scope_as = claim_target }
+			scope:faction.faction_target = { save_temporary_scope_as = holder_candidate }
+			scope:faction.faction_target = { save_temporary_scope_as = score_contender }
+			scope:faction.special_title = { save_temporary_scope_as = claimed_title }
+			scope:faction.special_character = { save_temporary_scope_as = score_supporter }
+			scope:faction.special_character = { BMU_contender_score_gui < 0 }}}
+		# [/BMU]
+
+	# [BMU]
+	on_creation = { save_scope_as = claimant_faction }
+	# [/BMU]
 
 	demand = { # The effect of pressing demand
-		save_scope_as = faction
-
-		faction_leader = {
-			save_scope_as = faction_leader
+		# [BMU]
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU claimant faction pressed"
+			debug_log_scopes = yes
 		}
 
-		faction_target = {
-			save_scope_as = faction_target
-		}
-
-		special_character = {
-			save_scope_as = faction_claimant
-		}
-
-		special_title = {
-			save_scope_as = faction_targeted_title
-		}
-
-		# Let the human players in the faction know that the demand will be sent
-		every_faction_member = {
-			limit = {
-				is_ai = no
-				NOT = { this = scope:faction.faction_leader }
-			}
-			trigger_event = faction_demand.2005
-		}
-
-		# Send the actual demand in 5 days
-		faction_target = {
-			trigger_event = {
-				id = faction_demand.2001
-				days = 5
+		if = {
+			limit = { BMU_is_loaded = yes }
+			BMU_interaction_press_claim = {
+				CLAIMANT = special_character
+				CLAIM_TARGET = faction_target
+				CLAIMED_TITLE = special_title
 			}
 		}
-	}
+		#[/BMU]
 
-	on_creation = {
-	# 	set_variable = {
-	# 		name = claimed_title
-	# 		value = special_title
-	# 	}
-	# 	var:claimed_title = {
-	# 		save_scope_as = claimed_title
-	# 		set_variable = {
-	# 			name = claimant_faction
-	# 			value = PREV
-	# 		}
-	# 	}
-	# 	switch = {
-	# 		trigger = scope:claimed_title.tier
-	# 		tier_empire = {
-	# 			create_dynamic_title = {
-	# 				tier = empire
-	# 				name = DEPOSE_FACTION_TITLE_NAME
-	# 			}
-	# 		}
-	# 		tier_kingdom = {
-	# 			create_dynamic_title = {
-	# 				tier = kingdom
-	# 				name = DEPOSE_FACTION_TITLE_NAME
-	# 			}
-	# 		}
-	# 		tier_duchy = {
-	# 			create_dynamic_title = {
-	# 				tier = duchy
-	# 				name = DEPOSE_FACTION_TITLE_NAME
-	# 			}
-	# 		}
-	# 	}
-	# 	scope:new_title = {
-	# 		set_coa = PREV.var:claimed_title
-	# 		set_variable = {
-	# 			name = claimed_title
-	# 			value = PREV.var:claimed_title
-	# 		}
-	# 	}
-	# 	set_variable = {
-	# 		name = claimant_faction
-	# 		value = scope:new_title
-	# 	}
-	# 	create_title_and_vassal_change = {
-	# 		type = faction_demand
-	# 		save_scope_as = change
-	# 		add_claim_on_loss = no
-	# 	}
-		
-	# 	scope:new_title = {
-	# 		change_title_holder = {
-	# 			holder = root.faction_target
-	# 			change = scope:change
-	# 		}
-	# 	}
-	# 	resolve_title_and_vassal_change = scope:change
-	# 	scope:new_title = {
-	# 		add_title_law = feudal_claimant_elective_law
-	# 	}
-	# 	set_variable = {
-	# 		name = claimant_title
-	# 		value = scope:new_title
-	# 	}
-	# 	scope:claimed_title = {
-	# 		every_claimant = {
-	# 			explicit = all
-	# 			add_unpressed_claim = scope:new_title
-	# 		}
-	# 	}
-	# }
+		else = {
+			# [Vanilla]
+			save_scope_as = faction
 
-	# update_effect = {
-	# 	if = {
-	# 		limit = { NOT = { has_variable = claimed_title }}
-	# 		set_variable = {
-	# 			name = claimed_title
-	# 			value = special_title
-	# 		}
-	# 	}
-	# 	every_faction_member = {
-	# 		set_variable = {
-	# 			name = claimant_faction
-	# 			value = PREV.var:claimed_title
-	# 			days = faction_effect_interval
-	# 		}
-	# 	}
-	# 	var:claimed_title = {
-	# 		every_claimant = {
-	# 			if = {
-	# 				limit = { has_strong_claim_on = PREV }
-	# 				add_pressed_claim = ROOT.var:claimant_faction
-	# 			}
-	# 			else = {
-	# 				add_unpressed_claim = ROOT.var:claimant_faction
-	# 			}
-	# 		}
-	# 	}
+			faction_leader = {
+				save_scope_as = faction_leader
+			}
+
+			faction_target = {
+				save_scope_as = faction_target
+			}
+
+			special_character = {
+				save_scope_as = faction_claimant
+			}
+
+			special_title = {
+				save_scope_as = faction_targeted_title
+			}
+
+			# Let the human players in the faction know that the demand will be sent
+			every_faction_member = {
+				limit = {
+					is_ai = no
+					NOT = { this = scope:faction.faction_leader }
+				}
+				trigger_event = faction_demand.2005
+			}
+
+			# Send the actual demand in 5 days
+			faction_target = {
+				trigger_event = {
+					id = faction_demand.2001
+					days = 5
+				}
+			}
+			# [/Vanilla]
+		}
 	}
 
 	ai_demand_chance = {
@@ -202,6 +142,20 @@
 			faction_target = {
 				any_prisoner = {
 					this = root.special_character
+				}
+			}
+		}
+
+		# Won't start a war is the Realm is fighting against a Dissolution faction or Independent factions: you want to get the best realm possible. Better wait a bit longer
+		modifier = {
+			add = -1000
+			faction_target = {
+				any_character_war = {
+					OR = {
+						using_cb = independence_faction_war
+						using_cb = independence_war
+						using_cb = nation_fracturing_faction_war
+					}
 				}
 			}
 		}
@@ -238,16 +192,32 @@
 		common_character_validity_trigger = {
 			FACTION_TARGET = scope:faction.faction_target
 		}
+		# #[BMU]
+		# trigger_if = {
+		# 	limit = {
+		# 		is_ai = yes
+		# 		exists = scope:faction
+		# 		exists = scope:faction.special_title
+		# 	}
+		# 	scope:faction.faction_target = { save_temporary_scope_as = claim_target }
+		# 	scope:faction.faction_target = { save_temporary_scope_as = holder_candidate }
+		# 	scope:faction.special_character = { save_temporary_scope_as = candidate }
+		# 	scope:faction.special_character = { save_temporary_scope_as = score_contender }
+		# 	scope:faction.special_title = { save_temporary_scope_as = claimed_title }
+		# 	save_temporary_scope_as = score_supporter
+		# 	BMU_contender_score_gui < 0
+		# }
+		# #[/BMU]
+	}
+
+	can_character_create_ui = {
+		is_character_interaction_valid = {
+			recipient = scope:target
+			interaction = create_claimant_faction_against_interaction
+		}
 	}
 
 	can_character_create = { # If a character is allowed to create the faction. The 'is_character_valid' block is also checked in conjunction with this when creating a faction.
-		common_character_validity_trigger = {
-			FACTION_TARGET = scope:target
-		}
-
-		common_can_character_join_trigger = {
-			FACTION_TARGET = scope:target
-		}
 
 		common_can_character_create_trigger = {
 			FACTION_TARGET = scope:target
@@ -277,25 +247,28 @@
 		common_can_character_join_trigger = {
 			FACTION_TARGET = scope:faction.faction_target
 		}
+		#[BMU]
+		trigger_if = {
+			limit = { scope:faction = { has_variable = pressed_claim }}
+			custom_description = {
+				text = BMU_ongoing_pressed_claim
+				scope:faction = {
+					is_target_in_variable_list = {
+						name = pressed_claim_supporters
+						target = root
+					}
+				}
+			}
+		}
+		#[/BMU]
 	}
 
 	can_character_become_leader = {
 		is_landed = yes
 	}
 
-	can_character_create_ui = {
-		is_character_interaction_valid = {
-			recipient = scope:target
-			interaction = create_claimant_faction_against_interaction
-		}
-	}
-
 	ai_create_score = { # How likely is an AI to create a faction?
 		base = -25
-
-		modifier = {
-			add = 1000
-		}
 
 		####
 		# BLOCKERS
@@ -321,11 +294,25 @@
 			THRESHOLD = 80
 		}
 
-		claimant_faction_modifiers = {
-			FACTION_TARGET = scope:target
-			FACTION_CLAIMANT = scope:claimant
-			FACTION_TITLE = scope:title
-		}		
+		# [Vanilla]
+		# claimant_faction_modifiers = {
+		# 	FACTION_TARGET = scope:target
+		# 	FACTION_CLAIMANT = scope:claimant
+		# 	FACTION_TITLE = scope:title
+		# }
+		# [/Vanilla]
+
+		#[BMU]
+		modifier = {
+			scope:target = { save_temporary_scope_as = claim_target }
+			scope:target = { save_temporary_scope_as = holder_candidate }
+			scope:claimant = { save_temporary_scope_as = candidate }
+			scope:title = { save_temporary_scope_as = claimed_title }
+			scope:claimant = { save_temporary_scope_as = score_contender }
+			save_temporary_scope_as = score_supporter
+			add = BMU_contender_score_gui
+		}
+		#[/BMU]
 
 		# If another Claimant Faction already exists, prefer to side with it
 		modifier = {
@@ -373,6 +360,19 @@
 		  	}
 		}
 
+		# [BMU]
+		modifier = {
+			scope:target = { save_temporary_scope_as = claim_target }
+			scope:target = { save_temporary_scope_as = holder_candidate }
+			scope:claimant = { save_temporary_scope_as = candidate }
+			scope:title = { save_temporary_scope_as = claimed_title }
+			scope:claimant = { save_temporary_scope_as = score_contender }
+			save_temporary_scope_as = score_supporter
+			BMU_contender_score_gui < 0
+			factor = 0
+		}
+		# [/BMU]
+
 	}
 
 	ai_join_score = { # How likely is an AI to join an existing faction?
@@ -395,11 +395,25 @@
 			THRESHOLD = scope:faction.faction_power_threshold
 		}
 
-		claimant_faction_modifiers = {
-			FACTION_TARGET = scope:faction.faction_target 
-			FACTION_CLAIMANT = scope:faction.special_character 
-			FACTION_TITLE = scope:faction.special_title
-		}		
+		# [Vanilla]
+		# claimant_faction_modifiers = {
+		# 	FACTION_TARGET = scope:faction.faction_target 
+		# 	FACTION_CLAIMANT = scope:faction.special_character 
+		# 	FACTION_TITLE = scope:faction.special_title
+		# }
+		# [/Vanilla]
+
+		#[BMU]
+		modifier = {
+			scope:faction.faction_target = { save_temporary_scope_as = claim_target }
+			scope:faction.faction_target = { save_temporary_scope_as = holder_candidate }
+			scope:faction.special_character = { save_temporary_scope_as = candidate }
+			scope:faction.special_title = { save_temporary_scope_as = claimed_title }
+			scope:faction.special_character = { save_temporary_scope_as = score_contender }
+			save_temporary_scope_as = score_supporter
+			add = BMU_contender_score_gui
+		}
+		#[/BMU]
 
 		##########################
 		# Faction 'Stacking' Factors, attempts to cluster AI rulers into several powerful factions instead of many weak ones.
@@ -415,6 +429,18 @@
 			scope:faction.faction_power >= scope:faction.faction_power_threshold
 			factor = faction_weight_factor_power_exceeds_threshold
 		}
+		# [BMU]
+		modifier = {
+			scope:faction.faction_target = { save_temporary_scope_as = claim_target }
+			scope:faction.faction_target = { save_temporary_scope_as = holder_candidate }
+			scope:faction.special_character = { save_temporary_scope_as = candidate }
+			scope:faction.special_title = { save_temporary_scope_as = claimed_title }
+			scope:faction.special_character = { save_temporary_scope_as = score_contender }
+			save_temporary_scope_as = score_supporter
+			BMU_contender_score_gui < 0
+			factor = 0
+		}
+		# [/BMU]
 	}
 
 	is_county_valid = {

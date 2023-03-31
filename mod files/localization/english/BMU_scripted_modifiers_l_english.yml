@@ -21,8 +21,6 @@ BMU_interaction_tooltip_is_councillor_of_claim_target: "Is in position of power:
 
 FF_loyalty_personality_honor_desc: "[ROOT.Char.GetShortUIName]"
 
-BMU_preferred_contender_score: "Prefers [secondary_recipient.GetShortUIName]: #TOOLTIP:BMU_debug_ai_accept_value_tooltip_3 $VALUE|+0$#!"
-
 
 FF_modifier_tooltip_loyalty: ""
 

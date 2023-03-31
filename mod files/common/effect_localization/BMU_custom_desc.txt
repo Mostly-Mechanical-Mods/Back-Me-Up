@@ -1,9 +1,4 @@
-﻿BMU_pressed_claim_suppporter = {
-	first = I_BECOME_SUPPORTER
-	third = CHARACTER_BECOMES_SUPPORTER
-}
-
-BMU_after_pressed_claim = {
+﻿BMU_after_pressed_claim = {
 	third = BMU_AFTER_PRESSED_CLAIM
 }
 
@@ -31,13 +26,6 @@ BMU_start_supporting_contender = {
 
 BMU_if_pressed_claim_won = {
 	global = BMU_GLOBAL_IF_PRESSED_CLAIM_WON
-}
-
-BMU_debug_ai_accept_value = {
-	first = BMU_debug_ai_accept_value
-	third = BMU_debug_ai_accept_value
-	global = BMU_debug_ai_accept_value
-	global_neg = BMU_debug_ai_accept_value_neg
 }
 
 BMU_contender_join_pressed_claim = {

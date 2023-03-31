@@ -586,7 +586,7 @@
 				random_contender_story = {
 					limit = { var:pressed_claim_story = scope:war.var:pressed_claim }
 					every_in_list = {
-						variable = BMU_bargains
+						variable = bargains
 						BMU_execute_bargain = {
 							CONTENDER = scope:defender
 						}
@@ -712,7 +712,7 @@
 				random_contender_story = {
 					limit = { var:pressed_claim_story = scope:war.var:pressed_claim }
 					every_in_list = {
-						variable = BMU_bargains
+						variable = bargains
 						BMU_execute_bargain = {
 							CONTENDER = scope:defender
 						}

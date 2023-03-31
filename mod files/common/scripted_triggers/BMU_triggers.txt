@@ -103,8 +103,8 @@ BMU_can_bargain = {
 		limit = { scope:bargaining_supporter.var:status = flag:supporter }
 		scope:contender = {
 			any_in_list = {
-				variable = BMU_bargains
-				var:stakeholder_story = scope:bargaining_supporter
+				variable = bargains
+				var:supporter = scope:bargaining_supporter
 				count = 0
 			}
 		}
@@ -171,7 +171,7 @@ BMU_bargain_can_be_struck = {
 		}
 		scope:bargaining_contender = {
 			any_in_list = {
-				variable = BMU_bargains
+				variable = bargains
 				has_variable = bargained_with
 				var:ambition = flag:FF_ambition_get_council_position
 				var:council_position = scope:bargain.var:council_position

@@ -128,7 +128,7 @@ BMU_on_war_transferred = {
 			}
 			scope:war.var:pressed_claim = {
 				every_in_list = {
-					variable = BMU_pressed_claim_stakeholders
+					variable = supporters
 					limit = {
 						NOT = { is_participant_in_war = scope:war }
 						var:status = flag:supporter

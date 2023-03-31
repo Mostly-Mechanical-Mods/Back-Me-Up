@@ -403,7 +403,7 @@
 	hidden_effect = {
 		if = {
 			limit = { exists = scope:pressed_claim }
-			BMU_pressed_claim_update_top_contender_v2 = { PRESSED_CLAIM = scope:pressed_claim }
+			BMU_pressed_claim_update_top_contender = { PRESSED_CLAIM = scope:pressed_claim }
 			# scope:claim_target = {
 			# 	every_vassal = {
 			# 		limit = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim }}

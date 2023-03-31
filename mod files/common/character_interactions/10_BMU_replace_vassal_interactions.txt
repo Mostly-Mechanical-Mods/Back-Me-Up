@@ -158,8 +158,12 @@
 	}
 
 	on_send = {
-		debug_log = "claimant faction created"
-		debug_log_scopes = yes
+		# [BMU]
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "claimant faction created"
+			debug_log_scopes = yes
+		}
 		scope:secondary_actor = { save_scope_as = claim_target }
 		scope:landed_title = { save_scope_as = claimed_title }
 		scope:recipient = {
@@ -170,8 +174,12 @@
 				}
 			}
 		}
-		scope:BMU_contender_score = { debug_log_scopes = no }
-
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_contender_score"
+			scope:BMU_contender_score = { debug_log_scopes = no }
+		}
+		# [/BMU]
 		scope:actor = {
 			set_variable = {
 				name = claiming_title

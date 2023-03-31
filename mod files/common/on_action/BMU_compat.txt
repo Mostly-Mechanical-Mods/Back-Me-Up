@@ -26,5 +26,6 @@ BMU_on_game_start = {
 		add_to_global_variable_list = { name = BMU_gui_sort_options target = flag:BMU_gui_sort_options_max_mil_power }
 		add_to_global_variable_list = { name = BMU_gui_sort_options target = flag:BMU_gui_sort_options_score_dif }
 		add_to_global_variable_list = { name = BMU_gui_sort_options target = flag:BMU_gui_sort_options_rank }
+		add_to_global_variable_list = { name = BMU_gui_sort_options target = flag:BMU_gui_sort_options_gambit_cost }
 	}
 }

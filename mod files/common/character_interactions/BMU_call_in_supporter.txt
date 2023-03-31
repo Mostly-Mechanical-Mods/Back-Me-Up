@@ -936,7 +936,7 @@ BMU_call_in_supporter_interaction_v2 = {
 	# 				var:contender.story_owner = {
 	# 					save_temporary_scope_as = candidate
 	# 					save_temporary_scope_as = previous_contender
-	# 					prev = { prev = { subtract = BMU_contender_score_v3 }}
+	# 					prev = { prev = { subtract = BMU_contender_score }}
 	# 				}
 	# 			}
 	# 		}
@@ -973,7 +973,7 @@ BMU_call_in_supporter_interaction_v2 = {
 	# 					}
 	# 					if = { limit = { story_owner = { save_temporary_scope_as = candidate }}}
 	# 					# root = { prev.story_owner = { add = 2 }}
-	# 					root = { scope:candidate = { subtract = BMU_contender_score_v3 }}
+	# 					root = { scope:candidate = { subtract = BMU_contender_score }}
 	# 				}
 	# 			}
 	# 			max = 0
