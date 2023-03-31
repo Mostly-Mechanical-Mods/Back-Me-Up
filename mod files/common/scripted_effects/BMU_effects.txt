@@ -1158,6 +1158,10 @@ BMU_create_bargain_get_council_position = {
 					name = bargain_type
 					value = flag:FF_ambition_get_council_position
 				}
+				set_variable = {
+					name = support_score
+					value = scope:supporter_temp.story_owner.BMU_ambition_get_council_position
+				}
 				if = { limit = { scope:councillor_chancellor = yes } set_variable = { name = council_position value = flag:councillor_chancellor }}
 				else_if = { limit = { scope:councillor_steward = yes } set_variable = { name = council_position value = flag:councillor_steward }}
 				else_if = { limit = { scope:councillor_marshal = yes } set_variable = { name = council_position value = flag:councillor_marshal }}

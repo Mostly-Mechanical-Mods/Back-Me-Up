@@ -1,76 +1,122 @@
 ﻿BMU_ambition_get_council_position = {
 	if = {
-		limit = { exists = scope:actor exists = scope:recipient }
+		limit = { exists = scope:FF_ambition_get_council_position }
 		if = {
 			limit = { scope:councillor_chancellor = yes }
-			value = BMU_ambition_get_council_position_councillor_chancellor
+			add = BMU_ambition_get_council_position_councillor_chancellor
 		}
 		else_if = {
 			limit = { scope:councillor_steward = yes }
-			value = BMU_ambition_get_council_position_councillor_steward
+			add = BMU_ambition_get_council_position_councillor_steward
 		}
 		else_if = {
 			limit = { scope:councillor_marshal = yes }
-			value = BMU_ambition_get_council_position_councillor_marshal
+			add = BMU_ambition_get_council_position_councillor_marshal
 		}
 		else_if = {
 			limit = { scope:councillor_spymaster = yes }
-			value = BMU_ambition_get_council_position_councillor_spymaster
+			add = BMU_ambition_get_council_position_councillor_spymaster
 		}
 		else = {
-			value = BMU_ambition_get_council_position_base
+			add = BMU_ambition_get_council_position_base
 		}
+	}
+}
+
+BMU_ambition_has_council_position = {
+	if = {
+		limit = { is_councillor_of = scope:score_contender }
+		add = {
+			value = {
+				if = {
+					limit = { has_council_position = councillor_chancellor }
+					subtract = BMU_ambition_get_council_position_councillor_chancellor
+				}
+				else_if = {
+					limit = { has_council_position = councillor_steward }
+					subtract = BMU_ambition_get_council_position_councillor_steward
+				}
+				else_if = {
+					limit = { has_council_position = councillor_marshal }
+					subtract = BMU_ambition_get_council_position_councillor_marshal
+				}
+				else_if = {
+					limit = { has_council_position = councillor_spymaster }
+					subtract = BMU_ambition_get_council_position_councillor_spymaster
+				}
+				else = {
+					subtract = BMU_ambition_get_council_position_base
+				}
+			}
+			desc = BMU_ambition_has_council_position
+			format = "FF_VALUE_FORMAT"
+		}
+		# add = {
+		# 	value = {
+		# 	}
+		# 	desc = BMU_ambition_has_council_position
+		# 	format = "FF_VALUE_FORMAT"
+		# }
 	}
 }
 
 BMU_ambition_get_council_position_base = {
 	add = {
 		value = ai_energy
-		desc = "BMU_ambition_get_council_position_energy"
+		desc = BMU_ambition_get_council_position_energy
 		format = "FF_VALUE_FORMAT"
 	}
 	if = {
 		limit = { is_powerful_vassal = yes }
 		add = {
 			value = 50
-			desc = "BMU_ambition_get_council_position_powerful_vassal"
+			desc = BMU_ambition_get_council_position_powerful_vassal
 			format = "FF_VALUE_FORMAT"
 		}
 	}
 }
 
 BMU_ambition_get_council_position_councillor_chancellor = {
-	add = BMU_ambition_get_council_position_base
 	add = {
-		value = ai_sociability
-		desc = "BMU_ambition_get_council_position_chancellor"
+		value = {
+			add = BMU_ambition_get_council_position_base
+			add = ai_sociability
+		}
+		# value = 10000
+		desc = BMU_ambition_get_council_position_councillor_chancellor
 		format = "FF_VALUE_FORMAT"
 	}
 }
 
 BMU_ambition_get_council_position_councillor_steward = {
-	value = BMU_ambition_get_council_position_base
 	add = {
-		value = ai_greed
-		desc = "BMU_ambition_get_council_position_steward"
+		value = {
+			add = BMU_ambition_get_council_position_base
+			add = ai_greed
+		}
+		desc = BMU_ambition_get_council_position_councillor_steward
 		format = "FF_VALUE_FORMAT"
 	}
 }
 
 BMU_ambition_get_council_position_councillor_marshal = {
-	value = BMU_ambition_get_council_position_base
 	add = {
-		value = ai_boldness
-		desc = "FF_ambition_get_council_position_marshal"
+		value = {
+			add = BMU_ambition_get_council_position_base
+			add = ai_boldness
+		}
+		desc = BMU_ambition_get_council_position_councillor_marshal
 		format = "FF_VALUE_FORMAT"
 	}
 }
 
 BMU_ambition_get_council_position_councillor_spymaster = {
-	add = BMU_ambition_get_council_position_base
 	add = {
-		value = ai_vengefulness
-		desc = "FF_ambition_get_council_position_spymaster"
+		value = {
+			add = BMU_ambition_get_council_position_base
+			add = ai_vengefulness
+		}
+		desc = BMU_ambition_get_council_position_councillor_spymaster
 		format = "FF_VALUE_FORMAT"
 	}
 }

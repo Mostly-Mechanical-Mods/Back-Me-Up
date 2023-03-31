@@ -1,4 +1,5 @@
 ﻿BMU_support_will_do = {
+	# Support max mil strength
 	add = {
 		value = {
 			add = scope:recipient.max_military_strength
@@ -7,6 +8,7 @@
 		desc = "BMU_support_will_do_recipient_max_mil_strength"
 		format = "FF_VALUE_FORMAT"
 	}
+	# Supporter of a stronger Contender
 	if = {
 		limit = { exists = scope:recipient_contender}
 		multiply = {
@@ -25,6 +27,7 @@
 			format = "FF_VALUE_FORMAT"
 		}
 	}
+	# Other Supporter might drop out
 	if = {
 		limit = {
 			exists = scope:FF_ambition_get_council_position
@@ -111,6 +114,7 @@
 			}
 		}
 	}
+	# Contender Confidence
 	multiply = {
 		value = {
 			add = 1.2
@@ -119,6 +123,7 @@
 		desc = "BMU_support_will_do_actor_confidence"
 		format = "FF_VALUE_FORMAT"
 	}
+	# Willingness to give Coucil Position
 	if = {
 		limit = { exists = scope:FF_ambition_get_council_position }
 		if = {

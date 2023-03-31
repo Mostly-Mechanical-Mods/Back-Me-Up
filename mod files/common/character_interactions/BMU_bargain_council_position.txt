@@ -27,7 +27,13 @@
 				var:pressed_claim_interaction.story_owner = { save_scope_as = secondary_actor }
 				scope:recipient = {
 					ordered_supporter_story = {
-						limit = { var:pressed_claim_story = scope:pressed_claim }
+						limit = {
+							var:pressed_claim_story = scope:pressed_claim
+							NOR = {
+								var:contender.story_owner = scope:actor
+								var:contender.story_owner = scope:secondary_actor
+							}
+						}
 						var:contender.story_owner = { save_scope_as = secondary_recipient }
 					}
 					if = {
@@ -308,19 +314,6 @@
 		}
 		else = { scope:actor = { remove_variable = pressed_claim_interaction }}
 
-		# scope:actor = {
-		# 	random_contender_story = {
-		# 		limit = { var:pressed_claim_story = scope:pressed_claim }
-		# 		save_scope_as = contender
-		# 	}
-		# }
-		# scope:recipient = {
-		# 	random_supporter_story = {
-		# 		limit = { var:pressed_claim_story = scope:pressed_claim }
-		# 		save_scope_as = supporter
-		# 	}
-		# }
-
 		BMU_create_bargain_get_council_position = {
 			PRESSED_CLAIM = scope:pressed_claim
 			CONTENDER = scope:actor
@@ -377,67 +370,29 @@
 		base = 0
 		BMU_bargain_setup = yes
 		BMU_call_in_supporter_interaction = yes
-		# modifier = {
-		# 	exists = scope:common_pressed_claim
-		# 	add = FF_bargain_acceptance_support_for_bargainer
-		# 	desc = "FF_bargain_acceptance_support_for_bargainer_modifier"
-		# }
-		# modifier = {
-		# 	exists = scope:common_pressed_claim
-		# 	add = FF_bargain_acceptance_military_leverage
-		# 	desc = "FF_bargain_acceptance_military_leverage_modifier"
-		# }
 		modifier = {
-			exists = scope:FF_ambition_get_council_position
-			exists = scope:councillor_chancellor
 			scope:councillor_chancellor = yes
 			add = BMU_ambition_get_council_position_councillor_chancellor
-			desc = "FF_ambition_get_council_position_chancellor_modifier"
+			desc = "[GuiScope.SetRoot(recipient.MakeScope).AddScope('score_contender',actor.MakeScope).AddScope('score_supporter',recipient.MakeScope).AddScope('claim_target',secondary_actor.MakeScope).AddScope('holder_candidate',secondary_actor.MakeScope).AddScope('claimed_title',actor.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_ambition_get_council_position_councillor_chancellor')]"
 		}
 		modifier = {
-			exists = scope:FF_ambition_get_council_position
-			exists = scope:councillor_steward
 			scope:councillor_steward = yes
 			add = BMU_ambition_get_council_position_councillor_steward
-			desc = "FF_ambition_get_council_position_steward_modifier"
+			desc = "[GuiScope.SetRoot(recipient.MakeScope).AddScope('score_contender',actor.MakeScope).AddScope('score_supporter',recipient.MakeScope).AddScope('claim_target',secondary_actor.MakeScope).AddScope('holder_candidate',secondary_actor.MakeScope).AddScope('claimed_title',actor.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_ambition_get_council_position_councillor_steward')]"
 		}
 		modifier = {
-			exists = scope:FF_ambition_get_council_position
-			exists = scope:councillor_marshal
 			scope:councillor_marshal = yes
 			add = BMU_ambition_get_council_position_councillor_marshal
-			desc = "FF_ambition_get_council_position_marshal_modifier"
+			desc = "[GuiScope.SetRoot(recipient.MakeScope).AddScope('score_contender',actor.MakeScope).AddScope('score_supporter',recipient.MakeScope).AddScope('claim_target',secondary_actor.MakeScope).AddScope('holder_candidate',secondary_actor.MakeScope).AddScope('claimed_title',actor.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_ambition_get_council_position_councillor_marshal')]"
 		}
 		modifier = {
-			exists = scope:FF_ambition_get_council_position
-			exists = scope:councillor_spymaster
 			scope:councillor_spymaster = yes
 			add = BMU_ambition_get_council_position_councillor_spymaster
-			desc = "FF_ambition_get_council_position_spymaster_modifier"
+			desc = "[GuiScope.SetRoot(recipient.MakeScope).AddScope('score_contender',actor.MakeScope).AddScope('score_supporter',recipient.MakeScope).AddScope('claim_target',secondary_actor.MakeScope).AddScope('holder_candidate',secondary_actor.MakeScope).AddScope('claimed_title',actor.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_ambition_get_council_position_councillor_spymaster')]"
 		}
 		modifier = {
-			is_councillor_of = scope:actor
-			has_council_position = councillor_chancellor
-			add = { subtract = BMU_ambition_get_council_position_councillor_chancellor }
-			desc = "FF_bargain_already_councillor_modifier"
-		}
-		modifier = {
-			is_councillor_of = scope:actor
-			has_council_position = councillor_steward
-			add = { subtract = BMU_ambition_get_council_position_councillor_steward }
-			desc = "FF_bargain_already_councillor_modifier"
-		}
-		modifier = {
-			is_councillor_of = scope:actor
-			has_council_position = councillor_marshal
-			add = { subtract = BMU_ambition_get_council_position_councillor_marshal }
-			desc = "FF_bargain_already_councillor_modifier"
-		}
-		modifier = {
-			is_councillor_of = scope:actor
-			has_council_position = councillor_spymaster
-			add = { subtract = BMU_ambition_get_council_position_councillor_spymaster }
-			desc = "FF_bargain_already_councillor_modifier"
+			add = BMU_ambition_has_council_position
+			desc = "[GuiScope.SetRoot(recipient.MakeScope).AddScope('score_contender',actor.MakeScope).AddScope('score_supporter',recipient.MakeScope).AddScope('claim_target',secondary_actor.MakeScope).AddScope('holder_candidate',secondary_actor.MakeScope).AddScope('claimed_title',actor.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_ambition_has_council_position')]"
 		}
 	}
 

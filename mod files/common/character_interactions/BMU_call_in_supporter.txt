@@ -35,7 +35,13 @@
 				var:pressed_claim_interaction.story_owner = { save_scope_as = secondary_actor }
 				scope:recipient = {
 					ordered_supporter_story = {
-						limit = { var:pressed_claim_story = scope:pressed_claim }
+						limit = {
+							var:pressed_claim_story = scope:pressed_claim
+							NOR = {
+								var:contender.story_owner = scope:actor
+								var:contender.story_owner = scope:secondary_actor
+							}
+						}
 						var:contender.story_owner = { save_scope_as = secondary_recipient }
 					}
 					if = {
