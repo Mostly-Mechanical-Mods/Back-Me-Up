@@ -252,7 +252,7 @@ BMU_press_claim_interaction_script = {
 
 	greeting = negative
 	notification_text = BMU_press_claim_interaction_notification
-	prompt = test
+	# prompt = test
 
 	ai_min_reply_days = 0							# Minimum days before ai replies
 	ai_max_reply_days = 0

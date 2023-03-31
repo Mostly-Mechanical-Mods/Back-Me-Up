@@ -561,35 +561,38 @@ BMU_supporter_story = {
 							}
 							min = 0
 						}
+						story_owner = { save_scope_as = score_contender }
+						save_scope_value_as = {
+							name = worthy_contender_score
+							value = { scope:story.story_owner = { add = BMU_contender_score }}
+						}
 						scope:story = {
 							set_variable = {
 								name = worthy_contender
-								value = prev
+								value = prev.story_owner
 							}
-							prev.story_owner = { save_scope_as = score_contender }
 							set_variable = {
 								name = worthy_contender_score
-								value = { scope:story.story_owner = { add = BMU_contender_score }}
+								value = scope:worthy_contender_score
 							}
 						}
 					}
 				}
-				# var:contender.story_owner = { save_scope_as = score_contender }
-				# save_scope_value_as = {
-				# 	name = contender_score
-				# 	value = { story_owner = { add = BMU_contender_score }}
-				# }
-				# if = {
-				# 	limit = { scope:contender_score > 0 }
-				# 	set_variable = {
-				# 		name = contender_score
-				# 		value = scope:contender_score
-				# 	}
-				# }
-				# else = {
-				# 	var:contender_score
-				# 	end_story = yes
-				# }
+				var:contender.story_owner = { save_scope_as = score_contender }
+				save_scope_value_as = {
+					name = best_contender_score
+					value = { story_owner = { add = BMU_contender_score }}
+				}
+				if = {
+					limit = { scope:best_contender_score > 0 }
+					set_variable = {
+						name = best_contender_score
+						value = scope:best_contender_score
+					}
+				}
+				else = {
+					end_story = yes
+				}
 			}
 		}
 	}

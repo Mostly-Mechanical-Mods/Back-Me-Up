@@ -2469,7 +2469,6 @@ template BMU_stakeholder_score_tooltip {
 					ignoreinvisible = yes
 					#Best Contender
 					flowcontainer = {
-						visible = "[And(Not(ObjectsEqual(Scope.Var('best_contender').Char,GetPlayer.Self)),GreaterThan_CFixedPoint(Scope.Var('best_contender_score').GetValue,'(CFixedPoint)0'))]"
 						margin = { 10 5 }
 						direction = vertical
 
@@ -2526,7 +2525,7 @@ template BMU_stakeholder_score_tooltip {
 					}
 					#Player Contender
 					flowcontainer = {
-						# visible = "[Not(ObjectsEqual(Scope.Var('top_contender').Var('stakeholder').Char,Story.MakeScope.Var('claim_target').Char))]"
+						visible = "[Not(ObjectsEqual(Scope.Var('best_contender').Char,GetPlayer.Self))]"
 						margin = { 10 5 }
 						direction = vertical
 
