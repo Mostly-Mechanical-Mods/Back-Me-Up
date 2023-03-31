@@ -745,6 +745,7 @@ window = {
 																spacing = 10
 																min_width = 75
 																layoutpolicy_horizontal = expanding
+																layoutpolicy_vertical = expanding
 																icon = {
 																	name = "icon_combat_strength"
 																	size = { 20 20 }
@@ -755,20 +756,14 @@ window = {
 																}
 																expand = {}
 															}
-															# hbox = {
-															# 	min_width = 75
-															# 	layoutpolicy_horizontal = expanding
-															# 	visible = "[Not(And(ObjectsEqual(Scope.Var('contender').Var('stakeholder').Char,Scope.Var('contender').Var('stakeholder').Char)))]"
-															# 	vote_chance_icon = {}
-															# 	spacer = { size = { 10 0 }}
-															# 	expand = {}
-															# }
 															hbox = {
 																spacing = 10
 																layoutpolicy_horizontal = expanding
-																# visible = "[And(ObjectsEqual(Scope.Var('contender').Var('stakeholder').Char,Scope.Var('contender').Var('stakeholder').Char))]"
+																layoutpolicy_vertical = expanding
 																tooltipwidget = BMU_stakeholder_score_tooltip
-																vote_chance_icon = {}
+																vote_chance_icon = {
+																	size = { 20 20 }
+																}
 																text_single = {
 																	text = "[GuiScope.SetRoot(Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).AddScope('player',GetPlayer.MakeScope).ScriptValue('BMU_score_diff')|+0]"
 																}
@@ -776,16 +771,24 @@ window = {
 															}
 															hbox = {
 																spacing = 10
+																layoutpolicy_horizontal = expanding
+																layoutpolicy_vertical = expanding
 																icon_doctrine = {
 																	size = { 20 20 }
 																	texture = "gfx/interface/icons/press_claim_bargain.dds"
 																}
 																text_single = {
-																	raw_text = "[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('BMU_supporter_gambit_cost')|0V]"
+																	visible = "[GreaterThanOrEqualTo_CFixedPoint(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('BMU_gambits_cost_check_gui'),'(CFixedPoint)0')]"
+																	text = "[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('BMU_supporter_gambit_cost')|0V]"
+																}
+																text_single = {
+																	visible = "[LessThan_CFixedPoint(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('BMU_gambits_cost_check_gui'),'(CFixedPoint)0')]"
+																	text = "[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('BMU_supporter_gambit_cost')|0V-]"
 																}
 																expand = {}
 															}
 														}
+
 														spacer = { size = { 20 0 }}
 														hbox = {
 															visible = "[Not(ObjectsEqual(Scope.Var('contender').Var('stakeholder').Char,GetPlayer.Self))]"
