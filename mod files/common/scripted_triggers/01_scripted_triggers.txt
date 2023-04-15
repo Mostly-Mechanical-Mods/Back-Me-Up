@@ -30,12 +30,7 @@
 	basic_allowed_to_imprison_character_trigger = { CHARACTER = $CHARACTER$ }
 
 	trigger_if = {
-		limit = {
-			BMU_have_common_pressed_claim = {
-				STAKEHOLDER_1 = scope:allowed_imprisoner
-				STAKEHOLDER_2 = scope:allowed_prisoner
-			}
-		}
-		# BMU_vassal_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim_temp }
+		limit = { BMU_is_loaded = yes }
+		BMU_allowed_to_imprison_character_trigger = yes
 	}
 }

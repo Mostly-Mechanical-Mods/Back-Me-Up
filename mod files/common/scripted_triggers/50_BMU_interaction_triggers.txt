@@ -1,0 +1,38 @@
+﻿BMU_allowed_to_imprison_character_trigger = {
+	NOT = { BMU_is_involved_in_hostile_pressed_claim = { SUBJECT = scope:allowed_prisoner TARGET = scope:allowed_imprisoner }}
+}
+
+BMU_revoke_title_interaction_is_valid_showing_failures_only = {
+	NOR = {
+		BMU_is_involved_in_hostile_pressed_claim = { SUBJECT = scope:recipient TARGET = scope:actor }
+		BMU_is_involved_in_hostile_pressed_claim = { SUBJECT = scope:actor TARGET = scope:recipient }
+	}
+}
+
+BMU_grant_vassal_interaction_is_valid_showing_failures_only = {
+	trigger_if = {
+		limit = { exists = scope:secondary_actor }
+		NOR = {
+			BMU_is_involved_in_hostile_pressed_claim = { SUBJECT = scope:secondary_actor TARGET = scope:actor }
+			BMU_is_involved_in_hostile_pressed_claim = { SUBJECT = scope:actor TARGET = scope:secondary_actor }
+		}
+	}
+}
+
+BMU_retract_vassal_interaction_is_valid_showing_failures_only = {
+	NOR = {
+		BMU_is_involved_in_hostile_pressed_claim = { SUBJECT = scope:recipient TARGET = scope:actor }
+		BMU_is_involved_in_hostile_pressed_claim = { SUBJECT = scope:actor TARGET = scope:recipient }
+	}
+	trigger_if = {
+		limit = { exists = scope:secondary_recipient }
+		NOR = {
+			BMU_is_involved_in_hostile_pressed_claim = { SUBJECT = scope:secondary_recipient TARGET = scope:actor }
+			BMU_is_involved_in_hostile_pressed_claim = { SUBJECT = scope:actor TARGET = scope:secondary_recipient }
+		}
+	}
+}
+
+BMU_grant_titles_interaction_can_be_picked_title = {
+	NOT = { BMU_title_is_bargained_with = { SUBJECT = scope:actor TITLE = scope:target }}
+}

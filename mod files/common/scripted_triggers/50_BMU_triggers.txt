@@ -445,19 +445,19 @@ BMU_is_claim_target_vassal_that_follows_pressed_claim = {
 	}
 }
 
-BMU_allowed_to_imprison_character_trigger = {
-	$IMPRISONER$ = { save_temporary_scope_as = allowed_imprisoner }
-	$PRISONER$ = { save_temporary_scope_as = allowed_prisoner }
-	trigger_if = {
-		limit = {
-			BMU_have_common_pressed_claim = {
-				STAKEHOLDER_1 = scope:allowed_imprisoner
-				STAKEHOLDER_2 = scope:allowed_prisoner
-			}
-		}
-		BMU_vassal_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim_temp }
-	}
-}
+# BMU_allowed_to_imprison_character_trigger = {
+# 	$IMPRISONER$ = { save_temporary_scope_as = allowed_imprisoner }
+# 	$PRISONER$ = { save_temporary_scope_as = allowed_prisoner }
+# 	trigger_if = {
+# 		limit = {
+# 			BMU_have_common_pressed_claim = {
+# 				STAKEHOLDER_1 = scope:allowed_imprisoner
+# 				STAKEHOLDER_2 = scope:allowed_prisoner
+# 			}
+# 		}
+# 		BMU_vassal_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim_temp }
+# 	}
+# }
 
 BMU_bargained_with_council_position = {
 	trigger_if = {
@@ -545,5 +545,43 @@ BMU_dropout_councillor = {
 			var:contender.story_owner = scope:contender_char
 		}
 		BMU_contender_score < BMU_ambition_get_council_position_$COUNCILLOR$
+	}
+}
+
+BMU_is_involved_in_hostile_pressed_claim = {
+	trigger_if = {
+		limit = {
+			$TARGET$ = {
+				any_pressed_claim = {
+					count > 0
+					save_temporary_scope_as = pressed_claim_temp
+				}
+			}
+		}
+		$SUBJECT$ = {
+			OR = {
+				custom_description = {
+					text = BMU_is_contender_in_hostile_pressed_claim
+					subject = this
+					object = $TARGET$ 
+					any_contender_story = { var:pressed_claim_story = scope:pressed_claim_temp }
+				}
+				custom_description = {
+					text = BMU_is_supporter_in_hostile_pressed_claim
+					subject = this
+					object = $TARGET$ 
+					any_supporter_story = { var:pressed_claim_story = scope:pressed_claim_temp }
+				}
+			}
+		}
+	}
+}
+
+BMU_title_is_bargained_with = {
+	$SUBJECT$ = {
+		any_bargain = {
+			var:ambition = flag:BMU_bargain_owned_title
+			var:title = $TITLE$
+		}
 	}
 }

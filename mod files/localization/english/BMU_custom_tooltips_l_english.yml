@@ -18,5 +18,5 @@ BMU_recipient_will_accept: "ai_will_do [GuiScope.SetRoot(SCOPE.sC('recipient').M
 
 BMU_actor_will_do_tt: "[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('contender_char',GetPlayer.MakeScope).AddScope('supporter_char',SCOPE.sC('recipient').MakeScope).AddScope('pressed_claim',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Story.MakeScope).AddScope('actor',SCOPE.sC('actor').MakeScope).AddScope('recipient',SCOPE.sC('recipient').MakeScope).GetScriptValueDesc('BMU_support_will_do')]"
 
-
-# BMU_actor_will_do: "test"
+BMU_cannot_imprison_contender_in_pressed_claim: "[allowed_prisoner.GetShortUIName] is a [contender|E] in a [pressed_claim|E] targetting [allowed_imprisoner.GetShortUIName]"
+BMU_cannot_imprison_supporter_in_pressed_claim: "[allowed_prisoner.GetShortUIName] is a [supporter|E] in a [pressed_claim|E] targetting [allowed_imprisoner.GetShortUIName]"

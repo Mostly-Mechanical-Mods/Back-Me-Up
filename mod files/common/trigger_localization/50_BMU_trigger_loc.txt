@@ -187,3 +187,13 @@ BMU_has_titles_to_bargain = {
 	first = I_HAVE_TITLE_TO_BARGAIN
 	third = THEY_HAVE_TITLE_TO_BARGAIN
 }
+
+BMU_is_contender_in_hostile_pressed_claim = {
+	first = I_AM_CONTENDER_IN_HOSTILE_PRESSED_CLAIM
+	third = THEY_ARE_CONTENDER_IN_HOSTILE_PRESSED_CLAIM
+}
+
+BMU_is_supporter_in_hostile_pressed_claim = {
+	first = I_AM_SUPPORTER_IN_HOSTILE_PRESSED_CLAIM
+	third = THEY_ARE_SUPPORTER_IN_HOSTILE_PRESSED_CLAIM
+}

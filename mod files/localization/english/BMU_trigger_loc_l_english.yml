@@ -122,6 +122,12 @@ NOT_THEY_HOLD_TITLE_DE_JURE_UNDER_TARGET: "[CHARACTER.GetShortUINameNoTooltip] d
 NOT_I_HAVE_TITLE_TO_BARGAIN: "You do not have any Title you can bargain with [TARGET_CHARACTER.GetShortUINameNoTooltip]"
 NOT_THEY_HAVE_TITLE_TO_BARGAIN: "[CHARACTER.GetShortUINameNoTooltip] does not have any Title [CHARACTER.GetSheHe] can bargain with [TARGET_CHARACTER.GetShortUINameNoTooltip]"
 
+# BMU_is_contender_in_pressed_claim
+I_AM_CONTENDER_IN_HOSTILE_PRESSED_CLAIM: "I am a [contender|E] in a [BMU_pressed_claim|E] targetting [TARGET_CHARACTER.GetShortUIName]"
+THEY_ARE_CONTENDER_IN_HOSTILE_PRESSED_CLAIM: "[CHARACTER.GetShortUIName] is a [contender|E] in a [BMU_pressed_claim|E] targetting [TARGET_CHARACTER.GetShortUIName]"
 
+# BMU_is_supporter_in_pressed_claim
+I_AM_SUPPORTER_IN_HOSTILE_PRESSED_CLAIM: "I am a [supporter|E] in a [BMU_pressed_claim|E] targetting [TARGET_CHARACTER.GetShortUIName]"
+THEY_ARE_SUPPORTER_IN_HOSTILE_PRESSED_CLAIM: "[CHARACTER.GetShortUIName] is a [supporter|E] in a [BMU_pressed_claim|E] targetting [TARGET_CHARACTER.GetShortUIName]"
 
 BMU_bargain_titles: "Any title"
