@@ -1,5 +1,11 @@
 ﻿BMU_pressed_claim_story = {
 	on_setup = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_pressed_claim_story on_setup"
+			debug_log_scopes = no
+			story_owner = { debug_log_scopes = no }
+		}
 		# handled in BMU_create_claim_press effect
 
 		set_variable = {
@@ -13,6 +19,12 @@
 	}
 	
 	on_end = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_pressed_claim_story on_end"
+			debug_log_scopes = no
+			story_owner = { debug_log_scopes = no }
+		}
 		every_in_list = {
 			variable = pressed_claim_gui
 			remove_list_variable = {
@@ -38,6 +50,12 @@
 	}
 
 	on_owner_death = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_pressed_claim_story on_owner_death"
+			debug_log_scopes = no
+			story_owner = { debug_log_scopes = no }
+		}
 		var:claimed_title = {
 			ordered_title_heir = {
 				save_scope_as = new_claim_target
@@ -59,6 +77,12 @@
 				trigger = { var:phase = flag:war_phase }
 				effect = {
 					save_scope_as = pressed_claim
+					if = {
+						limit = { debug_only = yes }
+						debug_log = "BMU_pressed_claim_story triggered_effect var:phase = flag:war_phase"
+						debug_log_scopes = no
+						story_owner = { debug_log_scopes = no }
+					}
 				}
 			}
 			# War Phase
@@ -66,8 +90,12 @@
 				trigger = { var:phase = flag:declaration_phase }
 				effect = {
 					save_scope_as = pressed_claim
-					debug_log = "BMU_pressed_claim war_phase"
-					debug_log_scopes = no
+					if = {
+						limit = { debug_only = yes }
+						debug_log = "BMU_pressed_claim_story triggered_effect var:phase = flag:declaration_phase"
+						debug_log_scopes = no
+						story_owner = { debug_log_scopes = no }
+					}
 					set_variable = {
 						name = phase
 						value = flag:war_phase
@@ -160,6 +188,12 @@
 			triggered_effect = {
 				trigger = { var:phase = flag:rallying_phase }
 				effect = {
+					if = {
+						limit = { debug_only = yes }
+						debug_log = "BMU_pressed_claim_story triggered_effect var:phase = flag:rallying_phase"
+						debug_log_scopes = no
+						story_owner = { debug_log_scopes = no }
+					}
 					save_scope_as = pressed_claim
 					if = {
 						limit = { var:rallying_phase >= 5 }
@@ -169,8 +203,6 @@
 						}
 					}
 					else = {
-						debug_log = "BMU_pressed_claim declaration_phase"
-						debug_log_scopes = no
 						change_variable = {
 							name = rallying_phase
 							add = 1
@@ -183,8 +215,12 @@
 				trigger = { var:phase = flag:contention_phase }
 				effect = {
 					save_scope_as = pressed_claim
-					debug_log = "BMU_pressed_claim rallying_phase"
-					debug_log_scopes = no
+					if = {
+						limit = { debug_only = yes }
+						debug_log = "BMU_pressed_claim_story triggered_effect var:phase = flag:contention_phase"
+						debug_log_scopes = no
+						story_owner = { debug_log_scopes = no }
+					}
 
 					set_variable = {
 						name = phase
@@ -314,6 +350,12 @@
 		weeks = 1
 		triggered_effect = {
 			effect = {
+				if = {
+					limit = { debug_only = yes }
+					debug_log = "BMU_pressed_claim_story triggered_effect weekly"
+					debug_log_scopes = no
+					story_owner = { debug_log_scopes = no }
+				}
 				every_in_list = {
 					variable = contenders
 					save_scope_as = contender
@@ -359,6 +401,7 @@
 										add = var:max_military_strength
 									}
 								}
+								min = 1
 							}
 						}
 					}
@@ -385,8 +428,9 @@ BMU_contender_story = {
 	on_setup = {
 		if = {
 			limit = { debug_only = yes }
-			debug_log = "BMU_contender_story"
+			debug_log = "BMU_contender_story on_setup"
 			debug_log_scopes = no
+			story_owner = { debug_log_scopes = no }
 		}
 		set_variable = {
 			name = stakeholder
@@ -414,6 +458,12 @@ BMU_contender_story = {
 		}
 	}
 	on_end = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_contender_story on_end"
+			debug_log_scopes = no
+			story_owner = { debug_log_scopes = no }
+		}
 		story_owner = {
 			every_owned_story = {
 				limit = { story_type = BMU_ambition_story }
@@ -465,6 +515,12 @@ BMU_contender_story = {
 		}
 	}
 	on_owner_death = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_contender_story on_owner_death"
+			debug_log_scopes = no
+			story_owner = { debug_log_scopes = no }
+		}
 		#TODO replace with event to primary_heir asking for course of action
 		if = {
 			limit = {
@@ -491,8 +547,9 @@ BMU_supporter_story = {
 	on_setup = {
 		if = {
 			limit = { debug_only = yes }
-			debug_log = "BMU_supporter_story"
+			debug_log = "BMU_supporter_story on_setup"
 			debug_log_scopes = no
+			story_owner = { debug_log_scopes = no }
 		}
 		set_variable = {
 			name = stakeholder
@@ -508,6 +565,12 @@ BMU_supporter_story = {
 		}
 	}
 	on_end = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_supporter_story on_end"
+			debug_log_scopes = no
+			story_owner = { debug_log_scopes = no }
+		}
 		story_owner = {
 			every_owned_story = {
 				limit = { story_type = BMU_ambition_story }
@@ -531,6 +594,12 @@ BMU_supporter_story = {
 		}
 	}
 	on_owner_death = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_supporter_story on_owner_death"
+			debug_log_scopes = no
+			story_owner = { debug_log_scopes = no }
+		}
 		#TODO replace with event to primary_heir asking for course of action
 		if = {
 			limit = {
@@ -549,6 +618,12 @@ BMU_supporter_story = {
 		triggered_effect = {
 			trigger = { NOT = { var:pressed_claim_story.var:phase = flag:war_phase }}
 			effect = {
+				if = {
+					limit = { debug_only = yes }
+					debug_log = "BMU_supporter_story triggered_effect NOT = { var:pressed_claim_story.var:phase = flag:war_phase }"
+					debug_log_scopes = no
+					story_owner = { debug_log_scopes = no }
+				}
 				var:pressed_claim_story = {
 					save_scope_as = pressed_claim
 					ordered_in_list = {
@@ -600,8 +675,12 @@ BMU_supporter_story = {
 
 BMU_stakeholder_story = {
 	on_setup = {
-		debug_log = "BMU_stakeholder_story"
-		debug_log_scopes = no
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_stakeholder_story on_setup"
+			debug_log_scopes = no
+			story_owner = { debug_log_scopes = no }
+		}
 		set_variable = {
 			name = stakeholder
 			value = story_owner
@@ -612,6 +691,12 @@ BMU_stakeholder_story = {
 		}
 	}
 	on_end = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_stakeholder_story on_end"
+			debug_log_scopes = no
+			story_owner = { debug_log_scopes = no }
+		}
 		var:pressed_claim_story = {
 			remove_list_variable = {
 				name = stakeholders
@@ -629,11 +714,24 @@ BMU_stakeholder_story = {
 		}
 	}
 	on_owner_death = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_stakeholder_story on_owner_death"
+			debug_log_scopes = no
+			story_owner = { debug_log_scopes = no }
+		}
+		end_story = yes
 	}
 	effect_group = {
 		weeks = 1
 		triggered_effect = {
 			effect = {
+				if = {
+					limit = { debug_only = yes }
+					debug_log = "BMU_stakeholder_story triggered_effect"
+					debug_log_scopes = no
+					story_owner = { debug_log_scopes = no }
+				}
 				BMU_calc_best_contenders = { PRESSED_CLAIM = var:pressed_claim_story }
 			}
 		}

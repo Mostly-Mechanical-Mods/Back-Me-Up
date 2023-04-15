@@ -1,8 +1,78 @@
 ﻿BMU_support_will_do = {
+	if = {
+		limit = {
+			exists = scope:supporter_char
+			scope:supporter_char = {
+				trigger_if = {
+					limit = {
+						any_owned_story = {
+							story_type = BMU_supporter_story
+							var:pressed_claim_story = scope:pressed_claim
+						}
+					}
+					any_owned_story = {
+						story_type = BMU_supporter_story
+						var:pressed_claim_story = scope:pressed_claim
+						var:contender = { save_temporary_scope_as = supporter_contender_story }
+					}
+				}
+			}
+		}
+	}
+	if = {
+		limit = {
+			exists = scope:contender_char
+			scope:contender_char = {
+				trigger_if = {
+					limit = {
+						any_owned_story = {
+							story_type = BMU_contender_story
+							var:pressed_claim_story = scope:pressed_claim
+						}
+					}
+					any_owned_story = {
+						story_type = BMU_contender_story
+						var:pressed_claim_story = scope:pressed_claim
+						save_temporary_scope_as = claimant_contender_story
+					}
+				}
+			}
+		}
+	}
+	# Support max mil strength
+	add = BMU_support_will_do_recipient_max_mil_strength
+	# Supporter of a stronger Contender
+	if = {
+		limit = { exists = scope:supporter_contender_story }
+		multiply = BMU_support_will_do_recipient_supports_stronger_contender
+	}
+	# Other Supporter might drop out
+	if = {
+		limit = {
+			exists = scope:FF_ambition_get_council_position
+			BMU_bargain_council_position_setup_trigger_global = yes
+		}
+		add = BMU_support_will_do_dropout_councillor
+	}
+	# Contender Confidence
+	multiply = BMU_support_will_do_actor_confidence
+	# Willingness to give Council Position
+	if = {
+		limit = { exists = scope:FF_ambition_get_council_position }
+		subtract = BMU_willingness_bargain_council_position
+	}
+	# Willingness to give Title
+	if = {
+		limit = { exists = scope:BMU_bargain_owned_title }
+		subtract = BMU_willingness_bargain_title
+	}
+}
+
+BMU_support_will_do_recipient = {
 	# Support max mil strength
 	add = {
 		value = {
-			add = scope:recipient.max_military_strength
+			add = scope:supporter_char.max_military_strength
 			divide = BMU_supporter_gambit_cost
 		}
 		desc = "BMU_support_will_do_recipient_max_mil_strength"
@@ -10,16 +80,16 @@
 	}
 	# Supporter of a stronger Contender
 	if = {
-		limit = { exists = scope:recipient_contender}
+		limit = { exists = scope:supporter_contender_story }
 		multiply = {
 			value = {
 				add = 1
 				if = {
-					limit = { scope:recipient_contender.story_owner = scope:pressed_claim.var:top_contender }
+					limit = { scope:supporter_contender_story.story_owner = scope:pressed_claim.var:top_contender }
 					add = 1
 				}
 				else_if = {
-					limit = { scope:recipient_contender.var:max_military_strength > scope:actor_contender.var:max_military_strength }
+					limit = { scope:supporter_contender_story.var:max_military_strength > scope:claimant_contender_story.var:max_military_strength }
 					add = 0.5
 				}
 			}
@@ -41,7 +111,7 @@
 					any_owned_story = {
 						story_type = BMU_supporter_story
 						var:pressed_claim_story = scope:pressed_claim
-						var:contender.story_owner = scope:actor
+						var:contender.story_owner = scope:contender_char
 					}
 					BMU_contender_score < BMU_ambition_get_council_position_councillor_chancellor
 				}
@@ -61,7 +131,7 @@
 					any_owned_story = {
 						story_type = BMU_supporter_story
 						var:pressed_claim_story = scope:pressed_claim
-						var:contender.story_owner = scope:actor
+						var:contender.story_owner = scope:contender_char
 					}
 					BMU_contender_score < BMU_ambition_get_council_position_councillor_steward
 				}
@@ -81,7 +151,7 @@
 					any_owned_story = {
 						story_type = BMU_supporter_story
 						var:pressed_claim_story = scope:pressed_claim
-						var:contender.story_owner = scope:actor
+						var:contender.story_owner = scope:contender_char
 					}
 					BMU_contender_score < BMU_ambition_get_council_position_councillor_marshal
 				}
@@ -101,7 +171,7 @@
 					any_owned_story = {
 						story_type = BMU_supporter_story
 						var:pressed_claim_story = scope:pressed_claim
-						var:contender.story_owner = scope:actor
+						var:contender.story_owner = scope:contender_char
 					}
 					BMU_contender_score < BMU_ambition_get_council_position_councillor_spymaster
 				}
@@ -118,93 +188,220 @@
 	multiply = {
 		value = {
 			add = 1.2
-			subtract = scope:actor_contender.var:confidence_score
+			subtract = scope:claimant_contender_story.var:confidence_score
 		}
 		desc = "BMU_support_will_do_actor_confidence"
 		format = "FF_VALUE_FORMAT"
 	}
-	# Willingness to give Coucil Position
+	# Willingness to give Council Position
 	if = {
 		limit = { exists = scope:FF_ambition_get_council_position }
+		subtract = BMU_willingness_bargain_council_position
+	}
+	# Willingness to give Title
+	if = {
+		limit = { exists = scope:BMU_bargain_owned_title }
+		subtract = BMU_willingness_bargain_title
+	}
+}
+
+BMU_support_will_do_recipient_max_mil_strength = {
+	value = {
+		add = scope:supporter_char.max_military_strength
+		divide = BMU_supporter_gambit_cost
+	}
+	desc = "BMU_support_will_do_recipient_max_mil_strength"
+	format = "FF_VALUE_FORMAT"
+}
+
+BMU_support_will_do_recipient_supports_stronger_contender = {
+	value = {
+		add = BMU_support_will_do_recipient_max_mil_strength
 		if = {
-			limit = { scope:councillor_chancellor = yes }
-			add = {
-				value = {
-					add = scope:recipient.diplomacy
-					multiply = 10
-				}
-				desc = "BMU_support_will_do_ambition_get_council_position_councillor_chancellor_recipient_skill"
-			}
-			if = {
-				limit = { exists = cp:councillor_chancellor }
-				subtract = {
-					value = {
-						add = cp:councillor_chancellor.diplomacy
-						multiply = 10
-					}
-					desc = "BMU_support_will_do_ambition_get_council_position_councillor_chancellor_current_skill"
-				}
-			}
+			limit = { scope:supporter_contender_story.story_owner = scope:pressed_claim.var:top_contender }
+			multiply = 1
 		}
 		else_if = {
-			limit = { scope:councillor_steward = yes }
-			add = {
-				value = {
-					add = scope:recipient.stewardship
-					multiply = 10
+			limit = { scope:supporter_contender_story.var:max_military_strength > scope:claimant_contender_story.var:max_military_strength }
+			multiply = 0.5
+		}
+		else = { multiply = 0 }
+		divide = BMU_supporter_gambit_cost
+	}
+	desc = "BMU_support_will_do_recipient_supports_stronger_contender"
+	format = "FF_VALUE_FORMAT"
+}
+
+BMU_support_will_do_dropout_councillor = {
+	value = {
+		subtract = scope:current_councillor.max_military_strength
+		divide = BMU_supporter_gambit_cost
+	}
+	desc = "BMU_support_will_do_dropout_councillor"
+	format = "FF_VALUE_FORMAT"
+}
+
+BMU_support_will_do_actor_confidence = {
+	value = {
+		add = BMU_support_will_do_recipient_max_mil_strength
+		multiply = {
+			value = 1
+			subtract = scope:claimant_contender_story.var:confidence_score
+		}
+	}
+	desc = "BMU_support_will_do_actor_confidence"
+	format = "FF_VALUE_FORMAT"
+}
+
+BMU_willingness_budget = {
+	add = {
+		value = {
+			every_owned_story = {
+				limit = {
+					story_type = BMU_contender_story
+					var:pressed_claim_story = scope:actor.var:pressed_claim_interaction
 				}
-				desc = "BMU_support_will_do_ambition_get_council_position_councillor_steward_recipient_skill"
+				add = var:willingness_budget
 			}
-			if = {
-				limit = { exists = cp:councillor_steward }
-				subtract = {
-					value = {
-						add = cp:councillor_steward.stewardship
-						multiply = 10
-					}
-					desc = "BMU_support_will_do_ambition_get_council_position_councillor_steward_current_skill"
+			every_owned_story = {
+				limit = {
+					story_type = BMU_bargain_story
+					var:pressed_claim = scope:actor.var:pressed_claim_interaction
 				}
+				add = var:willingness_cost
 			}
 		}
-		else_if = {
-			limit = { scope:councillor_marshal = yes }
-			add = {
-				value = {
-					add = scope:recipient.martial
-					multiply = 10
-				}
-				desc = "BMU_support_will_do_ambition_get_council_position_councillor_marshal_recipient_skill"
-			}
-			if = {
-				limit = { exists = cp:councillor_marshal }
-				subtract = {
-					value = {
-						add = cp:councillor_marshal.martial
-						multiply = 10
-					}
-					desc = "BMU_support_will_do_ambition_get_council_position_councillor_marshal_current_skill"
-				}
-			}
+	}
+}
+
+BMU_willingness_bargain_council_position = {
+	add = {
+		value = {
+			add = scope:supporter_skill
+			multiply = 10
 		}
-		else_if = {
-			limit = { scope:councillor_spymaster = yes }
-			add = {
-				value = {
-					add = scope:recipient.intrigue
-					multiply = 10
-				}
-				desc = "BMU_support_will_do_ambition_get_council_position_councillor_spymaster_recipient_skill"
+		desc = "BMU_support_will_do_ambition_get_council_position_supporter_skill"
+	}
+	if = {
+		limit = { exists = scope:current_councillor }
+		subtract = {
+			value = {
+				add = scope:current_councillor_skill
+				multiply = 10
 			}
-			if = {
-				limit = { exists = cp:councillor_spymaster }
-				subtract = {
-					value = {
-						add = cp:councillor_spymaster.intrigue
-						multiply = 10
-					}
-					desc = "BMU_support_will_do_ambition_get_council_position_councillor_spymaster_current_skill"
-				}
-			}
+			desc = "BMU_support_will_do_ambition_get_council_position_current_councillor_skill"
 		}
-	}	
+	}
+}
+
+BMU_willingness_bargain_title = {
+	# if = {
+	# 	limit = {
+	# 		NOT = { exists = scope:pressed_claim }
+	# 		scope:supporter_char = { has_variable = pressed_claim_interaction }
+	# 	}
+	# 	scope:supporter_char.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+	# }
+	subtract = {
+		value = 100
+		desc = BMU_willingness_bargain_title_base
+		format = "FF_VALUE_FORMAT"
+	}
+	subtract = {
+		value = {
+			add = ai_greed
+			min = 0
+		}
+		desc = FF_ambition_get_title_greed
+		format = "FF_VALUE_FORMAT"
+	}
+	subtract = {
+		value = {
+			add = scope:target.tier
+			multiply = scope:target.tier
+			multiply = 10
+		}
+		desc = FF_ambition_get_title_tier
+		format = "FF_VALUE_FORMAT"
+	}
+	if = {
+		limit = { scope:supporter_char = { has_strong_claim_on = scope:target }}
+		add = {
+			value = 100
+			desc = BMU_willingness_bargain_title_strong_claimant
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+	else_if = {
+		limit = { scope:supporter_char = { has_weak_claim_on = scope:target }}
+		add = {
+			value = 50
+			desc = BMU_willingness_bargain_title_weak_claimant
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+	if = {
+		limit = { scope:supporter_char = { any_held_title = { is_de_jure_liege_or_above_target = scope:target }}}
+		add = {
+			value = 100
+			desc = BMU_willingness_bargain_title_de_jure_liege
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+	else_if = {
+		limit = { scope:supporter_char = { any_held_title = { target_is_de_jure_liege_or_above = scope:target }}}
+		add = {
+			value = 50
+			desc = BMU_willingness_bargain_title_de_jure_vassal
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+	if = {
+		limit = {
+			trigger_if = {
+				limit = {
+					NOT = { exists = scope:pressed_claim }
+					scope:supporter_char = { has_variable = pressed_claim_interaction }
+				}
+				scope:supporter_char.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+			}
+			OR = {
+				scope:target.tier = highest_held_title_tier
+				scope:supporter_char = {
+					NOR = {
+						is_vassal_of = prev
+						BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim }
+					}
+				}
+			}
+			# always = no
+		}
+		subtract = {
+			value = {
+				scope:target = {
+					every_in_de_jure_hierarchy = {
+						limit = { tier = tier_county }
+						add = 10
+					}
+				}
+			}
+			desc = BMU_willingness_bargain_title_lose_land
+			format = "FF_VALUE_FORMAT"
+		}
+	}
+	# else_if = {
+	# 	limit = {
+	# 		scope:supporter_char = {
+	# 			NOR = {
+	# 				is_vassal_or_below_of = prev
+	# 				BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim }
+	# 			}
+	# 		}
+	# 	}
+	# 	subtract = {
+	# 		value = 250
+	# 		desc = BMU_willingness_bargain_title_not_vassal
+	# 		format = "FF_VALUE_FORMAT"
+	# 	}
+	# }
 }

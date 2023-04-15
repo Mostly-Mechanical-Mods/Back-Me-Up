@@ -21,6 +21,15 @@ BMU_supporter_gambit_cost = {
 	multiply = 10
 }
 
+BMU_supporter_gambit_cost_recipient = {
+	add = scope:actor.highest_held_title_tier
+	if = {
+		limit = { NOT = { scope:recipient = { BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:actor PRESSED_CLAIM = scope:pressed_claim }}}}
+		multiply = 2
+	}
+	multiply = 10
+}
+
 BMU_gambits_cost_check_gui = {
 	scope:actor = {
 		ordered_owned_story = {

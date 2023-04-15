@@ -158,3 +158,32 @@ BMU_has_enough_remaining_gambits = {
 	first = I_HAVE_ENOUGH_REMAINING_GAMBITS
 	third = THEY_HAVE_ENOUGH_REMAINING_GAMBITS
 }
+
+BMU_cannot_grant_primary_title = {
+	first = I_CANNOT_GRANT_PRIMARY_TITLE
+	third = THEY_CANNOT_GRANT_PRIMARY_TITLE
+}
+
+BMU_cannot_grant_capital_county = {
+	first = I_CANNOT_GRANT_CAPITAL_COUNTY
+	third = THEY_CANNOT_GRANT_CAPITAL_COUNTY
+}
+
+BMU_any_held_title_de_jure_above_target = {
+	first = I_HOLD_TITLE_DE_JURE_ABOVE_TARGET
+	third = THEY_HOLD_TITLE_DE_JURE_ABOVE_TARGET
+}
+
+BMU_target_de_jure_above_any_held_title = {
+	first = I_HOLD_TITLE_DE_JURE_UNDER_TARGET
+	third = THEY_HOLD_TITLE_DE_JURE_UNDER_TARGET
+}
+
+any_in_list = {
+	global = any_in_list
+}
+
+BMU_has_titles_to_bargain = {
+	first = I_HAVE_TITLE_TO_BARGAIN
+	third = THEY_HAVE_TITLE_TO_BARGAIN
+}

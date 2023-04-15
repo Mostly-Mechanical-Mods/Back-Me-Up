@@ -218,6 +218,10 @@
 				debug_log = "pressed_claim found"
 				every_in_list = {
 					variable = stakeholders
+					if = {
+						limit = { debug_only = yes }
+						set_variable = { name = end_story value = flag:pressed_claim_war_dec }
+					}
 					end_story = yes
 				}
 				scope:war = {
@@ -314,7 +318,13 @@
 					scope:war = { has_variable = contender }
 				}
 			}
-			scope:war.var:pressed_claim = { end_story = yes }
+			scope:war.var:pressed_claim = {
+				if = {
+					limit = { debug_only = yes }
+					set_variable = { name = end_story value = flag:pressed_claim_war_invalidated }
+				}
+				end_story = yes
+			}
 		}
 		else = {
 
@@ -431,6 +441,10 @@
 						has_variable = pressed_claim
 						var:pressed_claim = scope:war.var:pressed_claim
 					}
+					if = {
+						limit = { debug_only = yes }
+						set_variable = { name = end_story value = flag:pressed_claim_war_on_victory }
+					}
 					end_story = yes
 				}
 			}
@@ -451,7 +465,13 @@
 				}
 			}
 			debug_log = "Last Pressed Claim war, end Pressed Claim"
-			scope:war.var:pressed_claim = { end_story = yes } 
+			scope:war.var:pressed_claim = {
+				if = {
+					limit = { debug_only = yes }
+					set_variable = { name = end_story value = flag:pressed_claim_war_on_victory }
+				}
+				end_story = yes
+			} 
 		}
 
 		# Transfer Pressed Claim
@@ -593,7 +613,15 @@
 					}
 				}
 			}
-			scope:war.var:pressed_claim = { end_story = yes }
+			scope:war.var:pressed_claim = {
+				if = {
+						limit = { debug_only = yes }
+						debug_log = "end story"
+						debug_log_scopes = no
+						story_owner = { debug_log_scopes = no }
+					}
+				end_story = yes
+			}
 		}
 		else_if = {
 			limit = { scope:war = { has_variable = pressed_claim }}
@@ -605,6 +633,10 @@
 			scope:defender = {
 				random_contender_story = {
 					limit = { var:pressed_claim_story = scope:war.var:pressed_claim }
+					if = {
+						limit = { debug_only = yes }
+						set_variable = { name = end_story value = flag:pressed_claim_war_on_white_peace }
+					}
 					end_story = yes
 				}
 			}
@@ -719,7 +751,13 @@
 					}
 				}
 			}
-			scope:war.var:pressed_claim = { end_story = yes }
+			scope:war.var:pressed_claim = {
+				if = {
+					limit = { debug_only = yes }
+					set_variable = { name = end_story value = flag:pressed_claim_war_on_defeat }
+				}
+				end_story = yes
+			}
 		}
 		else_if = {
 			limit = { scope:war = { has_variable = pressed_claim }}
@@ -731,6 +769,11 @@
 			scope:defender = {
 				random_contender_story = {
 					limit = { var:pressed_claim_story = scope:war.var:pressed_claim }
+					if = {
+						limit = { debug_only = yes }
+						debug_log = "end story"
+						set_variable = { name = end_story value = flag:pressed_claim_war_on_defeat }
+					}
 					end_story = yes
 				}
 			}

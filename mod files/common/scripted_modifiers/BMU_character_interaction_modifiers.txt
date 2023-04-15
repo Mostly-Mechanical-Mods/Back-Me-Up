@@ -27,17 +27,14 @@
 # 	}
 # }
 
-BMU_call_in_supporter_interaction = {
+BMU_request_support_interaction = {
 	modifier = {
 		trigger_if = {
-			limit = {
-				NOT = { exists = scope:pressed_claim }
-			}
+			limit = { NOT = { exists = scope:pressed_claim }}
 			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
 		}
-		trigger_if = {
-			limit = { exists = scope:pressed_claim }
-			scope:pressed_claim.var:claimed_title = { save_temporary_scope_as = target }
+		trigger_else = {
+			scope:pressed_claim.var:claimed_title = { save_temporary_scope_as = pressed_claim }
 		}
 		save_temporary_scope_as = score_supporter
 		trigger_if = {
@@ -103,5 +100,173 @@ BMU_call_in_supporter_interaction = {
 	modifier = {
 		add = BMU_contender_score_gui
 		desc = "[GuiScope.SetRoot(recipient.MakeScope).AddScope('score_contender',actor.MakeScope).AddScope('score_supporter',recipient.MakeScope).AddScope('claim_target',secondary_actor.MakeScope).AddScope('holder_candidate',secondary_actor.MakeScope).AddScope('claimed_title',actor.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
+	}
+}
+
+BMU_request_support_interaction_no_breakdown = {
+	modifier = {
+		trigger_if = {
+			limit = { NOT = { exists = scope:pressed_claim }}
+			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+		}
+		trigger_else = {
+			scope:pressed_claim.var:claimed_title = { save_temporary_scope_as = pressed_claim }
+		}
+		save_temporary_scope_as = score_supporter
+		trigger_if = {
+			limit = { exists = scope:secondary_recipient }
+			scope:secondary_recipient = {
+				save_temporary_scope_as = score_contender
+				scope:recipient = {
+					save_temporary_scope_value_as = {
+						name = top_contender_score
+						value = BMU_contender_score
+					}
+				}
+			}
+		}
+		trigger_else = {
+			scope:secondary_actor = {
+				save_temporary_scope_as = score_contender
+				scope:recipient = {
+					save_temporary_scope_value_as = {
+						name = top_contender_score
+						value = BMU_contender_score
+					}
+				}
+			}
+		}
+		scope:actor = {
+			save_temporary_scope_as = score_contender
+			scope:recipient = {
+				save_temporary_scope_value_as = {
+					name = contender_score
+					value = BMU_contender_score
+				}
+			}
+		}
+		add = 0
+	}
+	modifier = {
+		exists = scope:secondary_recipient
+		scope:contender_score > scope:top_contender_score
+		add = { subtract = scope:top_contender_score }
+		desc = BMU_modifier_tooltip_recipient_likes_secondary_recipient
+	}
+	modifier = {
+		exists = scope:secondary_recipient
+		scope:contender_score <= scope:top_contender_score
+		add = { subtract = scope:top_contender_score }
+		desc = BMU_modifier_tooltip_recipient_prefers_secondary_recipient
+	}
+	modifier = {
+		NOT = { exists = scope:secondary_recipient }
+		scope:top_contender_score > 0
+		scope:contender_score > scope:top_contender_score
+		add = { subtract = scope:top_contender_score }
+		desc = BMU_modifier_tooltip_recipient_likes_secondary_actor
+	}
+	modifier = {
+		NOT = { exists = scope:secondary_recipient }
+		scope:top_contender_score > 0
+		scope:contender_score <= scope:top_contender_score
+		add = { subtract = scope:top_contender_score }
+		desc = BMU_modifier_tooltip_recipient_prefers_secondary_actor
+	}
+	modifier = {
+		add = BMU_contender_score_gui
+		desc = BMU_contender_score_gui_tooltip
+	}
+}
+
+BMU_support_will_do_modifier = {
+	modifier = {
+		trigger_if = {
+			limit = { NOT = { exists = scope:pressed_claim }}
+			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+		}
+		trigger_if = {
+			limit = { exists = scope:pressed_claim }
+			$SUPPORTER$ = {
+				save_temporary_scope_as = supporter_char
+				trigger_if = {
+					limit = {
+						any_supporter_story = { var:pressed_claim_story = scope:pressed_claim }
+					}
+					any_supporter_story = {
+						var:pressed_claim_story = scope:pressed_claim
+						var:contender = { save_temporary_scope_as = supporter_contender_story }
+					}
+				}
+			}
+			$CONTENDER$ = {
+				save_temporary_scope_as = contender_char
+				trigger_if = {
+					limit = {
+						any_contender_story = { var:pressed_claim_story = scope:pressed_claim }
+					}
+					any_contender_story = {
+						var:pressed_claim_story = scope:pressed_claim
+						save_temporary_scope_as = claimant_contender_story
+					}
+				}
+			}
+		}
+		add = 0
+	}
+	modifier = {
+		exists = scope:pressed_claim
+		add = BMU_support_will_do_recipient_max_mil_strength
+		desc = BMU_support_will_do_recipient_max_mil_strength_desc 
+	}
+	modifier = {
+		exists = scope:pressed_claim
+		exists = scope:supporter_contender_story
+		add = BMU_support_will_do_recipient_supports_stronger_contender
+		desc = BMU_support_will_do_recipient_supports_stronger_contender_desc
+	}
+	modifier = {
+		exists = scope:FF_ambition_get_council_position
+		BMU_bargain_council_position_setup_trigger_global = yes
+		add = BMU_support_will_do_dropout_councillor
+		desc = BMU_support_will_do_dropout_councillor_desc
+	}
+	modifier = {
+		add = BMU_support_will_do_actor_confidence
+		desc = BMU_support_will_do_actor_confidence_desc
+	}
+	modifier = {
+		exists = scope:FF_ambition_get_council_position
+		exists = scope:supporter_skill
+		trigger_if = {
+			limit = { BMU_bargain_council_position_setup_trigger_global = yes }
+		}
+		add = {
+			value = scope:supporter_skill
+			multiply = 10
+		}
+		desc = BMU_willingness_bargain_council_position_supporter_skill_desc
+	}
+	modifier = {
+		exists = scope:FF_ambition_get_council_position
+		exists = scope:current_councillor
+		add = {
+			value = scope:current_councillor_skill
+			multiply = -10
+		}
+		desc = BMU_willingness_bargain_council_position_current_councillor_skill_desc
+	}
+	# modifier = {
+	# 	exists = scope:FF_ambition_get_council_position
+	# 	trigger_if = {
+	# 		limit = { BMU_bargain_council_position_setup_trigger_global = yes }
+	# 	}
+	# 	add = BMU_willingness_bargain_council_position
+	# 	desc = BMU_willingness_bargain_council_position_desc
+	# }
+	modifier = {
+		exists = scope:BMU_bargain_owned_title
+		add = BMU_willingness_bargain_title
+		desc = BMU_willingness_bargain_title_desc
 	}
 }

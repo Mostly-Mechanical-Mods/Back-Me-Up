@@ -198,7 +198,7 @@ action_can_see_pressed_claim = {
 # 							root = {
 # 								is_character_interaction_potentially_accepted = {
 # 									recipient = prev
-# 									interaction = BMU_call_in_supporter_interaction_v2
+# 									interaction = BMU_request_support_interaction_v2
 # 								}
 # 							}
 # 						}
@@ -231,7 +231,7 @@ action_can_see_pressed_claim = {
 # 			# 			root = {
 # 			# 				is_character_interaction_valid = {
 # 			# 					recipient = scope:supporter
-# 			# 					interaction = BMU_call_in_supporter_interaction
+# 			# 					interaction = BMU_request_support_interaction
 # 			# 				}
 # 			# 			}
 # 			# 		}
@@ -255,7 +255,7 @@ action_can_see_pressed_claim = {
 # 			# 			root = {
 # 			# 				is_character_interaction_valid = {
 # 			# 					recipient = scope:supporter
-# 			# 					interaction = BMU_call_in_supporter_interaction
+# 			# 					interaction = BMU_request_support_interaction
 # 			# 				}
 # 			# 			}
 # 			# 		}
@@ -276,7 +276,7 @@ action_can_see_pressed_claim = {
 
 # 	effect = {
 # 		open_interaction_window = {
-# 			interaction = BMU_call_in_supporter_interaction_v2
+# 			interaction = BMU_request_support_interaction_v2
 # 			actor = scope:actor
 # 			recipient = scope:recipient
 # 			# target_title = scope:landed_title

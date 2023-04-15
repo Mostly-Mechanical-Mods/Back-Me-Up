@@ -40,14 +40,14 @@ BMU_error_suppression.0001 = {
 		# 
 		# fix_variable_error = { X = BMU_stakeholder_ambitions }
 		# fix_variable_error = { X = BMU_pressed_claim }
-		# fix_variable_error = { X = stakeholder_story }
-		# fix_variable_error = { X = ambition }
+		# 
+		# 
 		# fix_variable_error = { X = coveted_title }
 		# fix_variable_error = { X = ambition_score }
 		# fix_variable_error = { X = rival }
 		# fix_variable_error = { X = BMU_vote_stories }
 		# fix_variable_error = { X = claim_story }
-		# fix_variable_error = { X = FF_council_position_datamodel }
+		# 
 		# fix_variable_error = { X = top_alternate_candidate }
 		# fix_variable_error = { X = player_score }
 		# fix_variable_error = { X = score_to_beat }
@@ -91,7 +91,7 @@ BMU_error_suppression.0001 = {
 
 		# fix_variable_error = { X = bargained_with }
 		
-		# fix_variable_error = { X = BMU_call_in_supporter_interaction }
+		# fix_variable_error = { X = BMU_request_support_interaction }
 		# 
 		# fix_variable_error = { X = bargaining_phase }
 		# fix_variable_error = { X = test_1 }
@@ -110,6 +110,7 @@ BMU_error_suppression.0001 = {
 		fix_variable_error = { X = mods_loaded }
 
 		# gui
+		fix_variable_error = { X = FF_council_position_datamodel }
 		# Confidence flag
 		fix_variable_error = { X = confidence_flag }
 		fix_variable_error = { X = confidence_cocky }
@@ -136,6 +137,18 @@ BMU_error_suppression.0001 = {
 		fix_variable_error = { X = flavorization_contender }
 		fix_variable_error = { X = stakeholders_added }
 		fix_variable_error = { X = bargainer }
+		fix_variable_error = { X = stakeholder_story }
+		fix_variable_error = { X = ambition }
+		fix_variable_error = { X = current_pressed_claim }
+		fix_variable_error = { X = call_in_supporter_on_accept }
+		fix_variable_error = { X = pressed_claim_war_dec }
+		fix_variable_error = { X = pressed_claim_war_invalidated }
+		fix_variable_error = { X = pressed_claim_war_on_victory }
+		fix_variable_error = { X = pressed_claim_war_on_white_peace }
+		fix_variable_error = { X = pressed_claim_war_on_defeat }
+		fix_variable_error = { X = BMU_dropout_supporters_of }
+		fix_variable_error = { X = BMU_bargain_owned_title }
+		fix_variable_error = { X = end_story }
 
 		trigger_event = faction_demand.2001
 		trigger_event = faction_demand.2005

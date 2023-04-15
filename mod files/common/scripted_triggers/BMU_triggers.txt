@@ -463,29 +463,16 @@ BMU_bargained_with_council_position = {
 	trigger_if = {
 		limit = {
 			any_bargain = {
-				has_variable = supporter
-				has_variable = bargain_type
-				var:bargain_type = flag:FF_ambition_get_council_position
-				has_variable = council_position
-				var:council_position = flag:$POSITION$
-				var:supporter.story_owner = { save_temporary_scope_as = supporter }
-			}
-		}
-	}
-	trigger_if = {
-		limit = {
-			any_bargain = {
-				has_variable = bargain_type
-				has_variable = supporter
 				var:bargain_type = flag:FF_ambition_get_council_position
 				var:council_position = flag:$POSITION$
-				var:supporter.story_owner = { save_temporary_scope_as = supporter }
+				exists = var:supporter.story_owner
+				var:supporter.story_owner = { save_temporary_scope_as = supporter_temp }
 			}
 		}
 		custom_description = {
 			text = BMU_bargained_with_council_position_$POSITION$
 			subject = this
-			object = scope:supporter
+			object = scope:supporter_temp
 		}
 	}
 	trigger_else = { always = no }
@@ -507,5 +494,56 @@ BMU_has_enough_remaining_gambits = {
 			var:pressed_claim_story = scope:pressed_claim
 			BMU_gambit_remaining >= BMU_supporter_gambit_cost
 		}
+	}
+}
+
+BMU_bargain_council_position_setup_trigger_global = {
+	trigger_if = { limit = { scope:councillor_chancellor = yes } BMU_bargain_council_position_setup_trigger = { COUNCILLOR = councillor_chancellor SKILL = diplomacy }}
+	trigger_else_if = { limit = { scope:councillor_steward = yes } BMU_bargain_council_position_setup_trigger = { COUNCILLOR = councillor_steward SKILL = stewardship }}
+	trigger_else_if = { limit = { scope:councillor_marshal = yes } BMU_bargain_council_position_setup_trigger = { COUNCILLOR = councillor_marshal SKILL = martial }}
+	trigger_else_if = { limit = { scope:councillor_spymaster = yes } BMU_bargain_council_position_setup_trigger = { COUNCILLOR = councillor_spymaster SKILL = intrigue }}
+	trigger_else = { always = no }
+}
+
+BMU_bargain_council_position_setup_trigger = {
+	save_temporary_scope_as = score_contender
+	save_temporary_scope_value_as = { name = supporter_skill value = scope:supporter_char.$SKILL$ }
+	trigger_if = {
+		limit = { exists = cp:$COUNCILLOR$ }
+		cp:$COUNCILLOR$ = {
+			save_temporary_scope_as = current_councillor
+			save_temporary_scope_value_as = { name = current_councillor_skill value = scope:current_councillor.$SKILL$ }
+			trigger_if = {
+				limit = {
+					any_owned_story = {
+						story_type = BMU_supporter_story
+						var:pressed_claim_story = scope:pressed_claim
+						var:contender.story_owner = scope:contender_char
+					}
+				}
+				BMU_contender_score < BMU_ambition_get_council_position_$COUNCILLOR$
+				save_temporary_scope_value_as = { name = dropout_councillor value = yes }
+			}
+			trigger_else = { always = no }
+		}
+	}
+	trigger_else = { always = no }
+}
+
+BMU_dropout_councillor = {
+	exists = cp:$COUNCILLOR$
+	cp:$COUNCILLOR$ = {
+		save_temporary_scope_as = dropout_councillor
+		trigger_if = { limit = { has_council_position = councillor_chancellor } save_temporary_scope_value_as = { name = councillor_skill value = diplomacy }}
+		trigger_else_if = { limit = { has_council_position = councillor_steward } save_temporary_scope_value_as = { name = councillor_skill value = stewardship }}
+		trigger_else_if = { limit = { has_council_position = councillor_marshal } save_temporary_scope_value_as = { name = councillor_skill value = martial }}
+		trigger_else_if = { limit = { has_council_position = councillor_spymaster } save_temporary_scope_value_as = { name = councillor_skill value = intrigue }}
+		trigger_else = { always = no }
+		any_owned_story = {
+			story_type = BMU_supporter_story
+			var:pressed_claim_story = scope:pressed_claim
+			var:contender.story_owner = scope:contender_char
+		}
+		BMU_contender_score < BMU_ambition_get_council_position_$COUNCILLOR$
 	}
 }

@@ -3,6 +3,7 @@
 BMU_title_not_claim_target: "There is no Pressed Claim on the [target.GetName]"
 BMU_see_pressed_claim_effect: "See Pressed Claim"
 BMU_recipient_supports_actor_claim: "Supports [actor.GetShortUINamePossessiveNoTooltip] Claim on [pressed_claim.MakeScope.Var('claimed_title').Title.GetNameNoTooltip]"
+BMU_actor_supports_recipient_claim: "Supports [recipient.GetShortUINamePossessiveNoTooltip] Claim on [pressed_claim.MakeScope.Var('claimed_title').Title.GetNameNoTooltip]"
 
 BMU_ShortName_AI: "[actor.GetShortUINameNoTooltip]"
 BMU_ShortName: "[actor.GetTitledFirstNameNoTooltip]"
@@ -10,6 +11,12 @@ BMU_ShortName: "[actor.GetTitledFirstNameNoTooltip]"
 BMU_spend_gambits: "Spends $GAMBIT_COST|0$ Gambits"
 
 debug_hide: "#low debug_hide#!"
-# BMU_actor_will_do: "#TOOLTIP:BMU_actor_will_do_tt [GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',SCOPE.sC('recipient').MakeScope).AddScope('actor_contender',SCOPE.sC('actor_contender').MakeScope).AddScope('recipient_contender',SCOPE.sC('recipient_contender').MakeScope).AddScope('pressed_claim',SCOPE.sC('pressed_claim').MakeScope).AddScope('gambit_cost',MakeScopeValue(SCOPE.GetValue('gambit_cost'))).ScriptValue('BMU_support_will_do')]#!\n[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',SCOPE.sC('recipient').MakeScope).AddScope('actor_contender',SCOPE.sC('actor_contender').MakeScope).AddScope('recipient_contender',SCOPE.sC('recipient_contender').MakeScope).AddScope('pressed_claim',SCOPE.sC('pressed_claim').MakeScope).AddScope('gambit_cost',MakeScopeValue(SCOPE.GetValue('gambit_cost'))).GetScriptValueDesc('BMU_support_will_do')]"
-# BMU_actor_will_do_tt: "[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('actor',GetPlayer.MakeScope).AddScope('recipient',SCOPE.sC('recipient').MakeScope).AddScope('actor_contender',SCOPE.sC('actor_contender').MakeScope).AddScope('recipient_contender',SCOPE.sC('recipient_contender').MakeScope).AddScope('pressed_claim',SCOPE.sC('pressed_claim').MakeScope).AddScope('gambit_cost',MakeScopeValue(SCOPE.GetValue('gambit_cost'))).GetScriptValueDesc('BMU_support_will_do')]"
+BMU_actor_will_do: "ai_will_do [GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('contender_char',GetPlayer.MakeScope).AddScope('supporter_char',SCOPE.sC('recipient').MakeScope).AddScope('pressed_claim',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Story.MakeScope).AddScope('actor',SCOPE.sC('actor').MakeScope).AddScope('recipient',SCOPE.sC('recipient').MakeScope).ScriptValue('BMU_support_will_do')|+=0]\n[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('contender_char',GetPlayer.MakeScope).AddScope('supporter_char',SCOPE.sC('recipient').MakeScope).AddScope('pressed_claim',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Story.MakeScope).AddScope('actor',SCOPE.sC('actor').MakeScope).AddScope('recipient',SCOPE.sC('recipient').MakeScope).GetScriptValueDesc('BMU_support_will_do')]"
 
+BMU_recipient_will_accept: "ai_will_do [GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('contender_char',SCOPE.sC('recipient').MakeScope).AddScope('supporter_char',SCOPE.sC('actor').MakeScope).AddScope('pressed_claim',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Story.MakeScope).AddScope('actor',SCOPE.sC('recipient').MakeScope).AddScope('recipient',SCOPE.sC('actor').MakeScope).ScriptValue('BMU_support_will_do')|+=0]\n[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('contender_char',SCOPE.sC('recipient').MakeScope).AddScope('supporter_char',SCOPE.sC('actor').MakeScope).AddScope('pressed_claim',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Story.MakeScope).AddScope('actor',SCOPE.sC('recipient').MakeScope).AddScope('recipient',SCOPE.sC('actor').MakeScope).GetScriptValueDesc('BMU_support_will_do')]"
+
+
+BMU_actor_will_do_tt: "[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('contender_char',GetPlayer.MakeScope).AddScope('supporter_char',SCOPE.sC('recipient').MakeScope).AddScope('pressed_claim',SCOPE.sC('actor').MakeScope.Var('pressed_claim_interaction').Story.MakeScope).AddScope('actor',SCOPE.sC('actor').MakeScope).AddScope('recipient',SCOPE.sC('recipient').MakeScope).GetScriptValueDesc('BMU_support_will_do')]"
+
+
+# BMU_actor_will_do: "test"

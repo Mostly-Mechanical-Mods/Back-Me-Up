@@ -31,31 +31,7 @@ BMU_has_implicit_claim = {
 	}
 }
 
-BMU_request_support_sgui = {
-	scope = character
-	saved_scopes = {
-		recipient
-	}
-	is_shown = {
-		is_character_interaction_shown = {
-			recipient = scope:recipient
-			interaction = BMU_call_in_supporter_interaction
-		}
-	}
-	is_valid = {
-		is_character_interaction_valid = {
-			recipient = scope:recipient
-			interaction = BMU_call_in_supporter_interaction
-		}
-	}
-	effect = {
-		open_interaction_window = {
-			interaction = BMU_call_in_supporter_interaction
-			actor = root
-			recipient = scope:recipient
-		}
-	}
-}
+
 
 BMU_set_pressed_claim_interaction = {
 	scope = character
@@ -131,7 +107,7 @@ BMU_set_pressed_claim_interaction = {
 		# 				root = {
 		# 					is_character_interaction_valid = {
 		# 						recipient = prev.story_owner
-		# 						interaction = BMU_call_in_supporter_interaction
+		# 						interaction = BMU_request_support_interaction
 		# 					}
 		# 				}
 		# 			}
@@ -194,7 +170,35 @@ BMU_stakeholder_sorting = {
 	}
 }
 
-BMU_bargain_with_council_position_sgui = {
+BMU_request_support_sgui = {
+	scope = character
+	saved_scopes = {
+		recipient
+	}
+	is_shown = {
+		NOT = {
+			is_character_interaction_potentially_accepted = {
+				recipient = scope:recipient
+				interaction = BMU_request_support_interaction
+			}
+		}
+	}
+	is_valid = {
+		is_character_interaction_valid = {
+			recipient = scope:recipient
+			interaction = BMU_request_support_interaction
+		}
+	}
+	effect = {
+		open_interaction_window = {
+			interaction = BMU_request_support_interaction
+			actor = root
+			recipient = scope:recipient
+		}
+	}
+}
+
+BMU_offer_support_sgui = {
 	scope = character
 	saved_scopes = {
 		recipient
@@ -202,7 +206,35 @@ BMU_bargain_with_council_position_sgui = {
 	is_shown = {
 		is_character_interaction_shown = {
 			recipient = scope:recipient
-			interaction = BMU_bargain_with_council_position_interaction
+			interaction = BMU_offer_support_interaction
+		}
+	}
+	is_valid = {
+		is_character_interaction_valid = {
+			recipient = scope:recipient
+			interaction = BMU_offer_support_interaction
+		}
+	}
+	effect = {
+		open_interaction_window = {
+			interaction = BMU_offer_support_interaction
+			actor = root
+			recipient = scope:recipient
+		}
+	}
+}
+
+BMU_bargain_with_council_position_sgui = {
+	scope = character
+	saved_scopes = {
+		recipient
+	}
+	is_shown = {
+		NOT = {
+			is_character_interaction_potentially_accepted = {
+				recipient = scope:recipient
+				interaction = BMU_bargain_with_council_position_interaction
+			}
 		}
 	}
 	is_valid = {
@@ -217,5 +249,98 @@ BMU_bargain_with_council_position_sgui = {
 			actor = root
 			recipient = scope:recipient
 		}
+	}
+}
+
+BMU_bargain_for_council_position_sgui = {
+	scope = character
+	saved_scopes = {
+		recipient
+	}
+	is_shown = {
+		# is_character_interaction_shown = {
+		# 	recipient = scope:recipient
+		# 	interaction = BMU_bargain_for_council_position_interaction
+		# }
+	}
+	is_valid = {
+		# is_character_interaction_valid = {
+		# 	recipient = scope:recipient
+		# 	interaction = BMU_bargain_for_council_position_interaction
+		# }
+	}
+	effect = {
+		# open_interaction_window = {
+		# 	interaction = BMU_bargain_for_council_position_interaction
+		# 	actor = root
+		# 	recipient = scope:recipient
+		# }
+	}
+}
+
+BMU_bargain_with_owned_title_sgui = {
+	scope = character
+	saved_scopes = {
+		recipient
+	}
+	is_shown = {
+		NOT = {
+			any_held_title = {
+				prev = {
+					is_character_interaction_potentially_accepted = {
+						recipient = scope:recipient
+						interaction = BMU_bargain_with_owned_title_interaction
+						# target_title = title:k_aquitaine
+					}
+				}
+			}
+		}
+	}
+	is_valid = {
+		is_character_interaction_valid = {
+			recipient = scope:recipient
+			interaction = BMU_bargain_with_owned_title_interaction
+		}
+	}
+	effect = {
+		open_interaction_window = {
+			interaction = BMU_bargain_with_owned_title_interaction
+			actor = root
+			recipient = scope:recipient
+		}
+	}
+}
+
+BMU_bargain_for_owned_title_sgui = {
+	scope = character
+	saved_scopes = {
+		recipient
+	}
+	is_shown = {
+		# is_character_interaction_shown = {
+		# 	recipient = scope:recipient
+		# 	interaction = BMU_bargain_for_owned_title_interaction
+		# }
+	}
+	is_valid = {
+		# is_character_interaction_valid = {
+		# 	recipient = scope:recipient
+		# 	interaction = BMU_bargain_for_owned_title_interaction
+		# }
+	}
+	effect = {
+		# open_interaction_window = {
+		# 	interaction = BMU_bargain_for_owned_title_interaction
+		# 	actor = root
+		# 	recipient = scope:recipient
+		# }
+	}
+}
+
+
+tooltip_test = {
+	scope = character
+	is_shown = {
+		is_independent_ruler = yes
 	}
 }

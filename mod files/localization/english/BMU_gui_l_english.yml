@@ -47,6 +47,7 @@ BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_WORTHY_CONTENDER_TT: "#T Not Supporting\n[Sco
 BMU_STAKEHOLDER_SORT_BY:0 "#T Sort Order: [Select_CString( GetVariableSystem.Exists('BMU_stakeholder_sort_by'), 'Ascending', 'Descending' )]\n#!#I Click to toggle#!"
 
 FF_ambition_get_council_position_desc: "$BMU_BARGAIN_STRUCK_WITH$\nfor the [Scope.Var('bargain').Var('council_position').GetFlagName] position"
+BMU_bargain_owned_title_desc: "$BMU_BARGAIN_STRUCK_WITH$\nfor the [Scope.Var('bargain').Var('title').Title.GetName]"
 
 BMU_BARGAIN_STRUCK_WITH: "Bargain struck with [Scope.Var('bargain').Var('contender').Var('stakeholder').Char.GetShortUIName]"
 BMU_BARGAIN_STRUCK_FOR: "for the [Localize(Concatenate(Scope.Var('bargain').Var('council_position').GetFlagName,'_name'))] position."

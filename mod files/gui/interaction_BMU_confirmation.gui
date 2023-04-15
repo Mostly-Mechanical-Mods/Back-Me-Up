@@ -3,7 +3,7 @@
 ######################################################
 
 window = {
-	name = "BMU_call_in_supporter_interaction_window"
+	name = "BMU_request_support_interaction_window"
 	position = { 0 20 }
 	parentanchor = center
 	allow_outside = yes

@@ -99,3 +99,29 @@ NOT_THEY_HAVE_ENOUGH_REMAINING_GAMBITS: "[CHARACTER.GetShortUIName] does not hav
 
 NOT_I_HAVE_CLAIM_TRIGGER: "You don't have a claim on this title"
 NOT_IS_HEIR_OF_CHARACTER_TRIGGER: "You are not [CHARACTER.GetShortUINamePossessive|U] heir"
+
+
+# BMU_cannot_grant_primary_title
+I_CANNOT_GRANT_PRIMARY_TITLE: "#X You cannot grant another Character your [primary_title|E]#!"
+THEY_CANNOT_GRANT_PRIMARY_TITLE: "#X [CHARACTER.GetShortUINameNoTooltip] cannot grant another Character [CHARACTER.GetHerHis] [primary_title|E]#!"
+
+# BMU_cannot_grant_capital_county
+I_CANNOT_GRANT_CAPITAL_COUNTY: "#X You cannot grant another Character your [realm_capital|E]#!"
+THEY_CANNOT_GRANT_CAPITAL_COUNTY: "#X [CHARACTER.GetShortUINameNoTooltip] cannot grant another Character [CHARACTER.GetHerHis] [realm_capital|E]#!"
+
+NOT_THEY_HAVE_CLAIM_TRIGGER: "[CHARACTER.GetShortUINameNoTooltip] does not have a Claim on this Title"
+NOT_I_HAVE_CLAIM_TRIGGER:0 "You do not have a Claim on this Title"
+
+# BMU_any_held_title_de_jure_above_target
+
+NOT_THEY_HOLD_TITLE_DE_JURE_ABOVE_TARGET: "[TARGET_TITLE.GetNameNoTooltip] is not De Jure part of any title held by [CHARACTER.GetShortUINameNoTooltip]"
+NOT_THEY_HOLD_TITLE_DE_JURE_UNDER_TARGET: "[CHARACTER.GetShortUINameNoTooltip] does not hold any title De Jure part of [TARGET_TITLE.GetNameNoTooltip]"
+
+# BMU_has_titles_to_bargain
+
+NOT_I_HAVE_TITLE_TO_BARGAIN: "You do not have any Title you can bargain with [TARGET_CHARACTER.GetShortUINameNoTooltip]"
+NOT_THEY_HAVE_TITLE_TO_BARGAIN: "[CHARACTER.GetShortUINameNoTooltip] does not have any Title [CHARACTER.GetSheHe] can bargain with [TARGET_CHARACTER.GetShortUINameNoTooltip]"
+
+
+
+BMU_bargain_titles: "Any title"

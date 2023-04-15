@@ -1,0 +1,677 @@
+﻿BMU_bargain_with_owned_title_interaction = {
+	category = interaction_category_diplomacy
+	use_diplomatic_range = no
+	common_interaction = yes
+	ignores_pending_interaction_block = yes
+	# special_interaction = grant_titles_interaction
+	# interface = grant_titles
+	interface_priority = -1
+	icon = bargain_title
+
+	desc = BMU_bargain_with_owned_title_interaction_desc
+
+	auto_accept = no
+	ai_min_reply_days = 1 #4
+	ai_max_reply_days = 1 #9
+
+	popup_on_receive = yes
+	pause_on_receive = yes
+	can_send_despite_rejection = no
+	ignores_pending_interaction_block = no
+
+	target_type = title
+	target_filter = actor_de_jure_titles
+
+	send_options_exclusive = no
+
+	redirect = {
+		scope:actor = {
+			if = {
+				limit = {
+					has_variable = pressed_claim_interaction
+					var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+				}
+				var:pressed_claim_interaction.story_owner = { save_scope_as = secondary_actor }
+				scope:recipient = {
+					ordered_supporter_story = {
+						limit = {
+							var:pressed_claim_story = scope:pressed_claim
+							NOR = {
+								var:contender.story_owner = scope:actor
+								var:contender.story_owner = scope:secondary_actor
+							}
+						}
+						var:contender.story_owner = { save_scope_as = secondary_recipient }
+					}
+					if = {
+						limit = {
+							NOT = { exists = scope:secondary_recipient }
+							scope:actor = { has_variable = pressed_claim_interaction }
+						}
+						scope:pressed_claim = {
+							ordered_in_list = {
+								variable = contenders
+								limit = {
+									NOR = {
+										story_owner = scope:actor
+										story_owner = scope:secondary_actor
+									}
+								}
+								order_by = {
+									story_owner = {
+										save_temporary_scope_as = score_contender
+										scope:recipient = { add = BMU_contender_score }
+									}
+								}
+								if = {
+									limit = {
+										story_owner = {
+											save_temporary_scope_as = score_contender
+											scope:recipient = { BMU_contender_score > 0 }
+										}
+									}
+									story_owner = { save_scope_as = secondary_recipient }
+								}
+								# story_owner = { save_scope_as = secondary_recipient }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	is_shown = {
+		scope:actor = {
+			is_character_interaction_shown = {
+				interaction = BMU_request_support_interaction
+				recipient = scope:recipient
+			}
+		}
+	}
+	
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			is_character_interaction_valid = {
+				interaction = BMU_request_support_interaction
+				recipient = scope:recipient
+			}
+		}
+		trigger_if = {
+			limit = { NOT = { exists = scope:pressed_claim }}
+			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+		}
+		scope:recipient = {
+			can_be_granted_titles_by = { RULER = scope:actor }
+			OR = {
+				is_vassal_or_below_of = scope:actor
+				BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }
+			}
+		}
+		scope:actor = {
+			any_held_title = { add_to_temporary_list = bargain_titles count = all }
+			any_alert_creatable_title = { add_to_temporary_list = bargain_titles count = all }
+		}
+		custom_description = {
+			text = BMU_has_titles_to_bargain
+			subject = scope:actor
+			object = scope:recipient
+			any_in_list = {
+				list = bargain_titles
+				# custom = BMU_bargain_titles
+				NOR = {
+					this = scope:actor.primary_title
+					this = scope:actor.capital_county
+				}
+				save_temporary_scope_as = bargain_title
+				scope:recipient = {
+					OR = {
+						has_claim_on = scope:bargain_title
+						scope:bargain_title.current_heir = this
+						custom_description = {
+							text = BMU_any_held_title_de_jure_above_target
+							subject = this
+							object = scope:bargain_title
+							any_held_title = { is_de_jure_liege_or_above_target = scope:bargain_title }
+						}
+						trigger_if = {
+							limit = { scope:bargain_title.tier >= tier_duchy }
+							custom_description = {
+								text = BMU_target_de_jure_above_any_held_title
+								subject = this
+								object = scope:bargain_title
+								any_held_title = { target_is_de_jure_liege_or_above = scope:bargain_title }
+							}
+						}
+					}
+				}
+				# trigger_if = {
+				# 	limit = {
+				# 		scope:recipient = scope:actor.player_heir
+				# 		scope:actor = { has_partition_succession_realm_law_trigger = yes }
+				# 	}
+				# 	custom_description = {
+				# 		text = partition_primary_heir_unfair
+				# 		subject = scope:recipient
+				# 		current_heir = scope:recipient
+				# 	}
+				# }
+			}
+		}
+	}
+
+	has_valid_target_showing_failures_only = {
+		scope:actor = {
+			any_alert_creatable_title = {
+				add_to_temporary_list = creatable_titles
+				count = all
+			}
+		}
+		scope:target.tier >= tier_county
+		trigger_if = {
+			limit = { exists = scope:target.holder }
+			scope:target.holder = scope:actor
+		}
+		trigger_else = {
+			scope:target = { is_in_list = creatable_titles }
+		}
+		# NOR = {
+		# 	custom_description = {
+		# 		text = BMU_cannot_grant_primary_title
+		# 		subject = scope:actor
+		# 		object = scope:target
+		# 		scope:actor = { has_primary_title = scope:target }
+		# 	}
+		# 	custom_description = {
+		# 		text = BMU_cannot_grant_capital_county
+		# 		subject = scope:actor
+		# 		object = scope:target
+		# 		scope:target = scope:actor.capital_county
+		# 	}
+		# }
+	}
+
+	can_be_picked_title = {
+		NOR = {
+			custom_description = {
+				text = BMU_cannot_grant_primary_title
+				subject = scope:actor
+				object = scope:target
+				scope:actor = { has_primary_title = scope:target }
+			}
+			custom_description = {
+				text = BMU_cannot_grant_capital_county
+				subject = scope:actor
+				object = scope:target
+				scope:target = scope:actor.capital_county
+			}
+		}
+		scope:recipient = {
+			OR = {
+				has_claim_on = scope:target
+				custom_description = {
+					text = BMU_any_held_title_de_jure_above_target
+					subject = this
+					object = scope:target
+					any_held_title = { is_de_jure_liege_or_above_target = scope:target }
+				}
+				trigger_if = {
+					limit = { scope:target.tier >= tier_duchy }
+					custom_description = {
+						text = BMU_target_de_jure_above_any_held_title
+						subject = this
+						object = scope:target
+						any_held_title = { target_is_de_jure_liege_or_above = scope:target }
+					}
+				}
+			}
+		}
+		scope:target = {
+			trigger_if = {
+				limit = {
+					scope:recipient = scope:actor.player_heir
+					scope:actor = { has_partition_succession_realm_law_trigger = yes }
+				}
+				custom_description = {
+					text = partition_primary_heir_unfair
+					subject = scope:recipient
+					current_heir = scope:recipient
+				}
+			}
+		}
+	}
+
+	can_send = {
+		scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+		scope:actor = {
+			any_contender_story = {
+				var:pressed_claim_story = scope:pressed_claim
+				BMU_gambit_remaining >= BMU_supporter_gambit_cost
+			}
+		}
+	}
+
+	# flag:BMU_create_bargain
+	send_option = {
+		is_shown = { always = no }
+		is_valid = { always = no }
+		flag = BMU_create_bargain
+	}
+	# flag:FF_bargain_owned_title
+	send_option = {
+		is_shown = { always = no }
+		is_valid = { always = no }
+		flag = BMU_bargain_owned_title
+	}
+
+	on_send = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_bargain_with_owned_title_interaction on_send"
+			debug_log_scopes = yes
+		}
+		scope:actor = {
+			set_variable = {
+				name = pending_bargain
+				value = scope:recipient
+			}
+		}
+		BMU_spend_gambits_effect_actor = yes
+	}
+	
+	on_accept = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_bargain_with_owned_title_interaction on_accept"
+			debug_log_scopes = yes
+			if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				debug_log = "NO PRESSED CLAIM"
+			}
+		}
+
+		if = {
+			limit = { NOT = { exists = scope:pressed_claim }}
+			scope:actor.var:pressed_claim_interaction = { save_scope_as = pressed_claim }
+		}
+
+		BMU_request_support = {
+			PRESSED_CLAIM = scope:pressed_claim
+			CONTENDER = scope:actor
+			SUPPORTER = scope:recipient
+		}
+
+		BMU_create_bargain = {
+			PRESSED_CLAIM = scope:pressed_claim
+			CONTENDER = scope:actor
+			SUPPORTER = scope:recipient
+		}
+				
+		BMU_bargain_owned_title_post_effect = {
+			PRESSED_CLAIM = scope:pressed_claim
+			CONTENDER = scope:actor
+			SUPPORTER = scope:recipient
+			TARGET = scope:target
+		}
+		#[BMU]
+		
+	}
+
+	on_decline = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_bargain_with_owned_title_interaction on_decline"
+			debug_log_scopes = yes
+			if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				debug_log = "NO PRESSED CLAIM"
+			}
+		}
+		BMU_refund_gambits_effect = yes
+	}
+	
+	ai_accept = {
+		base = 0
+		# BMU_bargain_setup = yes
+		BMU_request_support_interaction_no_breakdown = yes
+		modifier = {
+			exists = scope:target
+			BMU_ambition_get_title > 0
+			add = BMU_ambition_get_title
+			desc = "[GuiScope.SetRoot(recipient.MakeScope).AddScope('target',target.MakeScope).GetScriptValueDesc('BMU_ambition_get_title')]"
+		}
+	}
+
+	ai_will_do = {
+		BMU_support_will_do_modifier = { CONTENDER = scope:actor SUPPORTER = scope:recipient }
+		modifier = {
+			BMU_willingness_budget < BMU_willingness_bargain_title
+			factor = 0
+		}
+	}
+
+	ai_targets = {
+		ai_recipients = liege
+	}
+
+	ai_targets = {
+		ai_recipients = scripted_relations
+	}
+
+	ai_targets = {
+		ai_recipients = vassals
+		max = 10
+	}
+
+	ai_targets = {
+		ai_recipients = family
+		max = 10
+	}
+
+	ai_potential = {
+		any_contender_story = {
+			var:pressed_claim_story = {
+			}
+		}
+	}
+
+	ai_frequency = 1
+}
+
+BMU_bargain_for_owned_title_interaction = {
+	category = interaction_category_diplomacy
+	use_diplomatic_range = no
+	common_interaction = yes
+	ignores_pending_interaction_block = yes
+	# special_interaction = grant_titles_interaction
+	# interface = grant_titles
+	interface_priority = -1
+	icon = bargain_title
+
+	desc = BMU_bargain_for_owned_title_interaction_desc
+
+	auto_accept = no
+	ai_min_reply_days = 1 #4
+	ai_max_reply_days = 1 #9
+
+	popup_on_receive = yes
+	pause_on_receive = yes
+	can_send_despite_rejection = no
+	ignores_pending_interaction_block = no
+
+	target_type = title
+	target_filter = actor_de_jure_titles
+
+	send_options_exclusive = no
+
+	redirect = {
+		scope:actor = {
+			if = {
+				limit = {
+					has_variable = pressed_claim_interaction
+					var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+				}
+				var:pressed_claim_interaction.story_owner = { save_scope_as = secondary_actor }
+			}
+		}
+	}
+
+	is_shown = {
+		scope:actor = {
+			is_character_interaction_shown = {
+				interaction = BMU_offer_support_interaction
+				recipient = scope:recipient
+			}
+		}
+	}
+	
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			is_character_interaction_valid = {
+				interaction = BMU_offer_support_interaction
+				recipient = scope:recipient
+			}
+		}
+		trigger_if = {
+			limit = { NOT = { exists = scope:pressed_claim }}
+			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+		}
+		scope:actor = {
+			can_be_granted_titles_by = { RULER = scope:recipient }
+			OR = {
+				is_vassal_or_below_of = scope:recipient
+				BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }
+			}
+		}
+		scope:recipient = {
+			any_held_title = { add_to_temporary_list = bargain_titles count = all }
+			any_alert_creatable_title = { add_to_temporary_list = bargain_titles count = all }
+		}
+		custom_description = {
+			text = BMU_has_titles_to_bargain
+			subject = scope:recipient
+			object = scope:actor
+			any_in_list = {
+				list = bargain_titles
+				# custom = BMU_bargain_titles
+				NOR = {
+					this = scope:recipient.primary_title
+					this = scope:recipient.capital_county
+				}
+				save_temporary_scope_as = bargain_title
+				scope:actor = {
+					OR = {
+						has_claim_on = scope:bargain_title
+						scope:bargain_title.current_heir = this
+						custom_description = {
+							text = BMU_any_held_title_de_jure_above_target
+							subject = this
+							object = scope:bargain_title
+							any_held_title = { is_de_jure_liege_or_above_target = scope:bargain_title }
+						}
+						trigger_if = {
+							limit = { scope:bargain_title.tier >= tier_duchy }
+							custom_description = {
+								text = BMU_target_de_jure_above_any_held_title
+								subject = this
+								object = scope:bargain_title
+								any_held_title = { target_is_de_jure_liege_or_above = scope:bargain_title }
+							}
+						}
+					}
+				}
+				# trigger_if = {
+				# 	limit = {
+				# 		scope:recipient = scope:actor.player_heir
+				# 		scope:actor = { has_partition_succession_realm_law_trigger = yes }
+				# 	}
+				# 	custom_description = {
+				# 		text = partition_primary_heir_unfair
+				# 		subject = scope:recipient
+				# 		current_heir = scope:recipient
+				# 	}
+				# }
+			}
+		}
+	}
+
+	has_valid_target_showing_failures_only = {
+		scope:recipient = {
+			any_alert_creatable_title = {
+				add_to_temporary_list = creatable_titles
+				count = all
+			}
+		}
+		scope:target.tier >= tier_county
+		trigger_if = {
+			limit = { exists = scope:target.holder }
+			scope:target.holder = scope:recipient
+		}
+		trigger_else = {
+			scope:target = { is_in_list = creatable_titles }
+		}
+		# NOR = {
+		# 	custom_description = {
+		# 		text = BMU_cannot_grant_primary_title
+		# 		subject = scope:actor
+		# 		object = scope:target
+		# 		scope:actor = { has_primary_title = scope:target }
+		# 	}
+		# 	custom_description = {
+		# 		text = BMU_cannot_grant_capital_county
+		# 		subject = scope:actor
+		# 		object = scope:target
+		# 		scope:target = scope:actor.capital_county
+		# 	}
+		# }
+	}
+
+	can_be_picked_title = {
+		NOR = {
+			custom_description = {
+				text = BMU_cannot_grant_primary_title
+				subject = scope:recipient
+				object = scope:target
+				scope:actor = { has_primary_title = scope:target }
+			}
+			custom_description = {
+				text = BMU_cannot_grant_capital_county
+				subject = scope:recipient
+				object = scope:target
+				scope:target = scope:recipient.capital_county
+			}
+		}
+		scope:actor = {
+			OR = {
+				has_claim_on = scope:target
+				custom_description = {
+					text = BMU_any_held_title_de_jure_above_target
+					subject = this
+					object = scope:target
+					any_held_title = { is_de_jure_liege_or_above_target = scope:target }
+				}
+				trigger_if = {
+					limit = { scope:target.tier >= tier_duchy }
+					custom_description = {
+						text = BMU_target_de_jure_above_any_held_title
+						subject = this
+						object = scope:target
+						any_held_title = { target_is_de_jure_liege_or_above = scope:target }
+					}
+				}
+			}
+		}
+		scope:target = {
+			trigger_if = {
+				limit = {
+					scope:actor = scope:recipient.player_heir
+					scope:recipient = { has_partition_succession_realm_law_trigger = yes }
+				}
+				custom_description = {
+					text = partition_primary_heir_unfair
+					subject = scope:actor
+					current_heir = scope:actor
+				}
+			}
+		}
+	}
+
+	can_send = {
+		scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+		scope:recipient = {
+			any_contender_story = {
+				var:pressed_claim_story = scope:pressed_claim
+				BMU_gambit_remaining >= BMU_supporter_gambit_cost
+			}
+		}
+	}
+
+	# flag:BMU_create_bargain
+	send_option = {
+		is_shown = { always = no }
+		is_valid = { always = no }
+		flag = BMU_create_bargain
+	}
+	# flag:FF_bargain_owned_title
+	send_option = {
+		is_shown = { always = no }
+		is_valid = { always = no }
+		flag = BMU_bargain_owned_title
+	}
+
+	on_send = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_bargain_with_owned_title_interaction on_send"
+			debug_log_scopes = yes
+		}
+		scope:actor = {
+			set_variable = {
+				name = pending_bargain
+				value = scope:recipient
+			}
+		}
+		BMU_spend_gambits_effect_recipient = yes
+	}
+	
+	on_accept = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_bargain_with_owned_title_interaction on_accept"
+			debug_log_scopes = yes
+			if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				debug_log = "NO PRESSED CLAIM"
+			}
+		}
+
+		if = {
+			limit = { NOT = { exists = scope:pressed_claim }}
+			scope:actor.var:pressed_claim_interaction = { save_scope_as = pressed_claim }
+		}
+
+		BMU_request_support = {
+			PRESSED_CLAIM = scope:pressed_claim
+			CONTENDER = scope:recipient
+			SUPPORTER = scope:actor
+		}
+
+		BMU_create_bargain = {
+			PRESSED_CLAIM = scope:pressed_claim
+			CONTENDER = scope:recipient
+			SUPPORTER = scope:actor
+		}
+				
+		BMU_bargain_owned_title_post_effect = {
+			PRESSED_CLAIM = scope:pressed_claim
+			CONTENDER = scope:recipient
+			SUPPORTER = scope:actor
+			TARGET = scope:target
+		}
+		#[BMU]
+		
+	}
+
+	on_decline = {
+		if = {
+			limit = { debug_only = yes }
+			debug_log = "BMU_bargain_with_owned_title_interaction on_decline"
+			debug_log_scopes = yes
+			if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				debug_log = "NO PRESSED CLAIM"
+			}
+		}
+		BMU_refund_gambits_effect = yes
+	}
+	
+	ai_accept = {
+		base = 0
+		BMU_support_will_do_modifier = { CONTENDER = scope:recipient SUPPORTER = scope:actor }
+		modifier = {
+			BMU_willingness_budget < BMU_willingness_bargain_title
+			factor = 0
+			desc = "BMU_willingness_bargained_too_much"
+		}
+	}
+}

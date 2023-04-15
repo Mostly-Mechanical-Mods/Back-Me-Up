@@ -25,3 +25,21 @@ FF_loyalty_personality_honor_desc: "[ROOT.Char.GetShortUIName]"
 FF_modifier_tooltip_loyalty: ""
 
 FF_bargain_already_councillor_modifier: "I am already on his council: $VALUE|+0$"
+
+BMU_contender_score_gui_tooltip: "Support for your Claim: $VALUE|+=0$"
+
+# BMU_ambition_get_title_tooltip: "I want this title: #TOOLTIP:[GuiScope.SetRoot(recipient.MakeScope).AddScope('target',target.MakeScope).GetScriptValueDesc('BMU_ambition_get_title')],$VALUE|+0$#!"
+BMU_ambition_get_title_tooltip: "I want this title: #TOOLTIP:BMU_ambition_get_title_tooltip_breakdown $VALUE|+0$#!"
+
+BMU_ambition_get_title_tooltip_breakdown: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('target',SCOPE.sTitle('target').MakeScope).GetScriptValueDesc('BMU_ambition_get_title')]"
+
+
+
+BMU_support_will_do_recipient_max_mil_strength_desc: "Supporter Military Strength: $VALUE|+=0$"
+BMU_support_will_do_recipient_supports_stronger_contender_desc: "Currently supports another Contender: $VALUE|+=0$"
+BMU_support_will_do_dropout_councillor_desc: "Might lose support of current Councillor: $VALUE|+=0$"
+BMU_support_will_do_actor_confidence_desc: "Confidence: $VALUE|+=0$"
+BMU_willingness_bargain_council_position_desc: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('current_councillor',SCOPE.sC('current_councillor').MakeScope).AddScope('supporter_skill',MakeScopeValue(SCOPE.GetValue('supporter_skill'))).AddScope('current_councillor_skill',MakeScopeValue(SCOPE.GetValue('current_councillor_skill'))).GetScriptValueDesc('BMU_willingness_bargain_council_position')]"
+BMU_willingness_bargain_council_position_supporter_skill_desc: "Supporter skill: $VALUE|+=0$"
+BMU_willingness_bargain_council_position_current_councillor_skill_desc: "Current Councillor skill: $VALUE|+=0$"
+BMU_willingness_bargain_title_desc: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('target',SCOPE.sTitle('target').MakeScope).AddScope('supporter_char',SCOPE.sC('actor').MakeScope).AddScope('contender_char',SCOPE.sC('recipient').MakeScope).GetScriptValueDesc('BMU_willingness_bargain_title')]"

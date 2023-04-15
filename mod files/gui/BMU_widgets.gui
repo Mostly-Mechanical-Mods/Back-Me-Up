@@ -793,16 +793,31 @@ window = {
 														hbox = {
 															visible = "[Not(ObjectsEqual(Scope.Var('contender').Var('stakeholder').Char,GetPlayer.Self))]"
 															button = {
+																enabled = "[GetScriptedGui('BMU_request_support_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+																tooltip = "[GetScriptedGui('BMU_request_support_sgui').BuildTooltip(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 																texture = "gfx/interface/icons/character_interactions/icon_claim_pressed.dds"
+																icon = {
+																	visible = "[GetScriptedGui('BMU_request_support_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+																	parentanchor = center
+																	texture = "gfx/interface/icons/symbols/icon_cross.dds"
+																	size = { 40 40 }
+																}
 																size = { 50 50 }
 																onclick = "[GetScriptedGui('BMU_request_support_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 															}
 															button = {
-																enabled = "[GetScriptedGui('BMU_bargain_with_council_position_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
-																tooltip = "[GetScriptedGui('BMU_bargain_with_council_position_sgui').BuildTooltip(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+																enabled = "[GetScriptedGui('BMU_bargain_for_council_position_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+																tooltip = "[GetScriptedGui('BMU_bargain_for_council_position_sgui').BuildTooltip(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 																texture = "gfx/interface/icons/character_interactions/bargain_council_position.dds"
 																size = { 50 50 }
-																onclick = "[GetScriptedGui('BMU_bargain_with_council_position_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+																onclick = "[GetScriptedGui('BMU_bargain_for_council_position_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+															}
+															button = {
+																enabled = "[GetScriptedGui('BMU_bargain_for_owned_title_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+																tooltip = "[GetScriptedGui('BMU_bargain_for_owned_title_sgui').BuildTooltip(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+																texture = "gfx/interface/icons/character_interactions/bargain_title.dds"
+																size = { 50 50 }
+																onclick = "[GetScriptedGui('BMU_bargain_for_owned_title_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 															}
 															# button = {
 															# 	# visible = "[GetScriptedGui('BMU_ambition_get_title').IsShown(GuiScope.SetRoot(Scope.Story.MakeScope).AddScope('contender',GetPlayer.MakeScope).End)]"
@@ -978,6 +993,12 @@ window = {
 															enabled = "[GetScriptedGui('BMU_request_support_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 															tooltip = "[GetScriptedGui('BMU_request_support_sgui').BuildTooltip(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 															texture = "gfx/interface/icons/character_interactions/icon_claim_pressed.dds"
+															icon = {
+																visible = "[GetScriptedGui('BMU_request_support_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+																parentanchor = center
+																texture = "gfx/interface/icons/symbols/icon_cross.dds"
+																size = { 40 40 }
+															}
 															size = { 50 50 }
 															onclick = "[GetScriptedGui('BMU_request_support_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 														}
@@ -985,8 +1006,27 @@ window = {
 															enabled = "[GetScriptedGui('BMU_bargain_with_council_position_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 															tooltip = "[GetScriptedGui('BMU_bargain_with_council_position_sgui').BuildTooltip(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 															texture = "gfx/interface/icons/character_interactions/bargain_council_position.dds"
+															icon = {
+																visible = "[GetScriptedGui('BMU_bargain_with_council_position_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+																parentanchor = center
+																texture = "gfx/interface/icons/symbols/icon_cross.dds"
+																size = { 40 40 }
+															}
 															size = { 50 50 }
 															onclick = "[GetScriptedGui('BMU_bargain_with_council_position_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+														}
+														button = {
+															enabled = "[GetScriptedGui('BMU_bargain_with_owned_title_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+															tooltip = "[GetScriptedGui('BMU_bargain_with_owned_title_sgui').BuildTooltip(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+															texture = "gfx/interface/icons/character_interactions/bargain_title.dds"
+															icon = {
+																visible = "[GetScriptedGui('BMU_bargain_with_owned_title_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+																parentanchor = center
+																texture = "gfx/interface/icons/symbols/icon_cross.dds"
+																size = { 40 40 }
+															}
+															size = { 50 50 }
+															onclick = "[GetScriptedGui('BMU_bargain_with_owned_title_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 														}
 														expand = {}
 

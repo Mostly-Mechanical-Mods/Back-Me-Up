@@ -60,6 +60,10 @@
 							multiply = 10
 						}
 					}
+					set_variable = {
+						name = willingness_budget
+						value = story_owner.BMU_ambition_get_title
+					}
 					story_owner = {
 						add_to_variable_list = {
 							name = pressed_claim_gui
@@ -134,6 +138,10 @@
 							multiply = 10
 						}
 					}
+					set_variable = {
+						name = willingness_budget
+						value = story_owner.BMU_ambition_get_title
+					}
 					story_owner = {
 						add_to_variable_list = {
 							name = pressed_claim_gui
@@ -180,6 +188,10 @@
 							}
 							multiply = 10
 						}
+					}
+					set_variable = {
+						name = willingness_budget
+						value = story_owner.BMU_ambition_get_title
 					}
 					story_owner = {
 						add_to_variable_list = {
@@ -264,7 +276,7 @@
 					name = pressed_claim
 					value = scope:pressed_claim
 				}
-				special_character = { set_variable = BMU_call_in_supporter_interaction_script_override }
+				special_character = { set_variable = BMU_request_support_interaction_script_override }
 				if = {
 					limit = { NOT = { special_character = scope:claimant }}
 					special_character = {
@@ -315,6 +327,10 @@
 											multiply = 10
 										}
 									}
+									set_variable = {
+										name = willingness_budget
+										value = story_owner.BMU_ambition_get_title
+									}
 									story_owner = {
 										add_to_variable_list = {
 											name = pressed_claim_gui
@@ -347,7 +363,7 @@
 						subject = this
 						object = prev.special_character
 						run_interaction = {
-							interaction = BMU_call_in_supporter_interaction
+							interaction = BMU_request_support_interaction
 							actor = prev.special_character
 							recipient = this
 							redirect = yes
@@ -361,7 +377,7 @@
 						}
 					}
 				}
-				special_character = { remove_variable = BMU_call_in_supporter_interaction_script_override }
+				special_character = { remove_variable = BMU_request_support_interaction_script_override }
 			}
 		}
 		scope:claimed_title = {
@@ -465,6 +481,12 @@ BMU_set_relation_stakeholder = {
 }
 
 BMU_calc_best_contenders = {
+	if = {
+		limit = { debug_only = yes }
+		debug_log = "BMU_calc_best_contenders"
+		debug_log_scopes = no
+		story_owner = { debug_log_scopes = no }
+	}
 	save_scope_as = temp_story
 	if  = {
 		limit = { NOT = { exists = scope:pressed_claim }}
@@ -487,6 +509,14 @@ BMU_calc_best_contenders = {
 			scope:temp_story = {
 				if = {
 					limit = { NOT = { has_variable = best_contender }}
+					if = {
+						limit = { debug_only = yes }
+						debug_log = "best_contender"
+						prev = {
+							debug_log_scopes = no
+							story_owner = { debug_log_scopes = no }
+						}
+					}
 					set_variable = {
 						name = best_contender
 						value = prev.story_owner
@@ -497,6 +527,14 @@ BMU_calc_best_contenders = {
 					}
 				}
 				else = {
+					if = {
+						limit = { debug_only = yes }
+						debug_log = "worthy_contender"
+						prev = {
+							debug_log_scopes = no
+							story_owner = { debug_log_scopes = no }
+						}
+					}
 					set_variable = {
 						name = worthy_contender
 						value = prev.story_owner
@@ -513,7 +551,7 @@ BMU_calc_best_contenders = {
 	clear_saved_scope = temp_story
 }
 
-BMU_spend_gambits_effect = {
+BMU_spend_gambits_effect_actor = {
 	scope:actor.var:pressed_claim_interaction = { save_scope_as = pressed_claim }
 	scope:actor = {
 		random_contender_story = {
@@ -521,6 +559,19 @@ BMU_spend_gambits_effect = {
 			change_variable = {
 				name = gambit_spent
 				add = BMU_supporter_gambit_cost
+			}
+		}
+	}
+}
+
+BMU_spend_gambits_effect_recipient = {
+	scope:actor.var:pressed_claim_interaction = { save_scope_as = pressed_claim }
+	scope:recipient = {
+		random_contender_story = {
+			limit = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }
+			change_variable = {
+				name = gambit_spent
+				add = BMU_supporter_gambit_cost_recipient
 			}
 		}
 	}
@@ -535,6 +586,248 @@ BMU_refund_gambits_effect = {
 				change_variable = {
 					name = gambit_spent
 					subtract = BMU_supporter_gambit_cost
+				}
+			}
+		}
+	}
+}
+
+BMU_request_support = {
+	$CONTENDER$ = {
+		random_contender_story = {
+			limit = { var:pressed_claim_story = $PRESSED_CLAIM$ }
+			save_scope_as = contender
+		}
+		custom_description = {
+			text = BMU_spend_gambits
+			subject = $CONTENDER$
+			object = $SUPPORTER$
+			value = BMU_supporter_gambit_cost
+		}
+	}
+	if = {
+		limit = {
+			$SUPPORTER$ = {
+				any_supporter_story = {
+					var:pressed_claim_story = $PRESSED_CLAIM$
+					count = 0
+				}
+			}
+		}
+		$SUPPORTER$ = {
+			create_story = {
+				type = BMU_supporter_story
+				save_scope_as = supporter
+			}
+			if = {
+				limit = {
+					exists = scope:supporter
+					exists = scope:supporter.story_owner
+				}
+				scope:supporter = {
+					set_variable = {
+						name = pressed_claim_story
+						value = $PRESSED_CLAIM$
+					}
+					set_variable = {
+						name = stakeholder
+						value = story_owner
+					}
+					set_variable = {
+						name = story_owner
+						value = story_owner
+					}
+					set_variable = {
+						name = status
+						value = flag:supporter
+					}
+					story_owner = {
+						set_variable = {
+							name = pressed_claim_interaction
+							value = $PRESSED_CLAIM$
+						}
+						add_to_variable_list = {
+							name = pressed_claim_gui
+							target = $PRESSED_CLAIM$
+						}
+					}
+					# BMU_create_bargain = {
+					# 	PRESSED_CLAIM = $PRESSED_CLAIM$
+					# 	CONTENDER = $CONTENDER$
+					# 	SUPPORTER = $SUPPORTER$
+					# }
+					# BMU_calc_best_contenders = { PRESSED_CLAIM = $PRESSED_CLAIM$ }
+				}
+				$PRESSED_CLAIM$ = {
+					add_to_variable_list = {
+						name = supporters
+						target = scope:supporter
+					}
+				}
+				random_stakeholder_story = {
+					limit = { var:pressed_claim_story = $PRESSED_CLAIM$ }
+					if = {
+						limit = { debug_only = yes }
+						set_variable = { name = end_story value = flag:call_in_supporter_on_accept }
+					}
+					end_story = yes
+				}
+			}
+		}
+	}
+	else = {
+		$SUPPORTER$ = {
+			random_supporter_story = {
+				limit = { var:pressed_claim_story = $PRESSED_CLAIM$ }
+				save_scope_as = supporter
+			}
+		}
+	}
+	if = {
+		limit = {
+			exists = scope:supporter
+			scope:supporter = { has_variable = contender }
+		}
+		$SUPPORTER$ = {
+			custom_description = {
+				text = BMU_stop_supporting_contender
+				subject = $SUPPORTER$
+				object = scope:supporter.var:contender.story_owner
+				scope:supporter.var:contender.story_owner = {
+					send_interface_toast = {
+						title = BMU_SUPPORTER_LOST
+						left_icon = $SUPPORTER$
+						right_icon = $CONTENDER$
+					
+						random_bargain = {
+							limit = { var:pressed_claim = $PRESSED_CLAIM$ }
+							if = {
+								limit = { debug_only = yes }
+								set_variable = { name = end_story value = flag:call_in_supporter_on_accept }
+							}
+							end_story = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	$SUPPORTER$ = {
+		custom_tooltip = {
+			text = BMU_recipient_supports_actor_claim
+			if = {
+				limit = { exists = scope:supporter }
+				scope:supporter = {
+					set_variable = {
+						name = contender
+						value = scope:contender
+					}
+					# BMU_create_bargain = {
+					# 	PRESSED_CLAIM = $PRESSED_CLAIM$
+					# 	CONTENDER = $CONTENDER$
+					# 	SUPPORTER = $SUPPORTER$
+					# }
+				}
+				scope:supporter = { BMU_calc_best_contenders = { PRESSED_CLAIM = $PRESSED_CLAIM$ }}
+			}
+		} 
+	}
+
+	$PRESSED_CLAIM$ = {
+		add_to_variable_list = {
+			name = supporters
+			target = scope:supporter
+		}
+	}
+
+	$PRESSED_CLAIM$ = {
+		every_in_list = {
+			variable = contenders
+			limit = { NOT = { story_owner = $CONTENDER$ }}
+			story_owner = {
+				send_interface_message = {
+					type = BMU_contender_gains_support # default: send_interface_message
+					# desc = event_message_effect
+					left_icon = $CONTENDER$
+					right_icon = scope:claimed_title
+					custom_description = {
+						text = BMU_start_supporting_contender
+						subject = $SUPPORTER$
+						object = $CONTENDER$
+					}
+				}
+			}
+		}
+	}
+}
+
+BMU_bargain_owned_title_post_effect = {
+	$CONTENDER$ = {
+		custom_description_no_bullet = {
+			text = BMU_if_pressed_claim_won
+			subject = $CONTENDER$
+			object = $PRESSED_CLAIM$.var:claimed_title
+		}
+	}
+	$SUPPORTER$ = {
+		custom_description_no_bullet = {
+			text = BMU_if_pressed_claim_won
+			subject = $SUPPORTER$
+			object = $PRESSED_CLAIM$.var:claimed_title
+		}
+	}
+	$TARGET$ = { add_to_list = target_titles }
+	show_as_tooltip = {
+		BMU_grant_titles = yes
+		create_title_and_vassal_change = {
+			type = granted
+			save_scope_as = bargain
+		}
+		every_in_list = {
+			list = target_titles
+			change_title_holder_include_vassals = {
+				holder = $SUPPORTER$
+				change = scope:bargain
+			}
+		}
+		resolve_title_and_vassal_change = scope:bargain
+	}
+}
+
+BMU_bargain_council_position_post_effect = {
+	$CONTENDER$ = {
+		custom_description_no_bullet = {
+			text = BMU_if_pressed_claim_won
+			subject = $CONTENDER$
+			object = $PRESSED_CLAIM$.var:claimed_title
+		}
+		show_as_tooltip = {
+			if = {
+				limit = { scope:councillor_chancellor = yes }
+				assign_councillor_type = {
+					type = councillor_chancellor
+					target = $SUPPORTER$
+				}
+			}
+			else_if = {
+				limit = { scope:councillor_steward = yes }
+				assign_councillor_type = {
+					type = councillor_steward
+					target = $SUPPORTER$
+				}
+			}
+			else_if = {
+				limit = { scope:councillor_marshal = yes }
+				assign_councillor_type = {
+					type = councillor_marshal
+					target = $SUPPORTER$
+				}
+			}
+			else_if = {
+				limit = { scope:councillor_spymaster = yes }
+				assign_councillor_type = {
+					type = councillor_spymaster
+					target = $SUPPORTER$
 				}
 			}
 		}
