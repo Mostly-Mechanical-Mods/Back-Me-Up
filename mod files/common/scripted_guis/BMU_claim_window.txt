@@ -170,6 +170,41 @@ BMU_stakeholder_sorting = {
 	}
 }
 
+BMU_stakeholder_filter = {
+	scope = character
+	saved_scopes = {
+		recipient
+		interaction
+	}
+	is_shown = {
+		trigger_if = {
+			limit = { exists = scope:interaction }
+			trigger_if = {
+				limit = { scope:interaction = flag:request_support }
+				is_character_interaction_valid = {
+					recipient = scope:recipient
+					interaction = BMU_request_support_interaction
+				}
+			}
+			trigger_else_if = {
+				limit = { scope:interaction = flag:council_position }
+				is_character_interaction_valid = {
+					recipient = scope:recipient
+					interaction = BMU_bargain_with_owned_title_interaction
+				}
+			}
+			trigger_else_if = {
+				limit = { scope:interaction = flag:owned_title }
+				is_character_interaction_valid = {
+					recipient = scope:recipient
+					interaction = BMU_bargain_with_owned_title_interaction
+				}
+			}
+			trigger_else = { always = yes }
+		}
+	}
+}
+
 BMU_request_support_sgui = {
 	scope = character
 	saved_scopes = {

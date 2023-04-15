@@ -915,7 +915,7 @@ window = {
 											item = {
 												vbox = {
 													datacontext = "[Scope.Var('stakeholder').Char]"
-													# visible = "[ScriptedGui.IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('pressed_claim',Story.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+													visible = "[GetScriptedGui('BMU_stakeholder_filter').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).AddScope('interaction',MakeScopeFlag(GetVariableSystem.Get('BMU_stakeholder_filter_by'))).End)]"
 													layoutpolicy_horizontal = expanding
 													hbox = {
 														layoutpolicy_horizontal = expanding
@@ -1019,12 +1019,12 @@ window = {
 															enabled = "[GetScriptedGui('BMU_bargain_with_owned_title_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 															tooltip = "[GetScriptedGui('BMU_bargain_with_owned_title_sgui').BuildTooltip(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 															texture = "gfx/interface/icons/character_interactions/bargain_title.dds"
-															icon = {
-																visible = "[GetScriptedGui('BMU_bargain_with_owned_title_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
-																parentanchor = center
-																texture = "gfx/interface/icons/symbols/icon_cross.dds"
-																size = { 40 40 }
-															}
+															# icon = {
+															# 	visible = "[GetScriptedGui('BMU_bargain_with_owned_title_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+															# 	parentanchor = center
+															# 	texture = "gfx/interface/icons/symbols/icon_cross.dds"
+															# 	size = { 40 40 }
+															# }
 															size = { 50 50 }
 															onclick = "[GetScriptedGui('BMU_bargain_with_owned_title_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 														}
@@ -2087,6 +2087,39 @@ types BMU_Lists {
 				}
 				
 			}
+		}
+
+		text_single = {
+			text = "FILTER_BY"
+			align = nobaseline
+		}
+
+		button = {
+			name = "filter_request_support"
+			size = { 25 25 }
+			texture = "gfx/interface/icons/character_interactions/icon_claim_pressed.dds"
+			onclick = "[GetVariableSystem.SetOrToggle('BMU_stakeholder_filter_by','request_support')]"
+			# skillitem_sort_icon = {
+			# 	visible = "[GetVariableSystem.HasValue('BMU_stakeholder_order_by','max_military_strength')]"
+			# }
+		}
+		button = {
+			name = "filter_bargain_council_position"
+			size = { 25 25 }
+			texture = "gfx/interface/icons/character_interactions/bargain_council_position.dds"
+			# skillitem_sort_icon = {
+			# 	visible = "[GetVariableSystem.HasValue('BMU_stakeholder_order_by','score_diff')]"
+			# }
+			onclick = "[GetVariableSystem.SetOrToggle('BMU_stakeholder_filter_by','council_position')]"
+		}
+		button = {
+			name = "filter_bargain_owned_title"
+			size = { 25 25 }
+			texture = "gfx/interface/icons/character_interactions/bargain_title.dds"
+			# skillitem_sort_icon = {
+			# 	visible = "[GetVariableSystem.HasValue('BMU_stakeholder_order_by','score_diff')]"
+			# }
+			onclick = "[GetVariableSystem.SetOrToggle('BMU_stakeholder_filter_by','owned_title')]"
 		}
 
 		expand = {}
