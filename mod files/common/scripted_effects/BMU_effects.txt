@@ -24,49 +24,32 @@
 }
 
 BMU_execute_bargain = {
-	$CONTENDER$ = { save_scope_as = contender_temp }
-	save_scope_as = bargain_temp
-	var:stakeholder_story = { save_scope_as = supporter_temp }
-	switch = {
-		trigger = var:ambition
-		flag:FF_ambition_get_council_position = {
-			switch = {
-				trigger = var:council_position
-				flag:chancellor = {
-					scope:contender_temp.story_owner = {
-						assign_councillor_type = {
-							type = councillor_chancellor
-							target = scope:supporter_temp.story_owner
-						}
-					}
-				}
-				flag:steward = {
-					scope:contender_temp.story_owner = {
-						assign_councillor_type = {
-							type = councillor_steward
-							target = scope:supporter_temp.story_owner
-						}
-					}
-				}
-				flag:marshal = {
-					scope:contender_temp.story_owner = {
-						assign_councillor_type = {
-							type = councillor_marshal
-							target = scope:supporter_temp.story_owner
-						}
-					}
-				}
-				flag:spymaster = {
-					scope:contender_temp.story_owner = {
-						assign_councillor_type = {
-							type = councillor_spymaster
-							target = scope:supporter_temp.story_owner
-						}
-					}
-				}
-			}
+	save_scope_as = executed_bargain
+	if = {
+		limit = { var:ambition = flag:FF_ambition_get_council_position }
+		switch = {
+			trigger = var:council_position
+			flag:councillor_chancellor = { save_scope_value_as = { name = scope:councillor_chancellor value = yes }}
+			flag:councillor_steward = { save_scope_value_as = { name = scope:councillor_steward value = yes }}
+			flag:councillor_marshal = { save_scope_value_as = { name = scope:councillor_marshal value = yes }}
+			flag:councillor_spymaster = { save_scope_value_as = { name = scope:councillor_spymaster value = yes }}
+		}
+		BMU_bargain_council_position_post_effect = {
+			PRESSED_CLAIM = scope:executed_bargain.var:pressed_claim
+			CONTENDER = scope:executed_bargain.story_owner
+			SUPPORTER = scope:executed_bargain.var:supporter.story_owner
 		}
 	}
+	else_if = {
+		limit = { var:ambition = flag:BMU_bargain_owned_title }
+		BMU_bargain_owned_title_post_effect = {
+			PRESSED_CLAIM = scope:executed_bargain.var:pressed_claim
+			CONTENDER = scope:executed_bargain.story_owner
+			SUPPORTER = scope:executed_bargain.var:supporter.story_owner
+			TARGET = var:title
+		}
+	}
+	clear_saved_scope = executed_bargain
 }
 
 BMU_transfer_claimed_press = {
@@ -219,7 +202,7 @@ BMU_create_bargain = {
 			scope:supporter_char = { debug_log_scopes = no }
 			scope:supporter_temp = { debug_log_scopes = no }
 		}
-		scope:contender_temp.story_owner = {
+		scope:contender_char = {
 			create_story = {
 				type = BMU_bargain_story
 				save_scope_as = bargain

@@ -306,12 +306,14 @@
 			CONTENDER = scope:actor
 			SUPPORTER = scope:recipient
 		}
-				
-		BMU_bargain_owned_title_post_effect = {
-			PRESSED_CLAIM = scope:pressed_claim
-			CONTENDER = scope:actor
-			SUPPORTER = scope:recipient
-			TARGET = scope:target
+		
+		show_as_tooltip = {
+			BMU_bargain_owned_title_post_effect = {
+				PRESSED_CLAIM = scope:pressed_claim
+				CONTENDER = scope:actor
+				SUPPORTER = scope:recipient
+				TARGET = scope:target
+			}
 		}
 		#[BMU]
 		
@@ -641,12 +643,14 @@ BMU_bargain_for_owned_title_interaction = {
 			CONTENDER = scope:recipient
 			SUPPORTER = scope:actor
 		}
-				
-		BMU_bargain_owned_title_post_effect = {
-			PRESSED_CLAIM = scope:pressed_claim
-			CONTENDER = scope:recipient
-			SUPPORTER = scope:actor
-			TARGET = scope:target
+		
+		show_as_tooltip = {
+			BMU_bargain_owned_title_post_effect = {
+				PRESSED_CLAIM = scope:pressed_claim
+				CONTENDER = scope:recipient
+				SUPPORTER = scope:actor
+				TARGET = scope:target
+			}
 		}
 		#[BMU]
 		

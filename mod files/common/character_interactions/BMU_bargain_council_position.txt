@@ -300,14 +300,14 @@
 			CONTENDER = scope:actor
 			SUPPORTER = scope:recipient
 		}
-			
-		BMU_bargain_council_position_post_effect = {
-			PRESSED_CLAIM = scope:pressed_claim
-			CONTENDER = scope:actor
-			SUPPORTER = scope:recipient
-		}
-
 		
+		show_as_tooltip = {
+			BMU_bargain_council_position_post_effect = {
+				PRESSED_CLAIM = scope:pressed_claim
+				CONTENDER = scope:actor
+				SUPPORTER = scope:recipient
+			}
+		}
 	}
 
 	on_decline = {
@@ -664,11 +664,13 @@ BMU_bargain_for_council_position_interaction = {
 			CONTENDER = scope:recipient
 			SUPPORTER = scope:actor
 		}
-			
-		BMU_bargain_council_position_post_effect = {
-			PRESSED_CLAIM = scope:pressed_claim
-			CONTENDER = scope:recipient
-			SUPPORTER = scope:actor
+		
+		show_as_tooltip = {
+			BMU_bargain_council_position_post_effect = {
+				PRESSED_CLAIM = scope:pressed_claim
+				CONTENDER = scope:recipient
+				SUPPORTER = scope:actor
+			}
 		}
 
 		

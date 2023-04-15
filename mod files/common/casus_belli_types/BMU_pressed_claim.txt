@@ -603,14 +603,9 @@
 				}
 			}
 			scope:defender = {
-				random_contender_story = {
-					limit = { var:pressed_claim_story = scope:war.var:pressed_claim }
-					every_in_list = {
-						variable = bargains
-						BMU_execute_bargain = {
-							CONTENDER = scope:defender
-						}
-					}
+				every_bargain = {
+					limit = { var:pressed_claim = scope:war.var:pressed_claim }
+					BMU_execute_bargain = yes
 				}
 			}
 			scope:war.var:pressed_claim = {
@@ -741,14 +736,9 @@
 				}
 			}
 			scope:defender = {
-				random_contender_story = {
-					limit = { var:pressed_claim_story = scope:war.var:pressed_claim }
-					every_in_list = {
-						variable = bargains
-						BMU_execute_bargain = {
-							CONTENDER = scope:defender
-						}
-					}
+				every_bargain = {
+					limit = { var:pressed_claim = scope:war.var:pressed_claim }
+					BMU_execute_bargain = yes
 				}
 			}
 			scope:war.var:pressed_claim = {
