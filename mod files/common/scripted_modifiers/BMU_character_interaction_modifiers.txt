@@ -270,3 +270,10 @@ BMU_support_will_do_modifier = {
 		desc = BMU_willingness_bargain_title_desc
 	}
 }
+
+BMU_is_involved_in_hostile_pressed_claim_factor_0 = {
+	modifier = {
+		BMU_is_involved_in_hostile_pressed_claim = { SUBJECT = $SUBJECT$ TARGET = $TARGET$ }
+		factor = 0
+	}
+}

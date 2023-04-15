@@ -36,3 +36,13 @@ BMU_retract_vassal_interaction_is_valid_showing_failures_only = {
 BMU_grant_titles_interaction_can_be_picked_title = {
 	NOT = { BMU_title_is_bargained_with = { SUBJECT = scope:actor TITLE = scope:target }}
 }
+
+BMU_interaction_AI_blocker = {
+	trigger_if = {
+		limit = { scope:actor = { is_ai = yes }}
+		NOR = {
+			BMU_is_involved_in_hostile_pressed_claim = { SUBJECT = scope:recipient TARGET = scope:actor }
+			BMU_is_involved_in_hostile_pressed_claim = { SUBJECT = scope:actor TARGET = scope:recipient }
+		}
+	}
+}

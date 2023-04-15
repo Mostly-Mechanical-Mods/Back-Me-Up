@@ -1126,3 +1126,411 @@ create_claimant_faction_against_interaction = {
 
 	auto_accept = yes
 }
+
+invite_to_council_position_interaction = {
+	category = interaction_category_vassal
+	popup_on_receive = yes
+	pause_on_receive = yes
+
+	hidden = yes
+
+	special_interaction = invite_to_council_interaction
+	notification_text = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:recipient = {
+						is_councillor_of = scope:actor
+					}
+				}
+				desc = liege_offer_council_position_exchange
+			}
+			triggered_desc = {
+				trigger = {
+					scope:actor = {
+						opinion = {
+							value >= 30
+							target = scope:recipient
+						}
+					}
+				}
+				desc = liege_offer_council_position_liked
+			}
+			triggered_desc = {
+				trigger = {
+					scope:actor = {
+						opinion = {
+							value <= -30
+							target = scope:recipient
+						}
+					}
+				}
+				desc = liege_offer_council_position_disliked
+			}
+			triggered_desc = {
+				trigger = {
+					scope:recipient = {
+						is_powerful_vassal_of = scope:actor
+					}
+				}
+				desc = liege_offer_council_position_powerful
+			}
+			triggered_desc = {
+				trigger = {
+					scope:recipient = {
+						OR = {
+							diplomacy > high_skill_rating
+							martial > high_skill_rating
+							stewardship > high_skill_rating
+							intrigue > high_skill_rating
+							learning > high_skill_rating
+						}
+					}
+				}
+				desc = liege_offer_council_position_skilled
+			}
+			desc = liege_offer_council_position_fallback
+		}
+	}
+	
+	is_valid_showing_failures_only = {
+		ALL_FALSE = {
+			scope:recipient.council_task = scope:target
+			scope:actor = { is_at_war_with = scope:recipient }
+		}
+		trigger_if = {
+			limit = {
+				exists = scope:target.councillor
+			}
+			scope:target = { can_fire_position = yes }
+			NOT = {
+				scope:target.councillor = {
+					is_blocked_from_being_fired_from_council_trigger = { COURT_OWNER = scope:actor }
+				}
+			}
+		}
+
+		# [BMU]
+		trigger_if = {
+			limit = { BMU_is_loaded = yes }
+			BMU_interaction_AI_blocker = yes
+		}
+		# [/BMU]
+	}
+
+	on_accept = {
+		# Assign the councillor to their new responsibilities.
+		scope:actor = {
+			assign_council_task = {
+				target = scope:recipient
+				council_task = scope:target
+			}
+		}
+
+		# If the new councillor is a player, inform their liege that they have accepted the offer.
+		if = {
+			limit = {
+				scope:recipient = {
+					is_ai = no
+				}
+			}
+			scope:actor = {
+				trigger_event = {
+					id = council_interaction.0001
+					days = 1
+				}
+			}
+		}
+	}
+
+	on_decline = {
+		# If the requested councillor is a player, inform their liege that they have declined the offer.
+		if = {
+			limit = {
+				scope:recipient = {
+					is_ai = no
+				}
+			}
+			scope:actor = {
+				trigger_event = {
+					id = council_interaction.0002
+					days = 1
+				}			
+			}
+		}
+	}
+
+	auto_accept = {
+		custom_description = {
+			text = auto_accept_interaction_ai	
+			object = scope:recipient
+			scope:recipient = {
+				is_ai = yes
+			}
+		}
+	}
+}
+
+force_onto_council = {
+	category = interaction_category_vassal
+
+	desc = force_onto_council_desc
+	notification_text = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:actor = { has_strong_hook = scope:recipient }
+				}
+				desc = force_onto_council.notification.strong_hook
+			}
+			desc = force_onto_council.notification.fallback
+		}
+	}
+
+	special_interaction = force_onto_council_interaction
+	interface = council_task_interaction
+
+	should_use_extra_icon = {
+		scope:actor = { has_usable_hook = scope:recipient }
+	}
+	extra_icon = "gfx/interface/icons/character_interactions/hook_icon.dds"
+
+	is_shown = {
+		NOT = { scope:recipient = scope:actor }
+		scope:actor = {
+			liege = scope:recipient
+			NOT = {
+				is_councillor = yes
+			}
+		}
+
+		trigger_if = {
+			limit = {
+				exists = scope:target.councillor
+			}
+			scope:target = { can_fire_position = yes }
+		}
+	}
+	
+	is_valid_showing_failures_only = {
+		scope:actor = {
+			custom_description = {
+				text = "has_usable_hook_or_council_rights_through_vassal_contract"
+				subject = scope:actor
+				OR = {
+					has_usable_hook = scope:recipient
+					vassal_contract_has_flag = can_demand_council_seat
+				}
+			}
+			is_adult = yes
+			NOT = {
+				is_at_war_with = scope:recipient
+			}
+			NAND = {
+				has_council_position = councillor_court_chaplain
+				faith = {
+					OR = {
+						has_doctrine = doctrine_clerical_succession_temporal_fixed_appointment
+						has_doctrine = doctrine_clerical_succession_spiritual_fixed_appointment
+					}
+				}
+			}
+		}
+	}
+
+	has_valid_target_showing_failures_only = {
+		trigger_if = {
+			limit = {
+				exists = scope:target.councillor
+			}
+			scope:target.councillor = {
+				NOT = {
+					is_blocked_from_being_fired_from_council_trigger = {
+						COURT_OWNER = scope:recipient
+					}
+				}
+			}
+		}
+	}
+
+	on_accept = {
+		scope:target = {
+			save_scope_as = council_task
+		}
+		scope:actor = {
+			if = {
+				limit = {
+					NOT = { vassal_contract_has_flag = can_demand_council_seat }
+				}
+				save_scope_value_as = {
+					name = used_hook
+					value = yes
+				}
+			}
+			block_firing_councillor_effect = { COURT_OWNER = scope:recipient }
+			#And notify exactly which councillor type they've become.
+			hidden_effect = {
+				send_interface_toast = {	
+					title = force_onto_council.actor.tt
+					left_icon = scope:recipient
+					custom_tooltip = force_onto_council.actor.tt.duration
+				}
+			}
+			stress_impact = { content = minor_stress_impact_gain }
+		}
+		scope:recipient = {
+			assign_council_task = {
+				target = scope:actor
+				council_task = scope:council_task
+			}
+			custom_tooltip = force_onto_council.desc.tt
+			#And notify exactly which councillor type they've become.
+			hidden_effect = {
+				send_interface_toast = {	
+					title = force_onto_council.recipient.tt
+					left_icon = scope:actor
+					if = {
+						limit = { exists = scope:used_hook }
+						show_as_tooltip = { scope:actor = { use_hook = scope:recipient } }
+					}
+					custom_tooltip = force_onto_council.recipient.tt.duration
+				}
+			}
+		}
+		#Done in the end so that all tooltips will show correct information
+		scope:actor = {
+			if = {
+				limit = {
+					exists = scope:used_hook
+				}
+				use_hook = scope:recipient
+			}
+		}
+	}
+
+	ai_set_target = {
+		scope:actor = {
+			random_list = {
+				10 = {
+					trigger = {
+						exists = scope:recipient.council_task:councillor_chancellor
+						can_be_chancellor_trigger = { COURT_OWNER = scope:recipient }
+					}
+					modifier = {
+						factor = diplomacy
+					}
+					modifier = {
+						trigger = { highest_skill = diplomacy }
+						factor = 10
+					}
+					scope:recipient.council_task:councillor_chancellor = {
+						save_scope_as = target
+					}
+				}
+				10 = {
+					trigger = {
+						exists = scope:recipient.council_task:councillor_steward
+						can_be_steward_trigger = { COURT_OWNER = scope:recipient }
+					}
+					modifier = {
+						factor = stewardship
+					}
+					modifier = {
+						trigger = { highest_skill = stewardship }
+						factor = 10
+					}
+					scope:recipient.council_task:councillor_steward = {
+						save_scope_as = target
+					}
+				}
+				10 = {
+					trigger = {
+						exists = scope:recipient.council_task:councillor_marshal
+						can_be_marshal_trigger = { COURT_OWNER = scope:recipient }
+					}
+					modifier = {
+						factor = martial
+					}
+					modifier = {
+						trigger = { highest_skill = martial }
+						factor = 10
+					}
+					scope:recipient.council_task:councillor_marshal = {
+						save_scope_as = target
+					}
+				}
+				10 = {
+					trigger = {
+						exists = scope:recipient.council_task:councillor_spymaster
+						can_be_spymaster_trigger = { COURT_OWNER = scope:recipient }
+					}
+					modifier = {
+						factor = intrigue
+					}
+					modifier = {
+						trigger = { highest_skill = intrigue }
+						factor = 10
+					}
+					scope:recipient.council_task:councillor_spymaster = {
+						save_scope_as = target
+					}
+				}
+				10 = {
+					trigger = {
+						exists = scope:recipient.council_task:councillor_court_chaplain
+						can_be_court_chaplain_trigger = { COURT_OWNER = scope:recipient }
+					}
+					modifier = {
+						factor = learning
+					}
+					modifier = {
+						trigger = { highest_skill = learning }
+						factor = 10
+					}
+					scope:recipient.council_task:councillor_court_chaplain = {
+						save_scope_as = target
+					}
+				}
+			}
+		}
+	}
+	
+	ai_potential = {
+		is_independent_ruler = no
+		is_councillor = no
+	}
+	
+	ai_targets = {
+		ai_recipients = liege
+	}
+	ai_frequency = 36
+
+	auto_accept = yes
+	force_notification = yes
+	
+	ai_will_do = {
+		base = 100
+		
+		modifier = {
+			factor = 0
+			scope:actor = {
+				ai_greed <= medium_positive_ai_value
+				OR = {
+					has_relation_friend = scope:recipient
+					has_relation_lover = scope:recipient
+					has_relation_best_friend = scope:recipient
+					has_relation_soulmate = scope:recipient
+				}
+			}
+		}
+		
+		modifier = {
+			factor = 0
+			is_councillor = yes
+		}
+
+		# [BMU]
+		BMU_is_involved_in_hostile_pressed_claim_factor_0 = { SUBJECT = scope:recipient TARGET = scope:actor }
+		# [/BMU]
+	}
+}

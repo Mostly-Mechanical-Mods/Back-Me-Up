@@ -72,6 +72,13 @@
 				is_imprisoned = no
 			}
 		}
+	
+		# [BMU]
+		trigger_if = {
+			limit = { BMU_is_loaded = yes }
+			BMU_interaction_AI_blocker = yes
+		}
+		# [/BMU]
 	}
 	
 	can_be_picked_title = {
