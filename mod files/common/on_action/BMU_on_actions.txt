@@ -63,6 +63,7 @@ on_war_invalidated = {
 on_title_lost = {
 	on_actions = {
 		# BMU_on_title_lost
+		BMU_on_bargained_title_lost
 	}
 }
 
@@ -84,6 +85,40 @@ BMU_on_title_lost = {
 			CLAIMED_TITLE = scope:title
 			OLD_CLAIM_TARGET = root
 			NEW_CLAIM_TARGET = scope:new_holder
+		}
+	}
+}
+
+BMU_on_bargained_title_lost = {
+	trigger = {
+		any_bargain = {
+			has_variable = title
+			var:title = scope:title
+		}
+	}
+	effect = {
+		every_bargain = {
+			limit = {
+				has_variable = title
+				var:title = scope:title
+			}
+			var:pressed_claim = { save_scope_as = pressed_claim }
+			var:supporter = { save_scope_as = recalc_supporter }
+			end_story = yes
+		}
+		save_scope_as = score_contender
+		if = {
+			limit = {
+				scope:recalc_supporter = {
+					BMU_contender_score < 0
+				}
+			}
+			scope:recalc_supporter = {
+				random_supporter_story = {
+					limit = { var:pressed_claim_story = scope:pressed_claim }
+					end_story = yes
+				}
+			}
 		}
 	}
 }
