@@ -373,17 +373,6 @@
 						}
 					}
 				}
-				ordered_in_list = {
-					variable = contenders
-					order_by = var:max_military_strength
-					scope:story = {
-						set_variable = {
-							name = top_contender
-							value = prev.story_owner
-						}
-					}
-					save_scope_as = top_contender
-				}
 				every_in_list = {
 					variable = contenders
 					save_scope_as = contender
@@ -419,6 +408,7 @@
 					}
 					else = { set_variable = { name = confidence_flag value = flag:confidence_fearful }}
 				}
+				BMU_pressed_claim_update_top_contender = { PRESSED_CLAIM = scope:story }
 			}
 		}
 	}
