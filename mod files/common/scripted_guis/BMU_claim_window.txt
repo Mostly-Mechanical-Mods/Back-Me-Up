@@ -94,6 +94,10 @@ BMU_set_pressed_claim_interaction = {
 						name = stakeholders_gui
 						target = prev
 					}
+					add_to_variable_list = {
+						name = stakeholders_gui_unfiltered
+						target = prev
+					}
 				}
 			}
 		}
@@ -203,6 +207,36 @@ BMU_stakeholder_filter = {
 			trigger_else = { always = yes }
 		}
 	}
+	effect = {
+		clear_variable_list = stakeholders_gui
+		every_in_list = {
+			variable = stakeholders_gui_unfiltered
+			limit = {
+				trigger_if = {
+					limit = { exists = scope:interaction }
+					trigger_if = {
+						limit = { scope:interaction = flag:request_support }
+						root = { is_character_interaction_valid = { recipient = prev.story_owner interaction = BMU_request_support_interaction }}
+					}
+					trigger_else_if = {
+						limit = { scope:interaction = flag:council_position }
+						root = { is_character_interaction_valid = { recipient = prev.story_owner interaction = BMU_bargain_with_council_position_interaction }}
+					}
+					trigger_else_if = {
+						limit = { scope:interaction = flag:owned_title }
+						root = { is_character_interaction_valid = { recipient = prev.story_owner interaction = BMU_bargain_with_owned_title_interaction }}
+					}
+					trigger_else = { always = yes }
+				}
+			}
+			prev = {
+				add_to_variable_list = {
+					name = stakeholders_gui
+					target = prev
+				}
+			}
+		}
+	}
 }
 
 BMU_request_support_sgui = {
@@ -211,12 +245,13 @@ BMU_request_support_sgui = {
 		recipient
 	}
 	is_shown = {
-		NOT = {
-			is_character_interaction_potentially_accepted = {
-				recipient = scope:recipient
-				interaction = BMU_request_support_interaction
-			}
-		}
+		# NOT = {
+		# 	is_character_interaction_potentially_accepted = {
+		# 		recipient = scope:recipient
+		# 		interaction = BMU_request_support_interaction
+		# 	}
+		# }
+		always = no
 	}
 	is_valid = {
 		is_character_interaction_valid = {
@@ -265,12 +300,13 @@ BMU_bargain_with_council_position_sgui = {
 		recipient
 	}
 	is_shown = {
-		NOT = {
-			is_character_interaction_potentially_accepted = {
-				recipient = scope:recipient
-				interaction = BMU_bargain_with_council_position_interaction
-			}
-		}
+		# NOT = {
+		# 	is_character_interaction_potentially_accepted = {
+		# 		recipient = scope:recipient
+		# 		interaction = BMU_bargain_with_council_position_interaction
+		# 	}
+		# }
+		always = no
 	}
 	is_valid = {
 		is_character_interaction_valid = {
@@ -319,17 +355,18 @@ BMU_bargain_with_owned_title_sgui = {
 		recipient
 	}
 	is_shown = {
-		NOT = {
-			any_held_title = {
-				prev = {
-					is_character_interaction_potentially_accepted = {
-						recipient = scope:recipient
-						interaction = BMU_bargain_with_owned_title_interaction
-						# target_title = title:k_aquitaine
-					}
-				}
-			}
-		}
+		# NOT = {
+		# 	any_held_title = {
+		# 		prev = {
+		# 			is_character_interaction_potentially_accepted = {
+		# 				recipient = scope:recipient
+		# 				interaction = BMU_bargain_with_owned_title_interaction
+		# 				# target_title = title:k_aquitaine
+		# 			}
+		# 		}
+		# 	}
+		# }
+		always = no
 	}
 	is_valid = {
 		is_character_interaction_valid = {

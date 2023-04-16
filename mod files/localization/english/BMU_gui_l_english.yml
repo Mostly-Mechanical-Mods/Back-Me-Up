@@ -25,6 +25,7 @@ BMU_CLAIM_WINDOW_SUPPORTERS: "Supporters"
 BMU_CLAIM_WINDOW_CLAIMANTS: "Claimants"
 BMU_CLAIM_WINDOW_STAKEHOLDERS: "Stakeholders"
 BMU_CLAIM_WINDOW_SUPPORTER_COUNT: "Supporters: #high [GuiScope.SetRoot(Character.MakeScope).AddScope('pressed_claim',Story.MakeScope).ScriptValue('FF_BMU_contender_supporter_count')|0] #!"
+BMU_CLAIM_WINDOW_STAKEHOLDER_COUNT_FILTERED: "[GetDataModelSize(GetPlayer.MakeScope.GetList('stakeholders_gui'))|0] #low of [GetDataModelSize(GetPlayer.MakeScope.GetList('stakeholders_gui_unfiltered'))|0] Characters#!"
 
 BMU_CLAIM_WINDOW_TARGET: "Claim Target"
 BMU_CLAIM_WINDOW_STRONGEST_CONTENDER: "Strongest Contender"
@@ -45,6 +46,7 @@ BMU_CLAIM_WINDOW_SUPPORT_BREAKDOWN_WORTHY_CONTENDER_TT: "#T Not Supporting\n[Sco
 
 
 BMU_STAKEHOLDER_SORT_BY:0 "#T Sort Order: [Select_CString( GetVariableSystem.Exists('BMU_stakeholder_sort_by'), 'Ascending', 'Descending' )]\n#!#I Click to toggle#!"
+FILTER_BY: "Filter By:"
 
 FF_ambition_get_council_position_desc: "$BMU_BARGAIN_STRUCK_WITH$\nfor the [Scope.Var('bargain').Var('council_position').GetFlagName] position"
 BMU_bargain_owned_title_desc: "$BMU_BARGAIN_STRUCK_WITH$\nfor the [Scope.Var('bargain').Var('title').Title.GetName]"
