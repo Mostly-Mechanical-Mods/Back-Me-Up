@@ -47,78 +47,75 @@ BMU_set_pressed_claim_interaction = {
 			value = scope:pressed_claim
 		}
 		clear_variable_list = stakeholders_gui
+		clear_variable_list = supporters_gui
 		if = {
-			limit = { any_contender_story = { var:pressed_claim_story = scope:pressed_claim }}
-			every_ally = { add_to_list = stakeholders }
-			every_close_family_member = { add_to_list = stakeholders }
-			every_vassal = { add_to_list = stakeholders }
-			liege = { add_to_list = stakeholders }
-			every_relation = {
-				type = friend
-				add_to_list = stakeholders
-			}
-			every_relation = {
-				type = lover
-				add_to_list = stakeholders
-			}
-			dynasty.dynast = { add_to_list = stakeholders }
-			house.house_head = { add_to_list = stakeholders }
-			every_relation = {
-				type = stakeholder_proxy
-				limit = {
-					OR = {
-						any_relation = {
-							type = rival
-							any_contender_story = { var:pressed_claim_story = scope:pressed_claim }
+			limit = { is_ai = no }
+			if = {
+				limit = { any_contender_story = { var:pressed_claim_story = scope:pressed_claim }}
+				every_ally = { add_to_list = stakeholders }
+				every_close_family_member = { add_to_list = stakeholders }
+				every_vassal = { add_to_list = stakeholders }
+				liege = { add_to_list = stakeholders }
+				every_relation = {
+					type = friend
+					add_to_list = stakeholders
+				}
+				every_relation = {
+					type = lover
+					add_to_list = stakeholders
+				}
+				dynasty.dynast = { add_to_list = stakeholders }
+				house.house_head = { add_to_list = stakeholders }
+				every_relation = {
+					type = stakeholder_proxy
+					limit = {
+						OR = {
+							any_relation = {
+								type = rival
+								any_contender_story = { var:pressed_claim_story = scope:pressed_claim }
+							}
+							BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim }
 						}
-						BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim }
 					}
-				}
-				add_to_list = stakeholders
-			}
-		}
-		every_in_list = {
-			list = stakeholders
-			# max = 1000
-			# check_range_bounds = no
-			limit = {
-				is_landed = yes
-				highest_held_title_tier >= tier_county
-				NOT = { this = root }
-			}
-			# order_by = max_military_strength
-			random_stakeholder_story = {
-				limit = { var:pressed_claim_story = scope:pressed_claim }
-				root = {
-					add_to_variable_list = {
-						name = stakeholders_gui
-						target = prev
-					}
-					add_to_variable_list = {
-						name = stakeholders_gui_unfiltered
-						target = prev
-					}
+					add_to_list = stakeholders
 				}
 			}
+			every_in_list = {
+				list = stakeholders
+				# max = 1000
+				# check_range_bounds = no
+				limit = {
+					is_landed = yes
+					highest_held_title_tier >= tier_county
+					NOT = { this = root }
+				}
+				# order_by = max_military_strength
+				random_stakeholder_story = {
+					limit = { var:pressed_claim_story = scope:pressed_claim }
+					root = {
+						add_to_variable_list = {
+							name = stakeholders_gui
+							target = prev
+						}
+						add_to_variable_list = {
+							name = stakeholders_gui_unfiltered
+							target = prev
+						}
+					}
+				}
+			}
+			scope:pressed_claim = {
+				every_in_list = {
+					variable = supporters
+					root = {
+						add_to_variable_list = {
+							name = supporters_gui
+							target = prev
+						}
+					}
+				}
+			}
 		}
-		# set_variable = {
-		# 	name = stakeholder_count
-		# 	value = {
-		# 	scope:pressed_claim = {
-		# 		every_in_list = {
-		# 			variable = stakeholders
-		# 			limit = {
-		# 				root = {
-		# 					is_character_interaction_valid = {
-		# 						recipient = prev.story_owner
-		# 						interaction = BMU_request_support_interaction
-		# 					}
-		# 				}
-		# 			}
-		# 			add = 1
-		# 		}
-		# 	}
-		# }
 	}
 }
 
@@ -135,31 +132,56 @@ BMU_stakeholder_tab_gui = {
 BMU_stakeholder_sorting = {
 	scope = character
 	saved_scopes = {
-		order_by
-		player
 		pressed_claim
+		order_by
 		sort_by
+		supporter
+		interaction
 	}
 	effect = {
-		every_in_list = {
-			variable = stakeholders_gui
-			add_to_list = stakeholders
-		}
 		clear_variable_list = stakeholders_gui
 		ordered_in_list = {
-			list = stakeholders
+			variable = stakeholders_gui_unfiltered
 			order_by = {
 				if = {
-					limit = { scope:order_by = flag:max_military_strength }
-					value = story_owner.max_military_strength
-				}
-				else_if = {
-					limit = { scope:order_by = flag:score_diff }
-					story_owner = { value = BMU_score_diff }
+					limit = { exists = scope:order_by }
+					if = {
+						limit = { scope:order_by = flag:max_military_strength }
+						value = story_owner.max_military_strength
+					}
+					else_if = {
+						limit = { scope:order_by = flag:score_diff }
+						story_owner = { value = BMU_score_diff }
+					}
+					else_if = {
+						limit = { scope:order_by = flag:bargain }
+						story_owner = { value = BMU_score_diff }
+					}
 				}
 				if = {
-					limit = { scope:sort_by = flag:Ascending }
+					limit = {
+						exists = scope:sort_by
+						scope:sort_by = flag:Ascending
+					}
 					multiply = -1
+				}
+			}
+			limit = {
+				trigger_if = {
+					limit = { exists = scope:interaction }
+					trigger_if = {
+						limit = { scope:interaction = flag:request_support }
+						root = { is_character_interaction_valid = { recipient = prev.story_owner interaction = BMU_request_support_interaction }}
+					}
+					trigger_else_if = {
+						limit = { scope:interaction = flag:council_position }
+						root = { is_character_interaction_valid = { recipient = prev.story_owner interaction = BMU_bargain_with_council_position_interaction }}
+					}
+					trigger_else_if = {
+						limit = { scope:interaction = flag:owned_title }
+						root = { is_character_interaction_valid = { recipient = prev.story_owner interaction = BMU_bargain_with_owned_title_interaction }}
+					}
+					trigger_else = { always = yes }
 				}
 			}
 			max = 1000
@@ -168,6 +190,75 @@ BMU_stakeholder_sorting = {
 				add_to_variable_list = {
 					name = stakeholders_gui
 					target = prev
+				}
+			}
+		}
+	}
+}
+
+BMU_supporter_sorting = {
+	scope = character
+	saved_scopes = {
+		pressed_claim
+		order_by
+		sort_by
+		supporter
+		interaction
+	}
+	effect = {
+		clear_variable_list = supporters_gui
+		scope:pressed_claim = {
+			ordered_in_list = {
+				variable = supporters
+				order_by = {
+					if = {
+						limit = { exists = scope:order_by }
+						if = {
+							limit = { scope:order_by = flag:max_military_strength }
+							value = story_owner.max_military_strength
+						}
+						else_if = {
+							limit = { scope:order_by = flag:score_diff }
+							story_owner = { value = BMU_score_diff }
+						}
+						else_if = {
+							limit = { scope:order_by = flag:bargain }
+							story_owner = { value = BMU_score_diff }
+						}
+					}
+					if = {
+						limit = {
+							exists = scope:sort_by
+							scope:sort_by = flag:Ascending
+						}
+						multiply = -1
+					}
+				}
+				limit = {
+					trigger_if = {
+						limit = { exists = scope:interaction }
+						trigger_if = {
+							limit = { scope:interaction = flag:request_support }
+							root = { is_character_interaction_valid = { recipient = prev.story_owner interaction = BMU_request_support_interaction }}
+						}
+						trigger_else_if = {
+							limit = { scope:interaction = flag:council_position }
+							root = { is_character_interaction_valid = { recipient = prev.story_owner interaction = BMU_bargain_with_council_position_interaction }}
+						}
+						trigger_else_if = {
+							limit = { scope:interaction = flag:owned_title }
+							root = { is_character_interaction_valid = { recipient = prev.story_owner interaction = BMU_bargain_with_owned_title_interaction }}
+						}
+						trigger_else = { always = yes }
+					}
+				}
+				max = 1000
+				check_range_bounds = no
+				root = {
+					add_to_variable_list = {
+						name = supporters_gui
+						target = prev
+					}
 				}
 			}
 		}
