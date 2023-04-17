@@ -169,19 +169,19 @@ BMU_council_position_can_be_bargained = {
 		trigger_if = {
 			limit = {
 				trigger_if = {
-					limit = { exists = cp:$COUNCIL_POSITION$ }
-					cp:$COUNCIL_POSITION$ = { can_be_fired_from_council_trigger = { COURT_OWNER = $CONTENDER$ }}
-				}
-			}
-			trigger_if = {
-				limit = { NOT = { $CONTENDER$ = { BMU_bargained_with_council_position = { POSITION = $COUNCIL_POSITION$ }}}
-					BMU_bargain_council_position_is_valid = {
-						PRESSED_CLAIM = $PRESSED_CLAIM$
-						CONTENDER = $CONTENDER$
-						SUPPORTER = $SUPPORTER$
-						COUNCIL_POSITION = $COUNCIL_POSITION$
+					limit = { exists =  $CONTENDER$.cp:$COUNCIL_POSITION$ }
+					custom_description = {
+						text = BMU_can_be_fired_from_council_trigger
+						subject = $CONTENDER$.cp:$COUNCIL_POSITION$
+						object = $CONTENDER$
+						$CONTENDER$.cp:$COUNCIL_POSITION$ = { can_be_fired_from_council_trigger = { COURT_OWNER = $CONTENDER$ }}
 					}
 				}
+				trigger_else = { always = yes }
+			}
+			trigger_if = {
+				limit = { NOT = { $CONTENDER$ = { BMU_bargained_with_council_position = { POSITION = $COUNCIL_POSITION$ }}}}
+				$SUPPORTER$ = { BMU_can_be_$COUNCIL_POSITION$_of = { COURT_OWNER = $CONTENDER$ }}
 			}
 			trigger_else = {
 				NOT = { $CONTENDER$ = { BMU_bargained_with_council_position = { POSITION = $COUNCIL_POSITION$ }}}
@@ -189,9 +189,15 @@ BMU_council_position_can_be_bargained = {
 		}
 		trigger_else = {
 			trigger_if = {
-				limit = { exists = cp:$COUNCIL_POSITION$ }
-				cp:$COUNCIL_POSITION$ = { can_be_fired_from_council_trigger = { COURT_OWNER = $CONTENDER$ }}
+				limit = { exists = $CONTENDER$.cp:$COUNCIL_POSITION$ }
+				custom_description = {
+					text = BMU_can_be_fired_from_council_trigger
+					subject = $CONTENDER$.cp:$COUNCIL_POSITION$
+					object = $CONTENDER$
+					$CONTENDER$.cp:$COUNCIL_POSITION$ = { can_be_fired_from_council_trigger = { COURT_OWNER = $CONTENDER$ }}
+				}
 			}
+			trigger_else = { always = yes }
 		}
 	}
 }

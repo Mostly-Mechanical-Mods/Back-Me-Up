@@ -54,13 +54,14 @@ BMU_bargain_for_council_position_interaction: "Bargain Council Position"
 BMU_bargain_for_council_position_interaction_desc: "Ask [recipient.GetShortUINameNoTooltip] for a Council Position in exchange for your support for [recipient.GetHerHis] claim on the [GetPlayer.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.GetName]\n$BMU_select_pressed_claim_tooltip$"
 
 BMU_bargain_council_position_interaction_option: "Promised Council Position:"
-BMU_bargain_council_position_interaction_option_councillor_chancellor: "@skill_diplomacy_icon! [chancellor|E]"
-BMU_bargain_council_position_interaction_option_councillor_steward: "@skill_stewardship_icon! [steward|E]"
-BMU_bargain_council_position_interaction_option_councillor_marshal: "@skill_martial_icon! [marshal|E]"
-BMU_bargain_council_position_interaction_option_councillor_spymaster: "@skill_intrigue_icon! [spymaster|E]"
-BMU_bargain_council_position_interaction_option_councillor_court_chaplain: "@skill_learning_icon! [court_chaplain|E]"
-BMU_bargain_council_position_interaction_option_councillor_castellan: "@skill_stewardship_icon! [spymaster|E]"
-BMU_bargain_council_position_interaction_option_councillor_admiral: "@skill_martial_icon! [spymaster|E]"
+BMU_create_bargain: "BMU_create_bargain"
+BMU_bargain_council_position_interaction_option_councillor_chancellor: "@councillor_chancellor! [chancellor|E]"
+BMU_bargain_council_position_interaction_option_councillor_steward: "@councillor_steward! [steward|E]"
+BMU_bargain_council_position_interaction_option_councillor_marshal: "@councillor_marshal! [marshal|E]"
+BMU_bargain_council_position_interaction_option_councillor_spymaster: "@councillor_spymaster! [spymaster|E]"
+BMU_bargain_council_position_interaction_option_councillor_court_chaplain: "@councillor_court_chaplain! [court_chaplain|E]"
+BMU_bargain_council_position_interaction_option_councillor_castellan: "@councillor_castellan! [spymaster|E]"
+BMU_bargain_council_position_interaction_option_councillor_admiral: "@councillor_admiral! [spymaster|E]"
 
 # BMU_bargain_with_owned_title_interaction
 
@@ -68,3 +69,5 @@ BMU_bargain_with_owned_title_interaction: "Bargain Title"
 BMU_bargain_with_owned_title_interaction_desc: "Offer [recipient.GetShortUINameNoTooltip] a Title in exchange for [recipient.GetHerHis] support for your claim on the [GetPlayer.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.GetName]\n\n#help You can only bargain a Title if either:\n$BULLET_WITH_TAB$[recipient.GetShortUINameNoTooltipNoFormat] has a claim on it\n$BULLET_WITH_TAB$[recipient.GetShortUINameNoTooltipNoFormat] has De Jure rights over it\n$BULLET_WITH_TAB$it is De Jure above any Title held by [recipient.GetShortUINameNoTooltipNoFormat]#!\n$BMU_select_pressed_claim_tooltip$"
 BMU_bargain_for_owned_title_interaction: "Bargain Title"
 BMU_bargain_for_owned_title_interaction_desc: "Ask [recipient.GetShortUINameNoTooltip] for a Title in exchange for your support for [recipient.GetHerHis] claim on the [GetPlayer.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.GetName]\n\n#help You can only bargain a Title if either:\n$BULLET_WITH_TAB$[actor.GetShortUINameNoTooltipNoFormat] have a claim on it\n$BULLET_WITH_TAB$[actor.GetShortUINameNoTooltipNoFormat] have De Jure rights over it\n$BULLET_WITH_TAB$it is De Jure above any Title held by [actor.GetShortUINameNoTooltipNoFormat]#!\n$BMU_select_pressed_claim_tooltip$"
+
+BMU_bargain_owned_title: "BMU_bargain_owned_title"

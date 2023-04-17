@@ -4,3 +4,5 @@ BMU_notification_pressed_claim: "Contender presses their Claim!"
 BMU_notification_pressed_claim_desc: "#DEBUG BMU_notification_pressed_claim_desc#!"
 
 BMU_notification_supporter: "Contender gains Supporter"
+
+BMU_BARGAIN_INVALIDATED: "Bargain Invalidated"

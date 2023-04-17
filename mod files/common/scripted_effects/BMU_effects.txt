@@ -1,6 +1,9 @@
 ﻿BMU_pressed_claim_update_top_contender = {
-	$PRESSED_CLAIM$ = { save_scope_as = temp_pressed_claim }
-	scope:temp_pressed_claim = {
+	if = {
+		limit = { NOT = { exists = scope:pressed_claim }}
+		$PRESSED_CLAIM$ = { save_scope_as = pressed_claim }
+	}
+	scope:pressed_claim = {
 		every_in_list = {
 			variable = contenders
 			limit = { var:status = flag:contender }
@@ -8,9 +11,9 @@
 		}
 		ordered_in_list = {
 			variable = contenders
-			limit = { NOT = { story_owner = scope:temp_pressed_claim.var:claim_target }}
+			limit = { NOT = { story_owner = scope:pressed_claim.var:claim_target }}
 			order_by = var:confidence_score
-			scope:temp_pressed_claim = {
+			scope:pressed_claim = {
 				set_variable = {
 					name = top_contender
 					value = prev.story_owner

@@ -123,13 +123,13 @@ BMU_ambition_get_council_position_councillor_spymaster = {
 	third = BMU_THEY_WANT_COUNCIL_POSITION_SPYMASTER
 }
 BMU_ambition_get_council_position_councillor_court_chaplain = {
-	third = BMU_THEY_WANT_COUNCIL_POSITION_SPYMASTER
+	third = BMU_THEY_WANT_COUNCIL_POSITION_COURT_CHAPLAIN
 }
 BMU_ambition_get_council_position_councillor_castellan = {
-	third = BMU_THEY_WANT_COUNCIL_POSITION_SPYMASTER
+	third = BMU_THEY_WANT_COUNCIL_POSITION_CASTELLAN
 }
 BMU_ambition_get_council_position_councillor_admiral = {
-	third = BMU_THEY_WANT_COUNCIL_POSITION_SPYMASTER
+	third = BMU_THEY_WANT_COUNCIL_POSITION_ADMIRAL
 }
 
 BMU_bargained_with_council_position_councillor_chancellor = {
@@ -220,4 +220,11 @@ BMU_is_contender_in_hostile_pressed_claim = {
 BMU_is_supporter_in_hostile_pressed_claim = {
 	first = I_AM_SUPPORTER_IN_HOSTILE_PRESSED_CLAIM
 	third = THEY_ARE_SUPPORTER_IN_HOSTILE_PRESSED_CLAIM
+}
+
+BMU_can_be_fired_from_council_trigger = {
+	first = I_CAN_BE_FIRED_FROM_COUNCIL
+	# first_not = NOT_I_CAN_BE_FIRED_FROM_COUNCIL
+	third = THEY_CAN_BE_FIRED_FROM_COUNCIL
+	# third_not = NOT_THEY_CAN_BE_FIRED_FROM_COUNCIL
 }

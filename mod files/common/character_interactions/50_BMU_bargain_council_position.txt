@@ -134,7 +134,7 @@
 	send_option = {
 		is_shown = { scope:actor = { BMU_council_position_councillor_chancellor_is_valid = yes }}
 		is_valid = {
-			BMU_council_position_can_be_bargained = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction CONTENDER = scope:actor SUPPORTER = scope:recipient COUNCIL_POSITION = councillor_chancellor }
+			BMU_council_position_can_be_bargained = { SUPPORTER = scope:recipient CONTENDER = scope:actor COUNCIL_POSITION = councillor_chancellor }
 			scope:recipient = { BMU_wants_council_position = { POSITION = councillor_chancellor }}
 		}
 		flag = councillor_chancellor
@@ -145,8 +145,8 @@
 	send_option = {
 		is_shown = { scope:actor = { BMU_council_position_councillor_steward_is_valid = yes }}
 		is_valid = {
-			BMU_council_position_can_be_bargained = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction CONTENDER = scope:actor SUPPORTER = scope:recipient COUNCIL_POSITION = councillor_steward }
-			BMU_wants_council_position = { POSITION = councillor_steward }
+			BMU_council_position_can_be_bargained = { SUPPORTER = scope:recipient CONTENDER = scope:actor  COUNCIL_POSITION = councillor_steward }
+			scope:recipient = { BMU_wants_council_position = { POSITION = councillor_steward }}
 		}
 		flag = councillor_steward
 		localization = BMU_bargain_council_position_interaction_option_councillor_steward
@@ -156,7 +156,7 @@
 	send_option = {
 		is_shown = { scope:actor = { BMU_council_position_councillor_marshal_is_valid = yes }}
 		is_valid = {
-			BMU_council_position_can_be_bargained = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction CONTENDER = scope:actor SUPPORTER = scope:recipient COUNCIL_POSITION = councillor_marshal }
+			BMU_council_position_can_be_bargained = { SUPPORTER = scope:recipient CONTENDER = scope:actor COUNCIL_POSITION = councillor_marshal }
 			scope:recipient = { BMU_wants_council_position = { POSITION = councillor_marshal }}
 		}
 		flag = councillor_marshal
@@ -167,7 +167,7 @@
 	send_option = {
 		is_shown = { scope:actor = { BMU_council_position_councillor_spymaster_is_valid = yes }}
 		is_valid = {
-			BMU_council_position_can_be_bargained = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction CONTENDER = scope:actor SUPPORTER = scope:recipient COUNCIL_POSITION = councillor_spymaster }
+			BMU_council_position_can_be_bargained = { SUPPORTER = scope:recipient CONTENDER = scope:actor COUNCIL_POSITION = councillor_spymaster }
 			scope:recipient = { BMU_wants_council_position = { POSITION = councillor_spymaster }}
 		}
 		flag = councillor_spymaster
@@ -178,7 +178,7 @@
 	send_option = {
 		is_shown = { scope:actor = { BMU_council_position_councillor_court_chaplain_is_valid = yes }}
 		is_valid = {
-			BMU_council_position_can_be_bargained = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction CONTENDER = scope:actor SUPPORTER = scope:recipient COUNCIL_POSITION = councillor_court_chaplain }
+			BMU_council_position_can_be_bargained = { SUPPORTER = scope:recipient CONTENDER = scope:actor COUNCIL_POSITION = councillor_court_chaplain }
 			scope:recipient = { BMU_wants_council_position = { POSITION = councillor_court_chaplain }}
 		}
 		flag = councillor_court_chaplain
@@ -189,7 +189,7 @@
 	send_option = {
 		is_shown = { scope:actor = { BMU_council_position_councillor_castellan_is_valid = yes }}
 		is_valid = {
-			BMU_council_position_can_be_bargained = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction CONTENDER = scope:actor SUPPORTER = scope:recipient COUNCIL_POSITION = councillor_castellan }
+			BMU_council_position_can_be_bargained = { SUPPORTER = scope:recipient CONTENDER = scope:actor COUNCIL_POSITION = councillor_castellan }
 			scope:recipient = { BMU_wants_council_position = { POSITION = councillor_castellan }}
 		}
 		flag = councillor_castellan
@@ -200,7 +200,7 @@
 	send_option = {
 		is_shown = { scope:actor = { BMU_council_position_councillor_admiral_is_valid = yes }}
 		is_valid = {
-			BMU_council_position_can_be_bargained = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction CONTENDER = scope:actor SUPPORTER = scope:recipient COUNCIL_POSITION = councillor_admiral }
+			BMU_council_position_can_be_bargained = { SUPPORTER = scope:recipient CONTENDER = scope:actor COUNCIL_POSITION = councillor_admiral }
 			scope:recipient = { BMU_wants_council_position = { POSITION = councillor_admiral }}
 		}
 		flag = councillor_admiral
@@ -466,7 +466,7 @@ BMU_bargain_for_council_position_interaction = {
 	send_option = {
 		is_shown = { scope:recipient = { BMU_council_position_councillor_chancellor_is_valid = yes }}
 		is_valid = {
-			BMU_council_position_can_be_bargained = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction CONTENDER = scope:recipient SUPPORTER = scope:actor COUNCIL_POSITION = councillor_chancellor }
+			BMU_council_position_can_be_bargained = { SUPPORTER = scope:actor CONTENDER = scope:recipient COUNCIL_POSITION = councillor_chancellor }
 		}
 		flag = councillor_chancellor
 		localization = BMU_bargain_council_position_interaction_option_councillor_chancellor
@@ -476,7 +476,7 @@ BMU_bargain_for_council_position_interaction = {
 	send_option = {
 		is_shown = { scope:recipient = { BMU_council_position_councillor_steward_is_valid = yes }}
 		is_valid = {
-			BMU_council_position_can_be_bargained = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction CONTENDER = scope:recipient SUPPORTER = scope:actor COUNCIL_POSITION = councillor_steward }
+			BMU_council_position_can_be_bargained = { SUPPORTER = scope:actor CONTENDER = scope:recipient COUNCIL_POSITION = councillor_steward }
 		}
 		flag = councillor_steward
 		localization = BMU_bargain_council_position_interaction_option_councillor_steward
@@ -486,7 +486,7 @@ BMU_bargain_for_council_position_interaction = {
 	send_option = {
 		is_shown = { scope:recipient = { BMU_council_position_councillor_marshal_is_valid = yes }}
 		is_valid = {
-			BMU_council_position_can_be_bargained = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction CONTENDER = scope:recipient SUPPORTER = scope:actor COUNCIL_POSITION = councillor_marshal }
+			BMU_council_position_can_be_bargained = { SUPPORTER = scope:actor CONTENDER = scope:recipient COUNCIL_POSITION = councillor_marshal }
 		}
 		flag = councillor_marshal
 		localization = BMU_bargain_council_position_interaction_option_councillor_marshal
@@ -496,7 +496,7 @@ BMU_bargain_for_council_position_interaction = {
 	send_option = {
 		is_shown = { scope:recipient = { BMU_council_position_councillor_spymaster_is_valid = yes }}
 		is_valid = {
-			BMU_council_position_can_be_bargained = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction CONTENDER = scope:recipient SUPPORTER = scope:actor COUNCIL_POSITION = councillor_spymaster }
+			BMU_council_position_can_be_bargained = { SUPPORTER = scope:actor CONTENDER = scope:recipient COUNCIL_POSITION = councillor_spymaster }
 		}
 		flag = councillor_spymaster
 		localization = BMU_bargain_council_position_interaction_option_councillor_spymaster
@@ -506,7 +506,7 @@ BMU_bargain_for_council_position_interaction = {
 	send_option = {
 		is_shown = { scope:recipient = { BMU_council_position_councillor_court_chaplain_is_valid = yes }}
 		is_valid = {
-			BMU_council_position_can_be_bargained = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction CONTENDER = scope:recipient SUPPORTER = scope:actor COUNCIL_POSITION = councillor_court_chaplain }
+			BMU_council_position_can_be_bargained = { SUPPORTER = scope:actor CONTENDER = scope:recipient COUNCIL_POSITION = councillor_court_chaplain }
 		}
 		flag = councillor_court_chaplain
 		localization = BMU_bargain_council_position_interaction_option_councillor_court_chaplain
@@ -516,7 +516,7 @@ BMU_bargain_for_council_position_interaction = {
 	send_option = {
 		is_shown = { scope:recipient = { BMU_council_position_councillor_castellan_is_valid = yes }}
 		is_valid = {
-			BMU_council_position_can_be_bargained = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction CONTENDER = scope:recipient SUPPORTER = scope:actor COUNCIL_POSITION = councillor_castellan }
+			BMU_council_position_can_be_bargained = { SUPPORTER = scope:actor CONTENDER = scope:recipient COUNCIL_POSITION = councillor_castellan }
 		}
 		flag = councillor_castellan
 		localization = BMU_bargain_council_position_interaction_option_councillor_castellan
@@ -526,7 +526,7 @@ BMU_bargain_for_council_position_interaction = {
 	send_option = {
 		is_shown = { scope:recipient = { BMU_council_position_councillor_admiral_is_valid = yes }}
 		is_valid = {
-			BMU_council_position_can_be_bargained = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction CONTENDER = scope:recipient SUPPORTER = scope:actor COUNCIL_POSITION = councillor_admiral }
+			BMU_council_position_can_be_bargained = { SUPPORTER = scope:actor CONTENDER = scope:recipient COUNCIL_POSITION = councillor_admiral }
 		}
 		flag = councillor_admiral
 		localization = BMU_bargain_council_position_interaction_option_councillor_admiral
