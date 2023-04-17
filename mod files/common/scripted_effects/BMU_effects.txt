@@ -8,10 +8,7 @@
 		}
 		ordered_in_list = {
 			variable = contenders
-			limit = {
-				var:status = flag:contender
-				NOT = { story_owner = scope:temp_pressed_claim.var:claim_target }
-			}
+			limit = { NOT = { story_owner = scope:temp_pressed_claim.var:claim_target }}
 			order_by = var:confidence_score
 			scope:temp_pressed_claim = {
 				set_variable = {

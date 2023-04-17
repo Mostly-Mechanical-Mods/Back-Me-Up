@@ -1,0 +1,390 @@
+﻿BMU_can_bargain = {
+	$CONTENDER$ = { save_temporary_scope_as = bargaining_contender }
+	$SUPPORTER$ = { save_temporary_scope_as = bargaining_supporter }
+	custom_description = {
+		text = BMU_bargain_already_refused
+		subject = scope:bargaining_supporter.story_owner
+		scope:bargaining_contender = {
+			NOT = {
+				is_target_in_variable_list = {
+					name = bargain_blocker
+					target = scope:bargaining_supporter
+				}
+			}
+		}
+	}
+	trigger_if = {
+		limit = { scope:bargaining_supporter.var:status = flag:stakeholder }
+		scope:bargaining_contender = { BMU_supporter_is_relevant = { SUPPORTER = scope:bargaining_supporter }}
+	}
+	trigger_else_if = {
+		limit = { scope:bargaining_supporter.var:status = flag:supporter }
+		scope:contender = {
+			any_in_list = {
+				variable = bargains
+				var:supporter = scope:bargaining_supporter
+				count = 0
+			}
+		}
+	}
+	trigger_else = { always = no }
+}
+
+BMU_bargain_can_be_struck = {
+	$SUPPORTER$ = { save_temporary_scope_as = bargaining_supporter }
+	$CONTENDER$ = { save_temporary_scope_as = bargaining_contender }
+	save_temporary_scope_as = bargain_temp
+	custom_description = {
+		text = BMU_bargain_already_refused
+		subject = scope:bargaining_contender.var:bargainer
+		scope:bargaining_contender = {
+			NOT = {
+				is_target_in_variable_list = {
+					name = BMU_bargains_refused
+					target = scope:bargain_temp
+				}
+			}
+		}
+	}
+	trigger_if = {
+		limit = { scope:supporter.story_owner = { is_ai = yes }}
+		var:ambition_score > 0
+	}
+	NOR = {
+		has_variable = pending
+		has_variable = bargained_with
+	}
+	trigger_if = {
+		limit = {
+			exists = scope:bargain_temp
+			NOT = { exists = scope:bargain }
+			scope:bargain_temp = { save_temporary_scope_as = bargain }
+		}
+	}
+	trigger_if = {
+		limit = { scope:bargain.var:ambition = flag:FF_ambition_get_council_position }
+		scope:bargaining_supporter.story_owner = {
+			NAND = {
+				is_councillor_of = scope:bargaining_contender.story_owner
+				trigger_if = {
+					limit = { scope:bargain.var:council_position = flag:chancellor }
+					has_council_position = councillor_chancellor
+				}
+				trigger_else_if = {
+					limit = { scope:bargain.var:council_position = flag:steward }
+					has_council_position = councillor_steward
+				}
+				trigger_else_if = {
+					limit = { scope:bargain.var:council_position = flag:marshal }
+					has_council_position = councillor_marshal
+				}
+				trigger_else_if = {
+					limit = { scope:bargain.var:council_position = flag:spymaster }
+					has_council_position = councillor_spymaster
+				}
+				trigger_else = { always = yes }
+			}
+		}
+		scope:bargaining_contender = {
+			any_in_list = {
+				variable = bargains
+				has_variable = bargained_with
+				var:ambition = flag:FF_ambition_get_council_position
+				var:council_position = scope:bargain.var:council_position
+				count = 0
+			}
+		}
+	}
+}
+
+BMU_has_enough_remaining_gambits = {
+	custom_description = {
+		text = BMU_has_enough_remaining_gambits
+		subject = scope:actor
+		any_contender_story = {
+			var:pressed_claim_story = scope:pressed_claim
+			BMU_gambit_remaining >= BMU_supporter_gambit_cost
+		}
+	}
+}
+
+# Council Position
+
+BMU_bargain_council_position_setup_trigger_global = {
+	trigger_if = { limit = { scope:councillor_chancellor = yes } BMU_bargain_council_position_setup_trigger = { COUNCILLOR = councillor_chancellor SKILL = diplomacy }}
+	trigger_else_if = { limit = { scope:councillor_steward = yes } BMU_bargain_council_position_setup_trigger = { COUNCILLOR = councillor_steward SKILL = stewardship }}
+	trigger_else_if = { limit = { scope:councillor_marshal = yes } BMU_bargain_council_position_setup_trigger = { COUNCILLOR = councillor_marshal SKILL = martial }}
+	trigger_else_if = { limit = { scope:councillor_spymaster = yes } BMU_bargain_council_position_setup_trigger = { COUNCILLOR = councillor_spymaster SKILL = intrigue }}
+	trigger_else_if = { limit = { scope:councillor_court_chaplain = yes } BMU_bargain_council_position_setup_trigger = { COUNCILLOR = councillor_court_chaplain SKILL = learning }}
+	trigger_else_if = { limit = { scope:councillor_castellan = yes } BMU_bargain_council_position_setup_trigger = { COUNCILLOR = councillor_castellan SKILL = stewardship }}
+	trigger_else_if = { limit = { scope:councillor_spymaster = yes } BMU_bargain_council_position_setup_trigger = { COUNCILLOR = councillor_spymaster SKILL = martial }}
+	trigger_else = { always = no }
+}
+
+BMU_bargain_council_position_setup_trigger = {
+	save_temporary_scope_as = score_contender
+	save_temporary_scope_value_as = { name = supporter_skill value = scope:supporter_char.$SKILL$ }
+	trigger_if = {
+		limit = { exists = cp:$COUNCILLOR$ }
+		cp:$COUNCILLOR$ = {
+			save_temporary_scope_as = current_councillor
+			save_temporary_scope_value_as = { name = current_councillor_skill value = scope:current_councillor.$SKILL$ }
+			trigger_if = {
+				limit = {
+					any_owned_story = {
+						story_type = BMU_supporter_story
+						var:pressed_claim_story = scope:pressed_claim
+						var:contender.story_owner = scope:contender_char
+					}
+				}
+				BMU_contender_score < BMU_ambition_get_council_position_$COUNCILLOR$
+				save_temporary_scope_value_as = { name = dropout_councillor value = yes }
+			}
+			trigger_else = { always = no }
+		}
+	}
+	trigger_else = { always = no }
+}
+
+BMU_bargain_council_position_is_valid = {
+	$SUPPORTER$ = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		NOT = { is_at_war_with = $CONTENDER$ }
+		trigger_if = {
+			limit = { has_variable = block_hire_councillor }
+			NOT = { var:block_hire_councillor = $CONTENDER$ }
+		}
+		trigger_if = {
+			limit = { NOT = { liege = $CONTENDER$ }}
+			BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = $PRESSED_CLAIM$ }
+		}
+		BMU_can_be_$COUNCIL_POSITION$_of = { COURT_OWNER = $CONTENDER$ }
+	}
+}
+
+BMU_council_position_can_be_bargained = {
+	trigger_if = {
+		limit = { $CONTENDER$ = { BMU_council_position_$COUNCIL_POSITION$_is_valid = yes }}
+		trigger_if = {
+			limit = {
+				trigger_if = {
+					limit = { exists = cp:$COUNCIL_POSITION$ }
+					cp:$COUNCIL_POSITION$ = { can_be_fired_from_council_trigger = { COURT_OWNER = $CONTENDER$ }}
+				}
+			}
+			trigger_if = {
+				limit = { NOT = { $CONTENDER$ = { BMU_bargained_with_council_position = { POSITION = $COUNCIL_POSITION$ }}}
+					BMU_bargain_council_position_is_valid = {
+						PRESSED_CLAIM = $PRESSED_CLAIM$
+						CONTENDER = $CONTENDER$
+						SUPPORTER = $SUPPORTER$
+						COUNCIL_POSITION = $COUNCIL_POSITION$
+					}
+				}
+			}
+			trigger_else = {
+				NOT = { $CONTENDER$ = { BMU_bargained_with_council_position = { POSITION = $COUNCIL_POSITION$ }}}
+			}
+		}
+		trigger_else = {
+			trigger_if = {
+				limit = { exists = cp:$COUNCIL_POSITION$ }
+				cp:$COUNCIL_POSITION$ = { can_be_fired_from_council_trigger = { COURT_OWNER = $CONTENDER$ }}
+			}
+		}
+	}
+}
+
+BMU_can_be_councillor_of = {
+	is_capable_adult = yes
+	is_imprisoned = no
+	NOT = { is_at_war_with = $TARGET$ }
+	trigger_if = {
+		limit = { has_variable = block_hire_councillor }
+		NOT = { var:block_hire_councillor = $TARGET$ }
+	}
+	OR = {
+		is_vassal_of = $TARGET$
+		trigger_if = {
+			limit = { exists = $PRESSED_CLAIM$ }
+			BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = $PRESSED_CLAIM$ }
+		}
+	}
+}
+
+BMU_can_be_councillor_chancellor_of = {
+	NOT = { has_council_position = councillor_spouse }
+	OR = {
+		is_ruler = yes
+		AND = {
+			is_female = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = male_dominated_council } }
+		}
+		AND = {
+			is_male = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = female_dominated_council } }
+		}
+	}
+}
+
+BMU_can_be_councillor_steward_of = {
+	NOT = { has_council_position = councillor_spouse }
+	OR = {
+		is_ruler = yes
+		AND = {
+			is_female = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = male_dominated_council } }
+		}
+		AND = {
+			is_male = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = female_dominated_council } }
+		}
+	}
+}
+
+BMU_can_be_councillor_marshal_of = {
+	NOT = { has_council_position = councillor_spouse }
+	OR = {
+		is_ruler = yes
+		AND = {
+			is_female = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = male_dominated_council } }
+		}
+		AND = {
+			is_male = yes
+			$COURT_OWNER$.faith = { NOT = { has_doctrine_parameter = female_dominated_council } }
+		}
+		AND = {
+			has_trait = shieldmaiden
+			$COURT_OWNER$.culture = { has_cultural_parameter = has_access_to_shieldmaidens }
+		}
+	}
+}
+
+BMU_can_be_councillor_spymaster_of = {
+	NOT = { has_council_position = councillor_spouse }
+	exists = $COURT_OWNER$ #so we can have the argument but get no errors
+}
+
+BMU_can_be_councillor_court_chaplain_of = {
+	save_temporary_scope_as = court_chaplain_check
+	NOT = { has_council_position = councillor_spouse }
+	$COURT_OWNER$.faith = { has_allowed_gender_for_clergy = scope:court_chaplain_check }
+	faith = $COURT_OWNER$.faith
+	trigger_if = {
+		limit = {
+			faith = { has_doctrine = doctrine_theocracy_temporal }
+		}
+		OR = {
+			is_ruler = no
+			has_government = theocracy_government
+		}
+	}
+	trigger_if = {
+		limit = {
+			exists = var:escaped_imprisonment_from
+		}
+		NOT = { var:escaped_imprisonment_from = $COURT_OWNER$ }
+	}
+	trigger_if = { # An excommunicated ruler tolerate excommunicated bishops
+		limit = {
+			$COURT_OWNER$ = { NOT = { has_trait = excommunicated } }
+		}
+		NOT = { has_trait = excommunicated }
+	}
+}
+
+BMU_can_be_councillor_castellan_of = { always = no exists = $COURT_OWNER$ }
+BMU_can_be_councillor_admiral_of = { always = no exists = $COURT_OWNER$ }
+
+
+BMU_council_position_councillor_chancellor_is_valid = { always = yes }
+BMU_council_position_councillor_steward_is_valid = { always = yes }
+BMU_council_position_councillor_marshal_is_valid = { always = yes }
+BMU_council_position_councillor_spymaster_is_valid = { always = yes }
+BMU_council_position_councillor_court_chaplain_is_valid = { always = yes }
+BMU_council_position_councillor_castellan_is_valid = { AGOT_is_loaded = yes }
+BMU_council_position_councillor_admiral_is_valid = { AGOT_is_loaded = yes }
+
+
+BMU_bargained_with_council_position = {
+	trigger_if = {
+		limit = {
+			any_bargain = {
+				var:bargain_type = flag:FF_ambition_get_council_position
+				var:council_position = flag:$POSITION$
+				exists = var:supporter.story_owner
+				var:supporter.story_owner = { save_temporary_scope_as = supporter_temp }
+			}
+		}
+		custom_description = {
+			text = BMU_bargained_with_council_position_$POSITION$
+			subject = this
+			object = scope:supporter_temp
+		}
+	}
+	trigger_else = { always = no }
+}
+
+BMU_wants_council_position = {
+	custom_description = {
+		text = BMU_ambition_get_council_position_$POSITION$
+		subject = this
+		BMU_ambition_get_council_position_$POSITION$ > 0
+	}
+}
+
+# Title
+
+BMU_title_is_bargained_with = {
+	$SUBJECT$ = {
+		any_bargain = {
+			var:ambition = flag:BMU_bargain_owned_title
+			var:title = $TITLE$
+		}
+	}
+}
+
+BMU_bargain_owned_title_is_valid = {
+
+}
+
+BMU_can_bargain_titles = {
+	$SUPPORTER$ = {
+		can_be_granted_titles_by = { RULER = $CONTENDER$ }
+		OR = {
+			is_vassal_or_below_of = $CONTENDER$
+			BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = $PRESSED_CLAIM$ }
+		}
+	}
+}
+
+BMU_title_can_be_bargained = {
+	NOR = {
+		this = $GIVER$.primary_title
+		this = $GIVER$.capital_county
+	}
+	
+	$TAKER$ = {
+		OR = {
+			has_claim_on = $TITLE$
+			$TITLE$.current_heir = this
+			custom_description = {
+				text = BMU_any_held_title_de_jure_above_target
+				subject = this
+				object = $TITLE$
+				any_held_title = { is_de_jure_liege_or_above_target = $TITLE$ }
+			}
+			trigger_if = {
+				limit = { $TITLE$.tier >= tier_duchy }
+				custom_description = {
+					text = BMU_target_de_jure_above_any_held_title
+					subject = this
+					object = $TITLE$
+					any_held_title = { target_is_de_jure_liege_or_above = $TITLE$ }
+				}
+			}
+		}
+	}
+}

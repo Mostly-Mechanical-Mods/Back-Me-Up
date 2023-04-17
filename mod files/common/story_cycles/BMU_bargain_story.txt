@@ -15,5 +15,60 @@
 	}
 
 	effect_group = {
+		weeks = 1
+		triggered_effect = {
+			trigger = {
+				NAND = {
+					switch = {
+						trigger = var:ambition
+						flag:FF_ambition_get_council_position = {
+							switch = {
+								trigger = var:council_position
+								flag:councillor_chancellor = { BMU_bargain_council_position_is_valid = { PRESSED_CLAIM = scope:story.var:pressed_claim CONTENDER = scope:story.var:contender.var:stakeholder SUPPORTER = scope:story.var:supporter.var:stakeholder COUNCIL_POSITION = councillor_chancellor }}
+								flag:councillor_steward = { BMU_bargain_council_position_is_valid = { PRESSED_CLAIM = scope:story.var:pressed_claim CONTENDER = scope:story.var:contender.var:stakeholder SUPPORTER = scope:story.var:supporter.var:stakeholder COUNCIL_POSITION = councillor_steward }}
+								flag:councillor_marshal = { BMU_bargain_council_position_is_valid = { PRESSED_CLAIM = scope:story.var:pressed_claim CONTENDER = scope:story.var:contender.var:stakeholder SUPPORTER = scope:story.var:supporter.var:stakeholder COUNCIL_POSITION = councillor_marshal }}
+								flag:councillor_spymaster = { BMU_bargain_council_position_is_valid = { PRESSED_CLAIM = scope:story.var:pressed_claim CONTENDER = scope:story.var:contender.var:stakeholder SUPPORTER = scope:story.var:supporter.var:stakeholder COUNCIL_POSITION = councillor_spymaster }}
+								flag:councillor_court_chaplain = { BMU_bargain_council_position_is_valid = { PRESSED_CLAIM = scope:story.var:pressed_claim CONTENDER = scope:story.var:contender.var:stakeholder SUPPORTER = scope:story.var:supporter.var:stakeholder COUNCIL_POSITION = councillor_court_chaplain }}
+								flag:councillor_castellan = { BMU_bargain_council_position_is_valid = { PRESSED_CLAIM = scope:story.var:pressed_claim CONTENDER = scope:story.var:contender.var:stakeholder SUPPORTER = scope:story.var:supporter.var:stakeholder COUNCIL_POSITION = councillor_castellan }}
+								flag:councillor_admiral = { BMU_bargain_council_position_is_valid = { PRESSED_CLAIM = scope:story.var:pressed_claim CONTENDER = scope:story.var:contender.var:stakeholder SUPPORTER = scope:story.var:supporter.var:stakeholder COUNCIL_POSITION = councillor_admiral }}
+							}
+							BMU_bargain_council_position_is_valid = {
+								PRESSED_CLAIM = scope:story.var:pressed_claim
+								CONTENDER = scope:story.var:contender.var:stakeholder
+								SUPPORTER = scope:story.var:supporter.var:stakeholder
+								COUNCIL_POSITION = scope:story.var:council_position
+							}
+						}
+						flag:BMU_bargain_owned_title = {
+							BMU_can_bargain_titles = {
+								PRESSED_CLAIM = scope:story.var:pressed_claim
+								CONTENDER = scope:story.var:contender.var:stakeholder
+								SUPPORTER = scope:story.var:supporter.var:stakeholder
+							}
+							BMU_title_can_be_bargained = {
+								GIVER = scope:story.var:contender.var:stakeholder
+								TAKER = scope:story.var:supporter.var:stakeholder
+								TITLE = scope:story.var:title
+							}
+						}
+					}
+				}
+			}
+			effect = {
+				story_owner = {
+					send_interface_toast = {
+						title = BMU_BARGAIN_INVALIDATED
+						left_icon = scope:story.var:supporter.var:stakeholder
+					}
+				}
+				scope:story.var:supporter.var:stakeholder = {
+					send_interface_toast = {
+						title = BMU_BARGAIN_INVALIDATED
+						left_icon = scope:story.story_owner
+					}
+				}
+				end_story = yes
+			}
+		}
 	}
 }

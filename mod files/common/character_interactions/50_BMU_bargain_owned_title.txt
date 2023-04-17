@@ -101,12 +101,10 @@
 			limit = { NOT = { exists = scope:pressed_claim }}
 			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
 		}
-		scope:recipient = {
-			can_be_granted_titles_by = { RULER = scope:actor }
-			OR = {
-				is_vassal_or_below_of = scope:actor
-				BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }
-			}
+		BMU_can_bargain_titles = {
+			PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction
+			CONTENDER = scope:actor
+			SUPPORTER = scope:recipient
 		}
 		scope:actor = {
 			any_held_title = { add_to_temporary_list = bargain_titles count = all }
@@ -119,43 +117,8 @@
 			any_in_list = {
 				list = bargain_titles
 				# custom = BMU_bargain_titles
-				NOR = {
-					this = scope:actor.primary_title
-					this = scope:actor.capital_county
-				}
 				save_temporary_scope_as = bargain_title
-				scope:recipient = {
-					OR = {
-						has_claim_on = scope:bargain_title
-						scope:bargain_title.current_heir = this
-						custom_description = {
-							text = BMU_any_held_title_de_jure_above_target
-							subject = this
-							object = scope:bargain_title
-							any_held_title = { is_de_jure_liege_or_above_target = scope:bargain_title }
-						}
-						trigger_if = {
-							limit = { scope:bargain_title.tier >= tier_duchy }
-							custom_description = {
-								text = BMU_target_de_jure_above_any_held_title
-								subject = this
-								object = scope:bargain_title
-								any_held_title = { target_is_de_jure_liege_or_above = scope:bargain_title }
-							}
-						}
-					}
-				}
-				# trigger_if = {
-				# 	limit = {
-				# 		scope:recipient = scope:actor.player_heir
-				# 		scope:actor = { has_partition_succession_realm_law_trigger = yes }
-				# 	}
-				# 	custom_description = {
-				# 		text = partition_primary_heir_unfair
-				# 		subject = scope:recipient
-				# 		current_heir = scope:recipient
-				# 	}
-				# }
+				BMU_title_can_be_bargained = { GIVER = scope:actor TAKER = scope:recipient TITLE = scope:bargain_title }
 			}
 		}
 	}
@@ -438,12 +401,10 @@ BMU_bargain_for_owned_title_interaction = {
 			limit = { NOT = { exists = scope:pressed_claim }}
 			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
 		}
-		scope:actor = {
-			can_be_granted_titles_by = { RULER = scope:recipient }
-			OR = {
-				is_vassal_or_below_of = scope:recipient
-				BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }
-			}
+		BMU_can_bargain_titles = {
+			PRESSED_CLAIM = scope:actor.var:pressed_claim
+			CONTENDER = scope:recipient
+			SUPPORTER = scope:actor
 		}
 		scope:recipient = {
 			any_held_title = { add_to_temporary_list = bargain_titles count = all }
@@ -461,38 +422,7 @@ BMU_bargain_for_owned_title_interaction = {
 					this = scope:recipient.capital_county
 				}
 				save_temporary_scope_as = bargain_title
-				scope:actor = {
-					OR = {
-						has_claim_on = scope:bargain_title
-						scope:bargain_title.current_heir = this
-						custom_description = {
-							text = BMU_any_held_title_de_jure_above_target
-							subject = this
-							object = scope:bargain_title
-							any_held_title = { is_de_jure_liege_or_above_target = scope:bargain_title }
-						}
-						trigger_if = {
-							limit = { scope:bargain_title.tier >= tier_duchy }
-							custom_description = {
-								text = BMU_target_de_jure_above_any_held_title
-								subject = this
-								object = scope:bargain_title
-								any_held_title = { target_is_de_jure_liege_or_above = scope:bargain_title }
-							}
-						}
-					}
-				}
-				# trigger_if = {
-				# 	limit = {
-				# 		scope:recipient = scope:actor.player_heir
-				# 		scope:actor = { has_partition_succession_realm_law_trigger = yes }
-				# 	}
-				# 	custom_description = {
-				# 		text = partition_primary_heir_unfair
-				# 		subject = scope:recipient
-				# 		current_heir = scope:recipient
-				# 	}
-				# }
+				BMU_title_can_be_bargained = { GIVER = scope:recipient TAKER = scope:actor TITLE = scope:bargain_title }
 			}
 		}
 	}

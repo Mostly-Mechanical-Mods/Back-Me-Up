@@ -114,6 +114,39 @@ BMU_ambition_get_council_position_councillor_spymaster = {
 	}
 }
 
+BMU_ambition_get_council_position_councillor_court_chaplain = {
+	add = {
+		value = {
+			add = BMU_ambition_get_council_position_base
+			add = ai_zeal
+		}
+		desc = BMU_ambition_get_council_position_councillor_court_chaplain
+		format = "FF_VALUE_FORMAT"
+	}
+}
+
+BMU_ambition_get_council_position_councillor_castellan = {
+	add = {
+		value = {
+			add = BMU_ambition_get_council_position_base
+			add = ai_greed
+		}
+		desc = BMU_ambition_get_council_position_councillor_castellan
+		format = "FF_VALUE_FORMAT"
+	}
+}
+
+BMU_ambition_get_council_position_councillor_admiral = {
+	add = {
+		value = {
+			add = BMU_ambition_get_council_position_base
+			add = ai_boldness
+		}
+		desc = BMU_ambition_get_council_position_councillor_admiral
+		format = "FF_VALUE_FORMAT"
+	}
+}
+
 BMU_ambition_get_title = {
 	if = {
 		limit = { save_temporary_scope_as = PoV }

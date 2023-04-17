@@ -124,9 +124,14 @@ BMU_error_suppression.0001 = {
 		fix_variable_error = { X = BMU_gui_sort_options_rank }
 		fix_variable_error = { X = BMU_gui_sort_options_gambit_cost }
 		fix_variable_error = { X = Ascending }
+		fix_variable_error = { X = bargain }
+		fix_variable_error = { X = request_support }
+		fix_variable_error = { X = council_position }
+		fix_variable_error = { X = owned_title }
 		# sgui
 		fix_variable_error = { X = max_military_strength }
 		fix_variable_error = { X = score_diff }
+
 
 		# reevaluate
 		fix_variable_error = { X = broken }

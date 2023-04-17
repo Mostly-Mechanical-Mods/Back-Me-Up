@@ -54,10 +54,13 @@ BMU_bargain_for_council_position_interaction: "Bargain Council Position"
 BMU_bargain_for_council_position_interaction_desc: "Ask [recipient.GetShortUINameNoTooltip] for a Council Position in exchange for your support for [recipient.GetHerHis] claim on the [GetPlayer.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.GetName]\n$BMU_select_pressed_claim_tooltip$"
 
 BMU_bargain_council_position_interaction_option: "Promised Council Position:"
-BMU_bargain_council_position_interaction_option_chancellor: "@skill_diplomacy_icon! [chancellor|E]"
-BMU_bargain_council_position_interaction_option_steward: "@skill_stewardship_icon! [steward|E]"
-BMU_bargain_council_position_interaction_option_marshal: "@skill_martial_icon! [marshal|E]"
-BMU_bargain_council_position_interaction_option_spymaster: "@skill_intrigue_icon! [spymaster|E]"
+BMU_bargain_council_position_interaction_option_councillor_chancellor: "@skill_diplomacy_icon! [chancellor|E]"
+BMU_bargain_council_position_interaction_option_councillor_steward: "@skill_stewardship_icon! [steward|E]"
+BMU_bargain_council_position_interaction_option_councillor_marshal: "@skill_martial_icon! [marshal|E]"
+BMU_bargain_council_position_interaction_option_councillor_spymaster: "@skill_intrigue_icon! [spymaster|E]"
+BMU_bargain_council_position_interaction_option_councillor_court_chaplain: "@skill_learning_icon! [court_chaplain|E]"
+BMU_bargain_council_position_interaction_option_councillor_castellan: "@skill_stewardship_icon! [spymaster|E]"
+BMU_bargain_council_position_interaction_option_councillor_admiral: "@skill_martial_icon! [spymaster|E]"
 
 # BMU_bargain_with_owned_title_interaction
 
