@@ -122,12 +122,14 @@
  BMU_tooltip_gaelic_vote_strength_current_house_head:0 "Current [house_head|E]"
 
 
+ BMU_tooltip_liege_would_lose_land: "[SCOPE.sC('score_contender').GetSheHe] would not be my Vassal"
+ BMU_tooltip_liege_would_lose_land: "[SCOPE.sC('score_contender').GetSheHe] would be my Vassal"
  BMU_tooltip_FF_loyalty_pos: "I am loyal to my Liege"
  BMU_tooltip_FF_loyalty_neg: "I am not loyal to my Liege"
-BMU_tooltip_ally: "I will honor our alliance"
+ BMU_tooltip_ally: "I will honor our alliance"
  BMU_tooltip_is_councillor_of_claim_target: "I could lose my position of power"
  BMU_tooltip_unfulfilled_ambitions: "I want something for my trouble"
- BMU_tooltip_struck_bargain: "I struck a bargain with [SCOPE.sC('score_contender').GetHerHim|U]"
+ BMU_tooltip_struck_bargain: "I struck a bargain with [SCOPE.sC('score_contender').GetHerHim]"
  BMU_tooltip_reluctance_to_fight: "I am reluctant to fight"
 
 

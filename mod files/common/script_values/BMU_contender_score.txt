@@ -59,6 +59,48 @@ BMU_contender_score = {
 
 BMU_contender_score_gui = {
 	add = BMU_contender_legitimacy
+	# Claim Target Liege
+	if = {
+		limit = {
+			scope:claim_target = { is_independent_ruler = no }
+			this = scope:claim_target.liege
+			scope:pressed_claim = {
+				any_in_list = {
+					variable = contenders
+					trigger_if = {
+						limit = { story_owner = { is_independent_ruler = yes }}
+						NOT = { story_owner.highest_held_title_tier < scope:score_supporter.highest_held_title_tier }
+					}
+					trigger_else = {
+						NOT = { root = { is_liege_or_above_of = prev.story_owner }}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				trigger_if = {
+					limit = { story_owner = { is_independent_ruler = yes }}
+					NOT = { scope:score_contender.highest_held_title_tier < scope:score_supporter.highest_held_title_tier }
+				}
+				trigger_else = {
+					NOT = { root = { is_liege_or_above_of = scope:score_contender }}
+				}
+			}
+			add = {
+				value = -500
+				desc = BMU_tooltip_liege_would_lose_land
+				format = "FF_VALUE_FORMAT"
+			}
+		}
+		else = {
+			add = {
+				value = 500
+				desc = BMU_tooltip_liege_would_prevent_land_loss
+				format = "FF_VALUE_FORMAT"
+			}
+		}
+	}
 	# Vassal Loyalty
 	if = {
 		limit = {

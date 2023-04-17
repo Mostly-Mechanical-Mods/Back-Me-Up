@@ -415,4 +415,37 @@ BMU_offer_support_interaction = {
 		base = 0
 		BMU_support_will_do_modifier = { CONTENDER = scope:recipient SUPPORTER = scope:actor }
 	}
+
+	ai_will_do = {
+		base = 0
+		BMU_support_will_do_modifier = { CONTENDER = scope:recipient SUPPORTER = scope:actor }
+	}
+
+	ai_targets = {
+		ai_recipients = vassals
+		max = 10
+	}
+
+	ai_targets = {
+		ai_recipients = scripted_relations
+	}
+
+	ai_potential = {
+		any_vassal_or_below = {
+			any_pressed_claim = {
+				any_in_list = {
+					variable = contenders
+					trigger_if = {
+						limit = { story_owner = { is_independent_ruler = yes }}
+						NOT = { story_owner.highest_held_title_tier < root.highest_held_title_tier }
+					}
+					trigger_else = {
+						NOT = { root = { is_liege_or_above_of = prev.story_owner }}
+					}
+				}
+			}
+		}
+	}
+
+	ai_frequency = 1
 }
