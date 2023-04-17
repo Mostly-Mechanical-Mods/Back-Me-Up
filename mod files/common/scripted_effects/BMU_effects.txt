@@ -228,6 +228,9 @@ BMU_create_bargain = {
 						else_if = { limit = { scope:councillor_steward = yes } set_variable = { name = council_position value = flag:councillor_steward }}
 						else_if = { limit = { scope:councillor_marshal = yes } set_variable = { name = council_position value = flag:councillor_marshal }}
 						else_if = { limit = { scope:councillor_spymaster = yes } set_variable = { name = council_position value = flag:councillor_spymaster }}
+						else_if = { limit = { scope:councillor_court_chaplain = yes } set_variable = { name = council_position value = flag:councillor_court_chaplain }}
+						else_if = { limit = { scope:councillor_castellan = yes } set_variable = { name = council_position value = flag:councillor_castellan }}
+						else_if = { limit = { scope:councillor_admiral = yes } set_variable = { name = council_position value = flag:councillor_admiral }}
 						set_variable = { name = willingness_cost value = scope:contender_char.BMU_willingness_bargain_council_position }
 						set_variable = { name = support_score value = scope:supporter_temp.story_owner.BMU_ambition_get_council_position }
 					}

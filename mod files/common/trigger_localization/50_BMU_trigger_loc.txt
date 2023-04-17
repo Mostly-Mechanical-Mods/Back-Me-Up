@@ -122,6 +122,15 @@ BMU_ambition_get_council_position_councillor_marshal = {
 BMU_ambition_get_council_position_councillor_spymaster = {
 	third = BMU_THEY_WANT_COUNCIL_POSITION_SPYMASTER
 }
+BMU_ambition_get_council_position_councillor_court_chaplain = {
+	third = BMU_THEY_WANT_COUNCIL_POSITION_SPYMASTER
+}
+BMU_ambition_get_council_position_councillor_castellan = {
+	third = BMU_THEY_WANT_COUNCIL_POSITION_SPYMASTER
+}
+BMU_ambition_get_council_position_councillor_admiral = {
+	third = BMU_THEY_WANT_COUNCIL_POSITION_SPYMASTER
+}
 
 BMU_bargained_with_council_position_councillor_chancellor = {
 	first = BMU_I_BARGAINED_WITH_COUNCIL_POSITION_CHANCELLOR

@@ -17,6 +17,18 @@
 			limit = { scope:councillor_spymaster = yes }
 			add = BMU_ambition_get_council_position_councillor_spymaster
 		}
+		else_if = {
+			limit = { scope:councillor_court_chaplain = yes }
+			add = BMU_ambition_get_council_position_councillor_court_chaplain
+		}
+		else_if = {
+			limit = { scope:councillor_castellan = yes }
+			add = BMU_ambition_get_council_position_councillor_castellan
+		}
+		else_if = {
+			limit = { scope:councillor_admiral = yes }
+			add = BMU_ambition_get_council_position_councillor_admiral
+		}
 		else = {
 			add = BMU_ambition_get_council_position_base
 		}

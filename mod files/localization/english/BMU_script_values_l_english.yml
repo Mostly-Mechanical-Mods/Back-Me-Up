@@ -12,6 +12,9 @@ BMU_ambition_get_council_position_councillor_chancellor: "I want to be Chancello
 BMU_ambition_get_council_position_councillor_steward: "I want to be Steward"
 BMU_ambition_get_council_position_councillor_marshal: "I want to be Marshal"
 BMU_ambition_get_council_position_councillor_spymaster: "I want to be Spymaster"
+BMU_ambition_get_council_position_councillor_court_chaplain: "I want to be Court Chaplain"
+BMU_ambition_get_council_position_councillor_castellan: "I want to be Castellan"
+BMU_ambition_get_council_position_councillor_admiral: "I want to be Admiral"
 BMU_ambition_has_council_position: "I am already on the Council"
 
 

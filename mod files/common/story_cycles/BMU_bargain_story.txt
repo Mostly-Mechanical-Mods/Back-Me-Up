@@ -32,12 +32,6 @@
 								flag:councillor_castellan = { BMU_bargain_council_position_is_valid = { PRESSED_CLAIM = scope:story.var:pressed_claim CONTENDER = scope:story.var:contender.var:stakeholder SUPPORTER = scope:story.var:supporter.var:stakeholder COUNCIL_POSITION = councillor_castellan }}
 								flag:councillor_admiral = { BMU_bargain_council_position_is_valid = { PRESSED_CLAIM = scope:story.var:pressed_claim CONTENDER = scope:story.var:contender.var:stakeholder SUPPORTER = scope:story.var:supporter.var:stakeholder COUNCIL_POSITION = councillor_admiral }}
 							}
-							BMU_bargain_council_position_is_valid = {
-								PRESSED_CLAIM = scope:story.var:pressed_claim
-								CONTENDER = scope:story.var:contender.var:stakeholder
-								SUPPORTER = scope:story.var:supporter.var:stakeholder
-								COUNCIL_POSITION = scope:story.var:council_position
-							}
 						}
 						flag:BMU_bargain_owned_title = {
 							BMU_can_bargain_titles = {

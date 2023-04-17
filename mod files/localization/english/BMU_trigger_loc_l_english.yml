@@ -66,6 +66,21 @@ NOT_BMU_THEY_WANT_COUNCIL_POSITION_MARSHAL: "[CHARACTER.GetShortUINameNoTooltip]
 BMU_THEY_WANT_COUNCIL_POSITION_SPYMASTER: "[CHARACTER.GetShortUINameNoTooltip] aspires to be Spymaster"
 NOT_BMU_THEY_WANT_COUNCIL_POSITION_SPYMASTER: "[CHARACTER.GetShortUINameNoTooltip] does not aspire to be Spymaster"
 
+# BMU_ambition_get_council_position_councillor_court_chaplain
+
+BMU_THEY_WANT_COUNCIL_POSITION_COURT_CHAPLAIN: "[CHARACTER.GetShortUINameNoTooltip] aspires to be Court Chaplain"
+NOT_BMU_THEY_WANT_COUNCIL_POSITION_COURT_CHAPLAIN: "[CHARACTER.GetShortUINameNoTooltip] does not aspire to be Court Chaplain"
+
+# BMU_ambition_get_council_position_councillor_castellan
+
+BMU_THEY_WANT_COUNCIL_POSITION_CASTELLAN: "[CHARACTER.GetShortUINameNoTooltip] aspires to be Castellan"
+NOT_BMU_THEY_WANT_COUNCIL_POSITION_CASTELLAN: "[CHARACTER.GetShortUINameNoTooltip] does not aspire to be Castellan"
+
+# BMU_ambition_get_council_position_councillor_admiral
+
+BMU_THEY_WANT_COUNCIL_POSITION_ADMIRAL: "[CHARACTER.GetShortUINameNoTooltip] aspires to be Admiral"
+NOT_BMU_THEY_WANT_COUNCIL_POSITION_ADMIRAL: "[CHARACTER.GetShortUINameNoTooltip] does not aspire to be Admiral"
+
 # BMU_bargained_with_council_position_councillor_chancellor
 
 BMU_I_BARGAINED_WITH_COUNCIL_POSITION_CHANCELLOR: "[CHARACTER.GetShortUINameNoTooltip|U] already promised [TARGET_CHARACTER.GetShortUINameNoTooltip] the Chancellor Council Position"
