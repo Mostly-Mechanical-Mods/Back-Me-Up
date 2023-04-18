@@ -164,3 +164,7 @@ I_CAN_BE_FIRED_FROM_COUNCIL: "[CHARACTER.GetCouncilTitleFirstName] can be fired 
 NOT_I_CAN_BE_FIRED_FROM_COUNCIL: "[CHARACTER.GetCouncilTitleFirstName] cannot be fired from the Council"
 THEY_CAN_BE_FIRED_FROM_COUNCIL: "[CHARACTER.GetCouncilTitleFirstName] can be fired from the Council"
 NOT_THEY_CAN_BE_FIRED_FROM_COUNCIL: "[CHARACTER.GetCouncilTitleFirstName] cannot be fired from the Council"
+
+# BMU_involved_in_another_pressed_claim
+BMU_I_AM_INVOLVED_IN_ANOTHER_PRESSED_CLAIM: "You are already involved in a [BMU_pressed_claim|E]"
+BMU_THEY_ARE_INVOLVED_IN_ANOTHER_PRESSED_CLAIM: "[CHARACTER.GetShortUIName] is already involved in a [BMU_pressed_claim|E]"

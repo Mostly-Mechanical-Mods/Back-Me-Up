@@ -71,3 +71,10 @@ BMU_bargain_for_owned_title_interaction: "Bargain Title"
 BMU_bargain_for_owned_title_interaction_desc: "Ask [recipient.GetShortUINameNoTooltip] for a Title in exchange for your support for [recipient.GetHerHis] claim on the [GetPlayer.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.GetName]\n\n#help You can only bargain a Title if either:\n$BULLET_WITH_TAB$[actor.GetShortUINameNoTooltipNoFormat] have a claim on it\n$BULLET_WITH_TAB$[actor.GetShortUINameNoTooltipNoFormat] have De Jure rights over it\n$BULLET_WITH_TAB$it is De Jure above any Title held by [actor.GetShortUINameNoTooltipNoFormat]#!\n$BMU_select_pressed_claim_tooltip$"
 
 BMU_bargain_owned_title: "BMU_bargain_owned_title"
+
+
+# BMU_drop_out_interaction
+
+BMU_drop_out_interaction: "Drop out of [BMU_pressed_claim|E]"
+BMU_drop_out_interaction_desc: "Drop out of a [BMU_pressed_claim|E] you are involved in\nIf there are no other remaining [contenders|E], the [BMU_pressed_claim|E] will end"
+BMU_drop_out_interaction_notification: "I will stop contending for the [target.GetBaseNameNoTierNoTooltip]... for now, at least."

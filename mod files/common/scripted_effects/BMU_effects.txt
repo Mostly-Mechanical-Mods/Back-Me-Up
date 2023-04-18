@@ -165,6 +165,33 @@ BMU_dropout_supporters_of = {
 	}
 }
 
+BMU_dropout_contender = {
+	$CONTENDER$ = {
+		every_contender_story = {
+			limit = { var:pressed_claim_story = $PRESSED_CLAIM$ }
+			end_story = yes
+		}
+	}
+
+	if = {
+		limit = {
+			$PRESSED_CLAIM$ = {
+				any_in_list = {
+					variable = contenders
+					NOR = {
+						story_owner = var:pressed_claim_story.story_owner
+						story_owner = $CONTENDER$
+					}
+					count = 0
+				}
+			}
+		}
+		custom_tooltip = {
+			text = BMU_PRESSED_CLAIM_NO_CONTENDERS
+			$PRESSED_CLAIM$ = { end_story = yes }
+		}
+	}
+}
 
 
 # CLEAN

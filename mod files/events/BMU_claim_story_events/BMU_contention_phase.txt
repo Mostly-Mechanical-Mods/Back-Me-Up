@@ -1,4 +1,4 @@
-﻿# namespace = BMU_pressed_claim
+﻿namespace = BMU_pressed_claim
 
 # #First Contender informs target + claimants that they are pressing their claim
 # BMU_pressed_claim.0010 = {
@@ -595,3 +595,14 @@
 # 		}
 # 	}
 # }
+
+BMU_pressed_claim.0050 = {
+	type = letter_event
+	sender = scope:actor
+	opening = BMU_CONTENDER_DROP_OUT
+	desc = BMU_CONTENDER_DROP_OUT_DESC
+
+	option = {
+		name = BMU_CONTENDER_DROP_OUT.a
+	}
+}

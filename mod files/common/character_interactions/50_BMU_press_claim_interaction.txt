@@ -59,11 +59,13 @@
 	
 	is_valid_showing_failures_only = {
 		scope:actor = {
-			custom_description = {
-				text = BMU_involved_in_another_pressed_claim
-				subject = this
-				any_contender_story = {
-					count = 0
+			NOT = {
+				custom_description = {
+					text = BMU_involved_in_another_pressed_claim
+					subject = this
+					any_contender_story = {
+						count > 0
+					}
 				}
 			}
 		}
