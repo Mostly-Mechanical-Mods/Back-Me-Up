@@ -187,8 +187,8 @@ BMU_contender_score_gui = {
 			any_owned_story = {
 				story_type = BMU_supporter_story
 				var:pressed_claim_story = scope:pressed_claim
-				exists = var:bargain
-				var:bargain = { save_temporary_scope_as = bargain }
+				exists = var:bargain_type
+				var:bargain_type = { save_temporary_scope_as = bargain }
 			}
 		}
 		if = {

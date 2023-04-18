@@ -16,6 +16,11 @@
 			name = phase
 			value = flag:contention_phase
 		}
+
+		set_variable = {
+			name = pressed_claim_length
+			value = 240
+		}
 	}
 	
 	on_end = {
@@ -70,36 +75,23 @@
 	}
 
 	effect_group = {
-		months = 1
-		# days = 30
+		days = 1
 		first_valid = {
 			triggered_effect = {
-				trigger = { var:phase = flag:war_phase }
+				trigger = {
+					FF_pressed_claim_story_time_remaining <= 0
+					NOT = { var:phase = flag:war_phase }
+				}
 				effect = {
-					save_scope_as = pressed_claim
+					# DEBUG
 					if = {
 						limit = { debug_only = yes }
 						debug_log = "BMU_pressed_claim_story triggered_effect var:phase = flag:war_phase"
 						debug_log_scopes = no
 						story_owner = { debug_log_scopes = no }
 					}
-				}
-			}
-			# War Phase
-			triggered_effect = {
-				trigger = { var:phase = flag:declaration_phase }
-				effect = {
+					set_variable = { name = phase value = flag:war_phase }
 					save_scope_as = pressed_claim
-					if = {
-						limit = { debug_only = yes }
-						debug_log = "BMU_pressed_claim_story triggered_effect var:phase = flag:declaration_phase"
-						debug_log_scopes = no
-						story_owner = { debug_log_scopes = no }
-					}
-					set_variable = {
-						name = phase
-						value = flag:war_phase
-					}
 					var:claim_target = { save_scope_as = claim_target }
 					var:claimed_title = {
 						save_scope_as = claimed_title
@@ -184,9 +176,11 @@
 					}
 				}
 			}
-			# Declaration Phase
 			triggered_effect = {
-				trigger = { var:phase = flag:rallying_phase }
+				trigger = {
+					FF_pressed_claim_story_time_remaining <= 30
+					var:phase = flag:rallying_phase
+				}
 				effect = {
 					if = {
 						limit = { debug_only = yes }
@@ -195,41 +189,23 @@
 						story_owner = { debug_log_scopes = no }
 					}
 					save_scope_as = pressed_claim
-					if = {
-						limit = { var:rallying_phase >= 5 }
-						set_variable = {
-							name = phase
-							value = flag:declaration_phase
-						}
-					}
-					else = {
-						change_variable = {
-							name = rallying_phase
-							add = 1
-						}
-					}
+					set_variable = { name = phase value = flag:declaration_phase }
 				}
 			}
-			# Rallying Phase
 			triggered_effect = {
-				trigger = { var:phase = flag:contention_phase }
+				trigger = {
+					FF_pressed_claim_story_time_passed >= 30
+					var:phase = flag:contention_phase
+				}
 				effect = {
-					save_scope_as = pressed_claim
 					if = {
 						limit = { debug_only = yes }
 						debug_log = "BMU_pressed_claim_story triggered_effect var:phase = flag:contention_phase"
 						debug_log_scopes = no
 						story_owner = { debug_log_scopes = no }
 					}
-
-					set_variable = {
-						name = phase
-						value = flag:rallying_phase
-					}
-					set_variable = {
-						name = rallying_phase
-						value = 0
-					}
+					save_scope_as = pressed_claim
+					set_variable = { name = phase value = flag:rallying_phase }
 
 					every_in_list = {
 						variable = contenders
@@ -340,7 +316,6 @@
 							}
 						}
 					}
-					set_variable = stakeholders_added
 				}
 			}
 		}

@@ -26,7 +26,7 @@
 BMU_execute_bargain = {
 	save_scope_as = executed_bargain
 	if = {
-		limit = { var:ambition = flag:FF_ambition_get_council_position }
+		limit = { var:bargain_type = flag:FF_ambition_get_council_position }
 		switch = {
 			trigger = var:council_position
 			flag:councillor_chancellor = { save_scope_value_as = { name = scope:councillor_chancellor value = yes }}
@@ -41,7 +41,7 @@ BMU_execute_bargain = {
 		}
 	}
 	else_if = {
-		limit = { var:ambition = flag:BMU_bargain_owned_title }
+		limit = { var:bargain_type = flag:BMU_bargain_owned_title }
 		BMU_bargain_owned_title_post_effect = {
 			PRESSED_CLAIM = scope:executed_bargain.var:pressed_claim
 			CONTENDER = scope:executed_bargain.story_owner
@@ -225,6 +225,7 @@ BMU_create_bargain = {
 					
 					if = {
 						limit = { exists = scope:FF_ambition_get_council_position }
+						if = { limit = { debug_only = yes } debug_log = "FF_ambition_get_council_position" }
 						if = { limit = { BMU_bargain_council_position_setup_trigger_global = yes }}
 						set_variable = { name = bargain_type value = flag:FF_ambition_get_council_position }
 						if = { limit = { scope:councillor_chancellor = yes } set_variable = { name = council_position value = flag:councillor_chancellor }}
@@ -236,14 +237,18 @@ BMU_create_bargain = {
 						else_if = { limit = { scope:councillor_admiral = yes } set_variable = { name = council_position value = flag:councillor_admiral }}
 						set_variable = { name = willingness_cost value = scope:contender_char.BMU_willingness_bargain_council_position }
 						set_variable = { name = support_score value = scope:supporter_temp.story_owner.BMU_ambition_get_council_position }
+						if = { limit = { debug_only = yes } var:council_position = { debug_log_scopes = no }}
 					}
 					else_if = {
 						limit = { exists = scope:BMU_bargain_owned_title exists = scope:target }
+						if = { limit = { debug_only = yes } debug_log = "BMU_bargain_owned_title" }
 						set_variable = { name = bargain_type value = flag:BMU_bargain_owned_title }
 						set_variable = { name = title value = scope:target }
 						set_variable = { name = willingness_cost value = scope:contender_char.BMU_willingness_bargain_title }
 						set_variable = { name = support_score value = scope:supporter_temp.story_owner.BMU_ambition_get_title }
+						if = { limit = { debug_only = yes } var:title = { debug_log_scopes = no }}
 					}
+					else = { if = { limit = { debug_only = yes } debug_log = "no ambition" }}
 				}
 				scope:contender_temp = {
 					add_to_variable_list = {

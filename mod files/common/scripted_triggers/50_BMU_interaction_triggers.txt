@@ -49,7 +49,7 @@ BMU_interaction_AI_blocker = {
 
 BMU_bargain_council_position_interaction_is_valid = {
 	trigger_if = {
-		limit = { $SUPPORTER$ = { BMU_can_be_councillor_of = { TARGET = $CONTENDER$ PRESSED_CLAIM = $PRESSED_CLAIM$ }}}
+		limit = { $SUPPORTER$ = { BMU_can_be_councillor_of = { COURT_OWNER = $CONTENDER$ PRESSED_CLAIM = $PRESSED_CLAIM$ }}}
 		OR = {
 			BMU_bargain_council_position_is_valid = { PRESSED_CLAIM = $PRESSED_CLAIM$ CONTENDER = $CONTENDER$ SUPPORTER = $SUPPORTER$ COUNCIL_POSITION = councillor_chancellor }
 			BMU_bargain_council_position_is_valid = { PRESSED_CLAIM = $PRESSED_CLAIM$ CONTENDER = $CONTENDER$ SUPPORTER = $SUPPORTER$ COUNCIL_POSITION = councillor_steward }
@@ -58,5 +58,5 @@ BMU_bargain_council_position_interaction_is_valid = {
 			BMU_bargain_council_position_is_valid = { PRESSED_CLAIM = $PRESSED_CLAIM$ CONTENDER = $CONTENDER$ SUPPORTER = $SUPPORTER$ COUNCIL_POSITION = councillor_court_chaplain }
 		}
 	}
-	trigger_else = { $SUPPORTER$ = { BMU_can_be_councillor_of = { TARGET = $CONTENDER$ PRESSED_CLAIM = $PRESSED_CLAIM$ }}}
+	trigger_else = { $SUPPORTER$ = { BMU_can_be_councillor_of = { COURT_OWNER = $CONTENDER$ PRESSED_CLAIM = $PRESSED_CLAIM$ }}}
 }
