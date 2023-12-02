@@ -17,7 +17,7 @@
 	effect_group = {
 		weeks = 1
 		triggered_effect = {
-			trigger = { debug_only = yes }
+			trigger = { BMU_debug = yes }
 			effect = {
 				debug_log = "BMU_bargain_story weekly"
 				debug_log_scopes = yes
@@ -77,7 +77,7 @@
 			}
 			effect = {
 				if = {
-					limit = { debug_only = yes }
+					limit = { BMU_debug = yes }
 					debug_log = "BMU_bargain_story weekly Bargain invalid"
 					debug_log_scopes = yes
 					story_owner = { debug_log_scopes = no }

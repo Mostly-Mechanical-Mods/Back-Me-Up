@@ -482,7 +482,7 @@ BMU_set_relation_stakeholder = {
 
 BMU_calc_best_contenders = {
 	if = {
-		limit = { debug_only = yes }
+		limit = { BMU_debug = yes }
 		debug_log = "BMU_calc_best_contenders"
 		debug_log_scopes = no
 		story_owner = { debug_log_scopes = no }
@@ -510,7 +510,7 @@ BMU_calc_best_contenders = {
 				if = {
 					limit = { NOT = { has_variable = best_contender }}
 					if = {
-						limit = { debug_only = yes }
+						limit = { BMU_debug = yes }
 						debug_log = "best_contender"
 						prev = {
 							debug_log_scopes = no
@@ -528,7 +528,7 @@ BMU_calc_best_contenders = {
 				}
 				else = {
 					if = {
-						limit = { debug_only = yes }
+						limit = { BMU_debug = yes }
 						debug_log = "worthy_contender"
 						prev = {
 							debug_log_scopes = no
@@ -667,7 +667,7 @@ BMU_request_support = {
 				random_stakeholder_story = {
 					limit = { var:pressed_claim_story = $PRESSED_CLAIM$ }
 					if = {
-						limit = { debug_only = yes }
+						limit = { BMU_debug = yes }
 						set_variable = { name = end_story value = flag:call_in_supporter_on_accept }
 					}
 					end_story = yes
@@ -702,7 +702,7 @@ BMU_request_support = {
 						random_bargain = {
 							limit = { var:pressed_claim = $PRESSED_CLAIM$ }
 							if = {
-								limit = { debug_only = yes }
+								limit = { BMU_debug = yes }
 								set_variable = { name = end_story value = flag:call_in_supporter_on_accept }
 							}
 							end_story = yes

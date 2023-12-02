@@ -1,7 +1,7 @@
 ﻿BMU_pressed_claim_story = {
 	on_setup = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_pressed_claim_story on_setup"
 			debug_log_scopes = no
 			story_owner = { debug_log_scopes = no }
@@ -25,7 +25,7 @@
 	
 	on_end = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_pressed_claim_story on_end"
 			debug_log_scopes = no
 			story_owner = { debug_log_scopes = no }
@@ -56,7 +56,7 @@
 
 	on_owner_death = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_pressed_claim_story on_owner_death"
 			debug_log_scopes = no
 			story_owner = { debug_log_scopes = no }
@@ -85,7 +85,7 @@
 				effect = {
 					# DEBUG
 					if = {
-						limit = { debug_only = yes }
+						limit = { BMU_debug = yes }
 						debug_log = "BMU_pressed_claim_story triggered_effect var:phase = flag:war_phase"
 						debug_log_scopes = no
 						story_owner = { debug_log_scopes = no }
@@ -183,7 +183,7 @@
 				}
 				effect = {
 					if = {
-						limit = { debug_only = yes }
+						limit = { BMU_debug = yes }
 						debug_log = "BMU_pressed_claim_story triggered_effect var:phase = flag:rallying_phase"
 						debug_log_scopes = no
 						story_owner = { debug_log_scopes = no }
@@ -199,7 +199,7 @@
 				}
 				effect = {
 					if = {
-						limit = { debug_only = yes }
+						limit = { BMU_debug = yes }
 						debug_log = "BMU_pressed_claim_story triggered_effect var:phase = flag:contention_phase"
 						debug_log_scopes = no
 						story_owner = { debug_log_scopes = no }
@@ -326,7 +326,7 @@
 		triggered_effect = {
 			effect = {
 				if = {
-					limit = { debug_only = yes }
+					limit = { BMU_debug = yes }
 					debug_log = "BMU_pressed_claim_story triggered_effect weekly"
 					debug_log_scopes = no
 					story_owner = { debug_log_scopes = no }
@@ -392,7 +392,7 @@
 BMU_contender_story = {
 	on_setup = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_contender_story on_setup"
 			debug_log_scopes = no
 			story_owner = { debug_log_scopes = no }
@@ -424,7 +424,7 @@ BMU_contender_story = {
 	}
 	on_end = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_contender_story on_end"
 			debug_log_scopes = no
 			story_owner = { debug_log_scopes = no }
@@ -481,7 +481,7 @@ BMU_contender_story = {
 	}
 	on_owner_death = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_contender_story on_owner_death"
 			debug_log_scopes = no
 			story_owner = { debug_log_scopes = no }
@@ -511,7 +511,7 @@ BMU_contender_story = {
 BMU_supporter_story = {
 	on_setup = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_supporter_story on_setup"
 			debug_log_scopes = no
 			story_owner = { debug_log_scopes = no }
@@ -531,7 +531,7 @@ BMU_supporter_story = {
 	}
 	on_end = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_supporter_story on_end"
 			debug_log_scopes = no
 			story_owner = { debug_log_scopes = no }
@@ -560,7 +560,7 @@ BMU_supporter_story = {
 	}
 	on_owner_death = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_supporter_story on_owner_death"
 			debug_log_scopes = no
 			story_owner = { debug_log_scopes = no }
@@ -584,7 +584,7 @@ BMU_supporter_story = {
 			trigger = { NOT = { var:pressed_claim_story.var:phase = flag:war_phase }}
 			effect = {
 				if = {
-					limit = { debug_only = yes }
+					limit = { BMU_debug = yes }
 					debug_log = "BMU_supporter_story triggered_effect NOT = { var:pressed_claim_story.var:phase = flag:war_phase }"
 					debug_log_scopes = no
 					story_owner = { debug_log_scopes = no }
@@ -641,7 +641,7 @@ BMU_supporter_story = {
 BMU_stakeholder_story = {
 	on_setup = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_stakeholder_story on_setup"
 			debug_log_scopes = no
 			story_owner = { debug_log_scopes = no }
@@ -657,7 +657,7 @@ BMU_stakeholder_story = {
 	}
 	on_end = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_stakeholder_story on_end"
 			debug_log_scopes = no
 			story_owner = { debug_log_scopes = no }
@@ -680,7 +680,7 @@ BMU_stakeholder_story = {
 	}
 	on_owner_death = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_stakeholder_story on_owner_death"
 			debug_log_scopes = no
 			story_owner = { debug_log_scopes = no }
@@ -692,7 +692,7 @@ BMU_stakeholder_story = {
 		triggered_effect = {
 			effect = {
 				if = {
-					limit = { debug_only = yes }
+					limit = { BMU_debug = yes }
 					debug_log = "BMU_stakeholder_story triggered_effect"
 					debug_log_scopes = no
 					story_owner = { debug_log_scopes = no }

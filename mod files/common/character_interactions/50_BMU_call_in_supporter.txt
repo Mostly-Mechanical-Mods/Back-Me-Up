@@ -166,7 +166,7 @@
 
 	on_send = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_request_support_interaction on_send"
 			debug_log_scopes = yes
 			if = {
@@ -182,7 +182,7 @@
 	
 	on_accept = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_request_support_interaction on_accept"
 			debug_log_scopes = yes
 			if = {
@@ -369,7 +369,7 @@ BMU_offer_support_interaction = {
 
 	on_send = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_request_support_interaction on_send"
 			debug_log_scopes = yes
 			if = {
@@ -385,7 +385,7 @@ BMU_offer_support_interaction = {
 	
 	on_accept = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_request_support_interaction on_accept"
 			debug_log_scopes = yes
 			if = {

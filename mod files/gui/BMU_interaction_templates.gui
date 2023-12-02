@@ -1,0 +1,176 @@
+types BMUReplaceTypes {
+	type vbox_interaction_options = vbox {
+		name = "options_grid"
+		# visible = "[And(CharacterInteractionConfirmationWindow.HasOptions,EqualTo_string(CharacterInteractionConfirmationWindow.GetSendName,Localize('BMU_bargain_with_council_position_interaction')))]"
+		visible = "[CharacterInteractionConfirmationWindow.HasOptions]"
+		spacing = 4
+
+		block "margin"
+		{
+			margin = { 0 10 }
+		}
+		text_label_center = {
+			visible = "[Not( StringIsEmpty(CharacterInteractionConfirmationWindow.GetOptionsHeading) )]"
+			layoutpolicy_horizontal = expanding
+			text = "[CharacterInteractionConfirmationWindow.GetOptionsHeading]"
+			align = center|nobaseline
+		}
+
+		scrollbox = {
+			name = "options_scrollarea"
+			autoresizescrollarea = yes
+			scissor = yes
+
+			block "maximumsize" {
+				maximumsize = { -1 200 }
+			}
+
+			blockoverride "scrollbox_content"
+			{
+				set_parent_size_to_minimum = yes
+
+				block "minimumsize" {
+					minimumsize = { 640 0 }
+				}
+
+				vbox = {
+					name = "multiple_selection_options"
+					visible = "[Not( CharacterInteractionConfirmationWindow.HasExclusiveOptions )]"
+					layoutpolicy_horizontal = expanding
+					datamodel = "[CharacterInteractionConfirmationWindow.GetOptionItems]"
+
+					item = {
+						widget = {
+							visible = "[OptionItem.IsShown]"
+							layoutpolicy_horizontal = expanding
+							size = { 480 40 }
+
+							background = {
+								using = Background_Area_Border
+							}
+
+							hbox = {
+								background = {
+									visible = "[OptionItem.HasFlag( 'grand_wedding_promise' )]"
+
+									margin_right = 40
+									texture = "gfx/interface/colors/white.dds"
+									using = Mask_Rough_Edges
+									alpha = 0.4
+									margin_top = 4
+									modify_texture = {
+										texture = "gfx/interface/colors/colors_textured.dds"
+										blend_mode = normal
+										framesize = { 96 96 }
+										frame = 7
+									}
+									modify_texture = {
+										texture = "gfx/interface/component_masks/patterns/mask_pattern_01.dds"
+										spriteType = corneredtiled
+										blend_mode = alphamultiply
+										texture_density = 0.7
+									}
+									modify_texture = {
+										texture = "gfx/interface/component_masks/mask_fade_horizontal_middle.dds"
+										blend_mode = alphamultiply
+										mirror = horizontal
+									}
+								}
+
+								margin = { 16 0 }
+								spacing = 8
+								tooltip = "[OptionItem.GetTooltip]"
+								using = tooltip_below
+
+								button_checkbox = {
+									size = { 30 30 }
+									checked = "[OptionItem.HasOption]"
+									onclick = "[OptionItem.OnClick]"
+									enabled = "[And(OptionItem.IsValid, OptionItem.CanBeChanged)]"
+									visible = "[EqualTo_int32( OptionItem.GetNumLevels, '(int32)0' )]"
+								}
+
+								hbox_interaction_option_levels = {
+									visible = "[GreaterThan_int32( OptionItem.GetNumLevels, '(int32)1' )]"
+								}
+
+								text_single = {
+									layoutpolicy_horizontal = expanding
+									text = "[OptionItem.GetName]"
+									align = nobaseline
+								}
+							}
+						}
+					}
+				}
+
+				vbox = {
+					name = "exclusive_options"
+					visible = "[CharacterInteractionConfirmationWindow.HasExclusiveOptions]"
+					layoutpolicy_horizontal = expanding
+
+					hbox = {
+						name = "single_option"
+						layoutpolicy_horizontal = expanding
+						margin = { 10 0 }
+						visible = "[EqualTo_int32( CharacterInteractionConfirmationWindow.GetVisibleOptionsCount, '(int32)1' )]"
+
+						datacontext_from_model = {
+							datamodel = "[CharacterInteractionConfirmationWindow.GetOptionItems]"
+						}
+
+						background = {
+							using = Background_Area_Border
+						}
+
+						tooltip = "[OptionItem.GetTooltip]"
+						using = tooltip_below
+
+						text_single = {
+							text = "[OptionItem.GetName]"
+						}
+					}
+
+					vbox = {
+						name = "multiple_options"
+						layoutpolicy_horizontal = expanding
+						datamodel = "[CharacterInteractionConfirmationWindow.GetOptionItems]"
+
+						item = {
+							widget = {
+								visible = "[OptionItem.IsShown]"
+								layoutpolicy_horizontal = expanding
+								size = { 480 40 }
+
+								background = {
+									using = Background_Area_Border
+								}
+
+								hbox = {
+									margin = { 16 0 }
+									spacing = 8
+
+									tooltip = "[OptionItem.GetTooltip]"
+									using = tooltip_below
+
+									button_radio = {
+										size = { 30 30 }
+										frame = "[BoolTo1And2( OptionItem.HasOption )]"
+										onclick = "[OptionItem.OnClick]"
+										enabled = "[And(OptionItem.IsValid, OptionItem.CanBeChanged)]"
+									}
+
+									text_single = {
+										layoutpolicy_horizontal = expanding
+										text = "[OptionItem.GetName]"
+										align = nobaseline
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

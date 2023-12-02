@@ -5,6 +5,6 @@
 #########################################################
 
 interaction_category_pressed_claim = {
-	index = 8
+	index = 9
 	desc = "PRESSED_CLAIM_ACTIONS"
 }

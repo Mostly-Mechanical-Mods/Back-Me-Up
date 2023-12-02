@@ -59,7 +59,7 @@ BMU_transfer_claimed_press = {
 	$NEW_CLAIM_TARGET$ = { save_scope_as = new_claim_target }
 
 	if = {
-		limit = { debug_only = yes }
+		limit = { BMU_debug = yes }
 		debug_log = "BMU_transfer_claimed_press"
 		scope:pressed_claim = { debug_log_scopes = no }
 		scope:claimed_title = { debug_log_scopes = no }
@@ -157,7 +157,7 @@ BMU_dropout_supporters_of = {
 			variable = supporters
 			limit = { var:contender.story_owner = scope:contender_temp }
 			if = {
-				limit = { debug_only = yes }
+				limit = { BMU_debug = yes }
 				set_variable = { name = end_story value = flag:BMU_dropout_supporters_of }
 			}
 			end_story = yes
@@ -221,7 +221,7 @@ BMU_create_bargain = {
 			}
 		}
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_create_bargain"
 			scope:pressed_claim_temp = { debug_log_scopes = no }
 			scope:contender_char = { debug_log_scopes = no }
@@ -252,7 +252,7 @@ BMU_create_bargain = {
 					
 					if = {
 						limit = { exists = scope:FF_ambition_get_council_position }
-						if = { limit = { debug_only = yes } debug_log = "FF_ambition_get_council_position" }
+						if = { limit = { BMU_debug = yes } debug_log = "FF_ambition_get_council_position" }
 						if = { limit = { BMU_bargain_council_position_setup_trigger_global = yes }}
 						set_variable = { name = bargain_type value = flag:FF_ambition_get_council_position }
 						if = { limit = { scope:councillor_chancellor = yes } set_variable = { name = council_position value = flag:councillor_chancellor }}
@@ -264,18 +264,18 @@ BMU_create_bargain = {
 						else_if = { limit = { scope:councillor_admiral = yes } set_variable = { name = council_position value = flag:councillor_admiral }}
 						set_variable = { name = willingness_cost value = scope:contender_char.BMU_willingness_bargain_council_position }
 						set_variable = { name = support_score value = scope:supporter_temp.story_owner.BMU_ambition_get_council_position }
-						if = { limit = { debug_only = yes } var:council_position = { debug_log_scopes = no }}
+						if = { limit = { BMU_debug = yes } var:council_position = { debug_log_scopes = no }}
 					}
 					else_if = {
 						limit = { exists = scope:BMU_bargain_owned_title exists = scope:target }
-						if = { limit = { debug_only = yes } debug_log = "BMU_bargain_owned_title" }
+						if = { limit = { BMU_debug = yes } debug_log = "BMU_bargain_owned_title" }
 						set_variable = { name = bargain_type value = flag:BMU_bargain_owned_title }
 						set_variable = { name = title value = scope:target }
 						set_variable = { name = willingness_cost value = scope:contender_char.BMU_willingness_bargain_title }
 						set_variable = { name = support_score value = scope:supporter_temp.story_owner.BMU_ambition_get_title }
-						if = { limit = { debug_only = yes } var:title = { debug_log_scopes = no }}
+						if = { limit = { BMU_debug = yes } var:title = { debug_log_scopes = no }}
 					}
-					else = { if = { limit = { debug_only = yes } debug_log = "no ambition" }}
+					else = { if = { limit = { BMU_debug = yes } debug_log = "no ambition" }}
 				}
 				scope:contender_temp = {
 					add_to_variable_list = {

@@ -21,7 +21,6 @@
 	popup_on_receive = yes
 	pause_on_receive = yes
 	ignores_pending_interaction_block = no
-	show_answer_notification = no
 
 	greeting = negative
 	notification_text = BMU_press_claim_interaction_notification
@@ -167,7 +166,7 @@
 
 	on_send = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_press_claim_interaction on_send"
 			debug_log_scopes = yes
 		}
@@ -175,7 +174,7 @@
 	
 	on_accept = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_press_claim_interaction on_accept"
 			debug_log_scopes = yes
 		}
@@ -250,7 +249,6 @@ BMU_press_claim_interaction_script = {
 	popup_on_receive = yes
 	pause_on_receive = yes
 	ignores_pending_interaction_block = no
-	show_answer_notification = yes
 
 	greeting = negative
 	notification_text = BMU_press_claim_interaction_notification
@@ -284,7 +282,7 @@ BMU_press_claim_interaction_script = {
 	
 	on_accept = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_press_claim_interaction_script"
 			debug_log_scopes = yes
 		}
@@ -314,7 +312,6 @@ BMU_see_pressed_claim_interaction = {
 	popup_on_receive = no
 	pause_on_receive = no
 	ignores_pending_interaction_block = yes
-	show_answer_notification = no
 
 	auto_accept = yes
 
@@ -482,7 +479,7 @@ BMU_see_pressed_claim_interaction = {
 # 		scope:actor.var:BMU_press_claim_interaction_AI.holder = { save_scope_as = claim_target }
 
 # 		if = {
-# 			limit = { debug_only = yes }
+# 			limit = { BMU_debug = yes }
 # 			debug_log = "BMU_press_claim_interaction_AI"
 # 			debug_log_scopes = yes
 # 		}

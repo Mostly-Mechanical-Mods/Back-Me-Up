@@ -174,7 +174,7 @@ BMU_ambition_get_title = {
 	}
 	#Willing to fight for it
 	if = {
-		limit = { FF_ai_greed > 0 }
+		limit = { ai_greed > 0 }
 		add = {
 			value = {
 				add = ai_boldness

@@ -3,7 +3,6 @@
 #################### WAR RESULTS #####################
 ######################################################
 window = {
-
 	name = "war_results"
 	parentanchor = hcenter
 	layer = middle
@@ -52,6 +51,7 @@ window = {
 	state = {
 		name = _show
 		using = Animation_FadeIn_Quick
+
 		position = { 0 120 }
 	}
 	state = {
@@ -74,7 +74,6 @@ window = {
 		minimumsize = { -1 700 }
 
 		header_pattern = {
-			
 			layoutpolicy_horizontal = expanding
 
 			blockoverride "header_text" {
@@ -84,7 +83,6 @@ window = {
 				fontsize = 30
 				position = { 0 0 }
 			}
-
 
 			blockoverride "button_close"
 			{
@@ -283,46 +281,9 @@ window = {
 
 									expand = {}
 
-									widget = {
+									coa_character_sigil = {
 										datacontext = "[WarResultsWindow.GetOpponent]"
-
-										size = { 50 50 }
-
-										icon = {
-											name = "sigil_bg"
-											size = { 50 50 }
-											texture = "gfx/interface/window_event/sigil_bg.dds"
-											alwaystransparent = yes
-											parentanchor = center
-										}
-
-										icon = {
-											name = "sigil"
-											visible = "[Character.HasSealCoA]"
-											size = { 34 34 }
-											gfxtype = coatofarmsgfx
-											shaderfile = "gfx/FX/gui_coatofarms.shader"
-											effectname = PdxGuiSeal
-											alwaystransparent = yes
-											datacontext = "[Character.GetSealCoA]"
-											coat_of_arms_slot = "[CoatOfArms.GetSlot('(int32)88','(int32)88')]"
-											coat_of_arms = "[CoatOfArms.GetTexture('(int32)88','(int32)88')]"
-											coat_of_arms_mask = "gfx/interface/window_event/sigil_center.dds"
-											parentanchor = center
-										}
-
-										icon = {
-											name = "sigil_lowborn"
-											visible = "[Not( Character.HasSealCoA )]"
-											size = { 34 34 }
-											texture = "gfx/interface/window_event/sigil_center_lowborn.dds"
-											alwaystransparent = yes
-											parentanchor = center
-										}
-
 									}
-
-
 								}
 
 								spacer = {

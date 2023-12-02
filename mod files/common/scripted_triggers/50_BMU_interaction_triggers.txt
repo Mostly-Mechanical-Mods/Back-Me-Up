@@ -60,3 +60,7 @@ BMU_bargain_council_position_interaction_is_valid = {
 	}
 	trigger_else = { $SUPPORTER$ = { BMU_can_be_councillor_of = { COURT_OWNER = $CONTENDER$ PRESSED_CLAIM = $PRESSED_CLAIM$ }}}
 }
+
+BMU_call_ally_interaction_can_be_picked = {
+	NOT = { scope:target = { using_cb = BMU_pressed_claim_cb }}
+}

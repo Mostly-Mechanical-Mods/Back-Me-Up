@@ -146,7 +146,7 @@ BMU_on_war_transferred = {
 	}
 	effect = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_on_war_transferred"
 			debug_log_scopes = yes
 		}
@@ -213,14 +213,14 @@ BMU_claimant_tracker_on = {
 	}
 	effect = {
 		if = {
-			limit = { debug_only = yes }
+			limit = { BMU_debug = yes }
 			debug_log = "BMU_claimant_tracker_on"
 			debug_log_scopes = yes
 		}
 		set_relation_claimant = scope:title.holder
 		if = {
 			limit = { scope:transfer_type = flag:inheritance }
-			if = { limit = { debug_only = yes } debug_log = "scope:transfer_type = flag:inheritance" }
+			if = { limit = { BMU_debug = yes } debug_log = "scope:transfer_type = flag:inheritance" }
 			if = {
 				limit = {
 					any_claim = {
@@ -228,7 +228,7 @@ BMU_claimant_tracker_on = {
 						this = scope:title
 					}
 				}
-				if = { limit = { debug_only = yes } debug_log = "pressed = yes" }
+				if = { limit = { BMU_debug = yes } debug_log = "pressed = yes" }
 				scope:title = { add_to_variable_list = { name = claim_level_4 target = root }}
 			}
 			else_if = {
@@ -238,12 +238,12 @@ BMU_claimant_tracker_on = {
 						this = scope:title
 					}
 				}
-				if = { limit = { debug_only = yes } debug_log = "pressed = no" }
+				if = { limit = { BMU_debug = yes } debug_log = "pressed = no" }
 				scope:title = { add_to_variable_list = { name = claim_level_3 target = root }}
 			}
 		}
 		else = {
-			if = { limit = { debug_only = yes } debug_log = "scope:transfer_type = none" }
+			if = { limit = { BMU_debug = yes } debug_log = "scope:transfer_type = none" }
 			if = {
 				limit = {
 					any_claim = {
@@ -251,7 +251,7 @@ BMU_claimant_tracker_on = {
 						this = scope:title
 					}
 				}
-				if = { limit = { debug_only = yes } debug_log = "pressed = yes" }
+				if = { limit = { BMU_debug = yes } debug_log = "pressed = yes" }
 				scope:title = { add_to_variable_list = { name = claim_level_2 target = root }}
 			}
 			else_if = {
@@ -261,7 +261,7 @@ BMU_claimant_tracker_on = {
 						this = scope:title
 					}
 				}
-				if = { limit = { debug_only = yes } debug_log = "pressed = no" }
+				if = { limit = { BMU_debug = yes } debug_log = "pressed = no" }
 				scope:title = { add_to_variable_list = { name = claim_level_1 target = root }}
 			}
 		}

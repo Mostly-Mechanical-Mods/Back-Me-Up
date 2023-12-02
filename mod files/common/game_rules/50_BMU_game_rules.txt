@@ -1,0 +1,20 @@
+﻿BMU_loaded = {
+	
+	categories = {
+		mod_toggle mostly_mechanical_mods mmm_bmu
+	}
+	
+	default = BMU_is_loaded
+
+	BMU_is_loaded = {
+		flag = GG_can_change_rule
+	}
+
+	BMU_is_loaded_debug = {
+		flag = GG_can_change_rule
+	}
+	
+	BMU_is_not_loaded = {
+		flag = GG_can_change_rule
+	}
+}
