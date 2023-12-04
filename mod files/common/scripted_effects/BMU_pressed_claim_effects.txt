@@ -552,6 +552,13 @@ BMU_calc_best_contenders = {
 }
 
 BMU_spend_gambits_effect_actor = {
+	debug_log = "BMU_spend_gambits_effect_actor"
+	debug_log = "Claimed Title"
+	scope:actor.var:pressed_claim_interaction.var:claimed_title = { debug_log = "[THIS.Title.GetNameNoTooltip]" }
+	debug_log = "Contender"
+	scope:actor = { debug_log = "[THIS.Char.GetShortUINameNoTooltip]" }
+	debug_log = "Supporter"
+	scope:recipient = { debug_log = "[THIS.Char.GetShortUINameNoTooltip]" }
 	scope:actor.var:pressed_claim_interaction = { save_scope_as = pressed_claim }
 	scope:actor = {
 		random_contender_story = {
@@ -565,6 +572,13 @@ BMU_spend_gambits_effect_actor = {
 }
 
 BMU_spend_gambits_effect_recipient = {
+	debug_log = "BMU_spend_gambits_effect_recipient"
+	debug_log = "Claimed Title"
+	scope:actor.var:pressed_claim_interaction.var:claimed_title = { debug_log = "[THIS.Title.GetNameNoTooltip]" }
+	debug_log = "Contender"
+	scope:actor = { debug_log = "[THIS.Char.GetShortUINameNoTooltip]" }
+	debug_log = "Supporter"
+	scope:recipient = { debug_log = "[THIS.Char.GetShortUINameNoTooltip]" }
 	scope:actor.var:pressed_claim_interaction = { save_scope_as = pressed_claim }
 	scope:recipient = {
 		random_contender_story = {
@@ -593,6 +607,24 @@ BMU_refund_gambits_effect = {
 }
 
 BMU_request_support = {
+	$CONTENDER$ = { save_temporary_scope_as = contender_temp }
+	scope:contender_temp = { save_scope_as = score_contender }
+	$SUPPORTER$ = { save_temporary_scope_as = supporter_temp }
+	$PRESSED_CLAIM$.var:claimed_title = { save_temporary_scope_as = claimed_title_temp }
+	debug_log = "BMU_request_support"
+	scope:claimed_title_temp = { debug_log = "Claimed Title [THIS.Title.GetNameNoTooltip]" }
+	scope:contender_temp = { debug_log = "Contender [THIS.Char.GetNameNoTooltip]" }
+	scope:supporter_temp = {
+		set_variable = {
+			name = support_score
+			value = BMU_contender_score
+		}
+		debug_log = "Supporter [THIS.Char.GetNameNoTooltip]"
+		debug_log = "Suppport Score [THIS.ScriptValue('BMU_contender_score')]"
+		debug_log = "Support Score Breakdown [THIS.GetScriptValueDesc('BMU_contender_score')]"
+		debug_log = "Support Score Variable [THIS.Var('support_score').GetValue]"
+		remove_variable = support_score
+	}
 	$CONTENDER$ = {
 		random_contender_story = {
 			limit = { var:pressed_claim_story = $PRESSED_CLAIM$ }
@@ -758,10 +790,36 @@ BMU_request_support = {
 				}
 			}
 		}
+
+		#GUI Update
+		every_in_list = {
+			variable = contenders
+			limit = {
+				story_owner = {
+					is_ai = no
+					var:pressed_claim_interaction ?= $PRESSED_CLAIM$
+				}
+			}
+			story_owner = {	
+				BMU_set_pressed_claim_interaction = { CLAIMED_TITLE = scope:claimed_title }
+			}
+		}
 	}
+
+
 }
 
 BMU_bargain_owned_title_post_effect = {
+	$CONTENDER$ = { save_temporary_scope_as = contender_temp }
+	$SUPPORTER$ = { save_temporary_scope_as = supporter_temp }
+	$PRESSED_CLAIM$.var:claimed_title = { save_temporary_scope_as = claimed_title_temp }
+	debug_log = "BMU_bargain_owned_title_post_effect"
+	debug_log = "Claimed Title"
+	scope:claimed_title_temp = { debug_log = "[THIS.Title.GetNameNoTooltip]" }
+	debug_log = "Contender"
+	scope:contender_temp = { debug_log = "[THIS.Char.GetShortUINameNoTooltip]" }
+	debug_log = "Supporter"
+	scope:supporter_temp = { debug_log = "[THIS.Char.GetShortUINameNoTooltip]" }
 	$CONTENDER$ = {
 		custom_description_no_bullet = {
 			text = BMU_if_pressed_claim_won
@@ -793,6 +851,16 @@ BMU_bargain_owned_title_post_effect = {
 }
 
 BMU_bargain_council_position_post_effect = {
+	$CONTENDER$ = { save_temporary_scope_as = contender_temp }
+	$SUPPORTER$ = { save_temporary_scope_as = supporter_temp }
+	$PRESSED_CLAIM$.var:claimed_title = { save_temporary_scope_as = claimed_title_temp }
+	debug_log = "BMU_bargain_council_position_post_effect"
+	debug_log = "Claimed Title"
+	scope:claimed_title_temp = { debug_log = "[THIS.Title.GetNameNoTooltip]" }
+	debug_log = "Contender"
+	scope:contender_temp = { debug_log = "[THIS.Char.GetShortUINameNoTooltip]" }
+	debug_log = "Supporter"
+	scope:supporter_temp = { debug_log = "[THIS.Char.GetShortUINameNoTooltip]" }
 	$CONTENDER$ = {
 		custom_description_no_bullet = {
 			text = BMU_if_pressed_claim_won

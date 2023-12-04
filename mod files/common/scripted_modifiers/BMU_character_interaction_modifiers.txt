@@ -73,6 +73,7 @@ BMU_request_support_interaction = {
 	}
 	modifier = {
 		exists = scope:secondary_recipient
+		scope:contender_score > 0
 		scope:contender_score > scope:top_contender_score
 		add = { subtract = scope:top_contender_score }
 		desc = BMU_modifier_tooltip_recipient_likes_secondary_recipient
@@ -98,7 +99,7 @@ BMU_request_support_interaction = {
 		desc = BMU_modifier_tooltip_recipient_prefers_secondary_actor
 	}
 	modifier = {
-		add = BMU_contender_score_gui
+		add = BMU_contender_score
 		desc = "[GuiScope.SetRoot(recipient.MakeScope).AddScope('score_contender',actor.MakeScope).AddScope('score_supporter',recipient.MakeScope).AddScope('claim_target',secondary_actor.MakeScope).AddScope('holder_candidate',secondary_actor.MakeScope).AddScope('claimed_title',actor.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.MakeScope).GetScriptValueDesc('BMU_contender_score_gui')]"
 	}
 }

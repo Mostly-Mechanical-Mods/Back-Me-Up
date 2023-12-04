@@ -72,7 +72,7 @@ BMU_contender_score_gui = {
 						NOT = { story_owner.highest_held_title_tier < scope:score_supporter.highest_held_title_tier }
 					}
 					trigger_else = {
-						NOT = { root = { is_liege_or_above_of = prev.story_owner }}
+						NOT = { scope:score_supporter = { is_liege_or_above_of = prev.story_owner }}
 					}
 				}
 			}
@@ -80,11 +80,11 @@ BMU_contender_score_gui = {
 		if = {
 			limit = {
 				trigger_if = {
-					limit = { story_owner = { is_independent_ruler = yes }}
+					limit = { scope:score_contender = { is_independent_ruler = yes }}
 					NOT = { scope:score_contender.highest_held_title_tier < scope:score_supporter.highest_held_title_tier }
 				}
 				trigger_else = {
-					NOT = { root = { is_liege_or_above_of = scope:score_contender }}
+					NOT = { scope:score_supporter = { is_liege_or_above_of = scope:score_contender }}
 				}
 			}
 			add = {

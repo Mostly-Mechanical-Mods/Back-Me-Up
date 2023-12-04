@@ -305,6 +305,9 @@
 			scope:actor = {
 				trigger_event = call_ally.0101
 			}
+			
+			# If we're a clan this interaction affects unity
+			refuse_call_to_arms_add_clan_unity_effect = yes
 		}
 	}
 
@@ -830,7 +833,11 @@ negotiate_alliance_interaction = {
 				is_ai = no
 				highest_held_title_tier >= 2
 			}
-			is_any_family_relation_or_spouse_trigger = { CHARACTER = scope:recipient }
+			#childhood friendship with hostage event, where they swear to be friends forever
+			OR = {
+				is_any_family_relation_or_spouse_trigger = { CHARACTER = scope:recipient }
+				hostage_oath_of_friendship_trigger = yes
+			}
 		}
 	}
 	
@@ -877,6 +884,11 @@ negotiate_alliance_interaction = {
 			scope:actor = { is_uncle_or_aunt_of = scope:recipient }
 			scope:actor = { is_nibling_of = scope:recipient }
 			scope:actor = { is_sibling_of = scope:recipient }
+			#childhood friendship with hostage event, where they swear to be friends forever
+			scope:actor = {
+				hostage_oath_of_friendship_trigger = yes
+			}
+			
 
 			custom_description = {
 				text = rulers_family_is_married_to_other_ruler_trigger
@@ -930,6 +942,16 @@ negotiate_alliance_interaction = {
 							}
 						}
 					}
+				}
+			}
+
+			custom_description = {
+				text = hostage_oath_of_friendship_trigger
+				subject = scope:recipient
+				object = scope:actor
+				#Ruler's child/parent/sibling/grandchild/grandparent/uncle/aunt/niece/nephew is married to other ruler.
+				scope:actor = {
+					hostage_oath_of_friendship_trigger = yes
 				}
 			}
 		}
@@ -1147,6 +1169,28 @@ negotiate_alliance_interaction = {
 					}
 				}
 			}
+			else_if = {
+				limit = {
+					scope:actor = {
+						hostage_oath_of_friendship_trigger = yes
+					}
+				}
+				scope:actor = {
+					create_alliance = {
+						target = scope:recipient
+						allied_through_owner = scope:actor
+						allied_through_target = scope:recipient
+					}
+				}
+			}
+		}
+
+		add_clan_unity_interaction_effect = {
+			CHARACTER = scope:actor
+			TARGET = scope:recipient
+			VALUE = minor_unity_gain
+			DESC = clan_unity_alliance.desc
+			REVERSE_NON_HOUSE_TARGET = no
 		}
 	}
 	
@@ -1159,6 +1203,14 @@ negotiate_alliance_interaction = {
 				modifier = refused_alliance_opinion
 				target = scope:recipient
 			}
+		}
+
+		add_clan_unity_interaction_effect = {
+			CHARACTER = scope:actor
+			TARGET = scope:recipient
+			VALUE = minor_unity_loss
+			DESC = clan_unity_alliance_refusal.desc
+			REVERSE_NON_HOUSE_TARGET = no
 		}
 	}
 
@@ -1675,10 +1727,7 @@ negotiate_alliance_interaction = {
 		modifier = {
 			add = -25
 			scope:recipient = {
-				exists = house
-				house.house_head = {
-					house_feud_target_house_trigger = { HOUSE = scope:actor.house }
-				}
+				existing_feud_against_target_trigger = { TARGET = scope:actor }
 			}
 			desc = MARRY_FAMILY_FEUD_REASON
 		}
@@ -1774,6 +1823,13 @@ negotiate_alliance_interaction = {
 			}
 			desc = COWED_REASON
 		}
+
+		# Unity modifiers
+		evaluate_action_increasing_house_unity = {
+			VALUE = 100
+		}
+
+		fp3_struggle_resist_allied_wars_modifier = yes
 	}
 
 	ai_potential = {
@@ -1823,6 +1879,11 @@ negotiate_alliance_interaction = {
 			scope:recipient = {
 				is_vassal_of = scope:actor
 			}
+		}
+
+		# Unity modifiers
+		evaluate_action_increasing_house_unity = {
+			VALUE = 100
 		}
 		
 		modifier = { # The AI shouldn't propose to their Lieges
@@ -1984,6 +2045,14 @@ perk_alliance_interaction = {
 				target = scope:actor
 			}
 		}
+
+		add_clan_unity_interaction_effect = {
+			CHARACTER = scope:actor
+			TARGET = scope:recipient
+			VALUE = medium_unity_gain
+			DESC = clan_unity_alliance.desc
+			REVERSE_NON_HOUSE_TARGET = no
+		}
 	}
 	
 	on_decline = {
@@ -1995,6 +2064,14 @@ perk_alliance_interaction = {
 				modifier = refused_alliance_opinion
 				target = scope:recipient
 			}
+		}
+
+		add_clan_unity_interaction_effect = {
+			CHARACTER = scope:actor
+			TARGET = scope:recipient
+			VALUE = minor_unity_loss
+			DESC = clan_unity_alliance_refusal.desc
+			REVERSE_NON_HOUSE_TARGET = no
 		}
 	}
 
@@ -2448,10 +2525,7 @@ perk_alliance_interaction = {
 		modifier = {
 			add = -25
 			scope:recipient = {
-				exists = house
-				house.house_head = {
-					house_feud_target_house_trigger = { HOUSE = scope:actor.house }
-				}
+				existing_feud_against_target_trigger = { TARGET = scope:actor }
 			}
 			desc = MARRY_FAMILY_FEUD_REASON
 		}
@@ -2534,6 +2608,11 @@ perk_alliance_interaction = {
 				}
 			}
 			desc = COWED_REASON
+		}
+
+		# Unity modifiers
+		evaluate_action_increasing_house_unity = {
+			VALUE = 10
 		}
 	}
 
@@ -2865,13 +2944,45 @@ join_war_interaction = {
 				set_called_to = scope:actor
 			}
 			if = {
-				limit = {
-					is_attacker = scope:recipient
-				}
+				limit = { is_attacker = scope:recipient }
 				add_attacker = scope:actor
+				if = {
+					limit = {
+						OR = {
+							scope:actor = {
+								any_home_court_hostage = {
+									warden ?= { is_defender_in_war = scope:target }
+								}
+							}
+							scope:target = {
+								any_war_defender = {
+									any_warden_hostage = { home_court ?= scope:actor }
+								}
+							}
+						}
+					}
+					custom_tooltip = hostage_execution_warning_tt
+				}
 			}
 			else = {
 				add_defender = scope:actor
+				if = {
+					limit = {
+						OR = {
+							scope:actor = {
+								any_home_court_hostage = {
+									warden ?= { is_attacker_in_war = scope:target }
+								}
+							}
+							scope:target = {
+								any_war_attacker = {
+									any_warden_hostage = { home_court ?= scope:actor }
+								}
+							}
+						}
+					}
+					custom_tooltip = hostage_execution_warning_tt
+				}
 			}
 			if = {
 				limit = {
@@ -2929,6 +3040,38 @@ join_war_interaction = {
 						set_relation_potential_friend = scope:actor
 					}
 				}
+			}
+		}
+
+		# If we're a clan this interaction affects unity - but only when we attemp to aid a house member against a non-house member
+		if = {
+			limit = {
+				exists = scope:target
+				scope:target = {
+					OR = {
+						AND = {
+							primary_attacker = scope:recipient
+							scope:recipient.house = scope:actor.house
+							primary_defender = {
+								NOT = { house = scope:actor.house }
+							}
+						}
+						AND = {
+							primary_defender = scope:recipient
+							scope:recipient.house = scope:actor.house
+							primary_attacker = {
+								NOT = { house = scope:actor.house }
+							}
+						}
+					}
+				}
+			}
+			add_clan_unity_interaction_effect = {
+				CHARACTER = scope:actor
+				TARGET = scope:recipient
+				VALUE = medium_unity_gain
+				DESC = clan_unity_join_war.desc
+				REVERSE_NON_HOUSE_TARGET = no
 			}
 		}
 	}

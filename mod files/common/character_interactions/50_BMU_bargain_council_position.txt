@@ -261,6 +261,15 @@
 	}
 
 	on_decline = {
+		if = {
+			limit = { BMU_debug = yes }
+			debug_log = "BMU_bargain_with_council_position_interaction on_decline"
+			debug_log_scopes = yes
+			if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				debug_log = "NO PRESSED CLAIM"
+			}
+		}
 		BMU_refund_gambits_effect = yes
 	}
 
@@ -588,6 +597,15 @@ BMU_bargain_for_council_position_interaction = {
 	}
 
 	on_decline = {
+		if = {
+			limit = { BMU_debug = yes }
+			debug_log = "BMU_bargain_with_council_position_interaction on_decline"
+			debug_log_scopes = yes
+			if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				debug_log = "NO PRESSED CLAIM"
+			}
+		}
 		BMU_refund_gambits_effect = yes
 	}
 

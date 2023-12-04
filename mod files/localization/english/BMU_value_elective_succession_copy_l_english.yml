@@ -123,7 +123,7 @@
 
 
  BMU_tooltip_liege_would_lose_land: "[SCOPE.sC('score_contender').GetSheHe] would not be my Vassal"
- BMU_tooltip_liege_would_lose_land: "[SCOPE.sC('score_contender').GetSheHe] would be my Vassal"
+ BMU_tooltip_liege_would_prevent_land_loss: "[SCOPE.sC('score_contender').GetSheHe] would be my Vassal"
  BMU_tooltip_FF_loyalty_pos: "I am loyal to my Liege"
  BMU_tooltip_FF_loyalty_neg: "I am not loyal to my Liege"
  BMU_tooltip_ally: "I will honor our alliance"

@@ -207,6 +207,18 @@
 	}
 
 	on_decline = {
+				if = {
+			limit = { BMU_debug = yes }
+			debug_log = "BMU_request_support_interaction on_decline"
+			debug_log_scopes = yes
+			if = {
+				limit = { exists = scope:pressed_claim }
+				scope:pressed_claim = { debug_log_scopes = no }
+			}
+			else = {
+				debug_log = "no scope:pressed_claim"
+			}
+		}
 		BMU_refund_gambits_effect = yes
 	}
 
@@ -409,6 +421,18 @@ BMU_offer_support_interaction = {
 	}
 
 	on_decline = {
+		if = {
+			limit = { BMU_debug = yes }
+			debug_log = "BMU_request_support_interaction on_decline"
+			debug_log_scopes = yes
+			if = {
+				limit = { exists = scope:pressed_claim }
+				scope:pressed_claim = { debug_log_scopes = no }
+			}
+			else = {
+				debug_log = "no scope:pressed_claim"
+			}
+		}
 		BMU_refund_gambits_effect = yes
 	}
 

@@ -35,3 +35,11 @@ BMU_contender_gains_support = {
 	style = bad
 	soundeffect = @msg_bad_soundeffect
 }
+
+BMU_contender_lose_support = {
+	icon = "icon_claim_pressed"
+	title = BMU_notification_supporter_lost
+	desc = event_message_effect
+	style = good
+	soundeffect = @msg_bad_soundeffect
+}

@@ -316,6 +316,19 @@
 							}
 						}
 					}
+					# dynamically update currently opened Pressed Claim window
+					# TODO doesn't work for some reason
+					debug_log = "WHY?!?"
+					every_in_list = {
+						list = contenders
+						limit = {
+							is_ai = no
+							var:pressed_claim_interaction ?= scope:story
+						}
+						debug_log = "YEP YEP YEP"
+						BMU_set_pressed_claim_interaction = { CLAIMED_TITLE = scope:story.var:claimed_title }
+					}
+					debug_log = "GOD WHY?!?"
 				}
 			}
 		}
@@ -548,10 +561,28 @@ BMU_supporter_story = {
 		}
 		var:pressed_claim_story = {
 			every_in_list = {
-				variable = supporters
-				limit = { var:contender = scope:story }
-				end_story = yes
+				variable = contenders
+				limit = { NOT = { story_owner = scope:story.var:contender }}
+				story_owner = {
+					send_interface_message = {
+						type = BMU_contender_gains_support # default: send_interface_message
+						# desc = event_message_effect
+						left_icon = scope:story.var:contender
+						right_icon = scope:claimed_title
+						custom_description = {
+							text = BMU_stop_supporting_contender
+							subject = scope:story.story_owner
+							object = scope:story.var:contender
+						}
+					}
+				}
 			}
+			# TODO check whether that was suppposed to be in? I suspect it just ends stories that shouldn't end
+			# every_in_list = {
+			# 	variable = supporters
+			# 	limit = { var:contender = scope:story }
+			# 	end_story = yes
+			# }
 			remove_list_variable = {
 				name = supporters
 				target = prev

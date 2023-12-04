@@ -31,6 +31,7 @@
 	}
 
 	is_shown = {
+		NOT = { scope:actor = scope:recipient }
 		scope:actor = {
 			any_contender_story = {
 				var:pressed_claim_story.var:claim_target = scope:recipient

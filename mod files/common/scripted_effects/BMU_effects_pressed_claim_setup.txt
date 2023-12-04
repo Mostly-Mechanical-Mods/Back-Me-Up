@@ -1,0 +1,82 @@
+﻿BMU_set_pressed_claim_interaction = {
+	save_scope_as = player
+	random_in_list = {
+		variable = pressed_claim_gui
+		limit = { var:claimed_title = $CLAIMED_TITLE$ }
+		save_scope_as = pressed_claim
+	}
+	set_variable = {
+		name = pressed_claim_interaction
+		value = scope:pressed_claim
+	}
+	clear_variable_list = stakeholders_gui
+	clear_variable_list = supporters_gui
+	if = {
+		limit = { is_ai = no }
+		if = {
+			limit = { any_contender_story = { var:pressed_claim_story = scope:pressed_claim }}
+			every_ally = { add_to_list = stakeholders }
+			every_close_family_member = { add_to_list = stakeholders }
+			every_vassal = { add_to_list = stakeholders }
+			liege = { add_to_list = stakeholders }
+			every_relation = {
+				type = friend
+				add_to_list = stakeholders
+			}
+			every_relation = {
+				type = lover
+				add_to_list = stakeholders
+			}
+			dynasty.dynast = { add_to_list = stakeholders }
+			house.house_head = { add_to_list = stakeholders }
+			every_relation = {
+				type = stakeholder_proxy
+				limit = {
+					OR = {
+						any_relation = {
+							type = rival
+							any_contender_story = { var:pressed_claim_story = scope:pressed_claim }
+						}
+						BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim }
+					}
+				}
+				add_to_list = stakeholders
+			}
+		}
+		every_in_list = {
+			list = stakeholders
+			# max = 1000
+			# check_range_bounds = no
+			limit = {
+				is_landed = yes
+				highest_held_title_tier >= tier_county
+				NOT = { this = scope:player }
+			}
+			# order_by = max_military_strength
+			random_stakeholder_story = {
+				limit = { var:pressed_claim_story = scope:pressed_claim }
+				scope:player = {
+					add_to_variable_list = {
+						name = stakeholders_gui
+						target = prev
+					}
+					add_to_variable_list = {
+						name = stakeholders_gui_unfiltered
+						target = prev
+					}
+				}
+			}
+		}
+		scope:pressed_claim = {
+			every_in_list = {
+				variable = supporters
+				scope:player = {
+					add_to_variable_list = {
+						name = supporters_gui
+						target = prev
+					}
+				}
+			}
+		}
+	}
+}
