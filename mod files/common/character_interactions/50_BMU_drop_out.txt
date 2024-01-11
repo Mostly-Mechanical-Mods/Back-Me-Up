@@ -167,7 +167,10 @@
 		}
 	}
 
-	ai_potential = { any_contender_story = { count > 0 }}
+	ai_potential = {
+		always = no
+		any_contender_story = { count > 0 }
+	}
 
 	ai_targets = {
 		ai_recipients = liege

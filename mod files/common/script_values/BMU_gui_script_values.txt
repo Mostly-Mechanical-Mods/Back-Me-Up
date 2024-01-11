@@ -14,6 +14,7 @@
 
 BMU_supporter_gambit_cost = {
 	add = scope:recipient.highest_held_title_tier
+	min = 1
 	if = {
 		limit = { NOT = { scope:actor = { BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:recipient PRESSED_CLAIM = scope:pressed_claim }}}}
 		multiply = 2

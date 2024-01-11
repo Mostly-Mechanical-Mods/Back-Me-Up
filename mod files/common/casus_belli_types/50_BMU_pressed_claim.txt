@@ -350,7 +350,15 @@
 	on_victory = {
 		debug_log = "BMU_pressed_claim_cb on_victory"
 		debug_log_scopes = yes
-		# war = { save_scope_as = war }
+		if = {
+			limit = { scope:war ?= { has_variable = pressed_claim }}
+			scope:war.var:pressed_claim = { debug_log_scopes = no }
+		}
+		else = {
+			debug_log = "no var:pressed_claim"
+		}
+		# war ?= { save_scope_as = war }
+		# war = { debug_log_scopes = no }
 
 		#[vanilla]
 		scope:attacker = { show_pow_release_message_effect = yes }
@@ -432,9 +440,12 @@
 
 		#[BMU]
 		# Secondary defenders drop out
+		debug_log = "Secondary defenders drop out"
 		scope:war = {
+			debug_log_scopes = no
 			every_war_defender = {
 				limit = { NOT = { this = scope:defender }}
+				debug_log_scopes = no
 				every_owned_story = {
 					limit = {
 						story_type = BMU_supporter_story
@@ -465,6 +476,13 @@
 				}
 			}
 			debug_log = "Last Pressed Claim war, end Pressed Claim"
+			scope:attacker = {
+				debug_log_scopes = no
+				every_bargain = {
+					limit = { var:pressed_claim = scope:war.var:pressed_claim }
+					BMU_execute_bargain = yes
+				}
+			}
 			scope:war.var:pressed_claim = {
 				if = {
 					limit = { BMU_debug = yes }

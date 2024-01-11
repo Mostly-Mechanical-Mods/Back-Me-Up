@@ -1,0 +1,6 @@
+﻿BMU_debug = {
+	if = {
+		limit = { BMU_debug = yes }
+		debug_log = $DEBUG$
+	}
+}

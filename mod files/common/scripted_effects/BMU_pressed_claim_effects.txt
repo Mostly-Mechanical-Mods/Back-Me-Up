@@ -607,10 +607,10 @@ BMU_refund_gambits_effect = {
 }
 
 BMU_request_support = {
-	$CONTENDER$ = { save_temporary_scope_as = contender_temp }
+	$CONTENDER$ = { save_scope_as = contender_temp }
 	scope:contender_temp = { save_scope_as = score_contender }
-	$SUPPORTER$ = { save_temporary_scope_as = supporter_temp }
-	$PRESSED_CLAIM$.var:claimed_title = { save_temporary_scope_as = claimed_title_temp }
+	$SUPPORTER$ = { save_scope_as = supporter_temp }
+	$PRESSED_CLAIM$.var:claimed_title = { save_scope_as = claimed_title_temp }
 	debug_log = "BMU_request_support"
 	scope:claimed_title_temp = { debug_log = "Claimed Title [THIS.Title.GetNameNoTooltip]" }
 	scope:contender_temp = { debug_log = "Contender [THIS.Char.GetNameNoTooltip]" }
@@ -792,21 +792,12 @@ BMU_request_support = {
 		}
 
 		#GUI Update
-		every_in_list = {
-			variable = contenders
-			limit = {
-				story_owner = {
-					is_ai = no
-					var:pressed_claim_interaction ?= $PRESSED_CLAIM$
-				}
-			}
-			story_owner = {	
-				BMU_set_pressed_claim_interaction = { CLAIMED_TITLE = scope:claimed_title }
-			}
-		}
+		BMU_update_pressed_claim_gui = { PRESSED_CLAIM = $PRESSED_CLAIM$ }
 	}
 
-
+	clear_saved_scope = supporter_temp
+	clear_saved_scope = contender_temp
+	clear_saved_scope = claimed_title_temp
 }
 
 BMU_bargain_owned_title_post_effect = {
@@ -834,14 +825,17 @@ BMU_bargain_owned_title_post_effect = {
 			object = $PRESSED_CLAIM$.var:claimed_title
 		}
 	}
-	$TARGET$ = { add_to_list = target_titles }
-	BMU_grant_titles = yes
+	$TARGET$ = {
+		add_to_list = target_titles_bargained
+		save_scope_as = target
+	}
+	BMU_grant_titles = { CONTENDER = $CONTENDER$ SUPPORTER = $SUPPORTER$ }
 	create_title_and_vassal_change = {
 		type = granted
 		save_scope_as = bargain
 	}
 	every_in_list = {
-		list = target_titles
+		list = target_titles_bargained
 		change_title_holder_include_vassals = {
 			holder = $SUPPORTER$
 			change = scope:bargain
@@ -868,31 +862,52 @@ BMU_bargain_council_position_post_effect = {
 			object = $PRESSED_CLAIM$.var:claimed_title
 		}
 		if = {
-			limit = { scope:councillor_chancellor = yes }
+			limit = { scope:councillor_chancellor ?= yes }
+			cp:councillor_chancellor ?= { prev = { fire_councillor = prev }}
 			assign_councillor_type = {
 				type = councillor_chancellor
 				target = $SUPPORTER$
 			}
 		}
 		else_if = {
-			limit = { scope:councillor_steward = yes }
+			limit = { scope:councillor_steward ?= yes }
+			cp:councillor_steward ?= { prev = { fire_councillor = prev }}
 			assign_councillor_type = {
 				type = councillor_steward
 				target = $SUPPORTER$
 			}
 		}
 		else_if = {
-			limit = { scope:councillor_marshal = yes }
+			limit = { scope:councillor_marshal ?= yes }
+			cp:councillor_marshal ?= { prev = { fire_councillor = prev }}
 			assign_councillor_type = {
 				type = councillor_marshal
 				target = $SUPPORTER$
 			}
 		}
 		else_if = {
-			limit = { scope:councillor_spymaster = yes }
+			limit = { scope:councillor_spymaster ?= yes }
+			cp:councillor_spymaster ?= { prev = { fire_councillor = prev }}
 			assign_councillor_type = {
 				type = councillor_spymaster
 				target = $SUPPORTER$
+			}
+		}
+	}
+}
+
+BMU_update_pressed_claim_gui = {
+	$PRESSED_CLAIM$ = {
+		every_in_list = {
+			variable = contenders
+			limit = {
+				story_owner = {
+					is_ai = no
+					var:pressed_claim_interaction ?= $PRESSED_CLAIM$
+				}
+			}
+			story_owner = {	
+				BMU_set_pressed_claim_interaction = { CLAIMED_TITLE = $PRESSED_CLAIM$.var:claimed_title }
 			}
 		}
 	}

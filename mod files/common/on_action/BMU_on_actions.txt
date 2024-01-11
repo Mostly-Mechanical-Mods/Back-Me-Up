@@ -38,6 +38,14 @@ BMU_claim_cb_white_peace = {
 			}	
 		}
 		scope:attacker = {
+			if = {
+				limit = {
+					is_character_interaction_valid = {
+						recipient = scope:defender
+						interaction = BMU_press_claim_interaction_script
+					}
+				}
+			}
 			run_interaction = {
 				interaction = BMU_press_claim_interaction_script
 				actor = scope:attacker
@@ -167,7 +175,7 @@ BMU_on_war_transferred = {
 					limit = {
 						NOT = { is_participant_in_war = scope:war }
 						var:status = flag:supporter
-						var:contender = scope:defender
+						var:contender.story_owner ?= scope:defender
 					}
 					scope:war = { add_defender = prev.story_owner }
 				}

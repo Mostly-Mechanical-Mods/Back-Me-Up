@@ -317,18 +317,7 @@
 						}
 					}
 					# dynamically update currently opened Pressed Claim window
-					# TODO doesn't work for some reason
-					debug_log = "WHY?!?"
-					every_in_list = {
-						list = contenders
-						limit = {
-							is_ai = no
-							var:pressed_claim_interaction ?= scope:story
-						}
-						debug_log = "YEP YEP YEP"
-						BMU_set_pressed_claim_interaction = { CLAIMED_TITLE = scope:story.var:claimed_title }
-					}
-					debug_log = "GOD WHY?!?"
+					BMU_update_pressed_claim_gui = { PRESSED_CLAIM = scope:story }
 				}
 			}
 		}
@@ -562,7 +551,7 @@ BMU_supporter_story = {
 		var:pressed_claim_story = {
 			every_in_list = {
 				variable = contenders
-				limit = { NOT = { story_owner = scope:story.var:contender }}
+				limit = { NOT = { this = scope:story.var:contender }}
 				story_owner = {
 					send_interface_message = {
 						type = BMU_contender_gains_support # default: send_interface_message
@@ -573,6 +562,17 @@ BMU_supporter_story = {
 							text = BMU_stop_supporting_contender
 							subject = scope:story.story_owner
 							object = scope:story.var:contender
+						}
+					}
+					if = {
+						limit = { var:pressed_claim_interaction ?= scope:story.var:pressed_claim_story }
+						remove_list_variable = {
+							name = supporters_gui
+							target = root
+						}
+						remove_list_variable = {
+							name = supporters_gui_unfiltered
+							target = root
 						}
 					}
 				}

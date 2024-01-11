@@ -11,7 +11,9 @@
 	greeting = positive
 	notification_text = BMU_request_support_interaction_notification
 
-	auto_accept = no
+	auto_accept = {
+		scope:gambit_override = yes
+	}
 	ai_min_reply_days = 4
 	ai_max_reply_days = 9
 
@@ -19,6 +21,8 @@
 	pause_on_receive = yes
 	can_send_despite_rejection = no
 	ignores_pending_interaction_block = no
+
+	send_options_exclusive = no
 
 	localization_values = {
 		# GAMBIT_COST = BMU_supporter_gambit_cost
@@ -84,20 +88,22 @@
 
 	is_shown = {
 		scope:actor = { has_variable = pressed_claim_interaction }
-		exists = scope:actor.var:pressed_claim_interaction
-		scope:actor.var:pressed_claim_interaction.var:phase = flag:rallying_phase
 		NOT = { scope:actor = scope:recipient }
 		scope:recipient = {
 			is_landed = yes
 			highest_held_title_tier >= tier_county
 		}
-		scope:actor = {
-			any_contender_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }
-			NOT = { scope:recipient = { any_contender_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }}}
-			OR = {
-				scope:recipient = { any_supporter_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }}
-				BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:recipient PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }
-				scope:recipient = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }}
+		trigger_if = {
+			limit = { scope:actor = { NOT = { has_variable = BMU_request_support_interaction_script_override }}}
+			scope:actor.var:pressed_claim_interaction.var:phase = flag:rallying_phase
+			scope:actor = {
+				any_contender_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }
+				NOT = { scope:recipient = { any_contender_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }}}
+				OR = {
+					scope:recipient = { any_supporter_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }}
+					BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:recipient PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }
+					scope:recipient = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }}
+				}
 			}
 		}
 	}
@@ -108,6 +114,13 @@
 			trigger_if = {
 				limit = { NOT = { exists = scope:pressed_claim }}
 				scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+			}
+			trigger_if = {
+				limit = {
+					scope:pressed_claim.var:claim_target = { is_independent_ruler = no }
+					scope:recipient = scope:pressed_claim.var:claim_target.liege
+				}
+				scope:actor = { is_vassal_or_below_of = scope:recipient }
 			}
 			scope:actor = {
 				any_contender_story = {
@@ -155,13 +168,20 @@
 				BMU_has_enough_remaining_gambits = yes
 			}
 		}
-		scope:actor = {
-			BMU_has_enough_remaining_gambits = yes
-		}
 	}
 
 	can_send = {
 		
+	}
+
+	send_option = {										# Adds an option
+		is_shown = { scope:actor = { has_variable = BMU_request_support_interaction_script_override }}
+		is_valid = { scope:actor = { has_variable = BMU_request_support_interaction_script_override }}
+		current_description = gambit_override
+		flag = gambit_override								# If selected then scope:flag_name will be set to yes
+		localization = gambit_override							# Loc_key for option label
+		starts_enabled = { scope:actor = { has_variable = BMU_request_support_interaction_script_override }}
+		can_be_changed = { always = no }						# Trigger for whether this option can be changed from its default
 	}
 
 	on_send = {
@@ -177,7 +197,10 @@
 				debug_log = "no scope:pressed_claim"
 			}
 		}
-		BMU_spend_gambits_effect_actor = yes
+		if = {
+			limit = { scope:gambit_override = no }
+			BMU_spend_gambits_effect_actor = yes
+		}
 	}
 	
 	on_accept = {
@@ -207,7 +230,7 @@
 	}
 
 	on_decline = {
-				if = {
+		if = {
 			limit = { BMU_debug = yes }
 			debug_log = "BMU_request_support_interaction on_decline"
 			debug_log_scopes = yes
@@ -219,7 +242,10 @@
 				debug_log = "no scope:pressed_claim"
 			}
 		}
-		BMU_refund_gambits_effect = yes
+		if = {
+			limit = { scope:gambit_override = no }
+			BMU_refund_gambits_effect = yes
+		}
 	}
 
 	ai_accept = {

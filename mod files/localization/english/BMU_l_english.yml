@@ -27,9 +27,6 @@ BMU_REFUSE_BARGAIN: "Nah, that bargain is not good enough..."
 BMU_THEY_WOULD_ACCEPT_BARGAIN: "[TARGET_CHARACTER.GetShortUIName] would probably accept this bargain."
 BMU_THEY_WOULD_NOT_ACCEPT_BARGAIN: "[TARGET_CHARACTER.GetShortUIName] will not accept this bargain."
 
-BMU_BARGAIN_STRUCK_WITH: "Bargain struck with [Scope.Var('bargain').Var('contender').Var('stakeholder').Char.GetShortUIName]"
-BMU_BARGAIN_STRUCK_FOR: "for the [Localize(Concatenate(Scope.Var('bargain').Var('council_position').GetFlagName,'_name'))] position."
-
 BMU_ONGOING_PRESSED_CLAIM: "There already is a Pressed Claim on [Title.GetNameNoTooltip]"
 BMU_ALREADY_BARGAINED_WITH_CONTENDER: "BMU_ALREADY_BARGAINED_WITH_CONTENDER"
 BMU_CLAIMANT_SUPPORTS_ANOTHER: "[CHARACTER.GetShortUIName] supports the claim of [TARGET_CHARACTER.GetShortUIName]"
@@ -67,8 +64,6 @@ tooltip_test_3: "tooltip_test_3"
 # test_modifier_desc: "[GetPlayer.MakeScope.GetScriptValueDesc('test_value')]"
 
 test_modifier_desc: "[GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('contender',actor.MakeScope).GetScriptValueDesc('test_value')]"
-
-test_modifier_desc: "test"
 
 
 # test_1: "test 1 [SCOPE.sC('test_char').GetName]"

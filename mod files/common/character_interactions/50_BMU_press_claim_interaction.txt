@@ -53,6 +53,7 @@
 					}
 				}
 			}
+			NOT = { is_liege_or_above_of = scope:recipient }
 		}
 	}
 	
@@ -234,7 +235,7 @@
 }
 
 BMU_press_claim_interaction_script = {
-	category = interaction_category_pressed_claim
+	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
 	ignores_pending_interaction_block = yes
@@ -297,7 +298,7 @@ BMU_press_claim_interaction_script = {
 }
 
 BMU_see_pressed_claim_interaction = {
-	category = interaction_category_pressed_claim
+	category = interaction_category_diplomacy
 	use_diplomatic_range = yes
 	common_interaction = yes
 	ignores_pending_interaction_block = yes

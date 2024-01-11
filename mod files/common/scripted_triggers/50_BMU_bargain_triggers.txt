@@ -388,27 +388,35 @@ BMU_can_bargain_titles = {
 
 BMU_title_can_be_bargained = {
 	NOR = {
-		this = $GIVER$.primary_title
-		this = $GIVER$.capital_county
+		$TITLE$ = $GIVER$.primary_title
+		$TITLE$ = $GIVER$.capital_county
 	}
-	
 	$TAKER$ = {
-		OR = {
-			has_claim_on = $TITLE$
-			$TITLE$.current_heir = this
-			custom_description = {
-				text = BMU_any_held_title_de_jure_above_target
-				subject = this
-				object = $TITLE$
-				any_held_title = { is_de_jure_liege_or_above_target = $TITLE$ }
+		trigger_if = {
+			limit = {
+				is_heir_of = $GIVER$
+				NOT = { $TITLE$ = { has_title_law_flag = elective_succession_law }}
+				$GIVER$ = { FF_has_partition_succession_law = yes }
 			}
-			trigger_if = {
-				limit = { $TITLE$.tier >= tier_duchy }
+			$TITLE$.current_heir = this
+		}
+		trigger_else = {
+			OR = {
+				has_claim_on = $TITLE$
 				custom_description = {
-					text = BMU_target_de_jure_above_any_held_title
+					text = BMU_any_held_title_de_jure_above_target
 					subject = this
 					object = $TITLE$
-					any_held_title = { target_is_de_jure_liege_or_above = $TITLE$ }
+					any_held_title = { is_de_jure_liege_or_above_target = $TITLE$ }
+				}
+				trigger_if = {
+					limit = { $TITLE$.tier >= tier_duchy }
+					custom_description = {
+						text = BMU_target_de_jure_above_any_held_title
+						subject = this
+						object = $TITLE$
+						any_held_title = { target_is_de_jure_liege_or_above = $TITLE$ }
+					}
 				}
 			}
 		}

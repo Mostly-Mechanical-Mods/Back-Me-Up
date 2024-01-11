@@ -44,7 +44,7 @@ BMU_press_claim_interaction: "Press Claim"
 BMU_press_claim_interaction_desc: "Start a [BMU_pressed_claim|E] on a [title|E] you have a [claim|E] on"
 BMU_press_claim_interaction_notification: "The time has come to recognize my claim as the rightful ruler of [target.GetBaseNameNoTierNoTooltip]."
 
-
+gambit_override: "gambit_override"
 
 # BMU_bargain_with_council_position_interaction
 
@@ -78,3 +78,6 @@ BMU_bargain_owned_title: "BMU_bargain_owned_title"
 BMU_drop_out_interaction: "Drop out of [BMU_pressed_claim|E]"
 BMU_drop_out_interaction_desc: "Drop out of a [BMU_pressed_claim|E] you are involved in\nIf there are no other remaining [contenders|E], the [BMU_pressed_claim|E] will end"
 BMU_drop_out_interaction_notification: "I will stop contending for the [target.GetBaseNameNoTierNoTooltip]... for now, at least."
+BMU_CONTENDER_DROP_OUT: "BMU_CONTENDER_DROP_OUT.a"
+BMU_CONTENDER_DROP_OUT_DESC: "BMU_CONTENDER_DROP_OUT_DESC"
+BMU_CONTENDER_DROP_OUT.a: "BMU_CONTENDER_DROP_OUT.a"

@@ -233,8 +233,8 @@
 			if = {
 				limit = {
 					is_independent_ruler = yes
-					save_temporary_scope_as = recipient_is_independent
 				}
+				save_scope_as = recipient_is_independent
 			}
 			if = {
 				limit = {

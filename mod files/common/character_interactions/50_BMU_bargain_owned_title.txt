@@ -11,8 +11,8 @@
 	desc = BMU_bargain_with_owned_title_interaction_desc
 
 	auto_accept = no
-	ai_min_reply_days = 1 #4
-	ai_max_reply_days = 1 #9
+	ai_min_reply_days = 0 #4
+	ai_max_reply_days = 0 #9
 
 	popup_on_receive = yes
 	pause_on_receive = yes
@@ -91,39 +91,55 @@
 	}
 	
 	is_valid_showing_failures_only = {
-		scope:actor = {
-			is_character_interaction_valid = {
-				interaction = BMU_request_support_interaction
-				recipient = scope:recipient
-			}
-		}
 		trigger_if = {
-			limit = { NOT = { exists = scope:pressed_claim }}
-			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
-		}
-		BMU_can_bargain_titles = {
-			PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction
-			CONTENDER = scope:actor
-			SUPPORTER = scope:recipient
-		}
-		scope:actor = {
-			any_held_title = { add_to_temporary_list = bargain_titles count = all }
-			any_alert_creatable_title = { add_to_temporary_list = bargain_titles count = all }
-		}
-		custom_description = {
-			text = BMU_has_titles_to_bargain
-			subject = scope:actor
-			object = scope:recipient
-			any_in_list = {
-				list = bargain_titles
-				# custom = BMU_bargain_titles
-				save_temporary_scope_as = bargain_title
-				BMU_title_can_be_bargained = { GIVER = scope:actor TAKER = scope:recipient TITLE = scope:bargain_title }
+			limit = { NOT = { scope:actor.var:pending_bargain ?= scope:recipient }}
+			scope:actor = {
+				is_character_interaction_valid = {
+					interaction = BMU_request_support_interaction
+					recipient = scope:recipient
+				}
+			}
+			trigger_if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+			}
+			BMU_can_bargain_titles = {
+				PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction
+				CONTENDER = scope:actor
+				SUPPORTER = scope:recipient
+			}
+			scope:actor = {
+				any_held_title = { add_to_temporary_list = bargain_titles count = all }
+				any_alert_creatable_title = { add_to_temporary_list = bargain_titles count = all }
+			}
+			custom_description = {
+				text = BMU_has_titles_to_bargain
+				subject = scope:actor
+				object = scope:recipient
+				any_in_list = {
+					list = bargain_titles
+					# custom = BMU_bargain_titles
+					save_temporary_scope_as = bargain_title
+					BMU_title_can_be_bargained = { GIVER = scope:actor TAKER = scope:recipient TITLE = scope:bargain_title }
+				}
 			}
 		}
 	}
 
 	has_valid_target_showing_failures_only = {
+		NOR = {
+			scope:target = scope:actor.primary_title
+			scope:target = scope:actor.capital_county
+		}
+		# OR = {
+		# 	scope:target.holder ?= scope:recipient
+		# 	scope:recipient = {
+		# 		any_alert_creatable_title = {
+		# 			this = scope:target
+		# 		}
+		# 	}
+		# }
+
 		scope:actor = {
 			any_alert_creatable_title = {
 				add_to_temporary_list = creatable_titles
@@ -138,6 +154,7 @@
 		trigger_else = {
 			scope:target = { is_in_list = creatable_titles }
 		}
+
 		# NOR = {
 		# 	custom_description = {
 		# 		text = BMU_cannot_grant_primary_title
@@ -169,22 +186,23 @@
 				scope:target = scope:actor.capital_county
 			}
 		}
-		scope:recipient = {
+		custom_tooltip = {
+			text = BMU_cannot_promise_title
 			OR = {
-				has_claim_on = scope:target
+				scope:recipient = { has_claim_on = scope:target }
 				custom_description = {
 					text = BMU_any_held_title_de_jure_above_target
-					subject = this
+					subject = scope:recipient
 					object = scope:target
-					any_held_title = { is_de_jure_liege_or_above_target = scope:target }
+					scope:recipient = { any_held_title = { is_de_jure_liege_or_above_target = scope:target }}
 				}
 				trigger_if = {
 					limit = { scope:target.tier >= tier_duchy }
 					custom_description = {
 						text = BMU_target_de_jure_above_any_held_title
-						subject = this
+						subject = scope:recipient
 						object = scope:target
-						any_held_title = { target_is_de_jure_liege_or_above = scope:target }
+						scope:recipient = { any_held_title = { target_is_de_jure_liege_or_above = scope:target }}
 					}
 				}
 			}
@@ -310,6 +328,9 @@
 	ai_will_do = {
 		BMU_support_will_do_modifier = { CONTENDER = scope:actor SUPPORTER = scope:recipient }
 		modifier = {
+			add = BMU_willingness_bargain_title
+		}
+		modifier = {
 			BMU_willingness_budget < BMU_willingness_bargain_title
 			factor = 0
 		}
@@ -335,8 +356,7 @@
 
 	ai_potential = {
 		any_contender_story = {
-			var:pressed_claim_story = {
-			}
+			var:pressed_claim_story = prev.var:pressed_claim_interaction
 		}
 	}
 
@@ -428,20 +448,29 @@ BMU_bargain_for_owned_title_interaction = {
 	}
 
 	has_valid_target_showing_failures_only = {
-		scope:recipient = {
-			any_alert_creatable_title = {
-				add_to_temporary_list = creatable_titles
-				count = all
+		OR = {
+			scope:target.holder ?= scope:recipient
+			scope:recipient = {
+				any_alert_creatable_title = {
+					this = scope:target
+				}
 			}
 		}
-		scope:target.tier >= tier_county
-		trigger_if = {
-			limit = { exists = scope:target.holder }
-			scope:target.holder = scope:recipient
-		}
-		trigger_else = {
-			scope:target = { is_in_list = creatable_titles }
-		}
+		# scope:recipient = {
+		# 	any_alert_creatable_title = {
+		# 		add_to_temporary_list = creatable_titles
+		# 		count = all
+		# 	}
+		# }
+		# scope:target.tier >= tier_county
+		# trigger_if = {
+		# 	limit = { exists = scope:target.holder }
+		# 	scope:target.holder = scope:recipient
+		# }
+		# trigger_else = {
+		# 	scope:target = { is_in_list = creatable_titles }
+		# }
+
 		# NOR = {
 		# 	custom_description = {
 		# 		text = BMU_cannot_grant_primary_title

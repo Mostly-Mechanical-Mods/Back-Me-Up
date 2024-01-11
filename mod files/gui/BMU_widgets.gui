@@ -29,6 +29,12 @@ window = {
 		on_finish = "[GetScriptedGui('BMU_clear_bargain').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
 	}
 	
+	state = {
+		name = "auto_hide"
+		trigger_when = "[Not(GetPlayer.MakeScope.Var('pressed_claim_interaction').IsSet)]"
+		on_start = "[GetVariableSystem.Clear('BMU_claim_window')]"
+	}
+
 	margin_widget = {
 		size = { 100% 100% }
 		margin = { 0 5 }
