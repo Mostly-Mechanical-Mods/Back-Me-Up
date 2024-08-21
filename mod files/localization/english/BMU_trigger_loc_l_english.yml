@@ -167,3 +167,11 @@ NOT_THEY_CAN_BE_FIRED_FROM_COUNCIL: "[CHARACTER.GetCouncilTitleFirstName] cannot
 # BMU_involved_in_another_pressed_claim
 BMU_I_AM_INVOLVED_IN_ANOTHER_PRESSED_CLAIM: "You are already involved in a [BMU_pressed_claim|E]"
 BMU_THEY_ARE_INVOLVED_IN_ANOTHER_PRESSED_CLAIM: "[CHARACTER.GetShortUIName] is already involved in a [BMU_pressed_claim|E]"
+
+# is_liege_or_above_of
+THEY_ARE_LIEGE_OR_ABOVE_OF:0 "[CHARACTER.GetShortUIName|V] is liege or liege's liege"
+NOT_THEY_ARE_LIEGE_OR_ABOVE_OF:0 "[CHARACTER.GetShortUIName|V] is #bold not#! liege or liege's liege"
+THEY_ARE_MY_LIEGE_OR_ABOVE_OF:1 "[CHARACTER.GetShortUIName|V] is your [liege|E] or your liege's liege"
+NOT_THEY_ARE_MY_LIEGE_OR_ABOVE_OF:0 "[CHARACTER.GetShortUIName|V] is #bold not#! your [liege|E] or your liege's liege"
+THEY_ARE_THEIR_LIEGE_OR_ABOVE_OF:0 "[CHARACTER.GetShortUIName|V] is [TARGET_CHARACTER.GetShortUINamePossessive] [liege|E] or [TARGET_CHARACTER.GetHerHis] liege's liege"
+NOT_THEY_ARE_THEIR_LIEGE_OR_ABOVE_OF:0 "[CHARACTER.GetShortUIName|V] is #bold not#! [TARGET_CHARACTER.GetShortUINamePossessive] [liege|E] or [TARGET_CHARACTER.GetHerHis] liege's liege"

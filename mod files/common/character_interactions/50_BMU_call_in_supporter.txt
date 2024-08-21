@@ -115,13 +115,13 @@
 				limit = { NOT = { exists = scope:pressed_claim }}
 				scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
 			}
-			trigger_if = {
-				limit = {
-					scope:pressed_claim.var:claim_target = { is_independent_ruler = no }
-					scope:recipient = scope:pressed_claim.var:claim_target.liege
-				}
-				scope:actor = { is_vassal_or_below_of = scope:recipient }
-			}
+			# trigger_if = {
+			# 	limit = {
+			# 		scope:pressed_claim.var:claim_target = { is_independent_ruler = no }
+			# 		scope:recipient = scope:pressed_claim.var:claim_target.liege
+			# 	}
+			# 	scope:actor = { is_vassal_or_below_of = scope:recipient }
+			# }
 			scope:actor = {
 				any_contender_story = {
 					var:pressed_claim_story = scope:pressed_claim
@@ -150,20 +150,24 @@
 						}
 					}
 				}
-				trigger_if = {
-					limit = {
-						NAND = {
-							exists = joined_faction
-							joined_faction = {
-								faction_is_type = claimant_faction
-								faction_target = scope:secondary_actor
-								special_title = scope:actor.var:pressed_claim_interaction.var:claimed_title
-								special_character = scope:actor
-							}
-						}
-					}
-				}
+				
+				# NOTE: can't remember why that was for in the first place
+				# trigger_if = {
+				# 	limit = {
+				# 		NAND = {
+				# 			exists = joined_faction
+				# 			joined_faction = {
+				# 				faction_is_type = claimant_faction
+				# 				faction_target = scope:secondary_actor
+				# 				special_title = scope:actor.var:pressed_claim_interaction.var:claimed_title
+				# 				special_character = scope:actor
+				# 			}
+				# 		}
+				# 	}
+				# }
 			}
+			NOT = { scope:recipient = scope:actor.liege }
+			NOT = { scope:pressed_claim.claim_target = { target_is_liege_or_above = scope:recipient }}
 			scope:actor = {
 				BMU_has_enough_remaining_gambits = yes
 			}

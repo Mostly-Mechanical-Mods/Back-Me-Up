@@ -53,12 +53,12 @@
 					}
 				}
 			}
-			NOT = { is_liege_or_above_of = scope:recipient }
 		}
 	}
 	
 	is_valid_showing_failures_only = {
 		scope:actor = {
+			NOT = { is_liege_or_above_of = scope:recipient }
 			NOT = {
 				custom_description = {
 					text = BMU_involved_in_another_pressed_claim

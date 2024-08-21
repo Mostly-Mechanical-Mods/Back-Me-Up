@@ -241,6 +241,12 @@
 					limit = { var:contender.story_owner = scope:attacker }
 					scope:war = { add_attacker = prev.story_owner }
 				}
+				scope:defender = {
+					every_liege_or_above = {
+						limit = { NOT = { is_liege_or_above_of = scope:attacker }}
+						scope:war = { add_defender = prev }
+					}
+				}
 			}
 		}
 	}

@@ -266,6 +266,14 @@
 		scope:claimant = { add_to_list = claimants }
 		scope:claim_target = { add_to_list = claimants }
 		scope:claim_target = {
+			every_liege_or_above = {
+				limit = { NOT = { is_liege_or_above_of = scope:claimant }}
+				custom_description = {
+					text = BMU_claim_target_liege_defend_vassal_in_pressed_claim
+					subject = this
+					object = scope:claim_target
+				}
+			}
 			every_targeting_faction = {
 				limit = {
 					faction_is_type = claimant_faction
@@ -391,7 +399,6 @@
 			}
 		}
 	}
-	
 	
 	if = {
 		limit = { exists = scope:pressed_claim }

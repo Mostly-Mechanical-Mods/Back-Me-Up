@@ -230,3 +230,9 @@ BMU_can_be_fired_from_council_trigger = {
 	third = THEY_CAN_BE_FIRED_FROM_COUNCIL
 	# third_not = NOT_THEY_CAN_BE_FIRED_FROM_COUNCIL
 }
+
+is_liege_or_above_of = {
+	global = THEY_ARE_LIEGE_OR_ABOVE
+	first = THEY_ARE_MY_LIEGE_OR_ABOVE
+	third = THEY_ARE_THEIR_LIEGE_OR_ABOVE
+}

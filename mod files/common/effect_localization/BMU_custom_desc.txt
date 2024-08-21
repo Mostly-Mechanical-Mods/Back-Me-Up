@@ -60,8 +60,14 @@ BMU_claimant_might_join_pressed_claim = {
 	global = BMU_MIGHT_JOIN_PRESSED_CLAIM
 }
 
+BMU_claim_target_liege_defend_vassal_in_pressed_claim = {
+	third = BMU_THEY_DEFEND_VASSAL_IN_PRESSED_CLAIM
+	global = BMU_DEFEND_VASSAL_IN_PRESSED_CLAIM
+}
+
 BMU_spend_gambits = {
 	first = BMU_I_SPEND_GAMBITS
 	third = BMU_THEY_SPEND_GAMBITS
 	global = BMU_SPEND_GAMBITS
 }
+
