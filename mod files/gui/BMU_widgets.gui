@@ -257,8 +257,8 @@ window = {
 								# 	text = "[Story.Var('pressed_claim_phase').GetFlagName]"
 								# }
 								expand = {}
-								container = {
-
+								widget = {
+									size = { 91 91 }
 									icon = {
 										texture = "gfx/interface/buttons/button_lifestyles_base.dds"
 										size = { 100% 100% }
@@ -268,11 +268,12 @@ window = {
 										name = "progress"
 										size = { 80 80 }
 										texture = "gfx/interface/progressbars/action_progress_thin.dds"
-										framesize = { 124 124 }
+										framesize = { 128 128 }
 										frame = 2
-										widgetanchor = top|hcenter
-										parentanchor = top|hcenter
 										value = "[Story.MakeScope.ScriptValue('FF_pressed_claim_story_duration')]"
+										widgetanchor = center
+										parentanchor = center
+										position = { 0 0 }
 										min = 0
 										max = 1
 									}
@@ -961,7 +962,7 @@ window = {
 window = {
 	name = "BMU_claim_icon"
 	widgetid = "BMU_claim_icon"
-	position = { 500 -70 }
+	position = { 500 -62 }
 	layer = hud_layer
 	# filter_mouse = all
 	alwaystransparent = no
@@ -992,6 +993,7 @@ window = {
 	hbox = {
 		flowcontainer = {
 			ignoreinvisible = yes
+			margin_bottom = 5
 			datamodel = "[GetPlayer.MakeScope.GetList('pressed_claim_gui')]"
 			item = {
 				button_normal = {
@@ -999,7 +1001,7 @@ window = {
 					datacontext = "[Scope.Story]"
 					datacontext = "[Scope.Var('claimed_title').Title]"
 					
-					size = { 60 60 }
+					size = { 56 56 }
 
 					icon = {
 						texture = "gfx/interface/buttons/button_lifestyles_base.dds"
@@ -1008,13 +1010,14 @@ window = {
 					
 					progresspie = {
 						name = "progress"
-						size = { 60 60 }
+						size = { 48 48 }
 						texture = "gfx/interface/progressbars/action_progress_thin.dds"
-						framesize = { 124 124 }
+						framesize = { 128 128 }
 						frame = 2
-						widgetanchor = top|hcenter
-						parentanchor = top|hcenter
 						value = "[Story.MakeScope.ScriptValue('FF_pressed_claim_story_duration')]"
+						widgetanchor = center
+						parentanchor = center
+						position = { 0 0 }
 						min = 0
 						max = 1
 					}
