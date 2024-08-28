@@ -88,6 +88,17 @@ BMU_request_support_interaction_is_shown = {
 				scope:recipient = { any_supporter_story = { var:pressed_claim_story = scope:pressed_claim }}
 				BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:recipient PRESSED_CLAIM = scope:pressed_claim }
 				scope:recipient = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim }}
+				is_allied_to = scope:recipient
+				is_close_or_extended_family_of = scope:recipient
+				trigger_if = {
+					limit = { scope:recipient.dynasty = scope:actor.dynasty }
+					scope:actor.house_head = scope:actor
+					scope:recipient.house_head = scope:recipient
+					OR = {
+						dynasty.dynast = scope:actor
+						dynasty.dynast = scope:recipient
+					}
+				}
 			}
 		}
 	}
@@ -148,6 +159,17 @@ BMU_offer_support_interaction_is_shown = {
 			scope:actor = { any_supporter_story = { var:pressed_claim_story = scope:pressed_claim }}
 			BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:actor PRESSED_CLAIM = scope:pressed_claim }
 			scope:actor = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim }}
+			is_allied_to = scope:actor
+			is_close_or_extended_family_of = scope:actor
+			trigger_if = {
+				limit = { scope:recipient.dynasty = scope:actor.dynasty }
+				scope:actor.house_head = scope:actor
+				scope:recipient.house_head = scope:recipient
+				OR = {
+					dynasty.dynast = scope:actor
+					dynasty.dynast = scope:recipient
+				}
+			}
 		}
 	}
 }
