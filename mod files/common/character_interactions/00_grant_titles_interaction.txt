@@ -233,8 +233,8 @@
 			if = {
 				limit = {
 					is_independent_ruler = yes
+					save_temporary_scope_as = recipient_is_independent
 				}
-				save_scope_as = recipient_is_independent
 			}
 			if = {
 				limit = {
@@ -731,9 +731,12 @@
 		}
 		if = {
 			limit = {
-				scope:actor = {
-					any_vassal = {
-						has_vassal_stance = courtly
+				trigger_if = {
+					limit = { scope:actor = { is_ai = yes } }
+					scope:actor = {
+						any_vassal = {
+							has_vassal_stance = courtly
+						}
 					}
 				}
 				scope:recipient = {

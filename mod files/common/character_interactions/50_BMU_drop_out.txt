@@ -2,7 +2,7 @@
 	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
-	ignores_pending_interaction_block = yes
+	# ignores_pending_interaction_block = yes
 	interface_priority = -1
 	icon = icon_claim_pressed
 
@@ -206,7 +206,7 @@ BMU_offer_support_interaction = {
 	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
-	ignores_pending_interaction_block = yes
+	# ignores_pending_interaction_block = yes
 	interface_priority = -1
 	icon = icon_claim_pressed
 

@@ -2,7 +2,7 @@
 	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
-	ignores_pending_interaction_block = yes
+	# ignores_pending_interaction_block = yes
 	interface_priority = -1
 	icon = icon_claim_pressed
 
@@ -87,95 +87,24 @@
 	}
 
 	is_shown = {
-		scope:actor = { has_variable = pressed_claim_interaction }
-		NOT = { scope:actor = scope:recipient }
-		scope:recipient = {
-			is_landed = yes
-			highest_held_title_tier >= tier_county
-		}
-		trigger_if = {
-			limit = { scope:actor = { NOT = { has_variable = BMU_request_support_interaction_script_override }}}
-			scope:actor.var:pressed_claim_interaction.var:phase = flag:rallying_phase
-			scope:actor = {
-				any_contender_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }
-				NOT = { scope:recipient = { any_contender_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }}}
-				OR = {
-					scope:recipient = { any_supporter_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }}
-					BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:recipient PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }
-					scope:recipient = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }}
-				}
-			}
-		}
+		BMU_request_support_interaction_is_shown = yes
 	}
 	
 	is_valid_showing_failures_only = {
-		trigger_if = {
-			limit = { scope:actor = { NOT = { has_variable = BMU_request_support_interaction_script_override }}}
-			trigger_if = {
-				limit = { NOT = { exists = scope:pressed_claim }}
-				scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
-			}
-			# trigger_if = {
-			# 	limit = {
-			# 		scope:pressed_claim.var:claim_target = { is_independent_ruler = no }
-			# 		scope:recipient = scope:pressed_claim.var:claim_target.liege
-			# 	}
-			# 	scope:actor = { is_vassal_or_below_of = scope:recipient }
-			# }
-			scope:actor = {
-				any_contender_story = {
-					var:pressed_claim_story = scope:pressed_claim
-					save_temporary_scope_as = contender
-				}
-				BMU_has_enough_remaining_gambits = yes
-			}
-			scope:recipient = {
-				NOT = {
-					custom_description = {
-						text = BMU_involved_in_another_pressed_claim
-						subject = scope:recipient
-						any_contender_story = {
-							count > 0
-						}
-					}
-				}
-				NOT = {
-					custom_description = {
-						text = BMU_already_support_contender
-						subject = scope:recipient
-						object = scope:actor
-						any_supporter_story = {
-							var:pressed_claim_story = scope:actor.var:pressed_claim_interaction
-							var:contender.story_owner = scope:actor
-						}
-					}
-				}
-				
-				# NOTE: can't remember why that was for in the first place
-				# trigger_if = {
-				# 	limit = {
-				# 		NAND = {
-				# 			exists = joined_faction
-				# 			joined_faction = {
-				# 				faction_is_type = claimant_faction
-				# 				faction_target = scope:secondary_actor
-				# 				special_title = scope:actor.var:pressed_claim_interaction.var:claimed_title
-				# 				special_character = scope:actor
-				# 			}
-				# 		}
-				# 	}
-				# }
-			}
-			NOT = { scope:recipient = scope:actor.liege }
-			NOT = { scope:pressed_claim.claim_target = { target_is_liege_or_above = scope:recipient }}
-			scope:actor = {
-				BMU_has_enough_remaining_gambits = yes
-			}
-		}
+		BMU_request_support_interaction_is_valid = yes
 	}
 
 	can_send = {
-		
+		trigger_if = {
+			limit = { NOT = { exists = scope:pressed_claim }}
+			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+		}
+		scope:actor = {
+			any_contender_story = {
+				var:pressed_claim_story = scope:pressed_claim
+				BMU_gambit_remaining >= BMU_supporter_gambit_cost
+			}
+		}
 	}
 
 	send_option = {										# Adds an option
@@ -201,10 +130,8 @@
 				debug_log = "no scope:pressed_claim"
 			}
 		}
-		if = {
-			limit = { scope:gambit_override = no }
-			BMU_spend_gambits_effect_actor = yes
-		}
+		BMU_spend_gambits_effect_actor = yes
+		BMU_request_support_interaction_on_send = yes
 	}
 	
 	on_accept = {
@@ -298,7 +225,7 @@ BMU_offer_support_interaction = {
 	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
-	ignores_pending_interaction_block = yes
+	# ignores_pending_interaction_block = yes
 	interface_priority = -1
 	icon = icon_claim_pressed
 
@@ -335,84 +262,26 @@ BMU_offer_support_interaction = {
 	}
 
 	is_shown = {
-		scope:actor = { has_variable = pressed_claim_interaction }
-		exists = scope:actor.var:pressed_claim_interaction
-		NOT = { scope:actor = { any_contender_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }}}
-		scope:actor.var:pressed_claim_interaction.var:phase = flag:rallying_phase
-		NOT = { scope:actor = scope:recipient }
-		scope:recipient = {
-			any_contender_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }
-			OR = {
-				scope:actor = { any_supporter_story = { var:pressed_claim_story = scope:actor.var:pressed_claim_interaction }}
-				BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:actor PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }
-				scope:actor = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction }}
-			}
-		}
+		BMU_offer_support_interaction_is_shown = yes
 	}
 	
 	is_valid_showing_failures_only = {
-		trigger_if = {
-			limit = { scope:actor = { NOT = { has_variable = BMU_request_support_interaction_script_override }}}
-			trigger_if = {
-				limit = { NOT = { exists = scope:pressed_claim }}
-				scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
-			}
-			scope:recipient = {
-				any_contender_story = {
-					var:pressed_claim_story = scope:pressed_claim
-					save_temporary_scope_as = contender
-				}
-				BMU_has_enough_remaining_gambits = yes
-			}
-			scope:actor = {
-				NOT = {
-					custom_description = {
-						text = BMU_involved_in_another_pressed_claim
-						subject = scope:actor
-						any_contender_story = {
-							count > 0
-						}
-					}
-				}
-				NOT = {
-					custom_description = {
-						text = BMU_already_support_contender
-						subject = scope:actor
-						object = scope:recipient
-						any_supporter_story = {
-							var:pressed_claim_story = scope:actor.var:pressed_claim_interaction
-							var:contender.story_owner = scope:recipient
-						}
-					}
-				}
-				trigger_if = {
-					limit = {
-						NAND = {
-							exists = joined_faction
-							joined_faction = {
-								faction_is_type = claimant_faction
-								faction_target = scope:secondary_actor
-								special_title = scope:actor.var:pressed_claim_interaction.var:claimed_title
-								special_character = scope:recipient
-							}
-						}
-					}
-				}
-			}
-			scope:recipient = {
-				BMU_has_enough_remaining_gambits = yes
-			}
-		}
+		BMU_offer_support_interaction_is_valid = yes
 	}
 
 	can_send = {
-		
+		scope:actor = {
+			any_contender_story = {
+				var:pressed_claim_story = scope:pressed_claim
+				BMU_gambit_remaining >= BMU_supporter_gambit_cost
+			}
+		}
 	}
 
 	on_send = {
 		if = {
 			limit = { BMU_debug = yes }
-			debug_log = "BMU_request_support_interaction on_send"
+			debug_log = "BMU_offer_support_interaction on_send"
 			debug_log_scopes = yes
 			if = {
 				limit = { exists = scope:pressed_claim }

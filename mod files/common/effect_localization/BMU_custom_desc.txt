@@ -71,3 +71,17 @@ BMU_spend_gambits = {
 	global = BMU_SPEND_GAMBITS
 }
 
+BMU_fulfill_bargain = {
+	first = I_FULFILL_BARGAIN
+	third = THEY_FULFILL_BARGAIN
+	global = FULFILL_BARGAIN
+}
+
+BMU_dismissed_councillor = {
+	first = BMU_DISMISSED_COUNCILLOR
+	first_past = BMU_DISMISSED_COUNCILLOR
+	third = BMU_DISMISSED_COUNCILLOR
+	third_past = BMU_DISMISSED_COUNCILLOR
+	global = BMU_DISMISSED_COUNCILLOR
+	global_past = BMU_DISMISSED_COUNCILLOR
+}

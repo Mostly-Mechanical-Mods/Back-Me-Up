@@ -1,0 +1,41 @@
+﻿mmm = {
+	texture = "gfx/ff_gfx/mod_icons/mmm_icon.dds"
+}
+
+mmm_bmu = {
+	parent = mmm
+	texture = "gfx/ff_gfx/mod_icons/mmm_pow_icon.dds"
+}
+
+mmm_ff = {
+	parent = mmm
+	texture = "gfx/ff_gfx/mod_icons/mmm_ff_icon.dds"
+}
+
+BMU_pressed_claim = {
+	parent = mmm_bmu
+}
+
+contender = {
+	parent = mmm_bmu
+}
+
+supporter = {
+	parent = mmm_bmu
+}
+
+rallying_phase = {
+	parent = mmm_bmu
+}
+
+bargaining_phase = {
+	parent = mmm_bmu
+}
+
+declaration_phase = {
+	parent = mmm_bmu
+}
+
+contention_phase = {
+	parent = mmm_bmu
+}

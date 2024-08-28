@@ -779,27 +779,29 @@ BMU_request_support = {
 		}
 	}
 
-	$PRESSED_CLAIM$ = {
-		every_in_list = {
-			variable = contenders
-			limit = { NOT = { story_owner = $CONTENDER$ }}
-			story_owner = {
-				send_interface_message = {
-					type = BMU_contender_gains_support # default: send_interface_message
-					# desc = event_message_effect
-					left_icon = $CONTENDER$
-					right_icon = scope:claimed_title
-					custom_description = {
-						text = BMU_start_supporting_contender
-						subject = $SUPPORTER$
-						object = $CONTENDER$
+	hidden_effect = {
+		$PRESSED_CLAIM$ = {
+			every_in_list = {
+				variable = contenders
+				limit = { NOT = { story_owner = $CONTENDER$ }}
+				story_owner = {
+					send_interface_message = {
+						type = BMU_contender_gains_support # default: send_interface_message
+						# desc = event_message_effect
+						left_icon = $CONTENDER$
+						right_icon = scope:claimed_title
+						custom_description = {
+							text = BMU_start_supporting_contender
+							subject = $SUPPORTER$
+							object = $CONTENDER$
+						}
 					}
 				}
 			}
+	
+			#GUI Update
+			BMU_update_pressed_claim_gui = { PRESSED_CLAIM = $PRESSED_CLAIM$ }
 		}
-
-		#GUI Update
-		BMU_update_pressed_claim_gui = { PRESSED_CLAIM = $PRESSED_CLAIM$ }
 	}
 
 	clear_saved_scope = supporter_temp
@@ -808,97 +810,114 @@ BMU_request_support = {
 }
 
 BMU_bargain_owned_title_post_effect = {
-	$CONTENDER$ = { save_temporary_scope_as = contender_temp }
-	$SUPPORTER$ = { save_temporary_scope_as = supporter_temp }
-	$PRESSED_CLAIM$.var:claimed_title = { save_temporary_scope_as = claimed_title_temp }
-	debug_log = "BMU_bargain_owned_title_post_effect"
-	debug_log = "Claimed Title"
-	scope:claimed_title_temp = { debug_log = "[THIS.Title.GetNameNoTooltip]" }
-	debug_log = "Contender"
-	scope:contender_temp = { debug_log = "[THIS.Char.GetShortUINameNoTooltip]" }
-	debug_log = "Supporter"
-	scope:supporter_temp = { debug_log = "[THIS.Char.GetShortUINameNoTooltip]" }
 	$CONTENDER$ = {
 		custom_description_no_bullet = {
 			text = BMU_if_pressed_claim_won
 			subject = $CONTENDER$
 			object = $PRESSED_CLAIM$.var:claimed_title
 		}
+		BMU_bargain_owned_title_effect = {
+			PRESSED_CLAIM = $PRESSED_CLAIM$
+			CONTENDER = $CONTENDER$
+			SUPPORTER = $SUPPORTER$
+			TARGET = $TARGET$
+		}
 	}
-	$SUPPORTER$ = {
-		custom_description_no_bullet = {
-			text = BMU_if_pressed_claim_won
-			subject = $SUPPORTER$
-			object = $PRESSED_CLAIM$.var:claimed_title
+}
+
+BMU_bargain_owned_title_effect = {
+	hidden_effect = {
+		if = {
+			limit = { BMU_debug = yes }
+			debug_log = "BMU_bargain_owned_title_post_effect"
+			debug_log = "Claimed Title"
+			$PRESSED_CLAIM$.var:claimed_title = { debug_log = "[THIS.Title.GetNameNoTooltip]" }
+			debug_log = "Contender"
+			$CONTENDER$ = { debug_log = "[THIS.Char.GetShortUINameNoTooltip]" }
+			debug_log = "Supporter"
+			$SUPPORTER$ = { debug_log = "[THIS.Char.GetShortUINameNoTooltip]" }
 		}
 	}
 	$TARGET$ = {
 		add_to_list = target_titles_bargained
 		save_scope_as = target
 	}
-	BMU_grant_titles = { CONTENDER = $CONTENDER$ SUPPORTER = $SUPPORTER$ }
-	create_title_and_vassal_change = {
-		type = granted
-		save_scope_as = bargain
+	# BMU_grant_titles = { CONTENDER = $CONTENDER$ SUPPORTER = $SUPPORTER$ }
+	if = {
+		limit = { NOT = { exists = scope:bargain_change }}
+		create_title_and_vassal_change = {
+			type = granted
+			save_scope_as = bargain_change
+		}
 	}
 	every_in_list = {
 		list = target_titles_bargained
+		# custom = "test"
 		change_title_holder_include_vassals = {
 			holder = $SUPPORTER$
-			change = scope:bargain
+			change = scope:bargain_change
 		}
 	}
-	resolve_title_and_vassal_change = scope:bargain
+}
+
+BMU_bargain_council_position_effect = {
+	hidden_effect = {
+		if = {
+			limit = { BMU_debug = yes }
+			debug_log = "BMU_bargain_council_position_post_effect"
+			debug_log = "Claimed Title"
+			$PRESSED_CLAIM$.var:claimed_title = { debug_log = "[THIS.Title.GetNameNoTooltip]" }
+			debug_log = "Contender"
+			$CONTENDER$ = { debug_log = "[THIS.Char.GetShortUINameNoTooltip]" }
+			debug_log = "Supporter"
+			$SUPPORTER$ = { debug_log = "[THIS.Char.GetShortUINameNoTooltip]" }
+		}
+	}
+	if = {
+		limit = { scope:councillor_chancellor ?= yes }
+		cp:councillor_chancellor ?= { prev = { fire_councillor = prev }}
+		assign_councillor_type = {
+			type = councillor_chancellor
+			target = $SUPPORTER$
+		}
+	}
+	else_if = {
+		limit = { scope:councillor_steward ?= yes }
+		cp:councillor_steward ?= { prev = { fire_councillor = prev }}
+		assign_councillor_type = {
+			type = councillor_steward
+			target = $SUPPORTER$
+		}
+	}
+	else_if = {
+		limit = { scope:councillor_marshal ?= yes }
+		cp:councillor_marshal ?= { prev = { fire_councillor = prev }}
+		assign_councillor_type = {
+			type = councillor_marshal
+			target = $SUPPORTER$
+		}
+	}
+	else_if = {
+		limit = { scope:councillor_spymaster ?= yes }
+		cp:councillor_spymaster ?= { prev = { fire_councillor = prev }}
+		assign_councillor_type = {
+			type = councillor_spymaster
+			target = $SUPPORTER$
+		}
+	}
 }
 
 BMU_bargain_council_position_post_effect = {
-	$CONTENDER$ = { save_temporary_scope_as = contender_temp }
-	$SUPPORTER$ = { save_temporary_scope_as = supporter_temp }
-	$PRESSED_CLAIM$.var:claimed_title = { save_temporary_scope_as = claimed_title_temp }
-	debug_log = "BMU_bargain_council_position_post_effect"
-	debug_log = "Claimed Title"
-	scope:claimed_title_temp = { debug_log = "[THIS.Title.GetNameNoTooltip]" }
-	debug_log = "Contender"
-	scope:contender_temp = { debug_log = "[THIS.Char.GetShortUINameNoTooltip]" }
-	debug_log = "Supporter"
-	scope:supporter_temp = { debug_log = "[THIS.Char.GetShortUINameNoTooltip]" }
 	$CONTENDER$ = {
 		custom_description_no_bullet = {
 			text = BMU_if_pressed_claim_won
 			subject = $CONTENDER$
 			object = $PRESSED_CLAIM$.var:claimed_title
 		}
-		if = {
-			limit = { scope:councillor_chancellor ?= yes }
-			cp:councillor_chancellor ?= { prev = { fire_councillor = prev }}
-			assign_councillor_type = {
-				type = councillor_chancellor
-				target = $SUPPORTER$
-			}
-		}
-		else_if = {
-			limit = { scope:councillor_steward ?= yes }
-			cp:councillor_steward ?= { prev = { fire_councillor = prev }}
-			assign_councillor_type = {
-				type = councillor_steward
-				target = $SUPPORTER$
-			}
-		}
-		else_if = {
-			limit = { scope:councillor_marshal ?= yes }
-			cp:councillor_marshal ?= { prev = { fire_councillor = prev }}
-			assign_councillor_type = {
-				type = councillor_marshal
-				target = $SUPPORTER$
-			}
-		}
-		else_if = {
-			limit = { scope:councillor_spymaster ?= yes }
-			cp:councillor_spymaster ?= { prev = { fire_councillor = prev }}
-			assign_councillor_type = {
-				type = councillor_spymaster
-				target = $SUPPORTER$
-			}
+		BMU_bargain_council_position_effect = {
+			PRESSED_CLAIM = $PRESSED_CLAIM$
+			CONTENDER = $CONTENDER$
+			SUPPORTER = $SUPPORTER$
 		}
 	}
 }
@@ -916,6 +935,35 @@ BMU_update_pressed_claim_gui = {
 			story_owner = {	
 				BMU_set_pressed_claim_interaction = { CLAIMED_TITLE = $PRESSED_CLAIM$.var:claimed_title }
 			}
+		}
+	}
+}
+
+BMU_request_support_interaction_on_send = {
+	scope:actor = {
+		set_variable = {
+			name = BMU_request_support_interaction_on_send_pressed_claim
+			value = var:pressed_claim_interaction
+			days = 10
+		}
+		set_variable = {
+			name = BMU_request_support_interaction_on_send_stakeholder
+			value = scope:recipient
+			days = 10
+		}
+	}
+}
+BMU_offer_support_interaction_on_send = {
+	scope:actor = {
+		set_variable = {
+			name = BMU_offer_support_interaction_on_send_pressed_claim
+			value = var:pressed_claim_interaction
+			days = 10
+		}
+		set_variable = {
+			name = BMU_offer_support_interaction_on_send_contender
+			value = scope:recipient
+			days = 10
 		}
 	}
 }

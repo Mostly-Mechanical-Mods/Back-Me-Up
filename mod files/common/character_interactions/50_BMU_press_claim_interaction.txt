@@ -2,7 +2,7 @@
 	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
-	ignores_pending_interaction_block = yes
+	# ignores_pending_interaction_block = yes
 	interface_priority = -1
 	icon = icon_claim_pressed
 
@@ -238,7 +238,7 @@ BMU_press_claim_interaction_script = {
 	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
-	ignores_pending_interaction_block = yes
+	# ignores_pending_interaction_block = yes
 	interface_priority = -1
 	icon = icon_claim_pressed
 	hidden = yes
@@ -301,7 +301,7 @@ BMU_see_pressed_claim_interaction = {
 	category = interaction_category_diplomacy
 	use_diplomatic_range = yes
 	common_interaction = yes
-	ignores_pending_interaction_block = yes
+	# ignores_pending_interaction_block = yes
 	interface_priority = -1
 	icon = icon_claim_pressed
 	hidden = yes

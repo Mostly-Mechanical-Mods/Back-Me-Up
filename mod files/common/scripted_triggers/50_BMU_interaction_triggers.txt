@@ -64,3 +64,122 @@ BMU_bargain_council_position_interaction_is_valid = {
 BMU_call_ally_interaction_can_be_picked = {
 	NOT = { scope:target = { using_cb = BMU_pressed_claim_cb }}
 }
+
+BMU_request_support_interaction_is_shown = {
+	trigger_if = {
+		limit = { NOT = { exists = scope:pressed_claim }}
+		scope:actor = {
+			has_variable = pressed_claim_interaction
+			var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+		}
+	}
+	NOT = { scope:actor = scope:recipient }
+	scope:recipient = {
+		is_landed = yes
+		highest_held_title_tier >= tier_county
+	}
+	trigger_if = {
+		limit = { scope:actor = { NOT = { has_variable = BMU_request_support_interaction_script_override }}}
+		scope:pressed_claim.var:phase = flag:rallying_phase
+		scope:actor = {
+			any_contender_story = { var:pressed_claim_story = scope:pressed_claim }
+			NOT = { scope:recipient = { any_contender_story = { var:pressed_claim_story = scope:pressed_claim }}}
+			OR = {
+				scope:recipient = { any_supporter_story = { var:pressed_claim_story = scope:pressed_claim }}
+				BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:recipient PRESSED_CLAIM = scope:pressed_claim }
+				scope:recipient = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim }}
+			}
+		}
+	}
+}
+
+BMU_request_support_interaction_is_valid = {
+	trigger_if = {
+		limit = { scope:actor = { NOT = { has_variable = BMU_request_support_interaction_script_override }}}
+		trigger_if = {
+			limit = { NOT = { exists = scope:pressed_claim }}
+			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+		}
+		scope:recipient = {
+			NOT = {
+				custom_description = {
+					text = BMU_involved_in_another_pressed_claim
+					subject = scope:recipient
+					any_contender_story = {
+						count > 0
+					}
+				}
+			}
+			NOT = {
+				custom_description = {
+					text = BMU_already_support_contender
+					subject = scope:recipient
+					object = scope:actor
+					any_supporter_story = {
+						var:pressed_claim_story = scope:actor.var:pressed_claim_interaction
+						var:contender.story_owner = scope:actor
+					}
+				}
+			}
+		}
+		NOT = { scope:recipient = scope:actor.liege }
+		NOT = { scope:pressed_claim.var:claim_target = { target_is_liege_or_above = scope:recipient }}
+	}
+}
+
+BMU_offer_support_interaction_is_shown = {
+	trigger_if = {
+		limit = { NOT = { exists = scope:pressed_claim }}
+		scope:actor = {
+			has_variable = pressed_claim_interaction
+			var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+		}
+	}
+	scope:actor = {
+		is_landed = yes
+		highest_held_title_tier >= tier_county
+	}
+	NOT = { scope:actor = scope:recipient }
+	scope:pressed_claim.var:phase = flag:rallying_phase
+	scope:recipient = {
+		any_contender_story = { var:pressed_claim_story = scope:pressed_claim }
+		NOT = { scope:actor = { any_contender_story = { var:pressed_claim_story = scope:pressed_claim }}}
+		OR = {
+			scope:actor = { any_supporter_story = { var:pressed_claim_story = scope:pressed_claim }}
+			BMU_target_is_relevant_in_pressed_claim_v2 = { TARGET = scope:actor PRESSED_CLAIM = scope:pressed_claim }
+			scope:actor = { BMU_is_claim_target_vassal_that_follows_pressed_claim = { PRESSED_CLAIM = scope:pressed_claim }}
+		}
+	}
+}
+
+BMU_offer_support_interaction_is_valid = {
+	trigger_if = {
+		limit = { NOT = { exists = scope:pressed_claim }}
+		scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+	}
+	trigger_else = {}
+	scope:actor = {
+		NOT = {
+			custom_description = {
+				text = BMU_involved_in_another_pressed_claim
+				subject = scope:actor
+				any_contender_story = {
+					count > 0
+				}
+			}
+		}
+		NOT = {
+			custom_description = {
+				text = BMU_already_support_contender
+				subject = scope:actor
+				object = scope:recipient
+				any_supporter_story = {
+					var:pressed_claim_story = scope:pressed_claim
+					var:contender.story_owner = scope:recipient
+				}
+			}
+		}
+	}
+	NOT = { scope:actor = scope:recipient.liege }
+	NOT = { scope:pressed_claim.var:claim_target = { target_is_liege_or_above = scope:actor }}
+}

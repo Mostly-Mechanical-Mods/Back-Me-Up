@@ -243,6 +243,15 @@ grant_vassal_interaction = {
 		scope:actor = {
 			trigger_event = char_interaction.0211
 		}
+		
+		# If we're a clan this interaction affects unity
+		add_clan_unity_interaction_effect = {
+			CHARACTER = scope:recipient
+			TARGET = scope:actor
+			VALUE = miniscule_unity_loss
+			DESC = clan_unity_grant_vassal_decline.desc
+			REVERSE_NON_HOUSE_TARGET = no
+		}
 	}
 	
 	# AI handled entirely though code
@@ -980,8 +989,6 @@ retract_vassal_interaction = {
 start_independence_faction_interaction = {
 	icon = independence
 	category = interaction_category_vassal
-
-
 	desc = start_independence_faction_interaction_desc
 
 	is_shown = {
@@ -1113,8 +1120,6 @@ start_independence_faction_interaction = {
 join_independence_faction_interaction = {
 	icon = independence
 	category = interaction_category_vassal
-
-
 	desc = join_independence_faction_interaction_desc
 
 	is_shown = {
@@ -1776,7 +1781,7 @@ stop_attacker_vassal_war_interaction = {
 	pause_on_receive = yes
 	icon = icon_retreat
 
-	send_name = "SEND_DEMAND"
+	send_name = "stop_attacker_vassal_war_interaction"
 	
 	ai_maybe = yes
 	
@@ -1856,6 +1861,9 @@ stop_attacker_vassal_war_interaction = {
 				trigger_event = vassal_interaction.0001 #Starts "negotiations"
 			}
 		}
+		show_as_tooltip = {
+			scope:target ?= { end_war = white_peace }
+		}
 
 		# If we're a clan this interaction affects unity - But we only show it in the tooltip, actual effect is applied in the respective follow-up events
 		show_as_tooltip = {
@@ -1887,6 +1895,18 @@ stop_attacker_vassal_war_interaction = {
 					REVERSE_NON_HOUSE_TARGET = no
 				}
 			}
+		}
+	}
+	
+	on_decline = {
+		show_as_tooltip = {
+			scope:recipient = {
+				add_opinion = {
+					modifier = attempt_to_force_end_war_opinion
+					target = scope:actor
+				}
+			}
+			scope:actor = { add_prestige = minor_prestige_loss }
 		}
 	}
 
@@ -1979,6 +1999,38 @@ stop_defender_vassal_war_interaction = {
 		hidden_effect = {
 			scope:recipient = {
 				trigger_event = vassal_interaction.0011 #Starts "negotiations"
+			}
+		}
+		
+		# If we're a clan this interaction affects unity - But we only show it in the tooltip, actual effect is applied in the respective follow-up events
+		show_as_tooltip = {
+			if = {
+				limit = { # If recipient is a house member and the attacker is not, lose unity
+					exists = scope:actor.house
+					exists = scope:target.primary_attacker.house
+					NOT = { scope:target.primary_attacker.house = scope:actor.house }
+				}
+				add_clan_unity_interaction_effect = {
+					CHARACTER = scope:actor
+					TARGET = scope:recipient
+					VALUE = medium_unity_loss
+					DESC = clan_unity_stop_defender_vassal_war.desc
+					REVERSE_NON_HOUSE_TARGET = no
+				}
+			}
+			else_if = {
+				limit = { # If recipient is a non-house member and the attacker is, gain unity
+					exists = scope:actor.house
+					exists = scope:recipient.house
+					NOT = { scope:recipient.house = scope:actor.house }
+				}
+				add_clan_unity_interaction_effect = {
+					CHARACTER = scope:actor
+					TARGET = scope:target.primary_attacker
+					VALUE = medium_unity_gain
+					DESC = clan_unity_aided_in_war.desc
+					REVERSE_NON_HOUSE_TARGET = no
+				}
 			}
 		}
 	}
@@ -2139,6 +2191,15 @@ ask_for_pardon_interaction = {
 
 				custom_tooltip = ask_for_pardon_interaction_accept_decline
 			}
+		}
+		
+		# If we're a clan this interaction affects unity
+		add_clan_unity_interaction_effect = {
+			CHARACTER = scope:recipient
+			TARGET = scope:actor
+			VALUE = minor_unity_loss
+			DESC = clan_unity_refused_pardon.desc
+			REVERSE_NON_HOUSE_TARGET = no
 		}
 	}
 
@@ -2448,7 +2509,120 @@ vassal_claim_liege_title_interaction = {
 			}
 			scope:actor = { is_powerful_vassal_of = scope:recipient }
 		}
-		trigger_else = {
+		trigger_if = {
+			limit = {
+				scope:actor = { legitimacy_level ?= 5 }
+			}
+			scope:target = {
+				tier >= tier_duchy
+				custom_description = {
+					text = has_15_percent_of_a_dejure_title
+					any_in_de_jure_hierarchy = {
+						filter = {
+							tier = tier_county
+						}
+						continue = {
+							tier > tier_county
+						}
+						OR = {
+							holder = scope:actor
+							holder = {
+								target_is_liege_or_above = scope:actor
+							}
+						}
+						percent >= 0.15
+					}
+				}
+			}
+		}
+		trigger_if = {
+			limit = {
+				scope:actor = { legitimacy_level ?= 4 }
+			}
+			scope:target = {
+				tier >= tier_duchy
+				custom_description = {
+					text = has_21_percent_of_a_dejure_title
+					any_in_de_jure_hierarchy = {
+						filter = {
+							tier = tier_county
+						}
+						continue = {
+							tier > tier_county
+						}
+						OR = {
+							holder = scope:actor
+							holder = {
+								target_is_liege_or_above = scope:actor
+							}
+						}
+						percent >= 0.21
+					}
+				}
+			}
+		}
+		trigger_if = {
+			limit = {
+				scope:actor = { legitimacy_level ?= 3 }
+			}
+			scope:target = {
+				tier >= tier_duchy
+				custom_description = {
+					text = has_31_percent_of_a_dejure_title 
+					any_in_de_jure_hierarchy = {
+						filter = {
+							tier = tier_county
+						}
+						continue = {
+							tier > tier_county
+						}
+						OR = {
+							holder = scope:actor
+							holder = {
+								target_is_liege_or_above = scope:actor
+							}
+						}
+						percent >= 0.31
+					}
+				}
+			}
+		}
+		trigger_if = {
+			limit = {
+				scope:actor = { legitimacy_level ?= 2 }
+			}
+			scope:target = {
+				tier >= tier_duchy
+				custom_description = {
+					text = has_41_percent_of_a_dejure_title
+					any_in_de_jure_hierarchy = {
+						filter = {
+							tier = tier_county
+						}
+						continue = {
+							tier > tier_county
+						}
+						OR = {
+							holder = scope:actor
+							holder = {
+								target_is_liege_or_above = scope:actor
+							}
+						}
+						percent >= 0.41
+					}
+				}
+			}
+		}
+		trigger_if = {
+			limit = {
+				scope:actor = {
+					OR = {
+						legitimacy_level ?= 1
+						legitimacy_level ?= 0
+						NOT = { legitimacy >= 0 } #if you don't have legitimacy at all we fall back to the default
+					}
+				}
+			}
 			scope:target = {
 				tier >= tier_duchy
 				custom_description = {
@@ -2538,6 +2712,7 @@ vassal_claim_liege_title_interaction = {
 				right_icon = scope:recipient
 				vassal_claim_liege_title_interaction_effect = yes
 			}
+			claim_title_achievement_effect = yes
 		}
 
 		# If we're a clan this interaction affects unity
@@ -2624,6 +2799,7 @@ vassal_claim_liege_title_interaction = {
 			scope:actor = {
 				any_character_struggle = {
 					involvement = involved
+					is_struggle_type = iberian_struggle
 				}
 			}
 			add = {

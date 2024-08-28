@@ -396,7 +396,7 @@ BMU_title_can_be_bargained = {
 			limit = {
 				is_heir_of = $GIVER$
 				NOT = { $TITLE$ = { has_title_law_flag = elective_succession_law }}
-				$GIVER$ = { FF_has_partition_succession_law = yes }
+				$GIVER$ = { has_realm_law_flag = partition_succession_law }
 			}
 			$TITLE$.current_heir = this
 		}

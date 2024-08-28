@@ -44,3 +44,8 @@ BMU_cannot_promise_title: "You can only bargain the [target.GetNameNoTooltip] if
 
 TEST_is_shown: "TEST_is_shown"
 TEST_ai_potential: "TEST_ai_potential"
+
+BMU_execute_bargain_grant_title: "[executed_bargain.MakeScope.Var('supporter').Var('stakeholder').Char.GetName] will expect to receive [executed_bargain.MakeScope.Var('title').Title.GetName]"
+BMU_bargain_with_council_position_interaction_dismissed_councillor: "loses [THIS.Char.MakeScope.ScriptValue('BMU_ambition_has_council_position')] support for [actor.GetNamePossessiveNoTooltip] [pressed_claim|E]"
+
+BMU_request_support_interaction_debug_ai_accept: "BMU_request_support_interaction_debug_ai_accept [actor.GetNameNoTooltip] asks [recipient.GetNameNoTooltip]"

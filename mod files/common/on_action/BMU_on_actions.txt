@@ -111,10 +111,10 @@ BMU_on_bargained_title_lost = {
 				var:title = scope:title
 			}
 			var:pressed_claim = { save_scope_as = pressed_claim }
-			var:supporter = { save_scope_as = recalc_supporter }
+			var:supporter.var:stakeholder = { save_scope_as = recalc_supporter }
+			prev = { save_scope_as = score_contender }
 			end_story = yes
 		}
-		save_scope_as = score_contender
 		if = {
 			limit = {
 				scope:recalc_supporter = {

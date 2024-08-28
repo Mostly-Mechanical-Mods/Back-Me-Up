@@ -737,6 +737,34 @@
 				has_relation_soulmate = scope:target.casus_belli.primary_defender
 			}
 		}
+		modifier = {  # Refuse call for hostages' safety
+			any_home_court_hostage = {
+				warden = {
+					OR = {
+						is_at_war_with = scope:actor
+						any_ally = { is_at_war_with = scope:actor }
+					}
+				}
+			}
+			add = {
+				value = 0
+				every_home_court_hostage = {
+					limit = {
+						warden = {
+							OR = {
+								is_at_war_with = scope:actor
+								any_ally = { is_at_war_with = scope:actor }
+							}
+						}
+					}
+					subtract = call_to_arms_hostage_value
+				}
+				multiply = 0.25
+			}
+			desc = HOSTAGE_ENEMY_CALL_TO_ARMS_REASON
+		}
+
+		fp3_struggle_resist_allied_wars_modifier = yes
 	}
 
 	# Score above 0 means the AI will call this ally. Note that DESIRED_WAR_SIDE_STRENGTH still applies and can prevent calling the ally
@@ -869,6 +897,7 @@ negotiate_alliance_interaction = {
 	}
 
 	is_valid = { #To give some clarity to the tooltip that states "blood ties"
+
 		OR = {
 			#Ruler has the defensive negotiations perk
 			scope:actor = { has_perk = defensive_negotiations_perk }
@@ -1830,6 +1859,60 @@ negotiate_alliance_interaction = {
 		}
 
 		fp3_struggle_resist_allied_wars_modifier = yes
+		
+		# LOW LEGITIMACY
+		modifier = {
+			desc = "LOW_LEGITIMACY_REASON"
+			scope:actor = {
+				OR = {
+					has_legitimacy_flag = reduced_alliance_acceptance
+					has_legitimacy_flag = very_reduced_alliance_acceptance
+					has_legitimacy_flag = massively_reduced_alliance_acceptance
+				}
+			}
+			add = {
+				value = 0
+				if = {
+					limit = { scope:actor = { has_legitimacy_flag = reduced_alliance_acceptance } }
+					add = -25
+				}
+				if = {
+					limit = { scope:actor = { has_legitimacy_flag = very_reduced_alliance_acceptance } }
+					add = -50
+				}
+				if = {
+					limit = { scope:actor = { has_legitimacy_flag = massively_reduced_alliance_acceptance } }
+					add = -100
+				}
+			}
+		}
+
+		# HIGH LEGITIMACY
+		modifier = {
+			desc = "HIGH_LEGITIMACY_REASON"
+			scope:actor = {
+				OR = {
+					has_legitimacy_flag = increased_alliance_acceptance
+					has_legitimacy_flag = very_increased_alliance_acceptance
+					has_legitimacy_flag = extra_increased_alliance_acceptance
+				}
+			}
+			add = {
+				value = 0
+				if = {
+					limit = { scope:actor = { has_legitimacy_flag = increased_alliance_acceptance } }
+					add = 25
+				}
+				if = {
+					limit = { scope:actor = { has_legitimacy_flag = very_increased_alliance_acceptance } }
+					add = 50
+				}
+				if = {
+					limit = { scope:actor = { has_legitimacy_flag = extra_increased_alliance_acceptance } }
+					add = 100
+				}
+			}
+		}
 	}
 
 	ai_potential = {
@@ -2636,6 +2719,11 @@ perk_alliance_interaction = {
 	
 	ai_will_do = {
 		base = 100
+		
+		# Unity modifiers
+		evaluate_action_increasing_house_unity = {
+			VALUE = 100
+		}
 		
 		modifier = { # Don't disturb the player with pointless asks
 			add = -5000

@@ -236,3 +236,4 @@ is_liege_or_above_of = {
 	first = THEY_ARE_MY_LIEGE_OR_ABOVE
 	third = THEY_ARE_THEIR_LIEGE_OR_ABOVE
 }
+

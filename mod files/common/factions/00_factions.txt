@@ -224,9 +224,8 @@
 		        NOT = { culture = scope:target.culture }
 		        NOT = { faith = scope:target.faith }
 		        NOT = {
-		            is_rightful_liege_of_trigger = {
-		                VASSAL = root
-		                LIEGE = scope:target
+		           scope:target = {
+		                is_rightful_liege_of = root
 		            }
 		        }
 		        any_sub_realm_county = {
@@ -258,6 +257,21 @@
 	can_character_join = {
 		common_can_character_join_trigger = {
 			FACTION_TARGET = scope:faction.faction_target
+		}
+		
+		trigger_if = {
+			limit = {
+				faith.religion = religion:islam_religion
+				liege = { has_title = title:d_sunni }
+				title:d_sunni = {
+					has_variable = dar_al_islam
+				}
+			}
+			liege = {
+				NOT = {
+					has_title = title:d_sunni
+				}
+			}
 		}
 	}
 
@@ -912,6 +926,11 @@ claimant_faction = {
 			desc = "FACTION_REASON_POWER_THRESHOLD"
 			scope:faction.faction_power >= scope:faction.faction_power_threshold
 			factor = faction_weight_factor_power_exceeds_threshold
+		}
+		modifier = { # CE1 Divine Mandate perk
+			desc = "FACTION_REASON_LEGITIMACY_LEGACY_4"
+			liege.dynasty = { has_dynasty_perk = ce1_legitimacy_legacy_4 }
+			add = -10
 		}
 		
 		struggle_faction_modifiers = yes

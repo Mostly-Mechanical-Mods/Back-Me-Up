@@ -2,7 +2,7 @@
 	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
-	ignores_pending_interaction_block = yes
+	# ignores_pending_interaction_block = yes
 	# special_interaction = grant_titles_interaction
 	# interface = grant_titles
 	interface_priority = -1
@@ -11,8 +11,8 @@
 	desc = BMU_bargain_with_owned_title_interaction_desc
 
 	auto_accept = no
-	ai_min_reply_days = 0 #4
-	ai_max_reply_days = 0 #9
+	ai_min_reply_days = 4 #4
+	ai_max_reply_days = 9 #9
 
 	popup_on_receive = yes
 	pause_on_receive = yes
@@ -82,46 +82,29 @@
 	}
 
 	is_shown = {
-		scope:actor = {
-			is_character_interaction_shown = {
-				interaction = BMU_request_support_interaction
-				recipient = scope:recipient
-			}
-		}
+		BMU_request_support_interaction_is_shown = yes
 	}
 	
 	is_valid_showing_failures_only = {
-		trigger_if = {
-			limit = { NOT = { scope:actor.var:pending_bargain ?= scope:recipient }}
-			scope:actor = {
-				is_character_interaction_valid = {
-					interaction = BMU_request_support_interaction
-					recipient = scope:recipient
-				}
-			}
-			trigger_if = {
-				limit = { NOT = { exists = scope:pressed_claim }}
-				scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
-			}
-			BMU_can_bargain_titles = {
-				PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction
-				CONTENDER = scope:actor
-				SUPPORTER = scope:recipient
-			}
-			scope:actor = {
-				any_held_title = { add_to_temporary_list = bargain_titles count = all }
-				any_alert_creatable_title = { add_to_temporary_list = bargain_titles count = all }
-			}
-			custom_description = {
-				text = BMU_has_titles_to_bargain
-				subject = scope:actor
-				object = scope:recipient
-				any_in_list = {
-					list = bargain_titles
-					# custom = BMU_bargain_titles
-					save_temporary_scope_as = bargain_title
-					BMU_title_can_be_bargained = { GIVER = scope:actor TAKER = scope:recipient TITLE = scope:bargain_title }
-				}
+		BMU_request_support_interaction_is_valid = yes
+		BMU_can_bargain_titles = {
+			PRESSED_CLAIM = scope:actor.var:pressed_claim_interaction
+			CONTENDER = scope:actor
+			SUPPORTER = scope:recipient
+		}
+		scope:actor = {
+			any_held_title = { add_to_temporary_list = bargain_titles count = all }
+			any_alert_creatable_title = { add_to_temporary_list = bargain_titles count = all }
+		}
+		custom_description = {
+			text = BMU_has_titles_to_bargain
+			subject = scope:actor
+			object = scope:recipient
+			any_in_list = {
+				list = bargain_titles
+				# custom = BMU_bargain_titles
+				save_temporary_scope_as = bargain_title
+				BMU_title_can_be_bargained = { GIVER = scope:actor TAKER = scope:recipient TITLE = scope:bargain_title }
 			}
 		}
 	}
@@ -367,7 +350,7 @@ BMU_bargain_for_owned_title_interaction = {
 	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
-	ignores_pending_interaction_block = yes
+	# ignores_pending_interaction_block = yes
 	# special_interaction = grant_titles_interaction
 	# interface = grant_titles
 	interface_priority = -1
@@ -402,25 +385,11 @@ BMU_bargain_for_owned_title_interaction = {
 	}
 
 	is_shown = {
-		scope:actor = {
-			is_character_interaction_shown = {
-				interaction = BMU_offer_support_interaction
-				recipient = scope:recipient
-			}
-		}
+		BMU_offer_support_interaction_is_shown = yes
 	}
 	
 	is_valid_showing_failures_only = {
-		scope:actor = {
-			is_character_interaction_valid = {
-				interaction = BMU_offer_support_interaction
-				recipient = scope:recipient
-			}
-		}
-		trigger_if = {
-			limit = { NOT = { exists = scope:pressed_claim }}
-			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
-		}
+		BMU_offer_support_interaction_is_valid = yes
 		BMU_can_bargain_titles = {
 			PRESSED_CLAIM = scope:actor.var:pressed_claim
 			CONTENDER = scope:recipient

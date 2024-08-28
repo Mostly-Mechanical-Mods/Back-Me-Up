@@ -24,12 +24,14 @@
 }
 
 BMU_execute_bargain = {
-	debug_log = "BMU_execute_bargain"
-	debug_log_scopes = no
-	var:pressed_claim ?= { debug_log_scopes = no }
-	var:contender.story_owner ?= { debug_log_scopes = no }
-	var:supporter.story_owner ?= { debug_log_scopes = no }
-	var:bargain_type ?= { debug_log_scopes = no }
+	hidden_effect = {
+		debug_log = "BMU_execute_bargain"
+		debug_log_scopes = no
+		var:pressed_claim ?= { debug_log_scopes = no }
+		var:contender.story_owner ?= { debug_log_scopes = no }
+		var:supporter.story_owner ?= { debug_log_scopes = no }
+		var:bargain_type ?= { debug_log_scopes = no }
+	}
 	save_scope_as = executed_bargain
 	if = {
 		limit = { var:bargain_type = flag:FF_ambition_get_council_position }
@@ -41,23 +43,28 @@ BMU_execute_bargain = {
 			flag:councillor_marshal = { save_scope_value_as = { name = councillor_marshal value = yes }}
 			flag:councillor_spymaster = { save_scope_value_as = { name = councillor_spymaster value = yes }}
 		}
-		BMU_bargain_council_position_post_effect = {
+		BMU_bargain_council_position_effect = {
 			PRESSED_CLAIM = scope:executed_bargain.var:pressed_claim
 			CONTENDER = scope:executed_bargain.story_owner
 			SUPPORTER = scope:executed_bargain.var:supporter.story_owner
 		}
+		# prev = { custom_tooltip = "BMU_execute_bargain_council_position" }
+		# custom_tooltip = "BMU_execute_bargain_council_position"
 	}
 	else_if = {
 		limit = { var:bargain_type = flag:BMU_bargain_owned_title }
 		var:title ?= { debug_log_scopes = no }
-		BMU_bargain_owned_title_post_effect = {
+		BMU_bargain_owned_title_effect = {
 			PRESSED_CLAIM = scope:executed_bargain.var:pressed_claim
 			CONTENDER = scope:executed_bargain.story_owner
 			SUPPORTER = scope:executed_bargain.var:supporter.story_owner
-			TARGET = var:title
+			TARGET = scope:executed_bargain.var:title
 		}
+		# prev = { custom_tooltip = "BMU_execute_bargain_grant_title" }
+		# custom_tooltip = "BMU_execute_bargain_grant_title"
 	}
 	clear_saved_scope = executed_bargain
+	end_story = yes
 }
 
 BMU_transfer_claimed_press = {

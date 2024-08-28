@@ -361,10 +361,58 @@
 								scope:story = {
 									ordered_in_list = {
 										variable = contenders
-										limit = { NOT = { this = scope:contender }}
-										order_by = var:max_military_strength
+										limit = { NOT = { var:stakeholder = scope:contender.var:stakeholder }}
+										order_by = {
+											value = var:max_military_strength
+											if = {
+												limit = { var:stakeholder = scope:story.var:claim_target }
+												var:stakeholder = {
+													every_liege_or_above = {
+														limit = { NOT = { is_liege_or_above_of = scope:contender.var:stakeholder }}
+														add = max_military_strength
+													}
+												}
+											}
+											else_if = {
+												limit = {
+													var:max_military_strength < {
+														value = scope:contender.var:max_military_strength
+														multiply = 0.8
+													}
+												}
+												var:stakeholder = {
+													every_liege_or_above = {
+														limit = { NOT = { is_liege_or_above_of = scope:contender.var:stakeholder }}
+														add = max_military_strength
+													}
+												}
+											}
+										}
 										position = 0
 										add = var:max_military_strength
+										if = {
+											limit = { var:stakeholder = scope:story.var:claim_target }
+											var:stakeholder = {
+												every_liege_or_above = {
+													limit = { NOT = { is_liege_or_above_of = scope:contender.var:stakeholder }}
+													add = max_military_strength
+												}
+											}
+										}
+										else_if = {
+											limit = {
+												var:max_military_strength < {
+													value = scope:contender.var:max_military_strength
+													multiply = 0.9
+												}
+											}
+											var:stakeholder = {
+												every_liege_or_above = {
+													limit = { NOT = { is_liege_or_above_of = scope:contender.var:stakeholder }}
+													add = max_military_strength
+												}
+											}
+										}
 									}
 								}
 								min = 1

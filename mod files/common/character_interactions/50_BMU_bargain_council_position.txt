@@ -2,15 +2,15 @@
 	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
-	ignores_pending_interaction_block = yes
+	# ignores_pending_interaction_block = yes
 	interface_priority = -1
 	icon = bargain_council_position
 
 	desc = BMU_bargain_with_council_position_interaction_desc
 
 	auto_accept = no
-	ai_min_reply_days = 4 #4
-	ai_max_reply_days = 9 #9
+	ai_min_reply_days = 1 #4
+	ai_max_reply_days = 1 #9
 
 	popup_on_receive = yes
 	pause_on_receive = yes
@@ -75,21 +75,11 @@
 	}
 
 	is_shown = {
-		scope:actor = {
-			is_character_interaction_shown = {
-				interaction = BMU_request_support_interaction
-				recipient = scope:recipient
-			}
-		}
+		BMU_request_support_interaction_is_shown = yes
 	}
 	
 	is_valid_showing_failures_only = {
-		scope:actor = {
-			is_character_interaction_valid = {
-				interaction = BMU_request_support_interaction
-				recipient = scope:recipient
-			}
-		}
+		BMU_request_support_interaction_is_valid = yes
 		trigger_if = {
 			limit = { NOT = { exists = scope:pressed_claim }}
 			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
@@ -109,12 +99,6 @@
 				BMU_gambit_remaining >= BMU_supporter_gambit_cost
 			}
 		}
-		# OR = {
-		# 	scope:councillor_chancellor = yes
-		# 	scope:councillor_steward = yes
-		# 	scope:councillor_marshal = yes
-		# 	scope:councillor_spymaster = yes
-		# }
 	}
 
 	options_heading = BMU_bargain_council_position_interaction_option
@@ -251,6 +235,7 @@
 			}
 		}
 		BMU_spend_gambits_effect_actor = yes
+		BMU_request_support_interaction_on_send = yes
 	}
 	
 	on_accept = {
@@ -287,6 +272,29 @@
 				CONTENDER = scope:actor
 				SUPPORTER = scope:recipient
 			}
+			
+			switch = {
+				trigger = yes
+				scope:councillor_chancellor = { scope:actor.cp:councillor_chancellor ?= { save_scope_as = dismissed_councillor }}
+				scope:councillor_marshal = { scope:actor.cp:councillor_marshal ?= { save_scope_as = dismissed_councillor }}
+				scope:councillor_steward = { scope:actor.cp:councillor_steward ?= { save_scope_as = dismissed_councillor }}
+				scope:councillor_spymaster = { scope:actor.cp:councillor_spymaster ?= { save_scope_as = dismissed_councillor }}
+				scope:councillor_court_chaplain = { scope:actor.cp:councillor_court_chaplain ?= { save_scope_as = dismissed_councillor }}
+			}
+
+			if = {
+				limit = { exists = scope:dismissed_councillor }
+				scope:actor = { save_scope_as = score_contender }
+				scope:dismissed_councillor = {
+					save_scope_value_as = { name = support_impact value = BMU_ambition_has_council_position }
+					custom_description = {
+						text = "BMU_dismissed_councillor"
+						subject = this
+						object = scope:actor
+						value = scope:support_impact
+					}
+				}
+			}
 		}
 	}
 
@@ -303,6 +311,18 @@
 		BMU_refund_gambits_effect = yes
 	}
 
+	on_blocked_effect = {
+		if = {
+			limit = { BMU_debug = yes }
+			debug_log = "BMU_bargain_with_council_position_interaction on_blocked"
+			debug_log_scopes = yes
+			if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				debug_log = "NO PRESSED CLAIM"
+			}
+		}
+		BMU_refund_gambits_effect = yes
+	}
 	
 	ai_accept = {
 		base = 0
@@ -445,7 +465,7 @@ BMU_bargain_for_council_position_interaction = {
 	category = interaction_category_diplomacy
 	use_diplomatic_range = no
 	common_interaction = yes
-	ignores_pending_interaction_block = yes
+	# ignores_pending_interaction_block = yes
 	interface_priority = -1
 	icon = bargain_council_position
 
@@ -473,21 +493,11 @@ BMU_bargain_for_council_position_interaction = {
 	}
 
 	is_shown = {
-		scope:actor = {
-			is_character_interaction_shown = {
-				interaction = BMU_offer_support_interaction
-				recipient = scope:recipient
-			}
-		}
+		BMU_offer_support_interaction_is_shown = yes
 	}
 	
 	is_valid_showing_failures_only = {
-		scope:actor = {
-			is_character_interaction_valid = {
-				interaction = BMU_offer_support_interaction
-				recipient = scope:recipient
-			}
-		}
+		BMU_offer_support_interaction_is_valid = yes
 		trigger_if = {
 			limit = { NOT = { exists = scope:pressed_claim }}
 			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
@@ -606,6 +616,7 @@ BMU_bargain_for_council_position_interaction = {
 			}
 		}
 		BMU_spend_gambits_effect_recipient = yes
+		BMU_offer_support_interaction_on_send = yes
 	}
 	
 	on_accept = {
@@ -636,15 +647,38 @@ BMU_bargain_for_council_position_interaction = {
 			SUPPORTER = scope:actor
 		}
 		
+
+
 		show_as_tooltip = {
 			BMU_bargain_council_position_post_effect = {
 				PRESSED_CLAIM = scope:pressed_claim
 				CONTENDER = scope:recipient
 				SUPPORTER = scope:actor
 			}
-		}
 
-		
+			switch = {
+				trigger = yes
+				scope:councillor_chancellor = { scope:recipient.cp:councillor_chancellor ?= { save_scope_as = dismissed_councillor }}
+				scope:councillor_marshal = { scope:recipient.cp:councillor_marshal ?= { save_scope_as = dismissed_councillor }}
+				scope:councillor_steward = { scope:recipient.cp:councillor_steward ?= { save_scope_as = dismissed_councillor }}
+				scope:councillor_spymaster = { scope:recipient.cp:councillor_spymaster ?= { save_scope_as = dismissed_councillor }}
+				scope:councillor_court_chaplain = { scope:recipient.cp:councillor_court_chaplain ?= { save_scope_as = dismissed_councillor }}
+			}
+
+			if = {
+				limit = { exists = scope:dismissed_councillor }
+				scope:recipient = { save_scope_as = score_contender }
+				scope:dismissed_councillor = {
+					save_scope_value_as = { name = support_impact value = BMU_ambition_has_council_position }
+					custom_description = {
+						text = "BMU_dismissed_councillor"
+						subject = this
+						object = scope:recipient
+						value = scope:support_impact
+					}
+				}
+			}
+		}
 	}
 
 	on_decline = {

@@ -168,6 +168,12 @@ BMU_error_suppression.0001 = {
 		fix_variable_error = { X = BMU_bargain_owned_title }
 		fix_variable_error = { X = end_story }
 
+		fix_variable_error = { X = BMU_offer_support_interaction_on_send_stakeholder }
+		fix_variable_error = { X = BMU_offer_support_interaction_on_send_contender }
+		fix_variable_error = { X = BMU_offer_support_interaction_on_send_pressed_claim }
+
+
+
 		trigger_event = faction_demand.2001
 		trigger_event = faction_demand.2005
 	}
