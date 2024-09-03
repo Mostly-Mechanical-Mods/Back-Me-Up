@@ -81,3 +81,16 @@ BMU_drop_out_interaction_notification: "I will stop contending for the [target.G
 BMU_CONTENDER_DROP_OUT: "BMU_CONTENDER_DROP_OUT.a"
 BMU_CONTENDER_DROP_OUT_DESC: "BMU_CONTENDER_DROP_OUT_DESC"
 BMU_CONTENDER_DROP_OUT.a: "BMU_CONTENDER_DROP_OUT.a"
+
+# BMU_bargain_with_gold_interaction
+
+BMU_bargain_with_gold_interaction: "Bargain Gold"
+BMU_bargain_with_gold_interaction_desc: "Offer [recipient.GetShortUINameNoTooltip] some [gold|E] in exchange for [recipient.GetHerHis] support for your claim on the [GetPlayer.MakeScope.Var('pressed_claim_interaction').Var('claimed_title').Title.GetName]\n"
+
+BMU_bargain_gold_interaction_option: "Gold amount"
+BMU_bargain_gold_interaction_option_tiny_gold_value: "Tiny amount"
+BMU_bargain_gold_interaction_option_minor_gold_value: "Small amount"
+BMU_bargain_gold_interaction_option_medium_gold_value: "Regular amount"
+BMU_bargain_gold_interaction_option_major_gold_value: "Major amount"
+BMU_bargain_gold_interaction_option_massive_gold_value: "Massive amount"
+BMU_bargain_gold_interaction_option_monumental_gold_value: "Extortionate amount"

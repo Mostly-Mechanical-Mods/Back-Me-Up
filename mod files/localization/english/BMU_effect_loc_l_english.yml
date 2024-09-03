@@ -54,3 +54,6 @@ BMU_SPEND_GAMBITS: "Spends $VALUE|0-$ Gambits"
 I_FULFILL_BARGAIN: "[TARGET_STORY.Var('supporter').GetStory.GetStoryOwner.GetNameNoTooltip]"
 
 BMU_DISMISSED_COUNCILLOR: "Loses $VALUE|0+$ Support for [TARGET_CHARACTER.GetShortUINamePossessiveNoTooltip] Claim"
+
+# BMU_bargain_gold_reserve_gold
+BMU_RESERVE_GOLD: "Temporarily removes @gold_icon! $VALUE|0$ from treasury as a provision"

@@ -85,3 +85,9 @@ BMU_dismissed_councillor = {
 	global = BMU_DISMISSED_COUNCILLOR
 	global_past = BMU_DISMISSED_COUNCILLOR
 }
+
+BMU_bargain_gold_reserve_gold = {
+	global = BMU_RESERVE_GOLD
+	first = BMU_I_RESERVE_GOLD
+	third = BMU_THEY_RESERVE_GOLD
+}

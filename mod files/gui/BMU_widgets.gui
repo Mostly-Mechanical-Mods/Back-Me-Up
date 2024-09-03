@@ -1669,6 +1669,19 @@ types BMU_Lists {
 			size = { 50 50 }
 			onclick = "[GetScriptedGui('BMU_bargain_with_owned_title_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
 		}
+		button = {
+			enabled = "[GetScriptedGui('BMU_bargain_with_gold_sgui').IsValid(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+			tooltip = "[GetScriptedGui('BMU_bargain_with_gold_sgui').BuildTooltip(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+			texture = "gfx/interface/icons/character_interactions/icon_gold.dds"
+			# icon = {
+			# 	visible = "[GetScriptedGui('BMU_bargain_with_owned_title_sgui').IsShown(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+			# 	parentanchor = center
+			# 	texture = "gfx/interface/icons/symbols/icon_cross.dds"
+			# 	size = { 40 40 }
+			# }
+			size = { 50 50 }
+			onclick = "[GetScriptedGui('BMU_bargain_with_gold_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('recipient',Character.MakeScope).End)]"
+		}
 	}
 }
 

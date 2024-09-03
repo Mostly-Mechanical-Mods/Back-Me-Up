@@ -237,3 +237,7 @@ is_liege_or_above_of = {
 	third = THEY_ARE_THEIR_LIEGE_OR_ABOVE
 }
 
+BMU_has_greed = {
+	global = HAS_GREED
+	third = THEY_HAVE_GREED
+}

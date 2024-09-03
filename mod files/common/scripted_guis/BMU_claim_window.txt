@@ -422,6 +422,29 @@ BMU_bargain_for_owned_title_sgui = {
 	}
 }
 
+BMU_bargain_with_gold_sgui = {
+	scope = character
+	saved_scopes = {
+		recipient
+	}
+	is_shown = {
+		
+	}
+	is_valid = {
+		is_character_interaction_valid = {
+			recipient = scope:recipient
+			interaction = BMU_bargain_with_gold_interaction
+		}
+	}
+	effect = {
+		open_interaction_window = {
+			interaction = BMU_bargain_with_gold_interaction
+			actor = root
+			recipient = scope:recipient
+		}
+	}
+}
+
 
 tooltip_test = {
 	scope = character

@@ -43,3 +43,6 @@ BMU_willingness_bargain_council_position_desc: "[GuiScope.SetRoot(SCOPE.sC('reci
 BMU_willingness_bargain_council_position_supporter_skill_desc: "Supporter skill: $VALUE|+=0$"
 BMU_willingness_bargain_council_position_current_councillor_skill_desc: "Current Councillor skill: $VALUE|+=0$"
 BMU_willingness_bargain_title_desc: "[GuiScope.SetRoot(SCOPE.sC('recipient').MakeScope).AddScope('target',SCOPE.sTitle('target').MakeScope).AddScope('supporter_char',SCOPE.sC('actor').MakeScope).AddScope('contender_char',SCOPE.sC('recipient').MakeScope).GetScriptValueDesc('BMU_willingness_bargain_title')]"
+
+
+BMU_ambition_get_gold: "test gold $VALUE|+=0$"

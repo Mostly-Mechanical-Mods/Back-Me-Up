@@ -239,3 +239,11 @@ BMU_is_involved_in_hostile_pressed_claim = {
 		}
 	}
 }
+
+BMU_has_greed = {
+	custom_description = {
+		text = BMU_has_greed
+		subject = this
+		ai_greed > 0
+	}
+}

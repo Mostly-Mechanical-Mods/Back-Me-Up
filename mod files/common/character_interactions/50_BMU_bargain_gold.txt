@@ -1,0 +1,606 @@
+﻿BMU_bargain_with_gold_interaction = {
+	category = interaction_category_diplomacy
+	use_diplomatic_range = no
+	common_interaction = yes
+	# ignores_pending_interaction_block = yes
+	interface_priority = -1
+	icon = icon_gold
+	should_use_extra_icon = { always = yes }			# When to show an extra icon. Tooltip key is <key>_extra_icon
+	extra_icon = "gfx/interface/icons/character_interactions/icon_claim_pressed.dds"
+
+	desc = BMU_bargain_with_gold_interaction_desc
+
+	auto_accept = no
+	ai_min_reply_days = 1 #4
+	ai_max_reply_days = 1 #9
+
+	popup_on_receive = yes
+	pause_on_receive = yes
+	can_send_despite_rejection = no
+	ignores_pending_interaction_block = no
+
+	redirect = {
+		scope:actor = {
+			if = {
+				limit = {
+					has_variable = pressed_claim_interaction
+					var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+				}
+				var:pressed_claim_interaction.story_owner = { save_scope_as = secondary_actor }
+				scope:recipient = {
+					ordered_supporter_story = {
+						limit = {
+							var:pressed_claim_story = scope:pressed_claim
+							NOR = {
+								var:contender.story_owner = scope:actor
+								var:contender.story_owner = scope:secondary_actor
+							}
+						}
+						var:contender.story_owner = { save_scope_as = secondary_recipient }
+					}
+					if = {
+						limit = {
+							NOT = { exists = scope:secondary_recipient }
+							scope:actor = { has_variable = pressed_claim_interaction }
+						}
+						scope:pressed_claim = {
+							ordered_in_list = {
+								variable = contenders
+								limit = {
+									NOR = {
+										story_owner = scope:actor
+										story_owner = scope:secondary_actor
+									}
+								}
+								order_by = {
+									story_owner = {
+										save_temporary_scope_as = score_contender
+										scope:recipient = { add = BMU_contender_score }
+									}
+								}
+								if = {
+									limit = {
+										story_owner = {
+											save_temporary_scope_as = score_contender
+											scope:recipient = { BMU_contender_score > 0 }
+										}
+									}
+									story_owner = { save_scope_as = secondary_recipient }
+								}
+								# story_owner = { save_scope_as = secondary_recipient }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	is_shown = {
+		BMU_request_support_interaction_is_shown = yes
+	}
+	
+	is_valid_showing_failures_only = {
+		BMU_request_support_interaction_is_valid = yes
+		trigger_if = {
+			limit = { NOT = { exists = scope:pressed_claim }}
+			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+		}
+		scope:actor = { gold >= scope:recipient.tiny_gold_value }
+		scope:recipient = { BMU_has_greed = yes }
+	}
+
+	can_send = {
+		scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+		scope:actor = {
+			any_contender_story = {
+				var:pressed_claim_story = scope:pressed_claim
+				BMU_gambit_remaining >= BMU_supporter_gambit_cost
+			}
+		}
+	}
+
+	options_heading = BMU_bargain_gold_interaction_option
+	# flag:BMU_create_bargain
+	send_option = {
+		is_shown = { always = no }
+		is_valid = { always = no }
+		flag = BMU_create_bargain
+	}
+	# flag:BMU_ambition_get_gold
+	send_option = {
+		is_shown = { always = no }
+		is_valid = { always = no }
+		flag = BMU_ambition_get_gold
+	}
+	# flag:tiny_gold_value
+	send_option = {
+		is_valid = {
+			trigger_if = {
+				limit = { scope:actor = { is_ai = no }}
+				scope:actor.gold >= scope:recipient.tiny_gold_value
+			}
+			trigger_else = {
+				scope:actor.short_term_gold >= scope:recipient.tiny_gold_value
+			}
+		}
+		flag = tiny_gold_value
+		localization = BMU_bargain_gold_interaction_option_tiny_gold_value
+		can_invalidate_interaction = no
+	}
+	# flag:minor_gold_value
+	send_option = {
+		is_valid = {
+			trigger_if = {
+				limit = { scope:actor = { is_ai = no }}
+				scope:actor.gold >= scope:recipient.minor_gold_value
+			}
+			trigger_else = {
+				scope:actor.short_term_gold >= scope:recipient.minor_gold_value
+			}
+		}
+		flag = minor_gold_value
+		localization = BMU_bargain_gold_interaction_option_minor_gold_value
+		can_invalidate_interaction = no
+	}
+	# flag:medium_gold_value
+	send_option = {
+		is_valid = {
+			trigger_if = {
+				limit = { scope:actor = { is_ai = no }}
+				scope:actor.gold >= scope:recipient.medium_gold_value
+			}
+			trigger_else = {
+				scope:actor.short_term_gold >= scope:recipient.medium_gold_value
+			}
+		}
+		flag = medium_gold_value
+		localization = BMU_bargain_gold_interaction_option_medium_gold_value
+		can_invalidate_interaction = no
+	}
+	# flag:major_gold_value
+	send_option = {
+		is_valid = {
+			trigger_if = {
+				limit = { scope:actor = { is_ai = no }}
+				scope:actor.gold >= scope:recipient.major_gold_value
+			}
+			trigger_else = {
+				scope:actor.short_term_gold >= scope:recipient.major_gold_value
+			}
+		}
+		flag = major_gold_value
+		localization = BMU_bargain_gold_interaction_option_major_gold_value
+		can_invalidate_interaction = no
+	}
+	# flag:massive_gold_value
+	send_option = {
+		is_valid = {
+			trigger_if = {
+				limit = { scope:actor = { is_ai = no }}
+				scope:actor.gold >= scope:recipient.massive_gold_value
+			}
+			trigger_else = {
+				scope:actor.short_term_gold >= scope:recipient.massive_gold_value
+			}
+		}
+		flag = massive_gold_value
+		localization = BMU_bargain_gold_interaction_option_massive_gold_value
+		can_invalidate_interaction = no
+	}
+	# flag:monumental_gold_value
+	send_option = {
+		is_valid = {
+			trigger_if = {
+				limit = { scope:actor = { is_ai = no }}
+				scope:actor.gold >= scope:recipient.monumental_gold_value
+			}
+			trigger_else = {
+				scope:actor.short_term_gold >= scope:recipient.monumental_gold_value
+			}
+		}
+		flag = monumental_gold_value
+		localization = BMU_bargain_gold_interaction_option_monumental_gold_value
+		can_invalidate_interaction = no
+	}
+
+	cost = {
+		gold = {
+			if = {
+				limit = { scope:tiny_gold_value = yes }
+				add = scope:recipient.tiny_gold_value
+			}
+			else_if = {
+				limit = { scope:minor_gold_value = yes }
+				add = scope:recipient.minor_gold_value
+			}
+			else_if = {
+				limit = { scope:medium_gold_value = yes }
+				add = scope:recipient.medium_gold_value
+			}
+			else_if = {
+				limit = { scope:major_gold_value = yes }
+				add = scope:recipient.major_gold_value
+			}
+			else_if = {
+				limit = { scope:massive_gold_value = yes }
+				add = scope:recipient.massive_gold_value
+			}
+			else_if = {
+				limit = { scope:monumental_gold_value = yes }
+				add = scope:recipient.monumental_gold_value
+			}
+		}
+	}
+
+	on_send = {
+		if = {
+			limit = { BMU_debug = yes }
+			debug_log = "BMU_bargain_with_council_position_interaction on_send"
+			debug_log_scopes = yes
+		}
+		scope:actor = {
+			set_variable = {
+				name = pending_bargain
+				value = scope:recipient
+			}
+		}
+		BMU_spend_gambits_effect_actor = yes
+		BMU_request_support_interaction_on_send = yes
+	}
+	
+	on_accept = {
+		if = {
+			limit = { BMU_debug = yes }
+			debug_log = "BMU_bargain_with_council_position_interaction on_accept"
+			debug_log_scopes = yes
+			if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				debug_log = "NO PRESSED CLAIM"
+			}
+		}
+
+		if = {
+			limit = { NOT = { exists = scope:pressed_claim }}
+			scope:actor.var:pressed_claim_interaction = { save_scope_as = pressed_claim }
+		}
+
+		BMU_request_support = {
+			PRESSED_CLAIM = scope:pressed_claim
+			CONTENDER = scope:actor
+			SUPPORTER = scope:recipient
+		}
+
+		BMU_create_bargain = {
+			PRESSED_CLAIM = scope:pressed_claim
+			CONTENDER = scope:actor
+			SUPPORTER = scope:recipient
+		}
+
+		switch = {
+			trigger = yes
+			scope:tiny_gold_value = { save_scope_value_as = { name = gold_value value = scope:recipient.tiny_gold_value }}
+			scope:minor_gold_value = { save_scope_value_as = { name = gold_value value = scope:recipient.minor_gold_value }}
+			scope:medium_gold_value = { save_scope_value_as = { name = gold_value value = scope:recipient.medium_gold_value }}
+			scope:major_gold_value = { save_scope_value_as = { name = gold_value value = scope:recipient.major_gold_value }}
+			scope:massive_gold_value = { save_scope_value_as = { name = gold_value value = scope:recipient.massive_gold_value }}
+			scope:monumental_gold_value = { save_scope_value_as = { name = gold_value value = scope:recipient.monumental_gold_value }}
+			fallback = { save_scope_value_as = { name = gold_value value = 0 }}
+		}
+		
+		BMU_bargain_gold_post_effect = {
+			PRESSED_CLAIM = scope:pressed_claim
+			CONTENDER = scope:actor
+			SUPPORTER = scope:recipient
+			VALUE = scope:gold_value
+		}
+	}
+
+	on_decline = {
+		if = {
+			limit = { BMU_debug = yes }
+			debug_log = "BMU_bargain_with_council_position_interaction on_decline"
+			debug_log_scopes = yes
+			if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				debug_log = "NO PRESSED CLAIM"
+			}
+		}
+		BMU_refund_gambits_effect = yes
+	}
+
+	on_blocked_effect = {
+		if = {
+			limit = { BMU_debug = yes }
+			debug_log = "BMU_bargain_with_council_position_interaction on_blocked"
+			debug_log_scopes = yes
+			if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				debug_log = "NO PRESSED CLAIM"
+			}
+		}
+		BMU_refund_gambits_effect = yes
+	}
+	
+	ai_accept = {
+		base = 0
+		# BMU_bargain_setup = yes
+		BMU_request_support_interaction = yes
+		modifier = {
+			BMU_ambition_get_gold > 0
+			add = BMU_ambition_get_gold
+			desc = "BMU_ambition_get_gold"
+		}
+		
+	}
+
+	ai_will_do = {
+		BMU_support_will_do_modifier = { CONTENDER = scope:actor SUPPORTER = scope:recipient }
+		modifier = {
+			subtract = BMU_ambition_get_gold
+			desc = "BMU_ambition_get_gold"
+		}
+	}
+
+	ai_targets = {
+		ai_recipients = liege
+	}
+
+	ai_targets = {
+		ai_recipients = scripted_relations
+	}
+
+	ai_targets = {
+		ai_recipients = vassals
+		max = 10
+	}
+
+	ai_targets = {
+		ai_recipients = family
+		max = 10
+	}
+
+	ai_potential = {
+		any_contender_story = {
+			var:pressed_claim_story = {
+				var:phase = flag:rallying_phase
+			}
+		}
+	}
+
+	ai_frequency = 1
+}
+
+BMU_bargain_for_gold_interaction = {
+	category = interaction_category_diplomacy
+	use_diplomatic_range = no
+	common_interaction = yes
+	# ignores_pending_interaction_block = yes
+	interface_priority = -1
+	icon = icon_gold
+
+	desc = BMU_bargain_for_gold_interaction_desc
+
+	auto_accept = no
+	ai_min_reply_days = 0 #4
+	ai_max_reply_days = 0 #9
+
+	popup_on_receive = yes
+	pause_on_receive = yes
+	can_send_despite_rejection = no
+	ignores_pending_interaction_block = no
+
+	redirect = {
+		scope:actor = {
+			if = {
+				limit = {
+					has_variable = pressed_claim_interaction
+					var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+				}
+				var:pressed_claim_interaction.story_owner = { save_scope_as = secondary_actor }
+			}
+		}
+	}
+
+	is_shown = {
+		BMU_offer_support_interaction_is_shown = yes
+	}
+	
+	is_valid_showing_failures_only = {
+		BMU_offer_support_interaction_is_valid = yes
+		trigger_if = {
+			limit = { NOT = { exists = scope:pressed_claim }}
+			scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+		}
+	}
+
+	can_send = {
+		scope:actor.var:pressed_claim_interaction = { save_temporary_scope_as = pressed_claim }
+		scope:recipient = {
+			any_contender_story = {
+				var:pressed_claim_story = scope:pressed_claim
+				BMU_gambit_remaining >= BMU_supporter_gambit_cost
+			}
+		}
+	}
+
+	options_heading = BMU_bargain_gold_interaction_option
+	# flag:BMU_create_bargain
+	send_option = {
+		is_shown = { always = no }
+		is_valid = { always = no }
+		flag = BMU_create_bargain
+	}
+	# flag:BMU_ambition_get_gold
+	send_option = {
+		is_shown = { always = no }
+		is_valid = { always = no }
+		flag = BMU_ambition_get_gold
+	}
+	# flag:councillor_chancellor
+	# flag:tiny_gold_value
+	send_option = {
+		is_valid = {
+			trigger_if = {
+				limit = { scope:recipient = { is_ai = no }}
+				scope:recipient.gold >= scope:actor.tiny_gold_value
+			}
+			trigger_else = {
+				scope:recipient.short_term_gold >= scope:actor.tiny_gold_value
+			}
+		}
+		flag = tiny_gold_value
+		localization = BMU_bargain_gold_interaction_option_tiny_gold_value
+		can_invalidate_interaction = no
+	}
+	# flag:minor_gold_value
+	send_option = {
+		is_valid = {
+			trigger_if = {
+				limit = { scope:recipient = { is_ai = no }}
+				scope:recipient.gold >= scope:actor.minor_gold_value
+			}
+			trigger_else = {
+				scope:recipient.short_term_gold >= scope:actor.minor_gold_value
+			}
+		}
+		flag = minor_gold_value
+		localization = BMU_bargain_gold_interaction_option_minor_gold_value
+		can_invalidate_interaction = no
+	}
+	# flag:medium_gold_value
+	send_option = {
+		is_valid = {
+			trigger_if = {
+				limit = { scope:recipient = { is_ai = no }}
+				scope:recipient.gold >= scope:actor.medium_gold_value
+			}
+			trigger_else = {
+				scope:recipient.short_term_gold >= scope:actor.medium_gold_value
+			}
+		}
+		flag = medium_gold_value
+		localization = BMU_bargain_gold_interaction_option_medium_gold_value
+		can_invalidate_interaction = no
+	}
+	# flag:major_gold_value
+	send_option = {
+		is_valid = {
+			trigger_if = {
+				limit = { scope:recipient = { is_ai = no }}
+				scope:recipient.gold >= scope:actor.major_gold_value
+			}
+			trigger_else = {
+				scope:recipient.short_term_gold >= scope:actor.major_gold_value
+			}
+		}
+		flag = major_gold_value
+		localization = BMU_bargain_gold_interaction_option_major_gold_value
+		can_invalidate_interaction = no
+	}
+	# flag:massive_gold_value
+	send_option = {
+		is_valid = {
+			trigger_if = {
+				limit = { scope:recipient = { is_ai = no }}
+				scope:recipient.gold >= scope:actor.massive_gold_value
+			}
+			trigger_else = {
+				scope:recipient.short_term_gold >= scope:actor.massive_gold_value
+			}
+		}
+		flag = massive_gold_value
+		localization = BMU_bargain_gold_interaction_option_massive_gold_value
+		can_invalidate_interaction = no
+	}
+	# flag:monumental_gold_value
+	send_option = {
+		is_valid = {
+			trigger_if = {
+				limit = { scope:recipient = { is_ai = no }}
+				scope:recipient.gold >= scope:actor.monumental_gold_value
+			}
+			trigger_else = {
+				scope:recipient.short_term_gold >= scope:actor.monumental_gold_value
+			}
+		}
+		flag = monumental_gold_value
+		localization = BMU_bargain_gold_interaction_option_monumental_gold_value
+		can_invalidate_interaction = no
+	}
+	
+	on_send = {
+		if = {
+			limit = { BMU_debug = yes }
+			debug_log = "BMU_bargain_with_council_position_interaction on_send"
+			debug_log_scopes = yes
+		}
+		scope:actor = {
+			set_variable = {
+				name = pending_bargain
+				value = scope:recipient
+			}
+		}
+		BMU_spend_gambits_effect_recipient = yes
+		BMU_offer_support_interaction_on_send = yes
+	}
+	
+	on_accept = {
+		if = {
+			limit = { BMU_debug = yes }
+			debug_log = "BMU_bargain_with_council_position_interaction on_accept"
+			debug_log_scopes = yes
+			if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				debug_log = "NO PRESSED CLAIM"
+			}
+		}
+
+		if = {
+			limit = { NOT = { exists = scope:pressed_claim }}
+			scope:actor.var:pressed_claim_interaction = { save_scope_as = pressed_claim }
+		}
+
+		BMU_request_support = {
+			PRESSED_CLAIM = scope:pressed_claim
+			CONTENDER = scope:recipient
+			SUPPORTER = scope:actor
+		}
+
+		BMU_create_bargain = {
+			PRESSED_CLAIM = scope:pressed_claim
+			CONTENDER = scope:recipient
+			SUPPORTER = scope:actor
+		}
+		
+
+
+		show_as_tooltip = {
+			
+		}
+	}
+
+	on_decline = {
+		if = {
+			limit = { BMU_debug = yes }
+			debug_log = "BMU_bargain_with_council_position_interaction on_decline"
+			debug_log_scopes = yes
+			if = {
+				limit = { NOT = { exists = scope:pressed_claim }}
+				debug_log = "NO PRESSED CLAIM"
+			}
+		}
+		BMU_refund_gambits_effect = yes
+	}
+
+	
+	ai_accept = {
+		base = 0
+		# BMU_bargain_setup = yes
+		BMU_support_will_do_modifier = { CONTENDER = scope:recipient SUPPORTER = scope:actor }
+		modifier = {
+			subtract = BMU_ambition_get_gold
+			desc = "BMU_ambition_get_gold"
+		}
+	}
+}

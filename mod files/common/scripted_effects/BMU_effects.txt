@@ -63,6 +63,16 @@ BMU_execute_bargain = {
 		# prev = { custom_tooltip = "BMU_execute_bargain_grant_title" }
 		# custom_tooltip = "BMU_execute_bargain_grant_title"
 	}
+	else_if = {
+		limit = { var:bargain_type = flag:BMU_bargain_gold }
+		var:value = { save_scope_value_as = { name = gold_value value = var:gold_value }}
+		BMU_bargain_gold_effect = {
+			PRESSED_CLAIM = scope:executed_bargain.var:pressed_claim
+			CONTENDER = scope:executed_bargain.story_owner
+			SUPPORTER = scope:executed_bargain.var:supporter.story_owner
+			VALUE = scope:gold_value
+		}
+	}
 	clear_saved_scope = executed_bargain
 	end_story = yes
 }
@@ -279,13 +289,16 @@ BMU_create_bargain = {
 						if = { limit = { BMU_debug = yes } debug_log = "FF_ambition_get_council_position" }
 						if = { limit = { BMU_bargain_council_position_setup_trigger_global = yes }}
 						set_variable = { name = bargain_type value = flag:FF_ambition_get_council_position }
-						if = { limit = { scope:councillor_chancellor = yes } set_variable = { name = council_position value = flag:councillor_chancellor }}
-						else_if = { limit = { scope:councillor_steward = yes } set_variable = { name = council_position value = flag:councillor_steward }}
-						else_if = { limit = { scope:councillor_marshal = yes } set_variable = { name = council_position value = flag:councillor_marshal }}
-						else_if = { limit = { scope:councillor_spymaster = yes } set_variable = { name = council_position value = flag:councillor_spymaster }}
-						else_if = { limit = { scope:councillor_court_chaplain = yes } set_variable = { name = council_position value = flag:councillor_court_chaplain }}
-						else_if = { limit = { scope:councillor_castellan = yes } set_variable = { name = council_position value = flag:councillor_castellan }}
-						else_if = { limit = { scope:councillor_admiral = yes } set_variable = { name = council_position value = flag:councillor_admiral }}
+						switch = {
+							trigger = yes
+							scope:councillor_chancellor = { set_variable = { name = council_position value = flag:councillor_chancellor }}
+							scope:councillor_steward = { set_variable = { name = council_position value = flag:councillor_steward }}
+							scope:councillor_marshal = { set_variable = { name = council_position value = flag:councillor_marshal }}
+							scope:councillor_spymaster = { set_variable = { name = council_position value = flag:councillor_spymaster }}
+							scope:councillor_court_chaplain = { set_variable = { name = council_position value = flag:councillor_court_chaplain }}
+							scope:councillor_chancellor = { set_variable = { name = council_position value = flag:councillor_chancellor }}
+							scope:councillor_chancellor = { set_variable = { name = council_position value = flag:councillor_chancellor }}
+						}
 						set_variable = { name = willingness_cost value = scope:contender_char.BMU_willingness_bargain_council_position }
 						set_variable = { name = support_score value = scope:supporter_temp.story_owner.BMU_ambition_get_council_position }
 						if = { limit = { BMU_debug = yes } var:council_position = { debug_log_scopes = no }}
@@ -298,6 +311,21 @@ BMU_create_bargain = {
 						set_variable = { name = willingness_cost value = scope:contender_char.BMU_willingness_bargain_title }
 						set_variable = { name = support_score value = scope:supporter_temp.story_owner.BMU_ambition_get_title }
 						if = { limit = { BMU_debug = yes } var:title = { debug_log_scopes = no }}
+					}
+					else_if = {
+						limit = { exists = scope:BMU_bargain_gold }
+						set_variable = { name = bargain_type value = flag:BMU_ambition_get_gold }
+						switch = {
+							trigger = yes
+							scope:tiny_gold_value = { set_variable = { name = gold_value value = scope:supporter_char.tiny_gold_value }}
+							scope:minor_gold_value = { set_variable = { name = gold_value value = scope:supporter_char.minor_gold_value }}
+							scope:medium_gold_value = { set_variable = { name = gold_value value = scope:supporter_char.medium_gold_value }}
+							scope:major_gold_value = { set_variable = { name = gold_value value = scope:supporter_char.major_gold_value }}
+							scope:massive_gold_value = { set_variable = { name = gold_value value = scope:supporter_char.massive_gold_value }}
+							scope:monumental_gold_value = { set_variable = { name = gold_value value = scope:supporter_char.monumental_gold_value }}
+						}
+						set_variable = { name = willingness_cost value = scope:contender_char.BMU_ambition_get_gold }
+						set_variable = { name = support_score value = scope:supporter_temp.story_owner.BMU_ambition_get_gold }
 					}
 					else = { if = { limit = { BMU_debug = yes } debug_log = "no ambition" }}
 				}
