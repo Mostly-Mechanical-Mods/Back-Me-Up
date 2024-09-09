@@ -180,6 +180,12 @@ BMU_on_war_transferred = {
 					scope:war = { add_defender = prev.story_owner }
 				}
 			}
+			scope:defender = {
+				every_liege_or_above = {
+					limit = { NOT = { is_liege_or_above_of = root }}
+					scope:war = { add_defender = prev }
+				}
+			}
 		}
 		else = {
 			debug_log = "no Pressed Claim found"
