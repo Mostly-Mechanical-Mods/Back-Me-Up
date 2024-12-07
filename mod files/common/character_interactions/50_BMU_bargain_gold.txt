@@ -337,7 +337,7 @@
 	ai_will_do = {
 		BMU_support_will_do_modifier = { CONTENDER = scope:actor SUPPORTER = scope:recipient }
 		modifier = {
-			subtract = BMU_ambition_get_gold
+			add = { subtract = BMU_ambition_get_gold }
 			desc = "BMU_ambition_get_gold"
 		}
 	}
@@ -599,7 +599,7 @@ BMU_bargain_for_gold_interaction = {
 		# BMU_bargain_setup = yes
 		BMU_support_will_do_modifier = { CONTENDER = scope:recipient SUPPORTER = scope:actor }
 		modifier = {
-			subtract = BMU_ambition_get_gold
+			add = { subtract = BMU_ambition_get_gold }
 			desc = "BMU_ambition_get_gold"
 		}
 	}
